@@ -1,0 +1,16 @@
+{
+  "name": "React Starter 17",
+  "short_name": "Starter 17",
+  "lang": "en-US",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#ff2679",
+  "background_color": "#FFFFFF",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "72x72 96x96 128x128 192x192 256x256 512x512",
+      "type": "image/png"
+    }
+  ]
+}
