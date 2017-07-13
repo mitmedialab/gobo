@@ -1,3 +1,6 @@
+import os
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 class BaseConfig(object):
     DEBUG = True
     SECRET_KEY = 'The quick brown fox jumps over the lazy dog'
@@ -8,7 +11,8 @@ class BaseConfig(object):
     TWITTER_API_KEY = 'XXXXX'
     TWITTER_API_SECRET = 'XXXXX'
 
-    DATABASE_URL = 'XXXXX'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'dev.sqlite')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class DevConfig(BaseConfig):

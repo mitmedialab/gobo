@@ -47,7 +47,27 @@ module.exports = {
 						{ loader: 'sass-loader' }
 					],
 				})
-			}
+			},
+            {
+                test: /\.(woff|woff2)$/,
+                use: {
+                    loader: 'url-loader',
+                    options: {
+                        name: 'fonts/[hash].[ext]',
+                        limit: 5000,
+                        mimetype: 'application/font-woff'
+                    }
+                }
+            },
+			{
+                test: /\.(ttf|eot|svg)$/,
+                use: {
+                    loader: 'file-loader',
+                    options: {
+                        name: 'fonts/[hash].[ext]'
+                    }
+                }
+            }
 		],
 	},
 	plugins: [
@@ -71,11 +91,11 @@ module.exports = {
 		}),
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
-			title: 'react-starter-17',
+			title: 'silica',
 			template: 'webpack/template.html',
 		}),
 		new SWPrecacheWebpackPlugin({
-			cacheId: 'react-starter-17',
+			cacheId: 'silica',
 			filename: 'service-worker.js', // This name is referenced in manageServiceWorker.js
 			maximumFileSizeToCacheInBytes: 4194304,
 			minify: true,

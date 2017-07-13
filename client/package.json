@@ -1,21 +1,24 @@
 {
-  "name": "react-starter-17",
+  "name": "silica",
   "version": "0.0.1",
-  "description": "React Starter 17",
+  "description": "Silica",
   "main": "server.js",
-  "author": "Travis Rich <reactstarter17@travisrich.com>",
+  "author": "MIT Media Lab",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/isTravis/react-starter-17.git"
+    "url": "https://github.com/mitmedialab/silica.git"
   },
   "scripts": {
     "build": "rm -rf dist && webpack --config webpack/webpackConfigProd.js && cp -R static/* dist && cp _redirects-prod dist/_redirects",
     "prod": "npm run build && serve ./dist -s",
     "lint": "eslint app webpack",
-    "start": "webpack-dev-server --config webpack/webpackConfigDev.js"
+    "start": "webpack-dev-server --config webpack/webpackConfigDev.js",
+    "dev": "webpack --config webpack/webpackConfigProd.js -d --watch"
   },
   "dependencies": {
+    "@blueprintjs/core": "^1.22.0",
+    "axios": "^0.16.2",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.0.0",
@@ -39,11 +42,13 @@
     "normalize.css": "^7.0.0",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
+    "react-addons-css-transition-group": "^15.6.0",
     "react-code-splitting": "^1.1.1",
     "react-dom": "^15.5.4",
     "react-g-analytics": "^0.4.2",
     "react-helmet": "^5.0.3",
     "react-redux": "^5.0.5",
+    "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "redux": "^3.5.2",
     "redux-thunk": "^2.2.0",

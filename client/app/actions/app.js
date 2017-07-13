@@ -1,4 +1,5 @@
-import { apiFetch } from 'utilities';
+import { apiFetch } from 'utils/utilities';
+import { getUser } from 'utils/apiRequests';
 
 /*--------*/
 // Define Action types
@@ -9,6 +10,7 @@ import { apiFetch } from 'utilities';
 export const GET_DATA_LOAD = 'app/GET_DATA_LOAD';
 export const GET_DATA_SUCCESS = 'app/GET_DATA_SUCCESS';
 export const GET_DATA_FAIL = 'app/GET_DATA_FAIL';
+
 
 /*--------*/
 // Define Action creators

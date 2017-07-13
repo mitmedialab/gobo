@@ -1,2 +1,2 @@
-# silica-api
-Server code for silica experimental project
+# silica
+Code for silica experimental project
