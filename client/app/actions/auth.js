@@ -59,7 +59,6 @@ export function logout() {
 
 
 export function loginUser(email, password) {
-    console.log('user login!');
     return function (dispatch) {
         dispatch(loginUserRequest());
         return login(email, password)
@@ -80,7 +79,7 @@ export function loginUser(email, password) {
                         dispatch(loginUserFailure({
                             response: {
                                 status: 403,
-                                statusText: 'Login Failed, try again',
+                                statusText: 'Wrong User name or password, please try again',
                             },
                         }));
                     }
@@ -103,18 +102,17 @@ export function registerUserRequest() {
     };
 }
 
-export function registerUserSuccess() {
-    //localStorage.setItem('token', token);
+export function registerUserSuccess(result) {
     return {
-        type: REGISTER_USER_SUCCESS
-        // payload: {
-        //     token,
-        // },
+        type: REGISTER_USER_SUCCESS,
+        payload: {
+            user:result,
+            statusText: "you are successfully registered!"
+        }
     };
 }
 
 export function registerUserFailure(error) {
-    // localStorage.removeItem('token');
     return {
         type: REGISTER_USER_FAILURE,
         payload: {
@@ -128,10 +126,9 @@ export function registerUser(email, password) {
     return function (dispatch) {
         dispatch(registerUserRequest());
         return register(email, password)
-            .then(parseJSON)
             .then(response => {
                 try {
-                    dispatch(registerUserSuccess());
+                    dispatch(registerUserSuccess(response));
                 } catch (e) {
                     dispatch(registerUserFailure({
                         response: {

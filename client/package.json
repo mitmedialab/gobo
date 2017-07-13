@@ -38,6 +38,7 @@
     "eslint-plugin-react": "^7.0.1",
     "extract-text-webpack-plugin": "^2.1.0",
     "html-webpack-plugin": "^2.24.1",
+    "lodash": "^4.17.4",
     "node-sass": "^4.5.2",
     "normalize.css": "^7.0.0",
     "prop-types": "^15.5.10",

@@ -30,6 +30,7 @@ def load_user(userid):
 @app.route('/api/register', methods=['POST'])
 def register():
     json_data = request.json
+    code = 403
     user = User(
         email=json_data['email'],
         password=json_data['password']
@@ -38,10 +39,11 @@ def register():
         db.session.add(user)
         db.session.commit()
         status = 'success'
+        code=200
     except:
         status = 'this user is already registered'
     db.session.close()
-    return jsonify({'result': status})
+    return jsonify({'result': status}), code
 
 @app.route ('/api/login', methods=['POST'])
 def login():

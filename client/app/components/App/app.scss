@@ -5,6 +5,7 @@ $navBackground: white;
 $navColor: black;
 $background: #F3F3F4;
 
+
 body {
 	margin: 0;
 	padding: 0;
@@ -29,10 +30,43 @@ h1 {
 	word-break: break-all;
 }
 
+.card {
+	text-align: left;
+	background-color: white;
+	text-decoration: none;
+	margin: 1em;
+	padding: 3em;
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.35);
+	overflow: hidden;
+	display: inline-block;
+	position: relative;
+}
+
+button {
+	display: inline-block;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+	padding: 0 10px;
+	vertical-align: middle;
+	font-size: 14px;
+	min-width: 30px;
+	min-height: 30px;
+	line-height: 30px;
+}
+
 // While there is some elegance to having components import their own .scss files,
 // and while this compiles just fine with webpack - I choose to import all of the scss files
 // into this main app.scss so that constants (e.g. $darkColor) can be used throughout.
 @import "./appLoading.scss";
+@import "./colors.scss";
+@import "./flexMixins.scss";
 @import "../NoMatch/nomatch.scss";
 @import "../Nav/nav.scss";
 @import "../Landing/landing.scss";
+@import "../Login/login.scss";
+@import "../Input/input.scss";
+@import "../Input/inputError.scss";
+@import "../Input/passwordValidator.scss";
+@import "../Register/register.scss";
+@import "../Loader/loader.scss";

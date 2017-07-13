@@ -1,0 +1,176 @@
+$input-height: 70px;
+$input-height-mobile: 64px;
+
+$layer0: -1;
+$layer1: 1;
+$layer2: 10;
+$layer3: 100;
+$layer4: 1000;
+$layer5: 10000;
+
+$layer-bottom: $layer1;
+$layer-top: $layer5;
+
+.input_group {
+@include display(relative);
+  width: 100%;
+  min-height: 70px;
+  margin-bottom: 10px;
+
+//  @media $mobile {
+//  min-height: $input-height-mobile;
+//  margin-bottom: 0;
+//}
+
+  label.input_label {
+  @include flex-display();
+  @include align-items(center);
+  @include topLeft(0, 0);
+  @include size(100%, 100%);
+  @include user-select(none);
+  @include box-sizing(border-box);
+    position: absolute;
+    z-index: $layer2;
+    cursor: text;
+    padding: 0 0 0 15px;
+
+    .label_text {
+      font-size: 18px;
+      font-weight: 100;
+      letter-spacing: .7px;
+
+    //  @media $mobile {
+    //  font-size: 16px;
+    //  font-weight: 300;
+    //}
+    }
+
+  //  @media $mobile {
+  //  height: $input-height-mobile;
+  //}
+  }
+
+  &.input_empty.input_unfocused {
+    color: #c1c5cc;
+  }
+
+  &.input_focused, &.input_hasValue {
+    label.input_label {
+      height: 46px;
+
+    //  @media $mobile {
+    //  height: 40px
+    //}
+
+      .label_text {
+        color: #b8bdc4;
+        letter-spacing: .7px;
+        font-size: 11px;
+      }
+    }
+  }
+
+  &.input_unfocused.input_hasValue.input_valid {
+    label.input_label {
+      color: #b1b0b1;
+    }
+  }
+
+  input.input {
+  @include display(relative);
+  @include box-shadow(none);
+    width: 100%;
+  @include box-sizing(border-box);
+  @include transition(all 0.7s ease-in-out);
+    z-index: $layer1;
+    -webkit-appearance: none;
+    border: none;
+    outline: none;
+    padding: 18px 15px 0 15px;
+    margin: 0 auto 13px auto;
+    color: $dark-blue;
+    letter-spacing: .7px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    height: 70px;
+
+  //  @media $mobile {
+  //  font-size: 14px;
+  //  padding: 15px 15px 0 15px;
+  //  height: $input-height-mobile;
+  //}
+
+    &:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0px 1000px white inset;
+      color: #cacaca;
+    }
+  }
+
+  i {
+  @include topRight(0, 15px);
+  @include flex-display();
+  @include flex-direction(row);
+  @include align-items(center);
+  @include size(20px, $input-height);
+    z-index: $layer4;
+    position: absolute;
+    z-index: $layer3;
+
+  //  @media $mobile {
+  //  height: $input-height-mobile;
+  //}
+
+    svg {
+      opacity: 0;
+      @include transition(all 0.2s ease-in-out);
+      @include size(20px, 20px);
+    }
+
+    &.input_error_icon {
+      z-index: $layer2;
+      path {
+        fill: $red;
+      }
+    }
+
+    &.input_valid_icon {
+      z-index: $layer1;
+      path {
+        fill: $green;
+      }
+    }
+  }
+
+  &.input_error  {
+    i {
+      &.input_error_icon {
+        svg {
+          opacity: 1
+        }
+      }
+    }
+  }
+
+  &.input_valid {
+    i {
+      &.input_error_icon {
+        z-index: $layer1;
+      }
+      &.input_valid_icon {
+        z-index: $layer2;
+      }
+    }
+
+    &.input_hasValue {
+
+      i {
+        &.input_valid_icon {
+          svg {
+            opacity: 1
+          }
+        }
+      }
+    }
+  }
+}

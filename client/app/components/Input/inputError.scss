@@ -1,0 +1,48 @@
+.error_container {
+  position: absolute;
+  opacity: 0;
+@include topLeft(0, 100%);
+  white-space: nowrap;
+  line-height: 70px;
+@include size(auto, 70px);
+  background: $red;
+@include box-sizing(border-box);
+  padding: 0 20px 0 20px;
+  color: white;
+  font-size: 14px;
+  font-weight: 100;
+  letter-spacing: .6px;
+@include user-select(none);
+@include transition(all 0.2s ease-in-out);
+
+//  @media $mobile {
+//  position: relative;
+//  @include topLeft(-13px, 0);
+//  line-height: 30px;
+//  font-size: 12px;
+//  padding: 0 15px 0 15px;
+//  font-weight: 300;
+//}
+
+  &.visible {
+  @include transform(translateX(0px));
+    opacity: 1;
+
+  //  @media $mobile {
+  //  height: 30px;
+  //}
+  }
+
+  &.invisible {
+  @include transform(translateX(-30px));
+    opacity: 0;
+    -webkit-animation-delay: 2s; /* Chrome, Safari, Opera */
+    animation-delay: 2s;
+
+  //  @media $mobile {
+  //  height: 0;
+  //  line-height: 0;
+  //  @include transform(translateX(0px));
+  //}
+  }
+}

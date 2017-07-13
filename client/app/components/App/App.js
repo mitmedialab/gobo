@@ -10,8 +10,6 @@ import { tryGetUser } from 'actions/auth'
 require('./app.scss');
 
 const Landing = () => <Async load={import('components/Landing/Landing')} />;
-const Waves = () => <Async load={import('components/Waves/Waves')} />;
-const Forests = () => <Async load={import('components/Forests/Forests')} />;
 const Login = () => <Async load={import('components/Login/Login')} />;
 const Register = () => <Async load={import('components/Register/Register')} />;
 const Feed = () => <Async load={import('components/Feed/Feed')} />;
@@ -46,8 +44,6 @@ class App extends Component {
 					<Route path="/register" component={Register} />
 					<Route path="/feed" component={Feed} />
 					<Route path="/settings" component={Settings} />
-					<Route path="/waves" component={Waves} />
-					<Route path="/forests" component={Forests} />
 					<Route path="/*" component={NoMatch} />
 				</Switch>
 			</div>

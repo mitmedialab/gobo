@@ -42,14 +42,15 @@ export default createReducer(initialState, {
             isAuthenticated: false,
             user: null,
             userName: null,
-            statusText: `Authentication Error: ${payload.status} ${payload.statusText}`,
+            statusText: `${payload.statusText}`,
         }),
     [LOGOUT_USER]: (state) =>
         Object.assign({}, state, {
+            isAuthenticating: false,
             isAuthenticated: false,
             user: null,
             userName: null,
-            statusText: 'You have been successfully logged out.',
+            statusText: null,
         }),
     [REGISTER_USER_SUCCESS]: (state, payload) =>
         Object.assign({}, state, {
@@ -57,19 +58,21 @@ export default createReducer(initialState, {
             isAuthenticated: true,
             isRegistering: false,
             user: payload.user,
-            userName: 'tbd fix me',
-            registerStatusText: 'You have been successfully logged in.',
+            userName: 'TBD fix me',
+            registerStatusText: 'You have successfully registered!',
         }),
     [REGISTER_USER_REQUEST]: (state) =>
         Object.assign({}, state, {
             isRegistering: true,
+            registerStatusText: null,
         }),
     [REGISTER_USER_FAILURE]: (state, payload) =>
         Object.assign({}, state, {
             isAuthenticated: false,
+            isRegistering: false,
             user: null,
             userName: null,
-            registerStatusText: `Register Error: ${payload.status} ${payload.statusText}`,
+            registerStatusText: `Register Error: ${payload.statusText}`,
         }),
     [GET_USER_LOAD]: (state) =>
         Object.assign({}, state, {

@@ -6,9 +6,11 @@ import * as actionCreators from '../../actions/auth';
 import { validateEmail } from '../../utils/misc';
 import { Button, Card } from '@blueprintjs/core';
 import PropTypes from 'prop-types';
+import Loader from 'components/Loader/Loader';
 
 function mapStateToProps(state) {
     return {
+        auth: state.auth,
         isAuthenticating: state.auth.isAuthenticating,
         isAuthenticated: state.auth.isAuthenticated,
     };
@@ -114,8 +116,8 @@ class Login extends Component {
             return <Redirect to="/feed"/>
         }
         return (
-            <div className="col-md-6 col-md-offset-3" onKeyPress={(e) => this._handleKeyPress(e)}>
-                <div className="pt-card  pt-elevation-0">
+            <div id="login-box" onKeyPress={(e) => this._handleKeyPress(e)}>
+                <div className="card">
                         <div>
                             <h2>Login to Silica</h2>
                             <Link to="/register">
@@ -142,7 +144,10 @@ class Login extends Component {
                                 onClick={(e) => this.login(e)}
                             />
 
+                            <div className="status-text">{this.props.auth.statusText}</div>
+
                         </div>
+                        {this.props.isAuthenticating && <Loader/>}
 
                 </div>
             </div>

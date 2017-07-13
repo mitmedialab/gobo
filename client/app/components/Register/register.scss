@@ -1,0 +1,122 @@
+.create_account_screen {
+  @include display(absolute);
+  @include topLeft(0, 0);
+  @include bottomRight(0, 0);
+  min-height: 520px;
+  @include animation(fadeIn .4s ease-in-out forwards);
+
+  .create_account_form {
+    @include flex-display();
+    @include flex-direction(column);
+    @include justify-content(center);
+    @include align-items(center);
+    position: relative;
+    margin: 80px 0 200px 0;
+    min-height: 400px;
+
+    > h1 {
+      @include display(relative);
+      font-size: 34px;
+      letter-spacing: .8px;
+      font-weight: 200;
+      line-height: 34px;
+      margin: 0 0 5px 0;
+    }
+
+    p {
+      @include display(relative);
+      font-size: 16px;
+      font-weight: 100;
+      letter-spacing: .7px;
+      color: $dark-blue;
+      text-align: center;
+      opacity: .5;
+      margin: 0 0 30px 0;
+    }
+
+    .checkbox_group {
+      @include display(relative);
+      min-height: 40px;
+
+      span {
+        letter-spacing: .5px;
+      }
+    }
+
+
+    .button {
+      @include transition(all 0.2s ease-in-out);
+      @include user-select(none);
+      display: inline-block;
+      position: relative;
+      border: none;
+      border-radius: 3px;
+      background: $button-default-bg;
+      color: $button-default-color;
+      font: normal normal 200 13px/40px 'Roboto', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      height: 40px;
+      padding: 0px 15px;
+      -webkit-font-smoothing: subpixel-antialiased;
+      cursor: pointer;
+      white-space: nowrap;
+
+      &.button_wide {
+        @include display(relative);
+        width: 100%;
+        margin: 20px 0 0 0;
+        height: 50px;
+        font-size: 13px;
+      }
+
+      &:hover,
+      &:focus {
+        color: $button-default-color;
+        background: $light-blue;
+      }
+
+      &:active,
+      &.active {
+        @include box-shadow(none);
+        background: lighten($light-blue, 10%);
+      }
+    }
+
+    .github_link {
+      @include display(relative);
+      margin: 50px 0 50px 0;
+      opacity: 0;
+      @include animation(fadeIn .4s .3s ease-in-out forwards);
+
+      svg {
+        @include size(26px, 26px);
+
+        path {
+          @include transition(all 0.2s ease-in-out);
+          fill: #545a6a;
+        }
+      }
+
+      &:hover {
+        svg {
+          path {
+            fill: $light-blue;
+          }
+        }
+      }
+    }
+  }
+
+  form {
+    width: 430px;
+
+  //  @media $mobile {
+  //  width: 300px;
+  //}
+  }
+}
+
+//$-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+//$-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+//$keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
