@@ -10,6 +10,11 @@ class User(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
+    facebook_name = db.Column(db.String(255), nullable=True)
+    facebook_picture_url = db.Column(db.String(255), nullable=True)
+    facebook_id = db.Column(db.String(255), nullable=True)
+    facebook_email = db.Column(db.String(255), nullable=True)
+    #test_field = db.Column(db.String(255), nullable=True)
 
     def __init__(self, email, password, admin=False):
         self.email = email
@@ -30,3 +35,8 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User {0}>'.format(self.email)
+
+class Auth(db.Model):
+    __tablename__ = "auths"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    token = db.Column(db.String(255), nullable=False)

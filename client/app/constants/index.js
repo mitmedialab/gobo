@@ -13,3 +13,5 @@ export const GET_USER_FAIL = 'app/GET_USER_FAIL';
 
 export const FETCH_PROTECTED_DATA_REQUEST = 'FETCH_PROTECTED_DATA_REQUEST';
 export const RECEIVE_PROTECTED_DATA = 'RECEIVE_PROTECTED_DATA';
+
+export const API_URL = process.env.NODE_ENV === 'production' ? '': 'http://127.0.0.1:5000/'

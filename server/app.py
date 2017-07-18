@@ -40,6 +40,7 @@ def register():
         db.session.commit()
         status = 'success'
         code=200
+        login_user(user, remember=True)
     except:
         status = 'this user is already registered'
     db.session.close()

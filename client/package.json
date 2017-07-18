@@ -46,6 +46,7 @@
     "react-addons-css-transition-group": "^15.6.0",
     "react-code-splitting": "^1.1.1",
     "react-dom": "^15.5.4",
+    "react-facebook-login": "^3.6.2",
     "react-g-analytics": "^0.4.2",
     "react-helmet": "^5.0.3",
     "react-redux": "^5.0.5",

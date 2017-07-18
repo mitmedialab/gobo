@@ -5,6 +5,13 @@
   min-height: 520px;
   @include animation(fadeIn .4s ease-in-out forwards);
 
+  .status-text {
+    margin: 2em 0;
+    color:red;
+    font-weight: bold;
+    text-align: center;
+  }
+
   .create_account_form {
     @include flex-display();
     @include flex-direction(column);
@@ -68,6 +75,16 @@
         margin: 20px 0 0 0;
         height: 50px;
         font-size: 13px;
+      }
+
+      &.disabled {
+        background: $button-disabled;
+        cursor: not-allowed;
+        &:hover,
+        &:focus {
+          color: $button-default-color;
+          background: $button-disabled;
+        }
       }
 
       &:hover,

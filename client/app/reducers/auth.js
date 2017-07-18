@@ -57,6 +57,7 @@ export default createReducer(initialState, {
             isAuthenticating: false,
             isAuthenticated: true,
             isRegistering: false,
+            isRegistered: true,
             user: payload.user,
             userName: 'TBD fix me',
             registerStatusText: 'You have successfully registered!',
@@ -77,6 +78,11 @@ export default createReducer(initialState, {
     [GET_USER_LOAD]: (state) =>
         Object.assign({}, state, {
             isAuthenticating: true,
+            isAuthenticated: false,
+            isRegistering: false,
+            isRegistered: false,
+            statusText: null,
+            registerStatusText:null,
         }),
     [GET_USER_SUCCESS]: (state, payload) =>
         Object.assign({}, state, {
@@ -90,5 +96,7 @@ export default createReducer(initialState, {
             isAuthenticated: false,
             user: null,
             userName: null,
+            statusText: null,
+            registerStatusText:null,
         }),
 });
