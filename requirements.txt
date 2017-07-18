@@ -1,4 +1,4 @@
 Flask
 Flask-Script
-Flask-OAuthlib
 flask-login
+requests

@@ -24,6 +24,6 @@ export function apiLogout() {
     return axios.get(API_URL+'api/logout')
 }
 
-export function postFacebookResponse(response) {
-
+export function postFacebookResponseToServer(response) {
+    return axios.post(API_URL+'api/handle_facebook_response', {'facebook_response': response})
 }

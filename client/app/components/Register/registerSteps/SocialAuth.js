@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import FacebookLogin from 'react-facebook-login';
+import { postFacebookResponseToServer } from '../../../utils/apiRequests'
 
 class SocialAuth extends Component {
 
@@ -16,6 +17,7 @@ class SocialAuth extends Component {
         if ('name' in response) {
             this.setState({facebookSuccess:true})
             // dispatch response to server
+            postFacebookResponseToServer(response);
         }
         this.isDone();
     }
@@ -44,7 +46,7 @@ class SocialAuth extends Component {
                     appId="616243291915220"
                     autoLoad={false}
                     fields="name,email,picture"
-                    scope="public_profile,user_friends,email,user_actions.news,user_actions.video,user_likes,user_posts,user_religion_politics"
+                    scope="public_profile,user_friends,email,user_actions.news,user_actions.video,user_likes,user_posts,user_religion_politics,user_location"
                     callback={this.responseFacebook}
                     tag="button"
                     cssClass={facebook_button_class}
