@@ -16,6 +16,7 @@ const Feed = () => <Async load={import('components/Feed/Feed')} />;
 const Settings = () => <Async load={import('components/Settings/Settings')} />;
 const NoMatch = () => <Async load={import('components/NoMatch/NoMatch')} />;
 
+
 const propTypes = {
     dispatch: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
@@ -32,8 +33,8 @@ class App extends Component {
         return (
 			<div>
 				<Helmet>
-					<title>React Starter 17</title>
-					<meta name="description" content="A React Starter Site Template" />
+					<title>Silica</title>
+					<meta name="description" content="A Site for Silica" />
 				</Helmet>
 
 				<Nav />
@@ -44,7 +45,8 @@ class App extends Component {
 					<Route path="/register" component={Register} />
 					<Route path="/feed" component={Feed} />
 					<Route path="/settings" component={Settings} />
-					<Route path="/*" component={NoMatch} />
+					<Route path="/api/:function"/>
+					<Route path="*/" component={NoMatch} />
 				</Switch>
 			</div>
         );

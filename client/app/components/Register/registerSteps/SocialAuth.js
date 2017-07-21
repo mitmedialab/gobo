@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 import FacebookLogin from 'react-facebook-login';
+import { connect } from 'react-redux';
+import { getAuthUrl, waitForTwitterCallback } from '../../../actions/twitterLogin';
 import { postFacebookResponseToServer } from '../../../utils/apiRequests'
+import PropTypes from 'prop-types';
+
+const propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    twitter_data: PropTypes.object.isRequired,
+    onFinish: PropTypes.func.isRequired,
+};
+
+const MAX_POLLS = 40;
 
 class SocialAuth extends Component {
 
@@ -8,8 +19,12 @@ class SocialAuth extends Component {
         super(props);
         this.state = {
             facebookSuccess: false,
+            twitterSuccess: false,
+            twitterError: false,
+            pollCount:0,
         };
         this.responseFacebook = this.responseFacebook.bind(this);
+        this.onTwitterButtonClick = this.onTwitterButtonClick.bind(this);
     }
 
     responseFacebook(response) {
@@ -23,17 +38,66 @@ class SocialAuth extends Component {
     }
 
     isDone() {
-        if (this.state.facebookSuccess) {
+        if (this.state.facebookSuccess && this.state.twitterSuccess) {
             this.props.onFinish()
         }
     }
 
+    componentWillReceiveProps(nextProps){
+        if (this.props.twitter_data.loading_oauth_url && !nextProps.twitter_data.loading_oauth_url &&
+            nextProps.twitter_data.oauth_url!=null ) {
+            window.open(nextProps.twitter_data.oauth_url, '_blank', 'width=500,height=500');
+            this.props.dispatch(waitForTwitterCallback());
+        }
+        else if (!this.props.twitter_data.isTwitterAuthorized && nextProps.twitter_data.isTwitterAuthorized) {
+
+            clearTimeout(this.timeout);
+            this.setState({
+                twitterSuccess: true,
+            });
+            this.isDone();
+        }
+
+        else if (!nextProps.twitter_data.isTwitterAuthorized && !nextProps.twitter_data.isFetching) {
+                this.startPoll();
+        }
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.timeout);
+    }
+
+    startPoll() {
+        if (this.state.pollCount>MAX_POLLS) {
+            this.setState({twitterError: true});
+        }
+        else {
+            this.timeout = setTimeout(() => this.props.dispatch(waitForTwitterCallback()), 1000);
+            this.setState({pollCount: this.state.pollCount + 1})
+        }
+    }
+
+
+    onTwitterButtonClick() {
+        this.props.dispatch(getAuthUrl());
+    }
+
     render() {
         let facebook_button_class = "button button_wide ";
+        let twitter_button_class = "button button_wide ";
+
         if (this.state.facebookSuccess) {
             facebook_button_class+="disabled"
         }
+
+        if (this.state.twitterSuccess) {
+            twitter_button_class+="disabled"
+        }
         let facebook_button_text = this.state.facebookSuccess? "successfully logged in with Facebook" : "Login with Facebook";
+        let twitter_button_text = this.state.twitterSuccess? "successfully logged in with Twitter" : "Login with Twitter";
+        if (this.state.twitterError) {
+            twitter_button_text = "Error authenticating twitter. Please try again "
+        }
         return (
             <div>
                 <p>
@@ -53,10 +117,18 @@ class SocialAuth extends Component {
                     textButton={facebook_button_text}
                     isDisabled={this.state.facebookSuccess}
                 />
+                <button onClick={this.onTwitterButtonClick} className={twitter_button_class} >{twitter_button_text}</button>
+                <div style={{margin:'2em'}}>
+                    <p onClick={()=>this.props.onFinish()}>
+                        Click here to continue without authentication
+                    </p>
+                </div>
             </div>
 
         )
     }
 }
 
-export default SocialAuth;
+SocialAuth.propTypes = propTypes;
+
+export default connect(state => ({ twitter_data: state.twitterLogin }))(SocialAuth);

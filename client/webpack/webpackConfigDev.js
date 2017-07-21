@@ -10,9 +10,9 @@ module.exports = {
 		resolve(__dirname, 'hotReload'),
 	],
 	output: {
-		filename: 'bundle.js',
-		path: resolve(__dirname),
-		publicPath: '/',
+        filename: 'bundle.js',
+        path: resolve(__dirname),
+        publicPath: 'http://localhost:8080/',
 	},
 	resolve: {
 		modules: [resolve(__dirname, '../app'), 'node_modules']
@@ -22,7 +22,7 @@ module.exports = {
 	devServer: {
 		hot: true,
 		host: '0.0.0.0',
-		contentBase: resolve(__dirname, '../assets'),
+		contentBase: resolve(__dirname, '../build/assets'),
 		publicPath: '/',
 		historyApiFallback: true,
 		stats: {
@@ -30,9 +30,9 @@ module.exports = {
 			hash: false,
 			assets: false,
 			children: false,
-			timings: true,
+			timings: false,
 			chunks: false,
-			chunkModules: false,
+			chunkModules: true,
 			modules: false,
 		}
 	},
@@ -77,12 +77,12 @@ module.exports = {
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NamedModulesPlugin(),
 		new HtmlWebpackPlugin({
-			title: 'redux-react-starter',
+			title: 'silica',
 			template: '../webpack/template.html',
 		}),
-		new CopyWebpackPlugin([
-			{ from: '../static' }
-		]),
+        new CopyWebpackPlugin([
+            { from: '../static' }
+        ]),
 	],
 	performance: { hints: false },
 };

@@ -16,11 +16,18 @@ class User(db.Model):
     facebook_picture_url = db.Column(db.String(255), nullable=True)
     facebook_id = db.Column(db.String(255), nullable=True)
     facebook_email = db.Column(db.String(255), nullable=True)
+    twitter_name = db.Column(db.String(255), nullable=True)
+    twitter_id = db.Column(db.String(255), nullable=True)
+
     facebook_auth = relationship("FacebookAuth", uselist=False, back_populates="user")
+    twitter_auth = relationship("TwitterAuth", uselist=False, back_populates="user")
 
     gender = db.Column(db.String(255), nullable=True)
     local = db.Column(db.String(255), nullable=True)
     total_facebook_friends = db.Column(db.Integer, nullable=True)
+
+    twitter_authorized = db.Column(db.Boolean, nullable=False, default=False)
+    facebook_authorized = db.Column(db.Boolean, nullable=False, default=False)
 
     def __init__(self, email, password):
         self.email = email
@@ -44,6 +51,13 @@ class User(db.Model):
         self.facebook_email = data['email']
         self.facebook_id = data['id']
         self.facebook_picture_url = data['picture']['data']['url']
+        self.facebook_authorized = True
+        db.session.commit()
+
+    def set_twitter_data(self, id, name):
+        self.twitter_name = name
+        self.twitter_id = id
+        self.twitter_authorized = True
         db.session.commit()
 
     def __repr__(self):
@@ -60,10 +74,23 @@ class FacebookAuth(db.Model):
     expires_in = db.Column(db.DateTime, nullable=False)
 
     def __init__(self, user_id, facebook_auth_data):
-        print facebook_auth_data
-        print type(facebook_auth_data['expires_in'])
         self.user_id = user_id
         self.generated_on = datetime.datetime.now()
         self.access_token = facebook_auth_data['access_token']
         self.token_type = facebook_auth_data['token_type']
         self.expires_in = self.generated_on + datetime.timedelta(seconds=int(facebook_auth_data['expires_in']))
+
+class TwitterAuth(db.Model):
+    __tablename__ = "twitter_auths"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = relationship("User", back_populates="twitter_auth")
+    generated_on = db.Column(db.DateTime, nullable=False)
+    oauth_token = db.Column(db.String(255), nullable=False)
+    oauth_token_secret = db.Column(db.String(255), nullable=False)
+
+    def __init__(self, user_id, oauth_token, oauth_token_secret):
+        self.user_id = user_id
+        self.generated_on = datetime.datetime.now()
+        self.oauth_token = oauth_token
+        self.oauth_token_secret = oauth_token_secret

@@ -36,9 +36,6 @@ class Feed extends Component {
         }
         return (
             <div className={'page'}>
-                <Helmet>
-                    <title>Feed</title>
-                </Helmet>
 
                 <h1>Feed</h1>
                 <img width={'150px'} src={'images/waves.png'} alt={'Waves'} />

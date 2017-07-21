@@ -27,3 +27,15 @@ export function apiLogout() {
 export function postFacebookResponseToServer(response) {
     return axios.post(API_URL+'api/handle_facebook_response', {'facebook_response': response})
 }
+
+export function getTwitterAuthURl() {
+    return axios.get(API_URL+'api/get_twitter_oauth_token')
+}
+
+export function waitTwitterCallback() {
+    return axios.get(API_URL+'api/wait_for_twitter_callback')
+}
+
+// export function postTwitterCallback(response) {
+//     return axios.post(API_URL+'api/handle_twitter_callback', response)
+// }

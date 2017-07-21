@@ -2,3 +2,6 @@ Flask
 Flask-Script
 flask-login
 requests
+twython
+flask-webpack
+eventlet

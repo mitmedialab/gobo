@@ -14,13 +14,18 @@ class BaseConfig(object):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'dev.sqlite')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-
 class DevConfig(BaseConfig):
     DEBUG = True
+    STATIC_FOLDER = 'client/dist'
+    TEMPLATE_FOLDER = 'templates'
+    STATIC_URL_PATH = ''
 
 
 class ProductionConfig(BaseConfig):
     DEBUG = False
+    STATIC_FOLDER = 'client/dist'
+    TEMPLATE_FOLDER = 'client/dist'
+    STATIC_URL_PATH = ''
 
 
 config_map = {

@@ -1,10 +1,16 @@
 from index import app, db, bcrypt
-from flask import request, render_template, jsonify, url_for, redirect, g
+from flask import request, render_template, jsonify, session, abort
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from flask_cors import CORS
 import requests
+from twython import Twython
+from eventlet import event
+from eventlet.timeout import Timeout
 
-from models import User, FacebookAuth
+from models import User, FacebookAuth, TwitterAuth
+
+
+
 
 CORS(app) #TODO remove on production!
 
@@ -14,6 +20,8 @@ CORS(app) #TODO remove on production!
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+
+events = {}
 
 @app.route('/', methods=['GET'])
 def index():
@@ -82,17 +90,45 @@ def logout():
     logout_user()
     return jsonify('logout')
 
+@app.route('/api/get_twitter_oauth_token', methods=['GET'])
+@login_required
+def get_twitter_oauth_token():
+    twitter = Twython(app.config['TWITTER_API_KEY'],app.config['TWITTER_API_SECRET'])
+    auth = twitter.get_authentication_tokens(callback_url='http://localhost:5000/api/handle_twitter_callback')
+    session['oauth_token'] = auth['oauth_token']
+    session['oauth_token_secret'] = auth['oauth_token_secret']
+    return jsonify({'url':auth['auth_url']})
+
+@app.route('/api/wait_for_twitter_callback', methods=['GET'])
+@login_required
+def wait_for_twitter_callback():
+    return jsonify({'isTwitterAuthorized': current_user.twitter_authorized})
+
+
+@app.route('/api/handle_twitter_callback')
+@login_required
+def handle_twitter_callback():
+    twitter = Twython(app.config['TWITTER_API_KEY'],app.config['TWITTER_API_SECRET'],
+                      session['oauth_token'], session['oauth_token_secret'])
+
+    try:
+        final_step = twitter.get_authorized_tokens(request.args.get('oauth_verifier'))
+
+        current_user.set_twitter_data(final_step['user_id'], final_step['screen_name'])
+
+        user_oauth_token = final_step['oauth_token']
+        user_oauth_token_secret = final_step['oauth_token_secret']
+        new_twitter_auth = TwitterAuth(current_user.get_id(), user_oauth_token, user_oauth_token_secret)
+
+        db.session.add(new_twitter_auth)
+        db.session.commit()
+    except:
+        print 'error in twitter auth'
+
+    return render_template('close_window.html')
+
 
 def getFacebookLongAuth(token):
-    '''
-    GET /oauth/access_token?
-    grant_type=fb_exchange_token&amp;
-    client_id={app-id}&amp;
-    client_secret={app-secret}&amp;
-    fb_exchange_token={short-lived-token}
-    :param token:
-    :return:
-    '''
     payload = {'grant_type':'fb_exchange_token',
                'client_id':app.config['FACEBOOK_APP_ID'],
                'client_secret':app.config['FACEBOOK_APP_SECRET'],
@@ -100,6 +136,5 @@ def getFacebookLongAuth(token):
     r = requests.get('https://graph.facebook.com/oauth/access_token', payload)
     if r.status_code==requests.codes.ok:
         new_facebook_auth = FacebookAuth(current_user.get_id(), r.json())
-        print new_facebook_auth
         db.session.add(new_facebook_auth)
         db.session.commit()
