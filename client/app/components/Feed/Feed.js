@@ -4,7 +4,6 @@ import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import { logout } from 'actions/auth';
-import { Button, Card } from '@blueprintjs/core';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../../actions/auth';
 
@@ -40,12 +39,9 @@ class Feed extends Component {
                 <h1>Feed</h1>
                 <img width={'150px'} src={'images/waves.png'} alt={'Waves'} />
                 <div>News feed will appear here</div>
-                <Button
-                    text="Log out"
-                    onClick={(e) => this.logout(e)}
-                />
+                <button  onClick={(e) => this.logout(e)}> Log Out </button>
                 <Link to="/settings">
-                    <Button  text="settings"/>
+                    <button> Settings </button>
                 </Link>
             </div>
         );

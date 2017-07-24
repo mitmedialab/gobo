@@ -1,5 +1,4 @@
-import { getTwitterAuthURl, waitTwitterCallback } from '../utils/apiRequests';
-import { parseJSON } from '../utils/misc';
+import { getTwitterAuthURl, waitTwitterCallback, postTwitterCallback } from '../utils/apiRequests';
 
 /*--------*/
 // Define Action types
@@ -13,6 +12,9 @@ export const GET_AUTH_URL_FAIL = 'twitterLogin/GET_AUTH_URL_FAIL';
 export const FETCH_TWITTER_STATUS_LOAD = 'twitterLogin/FETCH_TWITTER_STATUS_LOAD';
 export const FETCH_TWITTER_STATUS_SUCCESS = 'twitterLogin/FETCH_TWITTER_STATUS_SUCCESS';
 export const FETCH_TWITTER_STATUS_FAIL = 'twitterLogin/FETCH_TWITTER_STATUS_FAIL';
+export const POST_CALLBACK_LOAD = 'twitterLogin/POST_CALLBACK_LOAD';
+export const POST_CALLBACK_SUCCESS = 'twitterLogin/POST_CALLBACK_SUCCESS';
+export const POST_CALLBACK_FAIL = 'twitterLogin/POST_CALLBACK_FAIL';
 
 
 /*--------*/
@@ -33,6 +35,19 @@ export function getAuthUrl() {
 			dispatch({ type: GET_AUTH_URL_FAIL, error });
 		});
 	};
+}
+
+export function startPostTwitterCallback(query) {
+    return (dispatch) => {
+        dispatch({ type: POST_CALLBACK_LOAD });
+        return postTwitterCallback(query)
+            .then((result) => {
+                dispatch({ type: POST_CALLBACK_SUCCESS, result });
+            })
+            .catch((error) => {
+                dispatch({ type: POST_CALLBACK_FAIL, error });
+            });
+    };
 }
 
 export function waitForTwitterCallback() {

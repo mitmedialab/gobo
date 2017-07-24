@@ -8,6 +8,9 @@ import {
     FETCH_TWITTER_STATUS_LOAD,
     FETCH_TWITTER_STATUS_SUCCESS,
     FETCH_TWITTER_STATUS_FAIL,
+    POST_CALLBACK_LOAD,
+    POST_CALLBACK_SUCCESS,
+    POST_CALLBACK_FAIL,
 } from 'actions/twitterLogin';
 
 /* ------------------- */
@@ -18,7 +21,8 @@ const defaultState = {
     loading_oauth_url: false,
     loading_oauth_url_error: false,
     isFetching: false,
-    isTwitterAuthorized: false
+    isTwitterAuthorized: false,
+    callbackLoading: false,
 
 };
 
@@ -57,6 +61,18 @@ export default function reducer(state = defaultState, action) {
         case FETCH_TWITTER_STATUS_FAIL:
             return {
                 isFetching: false,
+            };
+        case POST_CALLBACK_LOAD:
+            return {
+                callbackLoading: true
+            };
+        case POST_CALLBACK_SUCCESS:
+            return {
+                callbackLoading: false,
+            };
+        case POST_CALLBACK_FAIL:
+            return {
+                callbackLoading: false,
             };
         default:
             return state;

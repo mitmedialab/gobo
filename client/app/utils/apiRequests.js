@@ -36,6 +36,6 @@ export function waitTwitterCallback() {
     return axios.get(API_URL+'api/wait_for_twitter_callback')
 }
 
-// export function postTwitterCallback(response) {
-//     return axios.post(API_URL+'api/handle_twitter_callback', response)
-// }
+export function postTwitterCallback(query) {
+    return axios.post(API_URL+'api/handle_twitter_callback', query)
+}

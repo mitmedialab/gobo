@@ -14,6 +14,7 @@ const Login = () => <Async load={import('components/Login/Login')} />;
 const Register = () => <Async load={import('components/Register/Register')} />;
 const Feed = () => <Async load={import('components/Feed/Feed')} />;
 const Settings = () => <Async load={import('components/Settings/Settings')} />;
+const TwitterCallback = () => <Async load={import('components/TwitterCallback/TwitterCallback')} />;
 const NoMatch = () => <Async load={import('components/NoMatch/NoMatch')} />;
 
 
@@ -45,6 +46,7 @@ class App extends Component {
 					<Route path="/register" component={Register} />
 					<Route path="/feed" component={Feed} />
 					<Route path="/settings" component={Settings} />
+					<Route path="/twitter_callback" component={TwitterCallback} />
 					<Route path="/api/:function"/>
 					<Route path="*/" component={NoMatch} />
 				</Switch>

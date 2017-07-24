@@ -4,7 +4,6 @@ import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import { logout } from 'actions/auth';
-import { Button, Card } from '@blueprintjs/core';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../../actions/auth';
 

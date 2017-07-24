@@ -2,6 +2,10 @@ import datetime
 from app import db, bcrypt
 from sqlalchemy.orm import relationship
 
+post_associations_table = db.Table('posts_associations', db.metadata,
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('post_id', db.Integer, db.ForeignKey('posts.id'))
+)
 
 class User(db.Model):
 
@@ -12,22 +16,25 @@ class User(db.Model):
     password = db.Column(db.String(255), nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
 
-    facebook_name = db.Column(db.String(255), nullable=True)
-    facebook_picture_url = db.Column(db.String(255), nullable=True)
-    facebook_id = db.Column(db.String(255), nullable=True)
-    facebook_email = db.Column(db.String(255), nullable=True)
-    twitter_name = db.Column(db.String(255), nullable=True)
-    twitter_id = db.Column(db.String(255), nullable=True)
+    facebook_name = db.Column(db.String(255))
+    facebook_picture_url = db.Column(db.String(255))
+    facebook_id = db.Column(db.String(255))
+    facebook_email = db.Column(db.String(255))
+    twitter_name = db.Column(db.String(255))
+    twitter_id = db.Column(db.String(255))
 
     facebook_auth = relationship("FacebookAuth", uselist=False, back_populates="user")
     twitter_auth = relationship("TwitterAuth", uselist=False, back_populates="user")
 
-    gender = db.Column(db.String(255), nullable=True)
-    local = db.Column(db.String(255), nullable=True)
-    total_facebook_friends = db.Column(db.Integer, nullable=True)
+    gender = db.Column(db.String(255))
+    local = db.Column(db.String(255))
+    total_facebook_friends = db.Column(db.Integer)
 
     twitter_authorized = db.Column(db.Boolean, nullable=False, default=False)
     facebook_authorized = db.Column(db.Boolean, nullable=False, default=False)
+
+    posts = relationship("Post",
+                    secondary=post_associations_table)
 
     def __init__(self, email, password):
         self.email = email
@@ -94,3 +101,12 @@ class TwitterAuth(db.Model):
         self.generated_on = datetime.datetime.now()
         self.oauth_token = oauth_token
         self.oauth_token_secret = oauth_token_secret
+
+class Post(db.Model):
+    __tablename__ = "posts"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    content = db.Column(db.JSON, nullable=False)
+    source = db.Column(db.String(255), nullable=False)
+    is_news = db.Column(db.Boolean, nullable=False)
+    retrieved_at = db.Column(db.DateTime, nullable=False)
+
