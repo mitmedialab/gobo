@@ -1,6 +1,8 @@
 import datetime
-from app import db, bcrypt
+
 from sqlalchemy.orm import relationship
+
+from server.core import db, bcrypt
 
 post_associations_table = db.Table('posts_associations', db.metadata,
     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),

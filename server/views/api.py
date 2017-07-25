@@ -1,24 +1,22 @@
-from index import app, db, bcrypt
-from flask import request, render_template, jsonify, session, abort
-from flask_login import LoginManager, login_required, login_user, logout_user, current_user
+from server.core import db, bcrypt, login_manager
+from flask import Blueprint, request, render_template, jsonify, session, abort
+from flask_login import login_required, login_user, logout_user, current_user
 import requests
 from twython import Twython
 
-from models import User, FacebookAuth, TwitterAuth
+from server.models import User, FacebookAuth, TwitterAuth
 
-
-# flask-login
-login_manager = LoginManager()
-login_manager.init_app(app)
+home = Blueprint('index', __name__)
+api = Blueprint('api', __name__, url_prefix='/api')
 
 
 events = {}
 
-@app.route('/', methods=['GET'])
+@home.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
 
-@app.route('/<path:path>', methods=['GET'])
+@home.route('/<path:path>', methods=['GET'])
 def any_root_path(path):
     return render_template('index.html')
 
@@ -26,7 +24,7 @@ def any_root_path(path):
 def load_user(userid):
     return User.query.get(userid)
 
-@app.route('/api/register', methods=['POST'])
+@api.route('/register', methods=['POST'])
 def register():
     json_data = request.json
     code = 403
@@ -45,7 +43,7 @@ def register():
     db.session.close()
     return jsonify({'result': status}), code
 
-@app.route ('/api/login', methods=['POST'])
+@api.route ('/login', methods=['POST'])
 def login():
     json_data = request.json
     user_result = False
@@ -61,12 +59,12 @@ def login():
     response = jsonify({'result': status, 'user':user_result})
     return response
 
-@app.route ('/api/confirm_auth', methods=['GET'])
+@api.route ('/confirm_auth', methods=['GET'])
 @login_required
 def confirm_auth():
     return jsonify({'result':current_user.is_authenticated()})
 
-@app.route('/api/handle_facebook_response', methods=['POST'])
+@api.route('/handle_facebook_response', methods=['POST'])
 @login_required
 def handle_facebook_response():
     json_data = request.json
@@ -74,13 +72,13 @@ def handle_facebook_response():
     getFacebookLongAuth(json_data['facebook_response']['accessToken'])
     return 'success', 200
 
-@app.route('/api/logout', methods=['GET'])
+@api.route('/logout', methods=['GET'])
 @login_required
 def logout():
     logout_user()
     return jsonify('logout')
 
-@app.route('/api/get_twitter_oauth_token', methods=['GET'])
+@api.route('/get_twitter_oauth_token', methods=['GET'])
 @login_required
 def get_twitter_oauth_token():
     twitter = Twython(app.config['TWITTER_API_KEY'],app.config['TWITTER_API_SECRET'])
@@ -89,12 +87,12 @@ def get_twitter_oauth_token():
     session['oauth_token_secret'] = auth['oauth_token_secret']
     return jsonify({'url':auth['auth_url']})
 
-@app.route('/api/wait_for_twitter_callback', methods=['GET'])
+@api.route('/wait_for_twitter_callback', methods=['GET'])
 @login_required
 def wait_for_twitter_callback():
     return jsonify({'isTwitterAuthorized': current_user.twitter_authorized})
 
-@app.route('/api/handle_twitter_callback', methods=['POST'])
+@api.route('/handle_twitter_callback', methods=['POST'])
 @login_required
 def handle_twitter_callback():
     twitter = Twython(app.config['TWITTER_API_KEY'],app.config['TWITTER_API_SECRET'],

@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from server.config import BaseConfig, config_map
+from server.config.config import config_map
 from flask_bcrypt import Bcrypt
 import os
 

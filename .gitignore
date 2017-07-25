@@ -36,7 +36,7 @@ venv/
 .idea/
 
 server/settings.config
-server/config.py
+server/config/config.py
 logs/*.log
 
 #Client files:

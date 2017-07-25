@@ -36,7 +36,7 @@ class Feed extends Component {
         return (
             <div className={'page'}>
 
-                <h1>Feed</h1>
+                <h1>News Feed</h1>
                 <img width={'150px'} src={'images/waves.png'} alt={'Waves'} />
                 <div>News feed will appear here</div>
                 <button  onClick={(e) => this.logout(e)}> Log Out </button>
