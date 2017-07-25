@@ -1,7 +1,4 @@
 import datetime
-
-from sqlalchemy.orm import relationship
-
 from server.core import db, bcrypt
 
 post_associations_table = db.Table('posts_associations', db.metadata,
@@ -25,8 +22,8 @@ class User(db.Model):
     twitter_name = db.Column(db.String(255))
     twitter_id = db.Column(db.String(255))
 
-    facebook_auth = relationship("FacebookAuth", uselist=False, back_populates="user")
-    twitter_auth = relationship("TwitterAuth", uselist=False, back_populates="user")
+    facebook_auth = db.relationship("FacebookAuth", uselist=False, back_populates="user")
+    twitter_auth = db.relationship("TwitterAuth", uselist=False, back_populates="user")
 
     gender = db.Column(db.String(255))
     local = db.Column(db.String(255))
@@ -35,7 +32,7 @@ class User(db.Model):
     twitter_authorized = db.Column(db.Boolean, nullable=False, default=False)
     facebook_authorized = db.Column(db.Boolean, nullable=False, default=False)
 
-    posts = relationship("Post",
+    posts = db.relationship("Post",
                     secondary=post_associations_table)
 
     def __init__(self, email, password):
@@ -76,7 +73,7 @@ class FacebookAuth(db.Model):
     __tablename__ = "facebook_auths"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user = relationship("User", back_populates="facebook_auth")
+    user = db.relationship("User", back_populates="facebook_auth")
     generated_on = db.Column(db.DateTime, nullable=False)
     access_token = db.Column(db.String(255), nullable=False)
     token_type = db.Column(db.String(255), nullable=False)
@@ -93,7 +90,7 @@ class TwitterAuth(db.Model):
     __tablename__ = "twitter_auths"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user = relationship("User", back_populates="twitter_auth")
+    user = db.relationship("User", back_populates="twitter_auth")
     generated_on = db.Column(db.DateTime, nullable=False)
     oauth_token = db.Column(db.String(255), nullable=False)
     oauth_token_secret = db.Column(db.String(255), nullable=False)

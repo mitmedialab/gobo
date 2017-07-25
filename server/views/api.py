@@ -1,24 +1,14 @@
 from server.core import db, bcrypt, login_manager
-from flask import Blueprint, request, render_template, jsonify, session, abort
+from flask import Blueprint, request, jsonify, session
+from flask import current_app as app
 from flask_login import login_required, login_user, logout_user, current_user
 import requests
 from twython import Twython
 
 from server.models import User, FacebookAuth, TwitterAuth
 
-home = Blueprint('index', __name__)
-api = Blueprint('api', __name__, url_prefix='/api')
+from server.blueprints import api
 
-
-events = {}
-
-@home.route('/', methods=['GET'])
-def index():
-    return render_template('index.html')
-
-@home.route('/<path:path>', methods=['GET'])
-def any_root_path(path):
-    return render_template('index.html')
 
 @login_manager.user_loader
 def load_user(userid):
@@ -59,10 +49,18 @@ def login():
     response = jsonify({'result': status, 'user':user_result})
     return response
 
+@api.route('/logout', methods=['GET'])
+@login_required
+def logout():
+    logout_user()
+    return jsonify('logout')
+
 @api.route ('/confirm_auth', methods=['GET'])
 @login_required
 def confirm_auth():
     return jsonify({'result':current_user.is_authenticated()})
+
+
 
 @api.route('/handle_facebook_response', methods=['POST'])
 @login_required
@@ -72,11 +70,6 @@ def handle_facebook_response():
     getFacebookLongAuth(json_data['facebook_response']['accessToken'])
     return 'success', 200
 
-@api.route('/logout', methods=['GET'])
-@login_required
-def logout():
-    logout_user()
-    return jsonify('logout')
 
 @api.route('/get_twitter_oauth_token', methods=['GET'])
 @login_required
@@ -107,6 +100,7 @@ def handle_twitter_callback():
         new_twitter_auth = TwitterAuth(current_user.get_id(), user_oauth_token, user_oauth_token_secret)
         db.session.add(new_twitter_auth)
         db.session.commit()
+        db.session.close()
     except:
         print 'error in twitter auth'
         success = False
@@ -123,3 +117,4 @@ def getFacebookLongAuth(token):
         new_facebook_auth = FacebookAuth(current_user.get_id(), r.json())
         db.session.add(new_facebook_auth)
         db.session.commit()
+        db.session.close()

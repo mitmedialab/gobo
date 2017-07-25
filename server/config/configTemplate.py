@@ -14,6 +14,8 @@ class BaseConfig(object):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'dev.sqlite')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
 class DevConfig(BaseConfig):
     DEBUG = True
     STATIC_FOLDER = 'client/dist'

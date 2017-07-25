@@ -1,13 +1,13 @@
 import os
 
-# from celery import Celery
+from celery import Celery
 from flask import Flask
+from importlib import import_module
 
 from .core import db, bcrypt, login_manager, migrate
 from .config.config import config_map
-from .views.api import home, api
-# from .helpers import register_blueprints
-# from .models import User, Role
+from .blueprints import all_blueprints
+
 
 
 def create_app(config_type):
@@ -18,16 +18,16 @@ def create_app(config_type):
 
     app.config.from_object(config)
 
-    app.register_blueprint(home)
-    app.register_blueprint(api)
-
     db.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
     migrate.init_app(app, db)
 
 
-    # register_blueprints(app, package_name, package_path)
+    # register_blueprints
+    for bp in all_blueprints:
+        import_module(bp.import_name)
+        app.register_blueprint(bp)
     #
     # app.wsgi_app = HTTPMethodOverrideMiddleware(app.wsgi_app)
     return app
@@ -35,18 +35,18 @@ def create_app(config_type):
 
 
 def create_celery_app(app=None):
-    pass
-    # app = app or create_app('overholt', os.path.dirname(__file__))
-    # celery = Celery(__name__, broker=app.config['CELERY_BROKER_URL'])
-    # celery.conf.update(app.config)
-    # TaskBase = celery.Task
-    #
-    # class ContextTask(TaskBase):
-    #     abstract = True
-    #
-    #     def __call__(self, *args, **kwargs):
-    #         with app.app_context():
-    #             return TaskBase.__call__(self, *args, **kwargs)
-    #
-    # celery.Task = ContextTask
-    # return celery
+    env = os.getenv('FLASK_ENV', 'dev')
+    app = app or create_app(env.lower())
+    celery = Celery(__name__, broker=app.config['CELERY_BROKER_URL'])
+    celery.conf.update(app.config)
+    TaskBase = celery.Task
+
+    class ContextTask(TaskBase):
+        abstract = True
+
+        def __call__(self, *args, **kwargs):
+            with app.app_context():
+                return TaskBase.__call__(self, *args, **kwargs)
+
+    celery.Task = ContextTask
+    return celery

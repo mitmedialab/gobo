@@ -1,11 +1,13 @@
+import os
+
 from flask_migrate import MigrateCommand
 from flask_script import Manager
 
 from server.factory import create_app
 from server.core import db
 
-
-manager = Manager(create_app('dev'))
+env = os.getenv('FLASK_ENV', 'dev')
+manager = Manager(create_app(env.lower()))
 
 # migrations
 manager.add_command('db', MigrateCommand)
