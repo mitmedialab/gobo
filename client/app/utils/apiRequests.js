@@ -39,3 +39,8 @@ export function waitTwitterCallback() {
 export function postTwitterCallback(query) {
     return axios.post(API_URL+'api/handle_twitter_callback', query)
 }
+
+export function getUserPosts() {
+    return axios.get(API_URL+'api/get_posts')
+
+}

@@ -104,8 +104,21 @@ class TwitterAuth(db.Model):
 class Post(db.Model):
     __tablename__ = "posts"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    original_id = db.Column(db.String(40), nullable=False)
     content = db.Column(db.JSON, nullable=False)
     source = db.Column(db.String(255), nullable=False)
     is_news = db.Column(db.Boolean, nullable=False)
     retrieved_at = db.Column(db.DateTime, nullable=False)
+    db.UniqueConstraint('source_id', 'source', name='post_id')
+
+    def __init__(self, original_id, source, content, is_news):
+        self.original_id = original_id
+        self.source = source
+        self.content = content
+        self.is_news = is_news
+        self.retrieved_at = datetime.datetime.now()
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
 

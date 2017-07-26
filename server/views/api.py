@@ -10,6 +10,8 @@ from server.models import User, FacebookAuth, TwitterAuth
 from server.blueprints import api
 
 
+# -----login logout logic-----
+
 @login_manager.user_loader
 def load_user(userid):
     return User.query.get(userid)
@@ -61,6 +63,7 @@ def confirm_auth():
     return jsonify({'result':current_user.is_authenticated()})
 
 
+# -----social authentication logic-----
 
 @api.route('/handle_facebook_response', methods=['POST'])
 @login_required
@@ -118,3 +121,10 @@ def getFacebookLongAuth(token):
         db.session.add(new_facebook_auth)
         db.session.commit()
         db.session.close()
+
+# ----- get feed logic -----
+
+@api.route('/get_posts', methods=['GET'])
+@login_required
+def get_posts():
+    return jsonify({'posts': [post.as_dict() for post in current_user.posts]})
