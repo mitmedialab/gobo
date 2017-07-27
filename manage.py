@@ -7,7 +7,8 @@ from server.factory import create_app
 from server.core import db
 
 env = os.getenv('FLASK_ENV', 'dev')
-manager = Manager(create_app(env.lower()))
+app = create_app(env.lower())
+manager = Manager(app)
 
 # migrations
 manager.add_command('db', MigrateCommand)

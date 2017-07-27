@@ -11,7 +11,7 @@ from ..core import db
 
 logger = getLogger(__name__)
 
-FACEBOOK_POSTS_FIELDS = ['id','caption','created_time','description','from','icon','link','message','message_tags','name', 'object_id',
+FACEBOOK_POSTS_FIELDS = ['id','caption','created_time','description','from{picture,name}','icon','link','message','message_tags','name', 'object_id',
                          'parent_id','permalink_url','picture','place', 'properties', 'shares', 'source', 'status_type', 'story', 'story_tags' ,
                          'type','updated_time','likes.summary(true)','reactions.summary(true)','comments.summary(true)']
 

@@ -17,6 +17,7 @@ Flask-Migrate==2.0.4
 Flask-Script==2.0.5
 Flask-SQLAlchemy==2.2
 greenlet==0.4.12
+gunicorn==19.7.1
 idna==2.5
 itsdangerous==0.24
 Jinja2==2.9.6

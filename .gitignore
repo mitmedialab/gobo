@@ -37,6 +37,7 @@ venv/
 
 server/settings.config
 server/config/config.py
+server/config/Silica-*
 logs/*.log
 
 #Client files:
