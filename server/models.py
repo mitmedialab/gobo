@@ -52,6 +52,13 @@ class User(db.Model):
     def get_id(self):
         return self.id
 
+    def get_names(self):
+        return {
+            'email': self.email,
+            'facebook_name':self.facebook_name,
+            'twitter_name':self.twitter_name
+        }
+
     def set_facebook_data(self, data):
         self.facebook_name = data['name']
         self.facebook_email = data['email']

@@ -6,6 +6,8 @@ import { Redirect, Link } from 'react-router-dom';
 import { logout } from 'actions/auth';
 import { getPosts } from 'actions/feed';
 
+import Post from 'components/Post/Post';
+
 const propTypes = {
     auth: PropTypes.object.isRequired,
     logout: PropTypes.func,
@@ -36,24 +38,40 @@ class Feed extends Component {
             return <Redirect to="/"/>
         }
         console.log(this.props.feed.posts)
-        const posts = this.props.feed.posts.map(post=>(
-            <div key={post.id}>
-                {post.content.text}
-            </div>))
+        const user = this.props.auth.user
+        const posts = shuffle(this.props.feed.posts).map(post=><Post key={post.id} post={post}/>)
         return (
             <div className={'page'}>
 
-                <h1>News Feed</h1>
+                <div>
+                    <button  onClick={(e) => this.logout(e)}> Log Out </button>
+                    <Link to="/settings">
+                        <button> Settings </button>
+                    </Link>
+                </div>
+
+                <h3>Hi {user.facebook_name} {user.twitter_name && '@'}{user.twitter_name}</h3>
+                <h4>Here is your news feed:</h4>
+
                 <div>
                     {posts}
                 </div>
-                <button  onClick={(e) => this.logout(e)}> Log Out </button>
-                <Link to="/settings">
-                    <button> Settings </button>
-                </Link>
+
             </div>
         );
     }
+}
+
+/**
+ * Shuffles array in place. ES6 version
+ * @param {Array} a items The array containing the items.
+ */
+function shuffle(a) {
+    for (let i = a.length; i; i--) {
+        let j = Math.floor(Math.random() * i);
+        [a[i - 1], a[j]] = [a[j], a[i - 1]];
+    }
+    return a;
 }
 
 Feed.propTypes = propTypes;

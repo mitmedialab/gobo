@@ -43,7 +43,7 @@ def login():
     if user and bcrypt.check_password_hash(
             user.password, json_data['password']):
         login_user(user, remember=True)
-        user_result = {'email': user.email}
+        user_result = user.get_names()
         status = True
     else:
         status = False
@@ -60,7 +60,7 @@ def logout():
 @api.route ('/confirm_auth', methods=['GET'])
 @login_required
 def confirm_auth():
-    return jsonify({'result':current_user.is_authenticated()})
+    return jsonify({'result':current_user.is_authenticated(), 'user':current_user.get_names()})
 
 
 # -----social authentication logic-----

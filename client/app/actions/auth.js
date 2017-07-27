@@ -27,7 +27,6 @@ export function loginUserSuccess(user) {
 
 
 export function loginUserFailure(error) {
-    localStorage.removeItem('userData');
     return {
         type: LOGIN_USER_FAILURE,
         payload: {
@@ -155,7 +154,7 @@ export function tryGetUser() {
         dispatch({ type: GET_USER_LOAD });
         return getUser()
             .then((result) => {
-                dispatch({ type: GET_USER_SUCCESS, payload:{user:result.data} });
+                dispatch({ type: GET_USER_SUCCESS, payload:result.data});
             })
             .catch((error) => {
                 dispatch({ type: GET_USER_FAIL, payload:error });

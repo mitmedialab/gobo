@@ -1,6 +1,6 @@
 @import "~normalize.css";
 
-@import url('https://fonts.googleapis.com/css?family=Eczar|Work+Sans');
+@import url('https://fonts.googleapis.com/css?family=Eczar|Work+Sans|Khula:300,400,700');
 
 $navBackground: white;
 $navColor: black;
@@ -14,7 +14,8 @@ body {
 	width: 100vw;
 	overflow-x: hidden;
 	background-color: $background;
-	font-family: -apple-system, "Work Sans","BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Open Sans", "Helvetica Neue", sans-serif;
+	font-family: -apple-system, "Khula","BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Open Sans", "Helvetica Neue", sans-serif;
+	font-weight: 300;
 }
 
 .no-script {
@@ -77,3 +78,4 @@ button {
 @import "../Input/passwordValidator.scss";
 @import "../Register/register.scss";
 @import "../Loader/loader.scss";
+@import "../Post/post.scss";
