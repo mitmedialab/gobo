@@ -1,5 +1,5 @@
 from server.core import db, bcrypt, login_manager
-from flask import Blueprint, request, jsonify, session
+from flask import request, jsonify, session, url_for
 from flask import current_app as app
 from flask_login import login_required, login_user, logout_user, current_user
 import requests
@@ -78,7 +78,7 @@ def handle_facebook_response():
 @login_required
 def get_twitter_oauth_token():
     twitter = Twython(app.config['TWITTER_API_KEY'],app.config['TWITTER_API_SECRET'])
-    auth = twitter.get_authentication_tokens(callback_url='http://localhost:5000/twitter_callback')
+    auth = twitter.get_authentication_tokens(callback_url=request.url_root+'twitter_callback')
     session['oauth_token'] = auth['oauth_token']
     session['oauth_token_secret'] = auth['oauth_token_secret']
     return jsonify({'url':auth['auth_url']})

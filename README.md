@@ -25,15 +25,5 @@ $ python manage.py db migrate
 
 To run the app locally run:
 ```bazaar
-$ cd client
-$ npm run buid
-$ cd ..
 $ ./run.sh
-```
-
-
-To run client side locally (only for development!):
-first change ``
-```bazaar
-
 ```
