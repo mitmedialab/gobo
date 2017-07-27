@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import FacebookLogin from 'react-facebook-login';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import { getAuthUrl, waitForTwitterCallback } from '../../../actions/twitterLogin';
 import { postFacebookResponseToServer } from '../../../utils/apiRequests'
-import PropTypes from 'prop-types';
+
 
 const propTypes = {
     dispatch: PropTypes.func.isRequired,

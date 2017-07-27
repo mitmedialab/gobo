@@ -63,3 +63,5 @@ logs/*.log
 
 migrations/
 server/dev.sqlite
+
+dump.rdb
