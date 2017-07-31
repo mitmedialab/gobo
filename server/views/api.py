@@ -6,6 +6,7 @@ import requests
 from twython import Twython
 
 from server.models import User, FacebookAuth, TwitterAuth
+from server.scripts import tasks
 
 from server.blueprints import api
 
@@ -64,6 +65,9 @@ def confirm_auth():
 
 
 # -----social authentication logic-----
+@api.route('/get_facebook_app_id', methods=['GET'])
+def get_facebook_app_id():
+    return jsonify({'app_id':app.config['FACEBOOK_APP_ID']})
 
 @api.route('/handle_facebook_response', methods=['POST'])
 @login_required
@@ -103,10 +107,14 @@ def handle_twitter_callback():
         new_twitter_auth = TwitterAuth(current_user.get_id(), user_oauth_token, user_oauth_token_secret)
         db.session.add(new_twitter_auth)
         db.session.commit()
-        db.session.close()
+
+        tasks.get_tweets_per_user.delay(current_user.get_id())
+        # db.session.close()
     except:
         print 'error in twitter auth'
         success = False
+
+
 
     return jsonify({'success': success})
 
@@ -117,10 +125,15 @@ def getFacebookLongAuth(token):
                'fb_exchange_token':token }
     r = requests.get('https://graph.facebook.com/oauth/access_token', payload)
     if r.status_code==requests.codes.ok:
-        new_facebook_auth = FacebookAuth(current_user.get_id(), r.json())
-        db.session.add(new_facebook_auth)
-        db.session.commit()
-        db.session.close()
+        try:
+            new_facebook_auth = FacebookAuth(current_user.get_id(), r.json())
+            db.session.add(new_facebook_auth)
+            db.session.commit()
+            # db.session.close()
+
+            tasks.get_facebook_posts_per_user.delay(current_user.get_id())
+        except:
+            print 'error in facebook auth'
 
 # ----- get feed logic -----
 

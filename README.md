@@ -28,6 +28,16 @@ To run the app locally run:
 $ ./run.sh
 ```
 
+To run the redis-server and celery worker locally, open 2 new shell terminals, and activate the virtualenv. Then run:
+```bazaar
+redis-server
+```
+And in the other one:
+```bazaar
+celery -A server.scripts.tasks worker
+```
+
+
 To Deploy on Heroku:
  - create a new local branch called "heroku-deploy"
  `git checkout -b heroku-deploy`

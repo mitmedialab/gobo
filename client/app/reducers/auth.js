@@ -81,9 +81,6 @@ export default createReducer(initialState, {
     [GET_USER_LOAD]: (state) =>
         Object.assign({}, state, {
             isAuthenticating: true,
-            isAuthenticated: false,
-            isRegistering: false,
-            isRegistered: false,
             statusText: null,
             registerStatusText:null,
         }),

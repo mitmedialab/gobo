@@ -18,6 +18,12 @@ FACEBOOK_POSTS_FIELDS = ['id','caption','created_time','description','from{pictu
 FACEBOOK_URL = 'https://graph.facebook.com/v2.10/'
 
 @celery.task(serializer='json', bind=True)
+def get_posts_data_for_all_users(self):
+    for user in User.query.all():
+        get_tweets_per_user.delay(user.id)
+        get_facebook_posts_per_user.delay(user.id)
+
+@celery.task(serializer='json', bind=True)
 def get_tweets_per_user(self, user_id):
     db.session.rollback()
     user = User.query.get(user_id)
@@ -60,7 +66,7 @@ def get_facebook_posts_per_user(self, user_id):
         posts_added += result['added_new']
         commits_succeeded += result['success']
         commits_failed += not result['success']
-    logger.info('Done getting tweets for user {}, total {} tweets added to db. {} commits succeeded. '
+    logger.info('Done getting facebook posts for user {}, total {} posts added to db. {} commits succeeded. '
                '{} commits failed.'.format(user_id, posts_added, commits_succeeded, commits_failed))
 
 def get_news():

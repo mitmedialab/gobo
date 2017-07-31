@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
-import { logout } from 'actions/auth';
+import { logout, tryGetUser } from 'actions/auth';
 import { getPosts } from 'actions/feed';
 
 import Post from 'components/Post/Post';
@@ -25,7 +25,8 @@ function mapStateToProps(state) {
 class Feed extends Component {
 
     componentWillMount() {
-        this.props.dispatch(getPosts())
+        this.props.dispatch(tryGetUser());
+        this.props.dispatch(getPosts());
     }
 
     logout(e) {
