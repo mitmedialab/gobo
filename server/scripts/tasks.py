@@ -35,7 +35,7 @@ def get_tweets_per_user(self, user_id):
         twitter_auth = TwitterAuth.query.filter_by(user_id=user_id).first()
         twitter = Twython(current_app.config['TWITTER_API_KEY'],current_app.config['TWITTER_API_SECRET'],
                           twitter_auth.oauth_token, twitter_auth.oauth_token_secret)
-        tweets = twitter.get_home_timeline()
+        tweets = twitter.get_home_timeline(params={'count':50})
     except:
         logger.error('There was an error fetching  twitter timeline from user {}'.format(user_id))
 
@@ -74,7 +74,7 @@ def get_news():
 
 def _get_facebook_posts(user):
     friends_likes = _get_facebook_friends_and_likes(user)
-    N = 10
+    N = 2
     MAX_POST = 5
     date_N_days_ago = datetime.now() - timedelta(days=N)
     since_date = date_N_days_ago.strftime('%Y-%m-%d')
