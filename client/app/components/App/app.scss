@@ -2,6 +2,14 @@
 
 @import url('https://fonts.googleapis.com/css?family=Eczar|Work+Sans|Khula:300,400,700');
 @import "./palette.scss";
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+
+$navbar-default-bg: $color1;
+$navbar-default-color: #fff;
+
+
+
+@import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
 $navBackground: $color1;
 $navColor: white;
@@ -15,7 +23,7 @@ $titleFont: 'Eczar', serif;
 
 body {
 	margin: 0;
-	padding: 0;
+	padding-top: calc(2em + #{$navbar-height});
 	width: 100vw;
 	overflow-x: hidden;
 	background-color: $background;
@@ -84,3 +92,4 @@ button {
 @import "../Register/register.scss";
 @import "../Loader/loader.scss";
 @import "../Post/post.scss";
+

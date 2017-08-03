@@ -1,68 +1,37 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-const NavBar = function() {
-	const toggleSlide = function() {
-		const elem = document.getElementsByClassName('nav-menu')[0];
-		if (elem.className === 'nav-menu') {
-			elem.className = 'nav-menu open';
-		} else {
-			elem.className = 'nav-menu';
-		}
-	};
+class NavBar extends Component {
+    toggleSlide () {
+        const elem = document.getElementsByClassName('nav-menu')[0];
+        if (elem.className === 'nav-menu') {
+            elem.className = 'nav-menu open';
+        } else {
+            elem.className = 'nav-menu';
+        }
+    }
+	
+    render() {
+        const user = this.props.auth.isAuthenticated? this.props.auth.user : null;
+        return (
 
-	return (
-		<div className="navbar-page">
-			<div className={'navbar'}>
-				<div className="row">
-					<div className="logo"><Link to={'/'}><img src="/images/logo.png"/></Link></div>
-
-					<div className="mobile-toggle">
-						<span></span>
-						<span></span>
-						<span></span>
+			<div>
+				<nav className="navbar navbar-fixed-top navbar-inverse">
+					<div className="container-fluid">
+						<div className="navbar-header">
+							<Link className="navbar-brand" to={'/'}>
+								<img alt="Gobo" src="/images/logo.png" height="100%"/>
+							</Link>
+						</div>
+						<div className="navbar-collapse collapse">
+                        {user &&<p className="navbar-text">{user.facebook_name} {user.twitter_name && '@'}{user.twitter_name}</p>}
+						</div>
 					</div>
-
-					<nav>
-						<ul>
-							<li><a href=".sec01">Section 01</a></li>
-							<li><a href=".sec02">Section 02</a></li>
-							<li><a href=".sec03">Section 03</a></li>
-							<li><a href=".sec04">Section 04</a></li>
-						</ul>
-					</nav>
-
-				</div>
+				</nav>
 			</div>
-		</div>
+        );
 
-        // <div className="navbar-page">
-		// 	<div className={'navbar'}>
-		// 		<div className="logo"><Link to={'/'}><img src="/images/logo.png"/></Link></div>
-		// 			<div className="menu">
-		// 				<ul>
-		// 					<li>Home</li>
-		// 					<li>About</li>
-		// 					<li>Profile</li>
-		// 				</ul>
-        //
-		// 			</div>
-        //
-		// 		{/*<a role={'button'} tabIndex={0} className={'right'} onClick={toggleSlide}>Menu</a>*/}
-        //
-		// 		{/*<div role={'presentation'} className={'nav-menu'} onClick={toggleSlide}>*/}
-		// 			{/*<div className={'content'}>*/}
-		// 				{/*<ul>*/}
-		// 					{/*<li>Item 1</li>*/}
-		// 					{/*<li>Item 2</li>*/}
-		// 					{/*<li>Item 3</li>*/}
-		// 					{/*<li>Item 4</li>*/}
-		// 				{/*</ul>*/}
-		// 			{/*</div>*/}
-		// 		{/*</div>*/}
-		// 	</div>
-		// </div>
-	);
+    }
 };
 
 export default NavBar;

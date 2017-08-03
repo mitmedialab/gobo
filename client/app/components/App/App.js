@@ -38,18 +38,21 @@ class App extends Component {
 					<meta name="description" content="A Site for Silica" />
 				</Helmet>
 
-				<Nav />
+				<Nav auth={this.props.auth}/>
+				<div className="container" role="main">
+					<Switch>
+						<Route exact path="/" component={Home} />
+						<Route path="/login" component={Login} />
+						<Route path="/register" component={Register} />
+						<Route path="/feed" component={Feed} />
+						<Route path="/settings" component={Settings} />
+						<Route path="/twitter_callback" component={TwitterCallback} />
+						<Route path="/api/:function"/>
+						<Route path="*/" component={NoMatch} />
+					</Switch>
 
-				<Switch>
-					<Route exact path="/" component={Home} />
-					<Route path="/login" component={Login} />
-					<Route path="/register" component={Register} />
-					<Route path="/feed" component={Feed} />
-					<Route path="/settings" component={Settings} />
-					<Route path="/twitter_callback" component={TwitterCallback} />
-					<Route path="/api/:function"/>
-					<Route path="*/" component={NoMatch} />
-				</Switch>
+				</div>
+
 			</div>
         );
     }

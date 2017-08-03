@@ -70,7 +70,7 @@ module.exports = {
                         name: 'fonts/[hash].[ext]'
                     }
                 }
-            }
+            },
 		],
 	},
 	plugins: [

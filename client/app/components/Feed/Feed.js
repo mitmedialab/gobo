@@ -58,7 +58,8 @@ class Feed extends Component {
                 {posts.length==0 && <Loader/>}
 
                 <div>
-                    {posts}
+                    Feed
+                    {/*{posts}*/}
                 </div>
 
             </div>
