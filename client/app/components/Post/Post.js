@@ -13,7 +13,7 @@ class Post extends Component {
         const type = post.source;
         const text = type=='twitter'? post.content.text : post.content.message;
         const from = type=='twitter'? '@'+post.content.user.name : post.content.from.name
-        const pic_src = type=='twitter'? post.content.user.profile_image_url : post.content.from.picture? post.content.from.picture.data.url : '';
+        const pic_src = type=='twitter'? post.content.user.profile_image_url_https : post.content.from.picture? post.content.from.picture.data.url : '';
         return (
             <div className="post">
                 <div className="date">

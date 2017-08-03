@@ -7,6 +7,7 @@ import { logout, tryGetUser } from 'actions/auth';
 import { getPosts } from 'actions/feed';
 
 import Post from 'components/Post/Post';
+import Loader from 'components/Loader/Loader'
 
 const propTypes = {
     auth: PropTypes.object.isRequired,
@@ -53,6 +54,8 @@ class Feed extends Component {
 
                 <h3>Hi {user.facebook_name} {user.twitter_name && '@'}{user.twitter_name}</h3>
                 <h4>Here is your news feed:</h4>
+
+                {posts.length==0 && <Loader/>}
 
                 <div>
                     {posts}

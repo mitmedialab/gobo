@@ -1,11 +1,16 @@
 @import "~normalize.css";
 
 @import url('https://fonts.googleapis.com/css?family=Eczar|Work+Sans|Khula:300,400,700');
+@import "./palette.scss";
 
-$navBackground: white;
-$navColor: black;
-$background: #F3F3F4;
+$navBackground: $color1;
+$navColor: white;
+$background: lighten($color5, 20%);
 $titleFont: 'Eczar', serif;
+
+* {
+	box-sizing: border-box;
+}
 
 
 body {
