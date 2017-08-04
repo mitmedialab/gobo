@@ -10,7 +10,7 @@ class NavBar extends Component {
             elem.className = 'nav-menu';
         }
     }
-	
+
     render() {
         const user = this.props.auth.isAuthenticated? this.props.auth.user : null;
         return (

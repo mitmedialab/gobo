@@ -33,7 +33,7 @@ class User(db.Model):
     facebook_authorized = db.Column(db.Boolean, nullable=False, default=False)
 
     posts = db.relationship("Post",
-                    secondary=post_associations_table)
+                    secondary=post_associations_table, lazy='dynamic')
 
     def __init__(self, email, password):
         self.email = email
@@ -114,9 +114,14 @@ class Post(db.Model):
     original_id = db.Column(db.String(40), nullable=False)
     content = db.Column(db.JSON, nullable=False)
     source = db.Column(db.String(255), nullable=False)
-    is_news = db.Column(db.Boolean, nullable=False)
     retrieved_at = db.Column(db.DateTime, nullable=False)
+
+    # filters
+    is_news = db.Column(db.Boolean)
+    toxicity = db.Column(db.Float)
+
     db.UniqueConstraint('source_id', 'source', name='post_id')
+
 
     def __init__(self, original_id, source, content, is_news):
         self.original_id = original_id
@@ -127,5 +132,17 @@ class Post(db.Model):
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    def get_text(self):
+        # TODO: logic fore getting text - should we get text from link shared, etc?
+        text = ""
+        if self.source=="twitter":
+            text = self.content['text']
+        if self.source=="facebook":
+            text = self.content['message'] if 'message' in self.content else ""
+        return text
+
+    def has_toxicity_rate(self):
+        return self.toxicity is not None
 
 

@@ -5,7 +5,7 @@ from flask_login import login_required, login_user, logout_user, current_user
 import requests
 from twython import Twython
 
-from server.models import User, FacebookAuth, TwitterAuth
+from server.models import User, FacebookAuth, TwitterAuth, Post
 from server.scripts import tasks
 
 from server.blueprints import api
@@ -140,4 +140,4 @@ def getFacebookLongAuth(token):
 @api.route('/get_posts', methods=['GET'])
 @login_required
 def get_posts():
-    return jsonify({'posts': [post.as_dict() for post in current_user.posts]})
+    return jsonify({'posts': [post.as_dict() for post in current_user.posts.order_by(Post.retrieved_at.desc())][:100]})

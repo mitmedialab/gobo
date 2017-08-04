@@ -4,6 +4,8 @@ from datetime import datetime, timedelta
 from twython import Twython
 from flask import current_app
 from logging import getLogger
+from googleapiclient import discovery
+import json
 
 from ..models import User, FacebookAuth, TwitterAuth, Post
 from .celery import celery
@@ -129,3 +131,31 @@ def _add_post(user, post, source):
         logger.error('An error adding post {} from tweeter to user {}'.format(post['id'], user.id))
         success = False
     return {'success': success, 'added_new':added_new}
+
+@celery.task(serializer='json', bind=True)
+def analyze_toxicity(self, post_id):
+    post = Post.query.get(post_id)
+    if not post or post.has_toxicity_rate():
+        print "post {} doesn't exsist already has toxicity rate".format(post_id)
+        return
+    text = post.get_text()
+
+    # Generates API client object dynamically based on service name and version.
+    service = discovery.build('commentanalyzer', 'v1alpha1', developerKey=current_app.config['GOOGLE_API_KEY'])
+
+    analyze_request = {
+        'comment': {'text': text},
+        'requestedAttributes': {'TOXICITY': {}},
+        'doNotStore': True
+    }
+
+    try:
+        response = service.comments().analyze(body=analyze_request).execute()
+        score = response["attributeScores"]["TOXICITY"]["summaryScore"]["value"]
+    except:
+        logger.info('could not get toxicity score for post {}'.format(post_id))
+        score = -1
+
+
+    if score> 0.05:
+        print text.encode('utf-8')

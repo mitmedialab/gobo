@@ -59,7 +59,7 @@ class Feed extends Component {
 
                 <div>
                     Feed
-                    {/*{posts}*/}
+                    {posts}
                 </div>
 
             </div>
