@@ -145,4 +145,8 @@ class Post(db.Model):
     def has_toxicity_rate(self):
         return self.toxicity is not None
 
+    def update_toxicity(self, score):
+        self.toxicity = score
+        db.session.commit()
+
 

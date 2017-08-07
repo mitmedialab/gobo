@@ -16,6 +16,8 @@ class BaseConfig(object):
 
     CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
+    GOOGLE_API_KEY = 'XXXXX'
+
 class DevConfig(BaseConfig):
     DEBUG = True
     STATIC_FOLDER = 'client/dist'

@@ -7,6 +7,7 @@ import { logout, tryGetUser } from 'actions/auth';
 import { getPosts } from 'actions/feed';
 
 import Post from 'components/Post/Post';
+import Settings from 'components/Settings/Settings'
 import Loader from 'components/Loader/Loader'
 
 const propTypes = {
@@ -25,6 +26,13 @@ function mapStateToProps(state) {
 
 class Feed extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            sortByToxicity: false
+        }
+    }
+
     componentWillMount() {
         this.props.dispatch(tryGetUser());
         this.props.dispatch(getPosts());
@@ -35,15 +43,23 @@ class Feed extends Component {
         this.props.dispatch(logout());
     }
 
+
     render() {
         if (!this.props.auth.isAuthenticated) {
             return <Redirect to="/"/>
         }
-        console.log(this.props.feed.posts)
-        const user = this.props.auth.user
-        const posts = shuffle(this.props.feed.posts).map(post=><Post key={post.id} post={post}/>)
+        console.log(this.props.feed.posts);
+        const user = this.props.auth.user;
+        const posts = this.props.feed.posts;
+        if (this.state.sortByToxicity) {
+            posts.sort((a,b)=>b.toxicity - a.toxicity);
+        }
+
+        const postsHtml = posts.map(post=><Post key={post.id} post={post}/>)
         return (
             <div className={'page'}>
+
+
 
                 <div>
                     <button  onClick={(e) => this.logout(e)}> Log Out </button>
@@ -51,17 +67,28 @@ class Feed extends Component {
                         <button> Settings </button>
                     </Link>
                 </div>
+                <div className= {'container-fluid'}>
+                    <div className= {'row'}>
+                        <div className= {'col-md-8'}>
 
-                <h3>Hi {user.facebook_name} {user.twitter_name && '@'}{user.twitter_name}</h3>
-                <h4>Here is your news feed:</h4>
+                            <h3>Hi {user.facebook_name} {user.twitter_name && '@'}{user.twitter_name}</h3>
+                            <h4>Here is your news feed:</h4>
 
-                {posts.length==0 && <Loader/>}
+                            {posts.length==0 && <Loader/>}
 
-                <div>
-                    Feed
-                    {posts}
+                            <div>
+                                Feed
+                                {postsHtml}
+                            </div>
+                        </div>
+
+                        <div className= {'col-md-4'}>
+                            <Settings/>
+
+                        </div>
+                    </div>
+
                 </div>
-
             </div>
         );
     }

@@ -17,7 +17,7 @@ class Post extends Component {
         return (
             <div className="post">
                 <div className="date">
-                    {post.content.created_at || post.content.created_time} on {type}
+                    {post.content.created_at || post.content.created_time} <span className="badge">{post.source}</span>
                 </div>
                 <div className="author">
                     <img src={pic_src} />
@@ -28,6 +28,9 @@ class Post extends Component {
                         {post.content.story}
                     </div>
                     {text}
+                    <div className="toxicity">
+                        Toxicity: {post.toxicity}
+                    </div>
                 </div>
             </div>
         );

@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 
 from twython import Twython
 from flask import current_app
+import logging
 from logging import getLogger
 from googleapiclient import discovery
 import json
@@ -12,6 +13,8 @@ from .celery import celery
 from ..core import db
 
 logger = getLogger(__name__)
+
+getLogger('googleapicliet.discovery_cache').setLevel(logging.ERROR)
 
 FACEBOOK_POSTS_FIELDS = ['id','caption','created_time','description','from{picture,name}','icon','link','message','message_tags','name', 'object_id',
                          'parent_id','permalink_url','picture','place', 'properties', 'shares', 'source', 'status_type', 'story', 'story_tags' ,
@@ -124,6 +127,7 @@ def _add_post(user, post, source):
             post_item = Post(post_id, source, post, False)
             db.session.add(post_item)
             added_new = True
+            analyze_toxicity.delay(post_item.id)
         user.posts.append(post_item)
         db.session.commit()
         success = True
@@ -155,7 +159,4 @@ def analyze_toxicity(self, post_id):
     except:
         logger.info('could not get toxicity score for post {}'.format(post_id))
         score = -1
-
-
-    if score> 0.05:
-        print text.encode('utf-8')
+    post.update_toxicity(score)
