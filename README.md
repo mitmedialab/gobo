@@ -47,7 +47,10 @@ To Deploy on Heroku:
  edit .gitignore to not ignore config.py (make sure to also save a copy of config.py somewhere else on your computer)
  - in the root directory, add a package.json file with the following content:
     ```
-    {"scripts": { "postinstall": "cd client && npm --dev install && npm run build" } }
+    { 
+    "engines": { "node": "6.10.2", "npm": "4.4.4" }, 
+    "scripts": { "postinstall": "cd client && npm --dev install && npm run build" } 
+    }
      ```
  - In heroku website, add a database and a redis instance
  - Update config.py in the new brach to match the database and redis url
@@ -58,5 +61,5 @@ To Deploy on Heroku:
     heroku buildpack:add heroku/python
     ```
     run `heroku buildpacks` to make sure the correct buildpacks are set.
-- Push to heroku: `git push heoku heroku-deploy:master`
-**Make sure to noth push this anywhere else!! as this contains sensitive data!"**
+- Push to heroku: `git push heroku heroku-deploy:master`
+**!!! - Make sure to noth push this anywhere else!! as this contains sensitive data! - !!!**
