@@ -17,7 +17,7 @@ logger = getLogger(__name__)
 getLogger('googleapicliet.discovery_cache').setLevel(logging.ERROR)
 
 FACEBOOK_POSTS_FIELDS = ['id','caption','created_time','description','from{picture,name}','icon','link','message','message_tags','name', 'object_id',
-                         'parent_id','permalink_url','picture','place', 'properties', 'shares', 'source', 'status_type', 'story', 'story_tags' ,
+                         'parent_id','permalink_url','picture.type(large)','full_picture','place', 'properties', 'shares', 'source', 'status_type', 'story', 'story_tags' ,
                          'type','updated_time','likes.summary(true)','reactions.summary(true)','comments.summary(true)']
 
 FACEBOOK_URL = 'https://graph.facebook.com/v2.10/'
@@ -59,7 +59,7 @@ def get_tweets_per_user(self, user_id):
 @celery.task(serializer='json', bind=True)
 def get_facebook_posts_per_user(self, user_id):
     user = User.query.get(user_id)
-    if not user or not user.facebook_authorized:
+    if not user or not user.facebook_authorized or not user.facebook_auth:
         logger.info('User number {} did not authorize facebook (or does not exist) not fetching any posts'.format(user_id))
         return
     posts = _get_facebook_posts(user)
@@ -95,7 +95,7 @@ def _get_facebook_posts(user):
             r = requests.get(FACEBOOK_URL + object['id'] + '/feed', payload)
             result = r.json()
             if 'data' in result:
-                posts.extend(result["data"])
+                posts.extend([dict(p, **{'post_user':object}) for p in result["data"]])
             # while 'paging' in result and 'next' in result['paging']:
             #     r = requests.get(result['paging']['next'])
             #     result = r.json()
@@ -121,16 +121,20 @@ def _get_facebook_friends_and_likes(user):
 def _add_post(user, post, source):
     added_new = False
     try:
-        post_id = str(post['id'])
+        post_id = post['id_str']  if 'id_str' in post else str(post['id'])
         post_item = Post.query.filter_by(original_id=post_id, source=source).first()
         if not post_item:
             post_item = Post(post_id, source, post, False)
             db.session.add(post_item)
             added_new = True
-            analyze_toxicity.delay(post_item.id)
+        else:
+            post_item.update_content(post)
+
         user.posts.append(post_item)
         db.session.commit()
         success = True
+        if not post_item.has_toxicity_rate():
+            analyze_toxicity.delay(post_item.id)
     except:
         logger.error('An error adding post {} from tweeter to user {}'.format(post['id'], user.id))
         success = False
@@ -140,7 +144,7 @@ def _add_post(user, post, source):
 def analyze_toxicity(self, post_id):
     post = Post.query.get(post_id)
     if not post or post.has_toxicity_rate():
-        print "post {} doesn't exsist already has toxicity rate".format(post_id)
+        logger.warning("post {} doesn't exist or already has toxicity rate".format(post_id))
         return
     text = post.get_text()
 

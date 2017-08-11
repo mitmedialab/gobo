@@ -31,6 +31,7 @@ class Feed extends Component {
         this.state = {
             sortByToxicity: false
         }
+        this.sortByToxicityClick = this.sortByToxicityClick.bind(this);
     }
 
     componentWillMount() {
@@ -41,6 +42,12 @@ class Feed extends Component {
     logout(e) {
         e.preventDefault();
         this.props.dispatch(logout());
+    }
+
+    sortByToxicityClick() {
+        this.setState({
+            sortByToxicity: !this.state.sortByToxicity
+        })
     }
 
 
@@ -63,9 +70,6 @@ class Feed extends Component {
 
                 <div>
                     <button  onClick={(e) => this.logout(e)}> Log Out </button>
-                    <Link to="/settings">
-                        <button> Settings </button>
-                    </Link>
                 </div>
                 <div className= {'container-fluid'}>
                     <div className= {'row'}>
@@ -83,7 +87,7 @@ class Feed extends Component {
                         </div>
 
                         <div className= {'col-md-4'}>
-                            <Settings/>
+                            <Settings sortByToxicity={this.state.sortByToxicity} onButtonClick={this.sortByToxicityClick}/>
 
                         </div>
                     </div>

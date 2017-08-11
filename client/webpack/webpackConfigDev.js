@@ -84,5 +84,4 @@ module.exports = {
             { from: '../static' }
         ]),
 	],
-	performance: { hints: false },
 };

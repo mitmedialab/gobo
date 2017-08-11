@@ -67,7 +67,7 @@ def confirm_auth():
 # -----social authentication logic-----
 @api.route('/get_facebook_app_id', methods=['GET'])
 def get_facebook_app_id():
-    return jsonify({'app_id':app.config['FACEBOOK_APP_ID']})
+    return str(app.config['FACEBOOK_APP_ID'])
 
 @api.route('/handle_facebook_response', methods=['POST'])
 @login_required
@@ -118,6 +118,7 @@ def handle_twitter_callback():
 
     return jsonify({'success': success})
 
+
 def getFacebookLongAuth(token):
     payload = {'grant_type':'fb_exchange_token',
                'client_id':app.config['FACEBOOK_APP_ID'],
@@ -140,4 +141,4 @@ def getFacebookLongAuth(token):
 @api.route('/get_posts', methods=['GET'])
 @login_required
 def get_posts():
-    return jsonify({'posts': [post.as_dict() for post in current_user.posts.order_by(Post.retrieved_at.desc())]})
+    return jsonify({'posts': [post.as_dict() for post in current_user.posts.order_by(Post.retrieved_at.desc())][:300]})

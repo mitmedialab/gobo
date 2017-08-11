@@ -17,7 +17,9 @@ class Settings extends Component {
                 <h1>Settings</h1>
                 <div>This is the settings part!</div>
 
-                <button className="button">Sort by Toxicity</button>
+                <button className="button active" onClick={()=>this.props.onButtonClick()}>
+                    {this.props.sortByToxicity? "don't" : ""} sort by Toxicity
+                </button>
             </div>
         );
     }

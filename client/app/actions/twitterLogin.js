@@ -1,4 +1,4 @@
-import { getTwitterAuthURl, waitTwitterCallback, postTwitterCallback } from '../utils/apiRequests';
+import { getTwitterAuthURl, waitTwitterCallback, postTwitterCallback, getFacebookAppId } from '../utils/apiRequests';
 
 /*--------*/
 // Define Action types
@@ -15,6 +15,9 @@ export const FETCH_TWITTER_STATUS_FAIL = 'twitterLogin/FETCH_TWITTER_STATUS_FAIL
 export const POST_CALLBACK_LOAD = 'twitterLogin/POST_CALLBACK_LOAD';
 export const POST_CALLBACK_SUCCESS = 'twitterLogin/POST_CALLBACK_SUCCESS';
 export const POST_CALLBACK_FAIL = 'twitterLogin/POST_CALLBACK_FAIL';
+export const GET_FACEBOOK_APP_ID_LOAD = 'twitterLogin/GET_FACEBOOK_APP_ID_LOAD';
+export const GET_FACEBOOK_APP_ID_FAIL = 'twitterLogin/GET_FACEBOOK_APP_ID_FAIL';
+export const GET_FACEBOOK_APP_ID_SUCCESS = 'twitterLogin/GET_FACEBOOK_APP_ID_SUCCESS';
 
 
 /*--------*/
@@ -35,6 +38,19 @@ export function getAuthUrl() {
 			dispatch({ type: GET_AUTH_URL_FAIL, error });
 		});
 	};
+}
+
+export function fetchFacebookAppId() {
+    return (dispatch) => {
+        dispatch({ type: GET_FACEBOOK_APP_ID_LOAD });
+        return getFacebookAppId()
+            .then((result) => {
+                dispatch({ type: GET_FACEBOOK_APP_ID_SUCCESS, result });
+            })
+            .catch((error) => {
+                dispatch({ type: GET_FACEBOOK_APP_ID_FAIL, error });
+            });
+    };
 }
 
 export function startPostTwitterCallback(query) {

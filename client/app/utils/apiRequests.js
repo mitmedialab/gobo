@@ -42,5 +42,8 @@ export function postTwitterCallback(query) {
 
 export function getUserPosts() {
     return axios.get(API_URL+'api/get_posts')
+}
 
+export function getFacebookAppId() {
+    return axios.get(API_URL+'api/get_facebook_app_id')
 }

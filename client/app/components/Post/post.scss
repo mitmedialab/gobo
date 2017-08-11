@@ -10,10 +10,31 @@
 
   .date {
     font-size:0.8em;
+    color: #b1b0b1;
   }
 
   .toxicity {
     color:red;
+  }
+
+  .post-header{
+    display: inline-block;
+
+  }
+
+  .avatar {
+    display: inline-block;
+    padding: 0.4em;
+  }
+
+  .post-header-details {
+    display:inline-block;
+  }
+
+  .post-inner-content {
+    width: 100%;
+    padding: 1em;
+    text-align: center;
   }
 
 }

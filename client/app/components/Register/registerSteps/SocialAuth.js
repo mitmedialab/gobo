@@ -3,8 +3,8 @@ import FacebookLogin from 'react-facebook-login';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getAuthUrl, waitForTwitterCallback } from '../../../actions/twitterLogin';
-import { postFacebookResponseToServer } from '../../../utils/apiRequests'
+import { getAuthUrl, waitForTwitterCallback, fetchFacebookAppId } from '../../../actions/twitterLogin';
+import { postFacebookResponseToServer} from '../../../utils/apiRequests'
 
 
 const propTypes = {
@@ -23,10 +23,20 @@ class SocialAuth extends Component {
             facebookSuccess: false,
             twitterSuccess: false,
             twitterError: false,
+            polling: false,
             pollCount:0,
         };
         this.responseFacebook = this.responseFacebook.bind(this);
         this.onTwitterButtonClick = this.onTwitterButtonClick.bind(this);
+        this.facebookAppId = ""
+    }
+
+    componentWillMount() {
+        this.props.dispatch(fetchFacebookAppId());
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.timeout);
     }
 
     responseFacebook(response) {
@@ -60,13 +70,9 @@ class SocialAuth extends Component {
             this.isDone();
         }
 
-        else if (!nextProps.twitter_data.isTwitterAuthorized && !nextProps.twitter_data.isFetching) {
-                this.startPoll();
+        else if (this.state.polling && (!nextProps.twitter_data.isTwitterAuthorized && !nextProps.twitter_data.isFetching)) {
+            this.startPoll()
         }
-    }
-
-    componentWillUnmount() {
-        clearTimeout(this.timeout);
     }
 
     startPoll() {
@@ -82,6 +88,8 @@ class SocialAuth extends Component {
 
     onTwitterButtonClick() {
         this.props.dispatch(getAuthUrl());
+        this.startPoll();
+        this.setState({polling: true});
     }
 
     render() {
@@ -100,6 +108,17 @@ class SocialAuth extends Component {
         if (this.state.twitterError) {
             twitter_button_text = "Error authenticating twitter. Please try again "
         }
+        const fbButton  = this.props.twitter_data.facebookAppId? <FacebookLogin
+                appId={this.props.twitter_data.facebookAppId}
+                autoLoad={false}
+                fields="name,email,picture"
+                scope="public_profile,user_friends,email,user_likes,user_posts"
+                callback={this.responseFacebook}
+                tag="button"
+                cssClass={facebook_button_class}
+                textButton={facebook_button_text}
+                isDisabled={this.state.facebookSuccess}
+            /> : <div></div>
         return (
             <div>
                 <p>
@@ -108,17 +127,8 @@ class SocialAuth extends Component {
                     accounts so we can show you your feed
                 </p>
 
-                <FacebookLogin
-                    appId="616243291915220"
-                    autoLoad={false}
-                    fields="name,email,picture"
-                    scope="public_profile,user_friends,email,user_actions.news,user_actions.video,user_likes,user_posts,user_religion_politics,user_location"
-                    callback={this.responseFacebook}
-                    tag="button"
-                    cssClass={facebook_button_class}
-                    textButton={facebook_button_text}
-                    isDisabled={this.state.facebookSuccess}
-                />
+
+                {fbButton}
                 <button onClick={this.onTwitterButtonClick} className={twitter_button_class} >{twitter_button_text}</button>
                 <div style={{margin:'2em'}}>
                     <p onClick={()=>this.props.onFinish()}>
