@@ -65,24 +65,15 @@ class Feed extends Component {
         const postsHtml = posts.map(post=><Post key={post.id} post={post}/>)
         return (
             <div className={'page'}>
-
-
-
-                <div>
-                    <button  onClick={(e) => this.logout(e)}> Log Out </button>
-                </div>
                 <div className= {'container-fluid'}>
                     <div className= {'row'}>
                         <div className= {'col-md-8'}>
 
-                            <h3>Hi {user.facebook_name} {user.twitter_name && '@'}{user.twitter_name}</h3>
-                            <h4>Here is your news feed:</h4>
-
                             {posts.length==0 && <Loader/>}
 
                             <div>
-                                Feed
-                                {postsHtml}
+                                bla!
+                                {/*{postsHtml}*/}
                             </div>
                         </div>
 

@@ -130,7 +130,8 @@ def _add_post(user, post, source):
         else:
             post_item.update_content(post)
 
-        user.posts.append(post_item)
+        if not (post_item in user.posts):
+            user.posts.append(post_item)
         db.session.commit()
         success = True
         if not post_item.has_toxicity_rate():

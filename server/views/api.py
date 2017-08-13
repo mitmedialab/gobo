@@ -101,9 +101,14 @@ def handle_twitter_callback():
 
     try:
         final_step = twitter.get_authorized_tokens(request.json['oauth_verifier'])
-        current_user.set_twitter_data(final_step['user_id'], final_step['screen_name'])
         user_oauth_token = final_step['oauth_token']
         user_oauth_token_secret = final_step['oauth_token_secret']
+
+        user_twitter = Twython(app.config['TWITTER_API_KEY'],app.config['TWITTER_API_SECRET'],
+                               user_oauth_token, user_oauth_token_secret)
+        twitter_user_show = user_twitter.show_user(user_id=final_step['user_id'])
+        current_user.set_twitter_data(final_step['user_id'], final_step['screen_name'], twitter_user_show)
+
         new_twitter_auth = TwitterAuth(current_user.get_id(), user_oauth_token, user_oauth_token_secret)
         db.session.add(new_twitter_auth)
         db.session.commit()
@@ -113,6 +118,7 @@ def handle_twitter_callback():
     except:
         print 'error in twitter auth'
         success = False
+
 
 
 

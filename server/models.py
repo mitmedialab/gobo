@@ -3,7 +3,8 @@ from server.core import db, bcrypt
 
 post_associations_table = db.Table('posts_associations', db.metadata,
     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('post_id', db.Integer, db.ForeignKey('posts.id'))
+    db.Column('post_id', db.Integer, db.ForeignKey('posts.id')),
+    db.PrimaryKeyConstraint('user_id', 'post_id'),
 )
 
 class User(db.Model):
@@ -25,15 +26,14 @@ class User(db.Model):
     facebook_auth = db.relationship("FacebookAuth", uselist=False, back_populates="user")
     twitter_auth = db.relationship("TwitterAuth", uselist=False, back_populates="user")
 
-    gender = db.Column(db.String(255))
-    local = db.Column(db.String(255))
-    total_facebook_friends = db.Column(db.Integer)
-
     twitter_authorized = db.Column(db.Boolean, nullable=False, default=False)
     facebook_authorized = db.Column(db.Boolean, nullable=False, default=False)
 
+    twitter_data = db.Column(db.JSON)
+    facebook_data = db.Column(db.JSON)
+
     posts = db.relationship("Post",
-                    secondary=post_associations_table, lazy='dynamic')
+                    secondary=post_associations_table, lazy='dynamic', cascade="all")
 
     def __init__(self, email, password):
         self.email = email
@@ -56,7 +56,8 @@ class User(db.Model):
         return {
             'email': self.email,
             'facebook_name':self.facebook_name,
-            'twitter_name':self.twitter_name
+            'twitter_name':self.twitter_name,
+            'avatar': self.twitter_data['profile_image_url_https'] if self.twitter_data else self.facebook_picture_url
         }
 
     def set_facebook_data(self, data):
@@ -64,12 +65,14 @@ class User(db.Model):
         self.facebook_email = data['email']
         self.facebook_id = data['id']
         self.facebook_picture_url = data['picture']['data']['url']
+        self.facebook_data = data
         self.facebook_authorized = True
         db.session.commit()
 
-    def set_twitter_data(self, id, name):
+    def set_twitter_data(self, id, name, data):
         self.twitter_name = name
         self.twitter_id = id
+        self.twitter_data = data
         self.twitter_authorized = True
         db.session.commit()
 
