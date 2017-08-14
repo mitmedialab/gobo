@@ -167,6 +167,29 @@
   }
 }
 
+.navbar .nav > li > a.dropdown-toggle > .glyphicon {
+  font-size: 10px;
+  position: relative;
+  top: -2px;
+  text-align: center;
+  margin-left: 10px;
+  border-radius: 3px;
+}
+
+.navbar-user a > .glyphicon {
+  width: 13px;
+  height: 13px;
+  color: #a2a5aa;
+}
+
+.navbar .nav .list-group > li.list-group-item > span {
+  position: absolute;
+  top: 11px;
+  left: 13px;
+  font-size: 17px;
+  color: #2a3342;
+}
+
 //@media (max-width: 599px) {
 //  .navbar > .navbar-right, .navbar .navbar-nav > li.dropdown, .navbar .navbar-nav > li.dropdown .navbar-btn {
 //    position: static !important;

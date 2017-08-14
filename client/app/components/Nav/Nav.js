@@ -39,16 +39,33 @@ class NavBar extends Component {
         const defaultAvatar = 'static/images/avatar.png';
 
         const avatar = user? user.avatar || defaultAvatar : defaultAvatar;
+        const dropdownMenuClass = "dropdown-menu list-group keep-dropdown w230"
 
         const dropdownActions = user? (
-            <ul className="dropdown-menu" tabIndex="0" onBlur={ ()=> this.setState( {dropdownOpen: false })} >
-                <li className="list-group-item"><Link to={'/profile'}> <span>My Profile</span></Link></li>
-                <li className="list-group-item"><a onClick={()=>this.props.dispatch(logout())}><span>Logout</span></a></li>
+            <ul className={dropdownMenuClass} tabIndex="0" onBlur={ ()=> this.setState( {dropdownOpen: false })} >
+                <li className="list-group-item">
+                    <span className="glyphicon glyphicon-user"></span>
+                    <Link to={'/profile'}> <span>My Profile</span></Link>
+                </li>
+                <li className="list-group-item">
+                    <span className="glyphicon glyphicon-align-center"></span>
+                    <Link to={'/feed'}> <span>My Feed</span></Link>
+                </li>
+                <li className="list-group-item">
+                    <span className="glyphicon glyphicon-log-out"></span>
+                    <a onClick={()=>this.props.dispatch(logout())}><span>Logout</span></a>
+                </li>
             </ul>
         ) :
-            (<ul className="dropdown-menu list-group keep-dropdown w230" tabIndex="0" onBlur={ ()=> this.setState( {dropdownOpen: false })} >
-                <li className="list-group-item"><Link to={'/register'}> <span>Sign Up</span></Link></li>
-                <li className="list-group-item"><Link to={'/login'}> <span>Login</span></Link></li>
+            (<ul className={dropdownMenuClass} tabIndex="0" onBlur={ ()=> this.setState( {dropdownOpen: false })} >
+                <li className="list-group-item">
+                    <span className="glyphicon glyphicon-picture"></span>
+                    <Link to={'/register'}><span>Sign Up</span></Link>
+                </li>
+                <li className="list-group-item">
+                    <span className="glyphicon glyphicon-log-in"></span>
+                    <Link to={'/login'}> <span>Login</span></Link>
+                </li>
             </ul>)
 
         var dropdownClass = "dropdown dropdown-fuse navbar-user";
@@ -56,12 +73,14 @@ class NavBar extends Component {
             dropdownClass += " open"
         }
 
+
+        const dropDownArrowDir = this.state.dropdownOpen? "up" :"down"
         const dropdown =
             <li className={dropdownClass}>
                 <a className="dropdown-toggle" onClick={this.toggleDropdown} aria-expanded={this.state.dropdownOpen}>
                     <img src={avatar} className="img-circle" alt="Avatar"/>
                     {user && <span className="hidden-xs"><span className="name">{user.facebook_name.split(' ')[0]}</span></span>}
-                    <span className="fa fa-caret-down hidden-xs"></span>
+                    <span className={"glyphicon hidden-xs glyphicon-chevron-"+dropDownArrowDir}></span>
                 </a>
                 {dropdownActions}
             </li>

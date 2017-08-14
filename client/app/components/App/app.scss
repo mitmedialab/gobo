@@ -2,13 +2,12 @@
 
 @import url('https://fonts.googleapis.com/css?family=Eczar|Work+Sans|Khula:300,400,700');
 @import "./palette.scss";
-$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 
 $navbar-default-bg: $color1;
 $navbar-default-color: #fff;
 
 
-
+$icon-font-path: "/static/bootstrap-fonts/";
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
 $navBackground: $color1;
@@ -75,6 +74,16 @@ button {
 	min-height: 30px;
 	line-height: 30px;
 	margin: 0.3em;
+}
+
+.glyphicon {
+	display: inline-block;
+	font-size: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	transform: translate(0, 0);
+	line-height: 1;
 }
 
 // While there is some elegance to having components import their own .scss files,
