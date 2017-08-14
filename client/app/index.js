@@ -10,7 +10,7 @@ import ManageScroll from 'components/ManageScroll/ManageScroll';
 import store from './store';
 
 // Raven.config(<Raven-URI>).install();
-// require('./manageServiceWorker');
+require('./manageServiceWorker');
 
 const Root = () => (
 	<Provider store={store}>

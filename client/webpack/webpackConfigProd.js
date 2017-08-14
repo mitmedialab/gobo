@@ -94,29 +94,29 @@ module.exports = {
 			title: 'Gobo',
 			template: 'webpack/template.html',
 		}),
-		// new SWPrecacheWebpackPlugin({
-		// 	cacheId: 'Gobo',
-		// 	filename: 'service-worker.js', // This name is referenced in manageServiceWorker.js
-		// 	maximumFileSizeToCacheInBytes: 4194304,
-		// 	minify: true,
-		// 	navigateFallback: '/index.html',
-		// 	staticFileGlobs: [
-		// 		'static/**.*',
-		// 		'static/images/**.*',
-		// 	],
-		// 	stripPrefix: 'static/',
-		// 	mergeStaticsConfig: true, // Merge webpacks static outputs with the globs described above.
-		// 	runtimeCaching: [{
-		// 		urlPattern: /^https:\/\/api\.github\.com\//,
-		// 		handler: 'fastest',
-		// 		networkTimeoutSeconds: 5000,
-		// 		options: {
-		// 			cache: {
-		// 				maxEntries: 10,
-		// 				name: 'github-api-cache'
-		// 			}
-		// 		}
-		// 	}]
-		// }),
+		new SWPrecacheWebpackPlugin({
+			cacheId: 'Gobo',
+			filename: 'service-worker.js', // This name is referenced in manageServiceWorker.js
+			maximumFileSizeToCacheInBytes: 4194304,
+			minify: true,
+			navigateFallback: '/index.html',
+			staticFileGlobs: [
+				'static/**.*',
+				'static/images/**.*',
+			],
+			stripPrefix: 'static/',
+			mergeStaticsConfig: true, // Merge webpacks static outputs with the globs described above.
+			// runtimeCaching: [{
+            // 	urlPattern: /^https:\/\/api\.github\.com\//,
+            // 	handler: 'fastest',
+            // 	networkTimeoutSeconds: 5000,
+            // 	options: {
+            // 		cache: {
+            // 			maxEntries: 10,
+            // 			name: 'github-api-cache'
+            // 		}
+            // 	}
+            // }]
+		}),
 	],
 };
