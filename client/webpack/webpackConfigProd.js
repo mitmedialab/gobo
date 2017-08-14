@@ -97,7 +97,7 @@ module.exports = {
 		}),
 		new SWPrecacheWebpackPlugin({
 			cacheId: 'Gobo',
-			filename: 'service-worker.js', // This name is referenced in manageServiceWorker.js
+			filename: 'static/service-worker.js', // This name is referenced in manageServiceWorker.js
 			maximumFileSizeToCacheInBytes: 4194304,
 			minify: true,
 			navigateFallback: '/index.html',
