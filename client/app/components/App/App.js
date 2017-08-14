@@ -13,6 +13,7 @@ const Landing = () => <Async load={import('components/Landing/Landing')} />;
 const Login = () => <Async load={import('components/Login/Login')} />;
 const Register = () => <Async load={import('components/Register/Register')} />;
 const Feed = () => <Async load={import('components/Feed/Feed')} />;
+const Profile = () => <Async load={import('components/Profile/Profile')} />;
 const Settings = () => <Async load={import('components/Settings/Settings')} />;
 const TwitterCallback = () => <Async load={import('components/TwitterCallback/TwitterCallback')} />;
 const NoMatch = () => <Async load={import('components/NoMatch/NoMatch')} />;
@@ -34,8 +35,8 @@ class App extends Component {
         return (
 			<div>
 				<Helmet>
-					<title>Silica</title>
-					<meta name="description" content="A Site for Silica" />
+					<title>Gobo</title>
+					<meta name="description" content="A Site for Gobo Social" />
 				</Helmet>
 
 				<Nav auth={this.props.auth}/>
@@ -45,6 +46,7 @@ class App extends Component {
 						<Route path="/login" component={Login} />
 						<Route path="/register" component={Register} />
 						<Route path="/feed" component={Feed} />
+						<Route path="/profile" component={Profile} />
 						<Route path="/settings" component={Settings} />
 						<Route path="/twitter_callback" component={TwitterCallback} />
 						<Route path="/api/:function"/>

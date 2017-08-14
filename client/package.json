@@ -1,7 +1,7 @@
 {
-  "name": "silica",
+  "name": "gobo",
   "version": "0.0.1",
-  "description": "Silica",
+  "description": "Gobo Social",
   "main": "server.js",
   "author": "MIT Media Lab",
   "license": "MIT",

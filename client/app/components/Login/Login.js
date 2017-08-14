@@ -74,7 +74,7 @@ class Login extends Component {
 
                     <div>
                         <div className="create_account_form">
-                            <h1>Login to Silica</h1>
+                            <h1>Login to Gobo</h1>
                             <form>
 
                                 <Input

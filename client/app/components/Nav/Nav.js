@@ -36,8 +36,9 @@ class NavBar extends Component {
 
     render() {
         const user = this.props.auth.isAuthenticated? this.props.auth.user : null;
+        const defaultAvatar = 'static/images/avatar.png';
 
-        const avatar = user? user.avatar || '/images/avatar.png': '/images/avatar.png';
+        const avatar = user? user.avatar || defaultAvatar : defaultAvatar;
 
         const dropdownActions = user? (
             <ul className="dropdown-menu" tabIndex="0" onBlur={ ()=> this.setState( {dropdownOpen: false })} >
@@ -72,7 +73,7 @@ class NavBar extends Component {
                     <ul className="nav navbar-nav navbar-left logo">
                         <li>
                         <Link to={'/'}>
-                            <img alt="Gobo" src="/images/logo.png" height="100%"/>
+                            <img alt="Gobo" src="static/images/logo.png" height="100%"/>
                         </Link>
                         </li>
                     </ul>

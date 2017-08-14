@@ -22,8 +22,8 @@ module.exports = {
 	devServer: {
 		hot: true,
 		host: '0.0.0.0',
-		contentBase: resolve(__dirname, '../build/assets'),
-		publicPath: '/',
+        contentBase: resolve(__dirname, '../static'),
+        publicPath: '/',
 		historyApiFallback: true,
 		stats: {
 			colors: true,

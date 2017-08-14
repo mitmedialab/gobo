@@ -7,7 +7,7 @@ class RegisterSuccess extends Component {
         return (
             <div>
                 <p>
-                    You are all set to start using Silica!
+                    You are all set to start using Gobo!
                     <br/>
                     Go ahead and check out your feed
                     <br />

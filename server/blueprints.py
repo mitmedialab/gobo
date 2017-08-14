@@ -16,7 +16,7 @@ def _factory(partial_module_string, url_prefix):
     return blueprint
 
 
-home = _factory('home', '/')
+home = _factory('home', '')
 api = _factory('api', '/api')
 
 

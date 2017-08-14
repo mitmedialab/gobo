@@ -5,7 +5,7 @@ import { Button } from '@blueprintjs/core';
 const Landing = function() {
 	return (
 		<div id={'landing-page'}>
-			<div>Welcome to Silica, login or sign up to start controlling your feed</div>
+			<div>Welcome to Gobo, login or sign up to start controlling your feed</div>
 			<div>
 				<Link to={'/login'}>
 					<Button

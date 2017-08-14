@@ -1,6 +1,6 @@
 {
-  "name": "Silica",
-  "short_name": "Silica",
+  "name": "Gobo",
+  "short_name": "Gobo",
   "lang": "en-US",
   "start_url": "/",
   "display": "standalone",
@@ -8,7 +8,7 @@
   "background_color": "#FFFFFF",
   "icons": [
     {
-      "src": "icon.png",
+      "src": "/static/icon.png",
       "sizes": "72x72 96x96 128x128 192x192 256x256 512x512",
       "type": "image/png"
     }

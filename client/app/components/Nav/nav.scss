@@ -50,7 +50,7 @@
 
 @media (max-width: 900px) {
   .logged .navbar {
-    margin-left: 45px;
+    //margin-left: 45px;
     padding: 10px 15px;
     min-height: 45px;
   }
@@ -62,7 +62,7 @@
 
 @media (max-width: 1467px) and (min-width: 1281px) {
   .logged .navbar{
-    margin-left: 280px;
+    //margin-left: 280px;
   }
 }
 
@@ -99,7 +99,7 @@
 .navbar .nav > li.dropdown .dropdown-menu {
   margin-top: 0;
   padding: 15px 12px;
-  top: 60px;
+  //top: 60px;
   border-radius: 5px;
   background-color: #f9f9f9;
   overflow: hidden;

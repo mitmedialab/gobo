@@ -85,7 +85,6 @@ export default createReducer(initialState, {
             registerStatusText:null,
         }),
     [GET_USER_SUCCESS]: (state, payload) => {
-        console.log(payload);
         return (
             Object.assign({}, state, {
                 isAuthenticating: false,
