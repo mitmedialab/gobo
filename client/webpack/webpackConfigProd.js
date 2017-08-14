@@ -43,6 +43,7 @@ module.exports = {
 				test: /\.scss$/,
 				use: extractSass.extract({
 					use: [
+                        { loader: 'style-loader' }, // creates style nodes from JS strings
 						{ loader: 'css-loader', options: { minimize: true } },
 						{ loader: 'sass-loader' }
 					],
