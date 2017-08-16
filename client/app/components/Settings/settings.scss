@@ -1,4 +1,69 @@
-.settings-panel {
-  background-color: #fff;
-  padding: 0.5em;
+.sidebar {
+  position: fixed;
+  top: $navbar-height;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  display: block;
+  padding: 20px;
+  //overflow-x: hidden;
+  //overflow-y: auto;
+  background-color: #4d4d4d;
+  border-right: 1px solid #8e8e8e;
+  color: #eee;
+
+  padding-bottom: 0;
+  position: fixed;
+  left: 0;
+  overflow: hidden;
+  min-height: 100%;
+}
+.settings-content {
+  height: 100%;
+  //overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.settings-header {
+  text-align: center;
+  border-bottom: 1px solid #8e8e8e;;
+  padding: 1em;
+}
+
+.settings-menu {
+  list-style: none;
+  padding: 1em;
+}
+
+.settings-menu > li > div > a {
+  color: #c7c7c7;
+  overflow: hidden;
+  font-weight: 700;
+}
+
+.setting-item {
+  padding: 30px 50px 15px 30px;
+}
+
+
+@media (min-width: 1281px) {
+  .sb-menu-icon {
+    display: none;
+  }
+}
+
+.sb-menu-icon {
+  float: right;
+  line-height: 28px;
+  text-align: center;
+  color: #eeeff1;
+}
+
+.settings-menu li > div> a.menu-open + .setting-controls {
+  display: block;
+}
+.settings-menu > li > div >  ul {
+  clear: both;
+  display: none;
+  height: auto;
 }

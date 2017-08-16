@@ -14,7 +14,6 @@ from ..core import db
 
 logger = getLogger(__name__)
 
-getLogger('googleapicliet.discovery_cache').setLevel(logging.ERROR)
 
 FACEBOOK_POSTS_FIELDS = ['id','caption','created_time','description','from{picture,name}','icon','link','message','message_tags','name', 'object_id',
                          'parent_id','permalink_url','picture.type(large)','full_picture','place', 'properties', 'shares', 'source', 'status_type', 'story', 'story_tags' ,
@@ -40,7 +39,7 @@ def get_tweets_per_user(self, user_id):
         twitter_auth = TwitterAuth.query.filter_by(user_id=user_id).first()
         twitter = Twython(current_app.config['TWITTER_API_KEY'],current_app.config['TWITTER_API_SECRET'],
                           twitter_auth.oauth_token, twitter_auth.oauth_token_secret)
-        tweets = twitter.get_home_timeline(params={'count':50})
+        tweets = twitter.get_home_timeline(count=200)
     except:
         logger.error('There was an error fetching  twitter timeline from user {}'.format(user_id))
 
@@ -150,7 +149,8 @@ def analyze_toxicity(self, post_id):
     text = post.get_text()
 
     # Generates API client object dynamically based on service name and version.
-    service = discovery.build('commentanalyzer', 'v1alpha1', developerKey=current_app.config['GOOGLE_API_KEY'])
+    # cache_dicovery=False to silence google file_cache error https://github.com/google/google-api-python-client/issues/299
+    service = discovery.build('commentanalyzer', 'v1alpha1', developerKey=current_app.config['GOOGLE_API_KEY'], cache_discovery=False)
 
     analyze_request = {
         'comment': {'text': text},

@@ -17,10 +17,6 @@ from server.blueprints import api
 def load_user(userid):
     return User.query.get(userid)
 
-@api.route('/bla', methods=['GET'])
-def bla():
-    return "bla"
-
 @api.route('/register', methods=['POST'])
 def register():
     json_data = request.json

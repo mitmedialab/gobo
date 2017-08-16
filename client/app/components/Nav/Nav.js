@@ -75,11 +75,12 @@ class NavBar extends Component {
 
 
         const dropDownArrowDir = this.state.dropdownOpen? "up" :"down"
+        const userName = user? (user.facebook_name? user.facebook_name.split(' ')[0] : user.twitter_name? '@'+user.twitter_name : 'User') : 'User'
         const dropdown =
             <li className={dropdownClass}>
                 <a className="dropdown-toggle" onClick={this.toggleDropdown} aria-expanded={this.state.dropdownOpen}>
                     <img src={avatar} className="img-circle" alt="Avatar"/>
-                    {user && <span className="hidden-xs"><span className="name">{user.facebook_name.split(' ')[0]}</span></span>}
+                    {user && <span className="hidden-xs"><span className="name">{userName}</span></span>}
                     <span className={"glyphicon hidden-xs glyphicon-chevron-"+dropDownArrowDir}></span>
                 </a>
                 {dropdownActions}
@@ -92,7 +93,7 @@ class NavBar extends Component {
                     <ul className="nav navbar-nav navbar-left logo">
                         <li>
                         <Link to={'/'}>
-                            <img alt="Gobo" src="static/images/logo.png" height="100%"/>
+                            <img alt="Gobo" src="static/images/logo.png" height="100%" width="auto"/>
                         </Link>
                         </li>
                     </ul>

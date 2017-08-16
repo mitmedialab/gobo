@@ -22,10 +22,17 @@ class Register extends Component {
             step: 1,
         };
         this.nextStep = this.nextStep.bind(this);
+        this.prevStep = this.prevStep.bind(this);
     }
     nextStep() {
         this.setState({
             step : this.state.step + 1
+        })
+    }
+
+    prevStep() {
+        this.setState({
+            step : this.state.step - 1
         })
     }
 
@@ -52,6 +59,11 @@ class Register extends Component {
                 <h1>Registration</h1>
                 <div className="create_account_form">
                 {element}
+
+                    <div>
+                        {this.state.step>3 && <button onClick={this.prevStep} >Back</button>}
+                        {this.state.step>2 && this.state.step<5 && <button onClick={this.nextStep} >Next</button>}
+                    </div>
                 </div>
             </div>
         );

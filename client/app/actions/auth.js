@@ -30,7 +30,6 @@ export function loginUserFailure(error) {
     return {
         type: LOGIN_USER_FAILURE,
         payload: {
-            status: error.response.status,
             statusText: error.response.statusText,
         },
     };
@@ -67,6 +66,7 @@ export function loginUser(email, password) {
                     try {
                         dispatch(loginUserSuccess(response.user));
                     } catch (e) {
+                        console.log(e);
                         dispatch(loginUserFailure({
                         response: {
                             status: 403,

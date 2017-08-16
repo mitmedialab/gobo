@@ -47,7 +47,7 @@ class Post extends Component {
                     postContent = (
                         <div>
                             <video controls poster={post.content.full_picture || post.content.picture}>
-                                <source src={post.content.source} />
+                                <source src={post.content.source} type="video/mp4"/>
                                 Your browser does not support the video tag.
                             </video>
                         </div>
@@ -88,8 +88,17 @@ class Post extends Component {
             weekday: "long", year: "numeric", month: "short",
             day: "numeric", hour: "2-digit", minute: "2-digit"
         };
-        const date = post.content.created_at || post.content.created_time
-        return new Intl.DateTimeFormat('en-US', options).format(new Date(date));
+        const date = post.content.created_at || post.content.created_time;
+
+        // try catch since Safari don't support Intl
+        //todo: fix this with Intl.js or make sure date formatting looks good in safari
+        try {
+            return new Intl.DateTimeFormat('en-US', options).format(new Date(date));
+        }
+        catch (e) {
+            //logMyErrors(e); // pass exception object to error handler
+            return date
+        }
     }
 
     flip() {

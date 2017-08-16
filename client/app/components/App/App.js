@@ -40,7 +40,7 @@ class App extends Component {
 				</Helmet>
 
 				<Nav auth={this.props.auth}/>
-				<div className="container" role="main">
+				<div className="" role="main">
 					<Switch>
 						<Route exact path="/" component={Home} />
 						<Route path="/login" component={Login} />

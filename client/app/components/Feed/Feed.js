@@ -64,24 +64,19 @@ class Feed extends Component {
 
         const postsHtml = posts.map(post=><Post key={post.id} post={post}/>)
         return (
-            <div className={'page'}>
-                <div className= {'container-fluid'}>
-                    <div className= {'row'}>
-                        <div className= {'col-md-8'}>
-
-                            {posts.length==0 && <Loader/>}
-
-                            <div>
-                                {postsHtml}
-                            </div>
-                        </div>
-
-                        <div className= {'col-md-4'}>
-                            <Settings sortByToxicity={this.state.sortByToxicity} onButtonClick={this.sortByToxicityClick}/>
-
-                        </div>
+            <div className="container-fluid">
+                <div className={'row'}>
+                    <div className={"col-sm-3 col-md-2 sidebar"}>
+                        <Settings sortByToxicity={this.state.sortByToxicity} onButtonClick={this.sortByToxicityClick}/>
                     </div>
+                    <div className="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 feed">
+                        {posts.length==0 && <Loader/>}
 
+                        <div>
+                            {postsHtml}
+                        </div>
+
+                    </div>
                 </div>
             </div>
         );
