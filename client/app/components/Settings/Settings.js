@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
+import ReactSlider from 'react-slider';
 
 
 const propTypes = {
@@ -25,18 +26,15 @@ class SettingsItem extends Component {
 
     }
     render() {
-        const toggleClassName = this.state.open? "accordion-toggle" : "accordion-toggle collapsed";
-        const controlsClassName = this.state.open? "setting-controls collapse in" : "setting-controls collapse";
         return(
-        <div>
-            <a className={toggleClassName} onClick={this.toggleOpen}>
-                <span className="caret"></span>
-                <span className="sidebar-title">{this.props.feature.title}</span>
+        <div className="filter-content">
+            <div className="filter-title">
+                <span className="filter-title">{this.props.feature.title}</span>
                 <span className="sb-menu-icon glyphicon glyphicon-home"></span>
-            </a>
-            <ul className={controlsClassName} aria-expanded={this.state.open}>
+            </div>
+            <div className="filter-controls">
                 {this.props.feature.content}
-            </ul>
+            </div>
         </div>
         )
     }
@@ -50,39 +48,55 @@ class Settings extends Component {
                 title:'Rudeness',
                 icon: 'glyphicon-home',
                 content: (
-                    <button className="button active" onClick={()=>this.props.onButtonClick()}>
-                        {this.props.sortByToxicity? "don't" : ""} sort by Toxicity
-                    </button>
+                    <div>
+                        <div>
+                            <ReactSlider defaultValue={[0, 1]} min={0} max={1} step={0.01} withBars />
+                        </div>
+                        <button className="button active" onClick={()=>this.props.onButtonClick()}>
+                            {this.props.sortByToxicity? "don't" : ""} sort by Toxicity
+                        </button>
+                    </div>
                 )
 
             },
             {
                 title:'Gender',
                 content: (
-                    <ul>
-                        <li>news</li>
-                        <li>echo</li>
-                    </ul>
+                    <div>
+                        <ReactSlider defaultValue={50} min={0} max={100} withBars/>
+                        <div>
+                            <span><button></button> Mute all men</span>
+                        </div>
+                    </div>
                 )
 
             },
             {
                 title:'Corporate',
                 content: (
-                    <ul>
-                        <li>news</li>
-                        <li>echo</li>
-                    </ul>
+                    <div>
+                        <span>
+                        <input
+                                className="checkbox"
+                                name="corporate"
+                                type="checkbox"
+                                checked={true}
+                                onChange={console.log('corporate changed')} />
+                            <label className="checkbox-label">
+                            Show content from corporates
+                            </label>
+                        </span>
+
+                    </div>
                 )
 
             },
             {
                 title:'Virality',
                 content: (
-                    <ul>
-                        <li>news</li>
-                        <li>echo</li>
-                    </ul>
+                    <div>
+                        <ReactSlider defaultValue={0.5} min={0} max={1} step={0.01} withBars />
+                    </div>
                 )
 
             },
@@ -98,19 +112,26 @@ class Settings extends Component {
         ];
         return (
             <div className="settings-content">
-                <header className="settings-header">
-                    <h1>Filters</h1>
-                </header>
-
                 <ul className="settings-menu">
+                    <li className="filter">
+                        <header className="settings-header">
+                            <h1>Filters</h1>
+                        </header>
+                    </li>
                     {settings.map(feature=>(
-                    <li className="setting-item" key={feature.title}>
+                    <li className="setting-item filter" key={feature.title}>
                         <SettingsItem feature={feature}/>
 
                     </li>))}
+
+                 <li>
+                     <div className="filter submit-button">
+                         <button> update your filters </button>
+                     </div>
+                 </li>
                 </ul>
 
-                <button> update your filters </button>
+
 
             </div>
         );

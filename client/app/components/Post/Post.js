@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 
 const propTypes = {
@@ -99,6 +100,8 @@ class Post extends Component {
             //logMyErrors(e); // pass exception object to error handler
             return date
         }
+
+        // return moment(date).fromNow();
     }
 
     flip() {

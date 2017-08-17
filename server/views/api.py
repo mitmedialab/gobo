@@ -147,4 +147,4 @@ def getFacebookLongAuth(token):
 @api.route('/get_posts', methods=['GET'])
 @login_required
 def get_posts():
-    return jsonify({'posts': [post.as_dict() for post in current_user.posts.order_by(Post.retrieved_at.desc())][:300]})
+    return jsonify({'posts': [post.as_dict() for post in current_user.posts.order_by(Post.retrieved_at)][:300]})

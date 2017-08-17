@@ -69,7 +69,7 @@ class Feed extends Component {
                     <div className="col-sm-9 col-md-9 feed">
                         {posts.length==0 && <Loader/>}
 
-                        <div>
+                        <div className="posts">
                             {postsHtml}
                         </div>
 

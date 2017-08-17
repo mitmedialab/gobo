@@ -5,10 +5,10 @@
   right: 0;
   z-index: 1000;
   display: block;
-  padding: 20px;
+  padding: 0;
   //overflow-x: hidden;
   //overflow-y: auto;
-  background-color: $color2;
+  background-color:#fff; //$color2;
   //border-left: 1px solid #8e8e8e;
   color: #8e8e8e; //$text-color;
 
@@ -17,7 +17,56 @@
   right: 0;
   overflow: hidden;
   min-height: 100%;
+
+  .submit-button {
+    text-align: center;
+    padding: 1em
+  }
+
+  .checkbox {
+    -webkit-appearance: none;
+    background-color: rgba(0,0,0,0);
+    border: 1px solid $text-color;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+    //border-radius: 3px;
+    display: inline-block;
+    position: relative;
+    padding: 0;
+    margin:0;
+    vertical-align: bottom;
+    position: relative;
+    top: -1px;
+    height: 28px;
+    width:28px;
+  }
+
+  .checkbox:active, .regular-checkbox:checked:active {
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+  }
+
+  .checkbox:checked {
+    background-color: rgba(0,0,0,0);//#e9ecee;
+    border: 1px solid #adb8c0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+    color: #99a1a7;
+  }
+
+  .checkbox:checked:after {
+    content: '\2714';
+    font-size: 20px;
+    position: absolute;
+    top: 0px;
+    left: 6px;
+    color: $text-color;
+  }
+
+  .checkbox-label {
+    padding-left: 1em;
+    font-weight: 300;
+  }
 }
+
+
 .settings-content {
   height: 100%;
   //overflow-y: scroll;
@@ -26,14 +75,13 @@
 
 .settings-header {
   text-align: center;
-  border-bottom: 1px solid #8e8e8e;;
   padding: 1em;
   color: $color1
 }
 
 .settings-menu {
   list-style: none;
-  padding: 1em;
+  padding: 0;
 }
 
 .settings-menu > li > div > a {
@@ -74,4 +122,82 @@
   button {
     color: #000;
   }
+}
+
+.filter:nth-child(odd) {
+  background: #fff;
+}
+
+.filter:nth-child(even) {
+  background: $color2;
+}
+
+.filter {
+  width: 100%
+}
+
+.filter-title {
+  color:$color1;
+  font-weight:600;
+  font-size:1.1em;
+}
+
+.filter-controls {
+  padding: 1em 0;
+
+}
+
+
+
+
+// react-slider
+
+@mixin shadow($shadow-size, $shadow-blur, $shadow-color) {
+  box-shadow: $shadow-size $shadow-size $shadow-blur $shadow-color, 0 0 $shadow-size lighten($shadow-color, 5%);
+}
+$thumb-shadow-size: 2px !default;
+$thumb-shadow-blur: 2px !default;
+$thumb-shadow-color: rgba(0, 0, 0, .2) !default;
+
+$handle-height: 24px;
+.slider {
+  width: 100%;
+  max-width: 500px;
+  height: $handle-height + 2;
+  margin-bottom: 20px;
+  //margin-top: 1.8em;
+}
+
+.handle {
+  font-size: 0.9em;
+  text-align: center;
+  background-color: $text-color;
+  color: white;
+  cursor: pointer;
+}
+.handle.active {
+  background-color: grey;
+}
+.bar {
+  position: relative;
+  background: $text-color;
+}
+.bar.bar-0 {
+  background: $text-color;
+}
+.bar.bar-1 {
+  background: #d545c6;
+}
+.bar.bar-2 {
+  background: $text-color;
+}
+.slider .bar {
+  top: 20px;
+  height: 3px;
+}
+.slider .handle {
+  top: 10px;
+  width: 10px ;
+  height: $handle-height;
+  @include shadow($thumb-shadow-size, $thumb-shadow-blur, $thumb-shadow-color);
 }

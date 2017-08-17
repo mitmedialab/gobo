@@ -8,7 +8,12 @@
 
   .date {
     font-size:0.8em;
-    color: #b1b0b1;
+    color: $text-color;
+    position: absolute;
+    right: 0;
+    top:0;
+    padding: 2em;
+    font-weight: 100;
   }
 
   .toxicity {
@@ -131,4 +136,8 @@
 .footer-text:hover {
   color: darken($text-color, 20%);
   text-decoration: none;
+}
+
+.post-container {
+  padding-bottom: 1em;
 }
