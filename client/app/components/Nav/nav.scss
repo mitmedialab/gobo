@@ -10,6 +10,7 @@
   border-radius: 0;
   border: 0;
   box-shadow: none;
+  background-color: $color1;
 }
 
 .navbar .logo {
@@ -86,7 +87,7 @@
 }
 
 .nav > li > a .name {
-  color: #a2a5aa;
+  color: #fff;
   padding-left: 8px;
   font-size: 16px;
   font-weight: 700;
@@ -175,6 +176,7 @@
   text-align: center;
   margin-left: 10px;
   border-radius: 3px;
+  color: #fff;
 }
 
 .navbar-user a > .glyphicon {
@@ -190,6 +192,25 @@
   font-size: 17px;
   color: #2a3342;
 }
+
+.logo-title {
+  color: #fff;
+  font-weight: 800;
+  font-size: 1em;
+  padding-left:10px;
+}
+
+.dropdown-toggle:hover, .dropdown-toggle:focus {
+  background-color: darken($color1, 20%);
+}
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+  background-color: darken($color1, 20%);
+}
+.nav > li > a:hover, .nav > li > a:focus {
+  background-color: darken($color1, 20%);
+}
+
+
 
 //@media (max-width: 599px) {
 //  .navbar > .navbar-right, .navbar .navbar-nav > li.dropdown, .navbar .navbar-nav > li.dropdown .navbar-btn {

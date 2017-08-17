@@ -192,6 +192,13 @@
   -o-transform: $transform;
 }
 
+@mixin transform-style ($transform) {
+  transform-style: $transform;
+  -webkit-transform: $transform;
+  -moz-transform: $transform;
+  -o-transform: $transform;
+}
+
 @mixin animation($animation) {
   -webkit-animation: $animation;
   -moz-animation: $animation;

@@ -11,6 +11,7 @@ $layer5: 10000;
 $layer-bottom: $layer1;
 $layer-top: $layer5;
 
+
 .input_group {
 @include display(relative);
   width: 100%;
@@ -88,7 +89,7 @@ $layer-top: $layer5;
     outline: none;
     padding: 18px 15px 0 15px;
     margin: 0 auto 13px auto;
-    color: $dark-blue;
+    color: $text-color;
     letter-spacing: .7px;
     font-family: 'Roboto', sans-serif;
     font-weight: 300;

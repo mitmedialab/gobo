@@ -89,11 +89,12 @@ class NavBar extends Component {
         return (
 
 			<header className={this.props.auth.isAuthenticated? "logged" : ""}>
-				<nav className="navbar navbar-fixed-top navbar-inverse">
+				<nav className="navbar navbar-fixed-top">
                     <ul className="nav navbar-nav navbar-left logo">
                         <li>
                         <Link to={'/'}>
-                            <img alt="Gobo" src="static/images/logo.png" height="100%" width="auto"/>
+                            <img alt="Gobo" src="static/images/gobo_temp_logo.png" height="100%" width="auto"/>
+                            <span className="logo-title">GOBO</span>
                         </Link>
                         </li>
                     </ul>

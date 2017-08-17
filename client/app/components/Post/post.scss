@@ -3,7 +3,7 @@
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.35);
 
   .author {
-    font-weight:600;
+    font-weight:700;
   }
 
   .date {
@@ -17,6 +17,8 @@
 
   .post-header{
     display: inline-block;
+    padding-bottom: 1em;
+
 
   }
 
@@ -27,6 +29,8 @@
 
   .post-header-details {
     display:inline-block;
+    margin-left: 15px;
+    vertical-align: middle;
   }
 
   .post-inner-content {
@@ -50,14 +54,9 @@
   .post-footer {
     //position: absolute;
     width: 100%;
-    background-color: #797979;
+    background-color: $color2;
     padding: 0.4em;
     text-align: center;
-    color: #fff;
-
-    a {
-      color: #fff;
-    }
     bottom:0px;
     position: absolute;
   }
@@ -66,7 +65,9 @@
 
 
 .flip-container {
-  @include transform(perspective(1000px));
+  @include transform(perspective(900px));
+  //@include transform-style(preserve-3d);
+  perspective: 900px;
 }
 
 .flipper.flipped {
@@ -74,17 +75,10 @@
 }
 
 .flipper {
-  -webkit-transition: 0.6s;
-  -webkit-transform-style: preserve-3d;
 
-  -moz-transition: 0.6s;
-  -moz-transform-style: preserve-3d;
+  @include transition(0.8s);
+  @include transform-style(preserve-3d);
 
-  -o-transition: 0.6s;
-  -o-transform-style: preserve-3d;
-
-  transition: 0.6s;
-  transform-style: preserve-3d;
 
   position: relative;
 }
@@ -116,4 +110,25 @@
   position: relative;
   top: 50%;
   transform: translateY(-50%);
+}
+
+.post-inner-content div> img {
+  max-width: 100%;
+}
+
+.source-icon {
+  float: left;
+}
+
+.footer-text {
+  color: $text-color;
+  float: right;
+  margin-right:1em;
+  border-bottom: 1px dotted $text-color;
+  text-decoration: none;
+}
+
+.footer-text:hover {
+  color: darken($text-color, 20%);
+  text-decoration: none;
 }

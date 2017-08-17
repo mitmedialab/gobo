@@ -2,19 +2,19 @@
   position: fixed;
   top: $navbar-height;
   bottom: 0;
-  left: 0;
+  right: 0;
   z-index: 1000;
   display: block;
   padding: 20px;
   //overflow-x: hidden;
   //overflow-y: auto;
-  background-color: #4d4d4d;
-  border-right: 1px solid #8e8e8e;
-  color: #eee;
+  background-color: $color2;
+  //border-left: 1px solid #8e8e8e;
+  color: #8e8e8e; //$text-color;
 
   padding-bottom: 0;
   position: fixed;
-  left: 0;
+  right: 0;
   overflow: hidden;
   min-height: 100%;
 }
@@ -28,6 +28,7 @@
   text-align: center;
   border-bottom: 1px solid #8e8e8e;;
   padding: 1em;
+  color: $color1
 }
 
 .settings-menu {
@@ -36,7 +37,7 @@
 }
 
 .settings-menu > li > div > a {
-  color: #c7c7c7;
+  //color: #c7c7c7;
   overflow: hidden;
   font-weight: 700;
 }
@@ -56,7 +57,7 @@
   float: right;
   line-height: 28px;
   text-align: center;
-  color: #eeeff1;
+  //color: #eeeff1;
 }
 
 .settings-menu li > div> a.menu-open + .setting-controls {
@@ -66,4 +67,11 @@
   clear: both;
   display: none;
   height: auto;
+
+}
+
+.settings-menu {
+  button {
+    color: #000;
+  }
 }

@@ -90,13 +90,13 @@
       &:hover,
       &:focus {
         color: $button-default-color;
-        background: $light-blue;
+        background: darken($button-default-bg, 10%);
       }
 
       &:active,
       &.active {
         @include box-shadow(none);
-        background: lighten($light-blue, 10%);
+        background: darken($button-default-bg, 20%);
       }
     }
 
@@ -118,7 +118,7 @@
       &:hover {
         svg {
           path {
-            fill: $light-blue;
+            fill: $color2;
           }
         }
       }

@@ -99,7 +99,7 @@ class Settings extends Component {
         return (
             <div className="settings-content">
                 <header className="settings-header">
-                    <h1>Settings</h1>
+                    <h1>Filters</h1>
                 </header>
 
                 <ul className="settings-menu">
@@ -109,6 +109,8 @@ class Settings extends Component {
 
                     </li>))}
                 </ul>
+
+                <button> update your filters </button>
 
             </div>
         );

@@ -38,7 +38,7 @@ class Post extends Component {
                 case 'photo': {
                     postContent = (
                         <div>
-                            <img width="100%" src={post.content.full_picture || post.content.picture}/>
+                            <img src={post.content.full_picture || post.content.picture}/>
                         </div>
                     )
                     break;
@@ -75,7 +75,7 @@ class Post extends Component {
 
     getFromString() {
         const post = this.props.post;
-        var from = post.source=='twitter'? '@'+post.content.user.name : post.content.from.name
+        var from = post.source=='twitter'? '@'+post.content.user.screen_name : post.content.from.name
         if (post.source=='facebook' && post.content.post_user &&  post.content.status_type=='wall_post' && post.content.from.name!=post.content.post_user.name) {
             from += ' ▶ '+ post.content.post_user.name
         }
@@ -129,6 +129,8 @@ class Post extends Component {
         const content = this.makePostContent();
         const flippedClass = this.state.flipped? "flipped": "";
 
+        const srcIconClass = source=='twitter'? "source-icon icon-twitter-squared": "source-icon icon-facebook-squared";
+
         return (
             <div className="post-container">
             <div className={"flip-container "}>
@@ -136,22 +138,21 @@ class Post extends Component {
                         <div className="front">
                             <div className="post-content">
                                 <div className="post-header">
-                                    <div className="avatar">
-                                        <img src={pic_src} />
-                                    </div>
+                                    <img className="img-circle" src={pic_src} />
                                     <div className="post-header-details">
                                         <div className="author">
                                             {from}
                                         </div>
                                         <div className="date">
-                                            {dateString} <span className="badge">{source}</span>
+                                            {dateString}
                                         </div>
                                     </div>
                                 </div>
                                 {content}
                             </div>
                             <div className="post-footer">
-                                <a onClick={this.flip}>Why am I seeing this post?</a>
+                                <i className={srcIconClass}></i>
+                                <a className="footer-text" onClick={this.flip}>Why am I seeing this post?</a>
                             </div>
                         </div>
 
@@ -164,7 +165,8 @@ class Post extends Component {
                             </div>
 
                             <div className="post-footer">
-                                <a onClick={this.unFlip}>Back to post</a>
+                                <i className={srcIconClass}></i>
+                                <a className="footer-text" onClick={this.unFlip}>Back to post</a>
                             </div>
                         </div>
                 </div>
