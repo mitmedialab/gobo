@@ -1,3 +1,9 @@
 .posts {
   padding: 3em;
 }
+
+@media (max-width: 768px) {
+  .posts {
+    padding: 0;
+  }
+}

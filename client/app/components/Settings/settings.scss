@@ -171,7 +171,7 @@ $handle-height: 24px;
 .handle {
   font-size: 0.9em;
   text-align: center;
-  background-color: $text-color;
+  background-color: lighten($text-color, 10%);
   color: white;
   cursor: pointer;
 }
@@ -180,17 +180,13 @@ $handle-height: 24px;
 }
 .bar {
   position: relative;
-  background: $text-color;
+  background: lighten($text-color, 10%);
 }
-.bar.bar-0 {
-  background: $text-color;
-}
+
 .bar.bar-1 {
-  background: #d545c6;
+  background: darken($color1, 20%);
 }
-.bar.bar-2 {
-  background: $text-color;
-}
+
 .slider .bar {
   top: 20px;
   height: 3px;
