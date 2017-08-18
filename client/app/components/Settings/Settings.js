@@ -52,6 +52,8 @@ class Settings extends Component {
                         <div>
                             <ReactSlider defaultValue={[0, 1]} min={0} max={1} step={0.01} withBars />
                         </div>
+                        <br/>
+                        <br/>
                         <button className="button active" onClick={()=>this.props.onButtonClick()}>
                             {this.props.sortByToxicity? "don't" : ""} sort by Toxicity
                         </button>
@@ -64,6 +66,12 @@ class Settings extends Component {
                 content: (
                     <div>
                         <ReactSlider defaultValue={50} min={0} max={100} withBars/>
+                        <div>
+                            <span style={{'float':'left'}}> 100% men</span>
+                            <span style={{'float':'right'}}> 100% women</span>
+                        </div>
+                        <br/>
+                        <br/>
                         <div>
                             <span><button></button> Mute all men</span>
                         </div>

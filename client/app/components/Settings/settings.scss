@@ -12,7 +12,7 @@
   //border-left: 1px solid #8e8e8e;
   color: #8e8e8e; //$text-color;
 
-  padding-bottom: 0;
+  padding-bottom: 4em;
   position: fixed;
   right: 0;
   overflow: hidden;
@@ -101,6 +101,12 @@
   }
 }
 
+@media (max-width: 900px) {
+  .sidebar {
+    display: none;
+  }
+}
+
 .sb-menu-icon {
   float: right;
   line-height: 28px;
@@ -164,7 +170,7 @@ $handle-height: 24px;
   width: 100%;
   max-width: 500px;
   height: $handle-height + 2;
-  margin-bottom: 20px;
+  margin-bottom: 2px;
   //margin-top: 1.8em;
 }
 
