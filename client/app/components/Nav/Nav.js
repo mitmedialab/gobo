@@ -79,7 +79,7 @@ class NavBar extends Component {
         const dropdown =
             <li className={dropdownClass}>
                 <a className="dropdown-toggle" onClick={this.toggleDropdown} aria-expanded={this.state.dropdownOpen}>
-                    <img src={avatar} className="img-circle" alt="Avatar"/>
+                    <img src={avatar} className="img-circle avatar" alt="Avatar"/>
                     {user && <span className="hidden-xs"><span className="name">{userName}</span></span>}
                     <span className={"glyphicon hidden-xs glyphicon-chevron-"+dropDownArrowDir}></span>
                 </a>

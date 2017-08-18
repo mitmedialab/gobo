@@ -1,6 +1,11 @@
 .nav>li>a>img {
-  max-height: 30px;
+  max-height: 40px;
   height:auto;
+}
+
+.avatar {
+  height: 40px;
+  width: 40px;
 }
 
 .navbar {
@@ -196,8 +201,13 @@
 .logo-title {
   color: #fff;
   font-weight: 800;
-  font-size: 1em;
+  font-size: 2em;
   padding-left:10px;
+  vertical-align: middle;
+}
+
+.logo {
+  height: 40px;
 }
 
 .dropdown-toggle:hover, .dropdown-toggle:focus {

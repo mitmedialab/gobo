@@ -26,6 +26,7 @@ $navbar-default-color: #fff;
 
 $font: 'Nunito Sans', sans-serif;
 
+$navbar-height: 60px;
 
 $icon-font-path: "/static/bootstrap-fonts/";
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
@@ -33,6 +34,8 @@ $icon-font-path: "/static/bootstrap-fonts/";
 // ---- icons -----
 $font-path: "/static/custom-icons/fontello";
 $font-name: "83789668";
+
+
 
 @font-face {
 	font-family: 'fontello';

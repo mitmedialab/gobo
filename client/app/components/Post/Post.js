@@ -62,7 +62,7 @@ class Post extends Component {
         }
 
         return (
-            <div>
+            <div className="post-content-text">
                 <div>
                     {post.content.story}
                 </div>
@@ -154,8 +154,10 @@ class Post extends Component {
                                 {content}
                             </div>
                             <div className="post-footer">
+                                <div className="footer-content">
                                 <i className={srcIconClass}></i>
                                 <a className="footer-text" onClick={this.flip}>Why am I seeing this post?</a>
+                                </div>
                             </div>
                         </div>
 
@@ -168,8 +170,10 @@ class Post extends Component {
                             </div>
 
                             <div className="post-footer">
-                                <i className={srcIconClass}></i>
-                                <a className="footer-text" onClick={this.unFlip}>Back to post</a>
+                                <div className="footer-content">
+                                    <i className={srcIconClass}></i>
+                                    <a className="footer-text" onClick={this.unFlip}>Back to post</a>
+                                </div>
                             </div>
                         </div>
                 </div>
