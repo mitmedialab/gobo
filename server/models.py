@@ -1,5 +1,6 @@
 import datetime
 from server.core import db, bcrypt
+from server.enums import GenderEnum
 
 post_associations_table = db.Table('posts_associations', db.metadata,
     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
@@ -35,10 +36,14 @@ class User(db.Model):
     posts = db.relationship("Post",
                     secondary=post_associations_table, lazy='dynamic', cascade="all")
 
+    settings = db.relationship("Settings", uselist=False, back_populates="user")
+
     def __init__(self, email, password):
         self.email = email
         self.password = bcrypt.generate_password_hash(password)
         self.registered_on = datetime.datetime.now()
+        settings = Settings()
+        self.settings = settings
 
     def is_authenticated(self):
         return True
@@ -111,6 +116,21 @@ class TwitterAuth(db.Model):
         self.oauth_token = oauth_token
         self.oauth_token_secret = oauth_token_secret
 
+class Settings(db.Model):
+    __tablename__ = "user_settings"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship("User", back_populates="settings")
+    rudeness_min = db.Column(db.Float, db.CheckConstraint('rudeness_min>=0'), default=0)
+    rudeness_max = db.Column(db.Float, db.CheckConstraint('rudeness_max<=1'), default=1)
+    gender_female_per = db.Column(db.Integer, db.CheckConstraint('gender_female_per<=0 AND gender_female_per<=100'), default=50)
+    corporate = db.Column(db.Boolean, default=True)
+    virality_min = db.Column(db.Float, db.CheckConstraint('virality_min>=0'), default=0)
+    virality_max = db.Column(db.Float, db.CheckConstraint('virality_max<=1'), default=1)
+
+    rudeness_ck = db.CheckConstraint('rudeness_max>rudeness_min')
+    virality_ck = db.CheckConstraint('virality_max>virality_min')
+
 class Post(db.Model):
     __tablename__ = "posts"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -118,10 +138,13 @@ class Post(db.Model):
     content = db.Column(db.JSON, nullable=False)
     source = db.Column(db.String(255), nullable=False)
     retrieved_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime)
 
     # filters
     is_news = db.Column(db.Boolean)
     toxicity = db.Column(db.Float)
+    gender = db.Column(db.Enum(GenderEnum))
+    is_corporate = db.Column(db.Boolean)
 
     db.UniqueConstraint('source_id', 'source', name='post_id')
 
@@ -132,9 +155,15 @@ class Post(db.Model):
         self.content = content
         self.is_news = is_news
         self.retrieved_at = datetime.datetime.now()
+        if source=='twitter':
+            self.created_at = datetime.datetime.strptime(content['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
+        else:
+            self.created_at = datetime.datetime.strptime(content['created_time'], '%Y-%m-%dT%H:%M:%S+0000')
 
     def as_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+        d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name!='gender'}
+        d['gender'] = str(self.gender)
+        return d
 
     def get_text(self):
         # TODO: logic fore getting text - should we get text from link shared, etc?
@@ -154,5 +183,13 @@ class Post(db.Model):
     def update_toxicity(self, score):
         self.toxicity = score
         db.session.commit()
+
+    def update_gender_corporate(self, gender, corporate):
+        self.gender = gender
+        self.is_corporate = corporate
+        db.session.commit()
+
+    def get_author_name(self):
+        return self.content['from']['name'] if self.source=='facebook' else self.content['user']['name']
 
 

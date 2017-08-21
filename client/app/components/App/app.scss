@@ -33,7 +33,7 @@ $icon-font-path: "/static/bootstrap-fonts/";
 
 // ---- icons -----
 $font-path: "/static/custom-icons/fontello";
-$font-name: "83789668";
+$font-name: "57591976";
 
 
 
@@ -101,7 +101,7 @@ $font-name: "83789668";
 
 body {
 	margin: 0;
-	padding-top: calc(2em + #{$navbar-height});
+	padding-top: $navbar-height + 20;
 	width: 100vw;
 	overflow-x: hidden;
 	background-color: $background;

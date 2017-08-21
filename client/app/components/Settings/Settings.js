@@ -73,7 +73,16 @@ class Settings extends Component {
                         <br/>
                         <br/>
                         <div>
-                            <span><button></button> Mute all men</span>
+                            <span><input
+                                className="checkbox"
+                                name="corporate"
+                                type="checkbox"
+                                checked={true}
+                                onChange={console.log('corporate changed')}
+                                readOnly/>
+                            <label className="checkbox-label">
+                            Mute all men
+                            </label> </span>
                         </div>
                     </div>
                 )
@@ -89,7 +98,8 @@ class Settings extends Component {
                                 name="corporate"
                                 type="checkbox"
                                 checked={true}
-                                onChange={console.log('corporate changed')} />
+                                onChange={console.log('corporate changed')}
+                                readOnly/>
                             <label className="checkbox-label">
                             Show content from corporates
                             </label>

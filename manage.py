@@ -6,13 +6,13 @@ from flask_script import Manager
 from server.factory import create_app
 from server.core import db
 
+
 env = os.getenv('FLASK_ENV', 'dev')
 app = create_app(env.lower())
 manager = Manager(app)
 
 # migrations
 manager.add_command('db', MigrateCommand)
-
 
 @manager.command
 def create_db():

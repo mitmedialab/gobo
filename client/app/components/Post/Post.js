@@ -1,11 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+// import FacebookProvider, { EmbeddedPost } from 'react-facebook';
+// import { Tweet } from 'react-twitter-widgets'
+
 
 
 const propTypes = {
     post: PropTypes.object.isRequired,
 };
+
+class TweetFix extends Component {
+    shouldComponentUpdate() {
+        return false
+    }
+
+    render() {
+        return <Tweet {...this.props} />
+    }
+}
 
 class Post extends Component {
 
@@ -21,14 +34,23 @@ class Post extends Component {
         this.flip = this.flip.bind(this);
         this.unFlip = this.unFlip.bind(this);
     }
+
+    // componentDidMount() {
+    //     FB.XFBML.parse();
+    // }
     makePostContent() {
         const post = this.props.post;
-        var text = post.source=='twitter'? post.content.text : post.content.message || '';
+        var text = post.source=='twitter'? (post.content.text || post.content.full_text) : post.content.message || '';
         text = text.replace(new RegExp('↵', 'g'), '<br/>');
 
         var postContent  = null;
 
         if (post.source=='facebook') {
+
+            // <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3D1827785300581311%26id%3D555898814436639&width=500"
+            //         width="500" height="754" style={{'border':'none', 'overflow':'hidden'}}scrolling="no"
+            //         frameBorder="0" allowTransparency="true"></iframe>
+
             switch (post.content.type) {
                 case 'link': {
                     break;
@@ -60,6 +82,12 @@ class Post extends Component {
                 }
             }
         }
+        else {
+            const tweet = 'https://twitter.com/intent/tweet?in_reply_to=897819616369573888';
+            const retweet = 'https://twitter.com/intent/retweet?tweet_id=897819616369573888';
+            const like = 'https://twitter.com/intent/like?tweet_id=897819616369573888';
+            // return (<TweetFix tweetId={post.content.id_str} options={{width:'auto', dnt:true, link_color:'#ff3b3f'}}></TweetFix>)
+        }
 
         return (
             <div className="post-content-text">
@@ -76,7 +104,7 @@ class Post extends Component {
 
     getFromString() {
         const post = this.props.post;
-        var from = post.source=='twitter'? '@'+post.content.user.screen_name : post.content.from.name
+        var from = post.source=='twitter'? post.content.user.name : post.content.from.name
         if (post.source=='facebook' && post.content.post_user &&  post.content.status_type=='wall_post' && post.content.from.name!=post.content.post_user.name) {
             from += ' ▶ '+ post.content.post_user.name
         }
@@ -89,7 +117,7 @@ class Post extends Component {
             weekday: "long", year: "numeric", month: "short",
             day: "numeric", hour: "2-digit", minute: "2-digit"
         };
-        const date = post.content.created_at || post.content.created_time;
+        const date = post.created_at || post.content.created_at || post.content.created_time;
 
         // try catch since Safari don't support Intl
         //todo: fix this with Intl.js or make sure date formatting looks good in safari
@@ -166,6 +194,8 @@ class Post extends Component {
                             <div className="back-content">
                                 <div className="toxicity">
                                     Toxicity: {post.toxicity}
+                                    <br/>
+                                    Gender: {post.gender.split('.')[1]}
                                 </div>
                             </div>
 

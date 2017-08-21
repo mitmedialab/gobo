@@ -19,6 +19,16 @@
 			<a class="no-script" href="http://enable-javascript.com/">Javascript must me enabled to use this site.</a>
 		</noscript>
 
+		<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=199136627285595";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
 		<react>
 			<div class="navbar-page"><div class="navbar"></div></div>
 			<div id="app-loading">
@@ -29,6 +39,8 @@
 				</div>
 			</div>
 		</react>
+
+
 
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch,Intl.~locale.en"></script>
 		<!--<script type="text/javascript" src="/bootstrap.min.js"></script>-->

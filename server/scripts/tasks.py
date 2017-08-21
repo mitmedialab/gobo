@@ -9,8 +9,11 @@ from googleapiclient import discovery
 import json
 
 from ..models import User, FacebookAuth, TwitterAuth, Post
+from ..enums import GenderEnum
 from .celery import celery
 from ..core import db
+
+from .name_gender import NameGender
 
 logger = getLogger(__name__)
 
@@ -20,6 +23,8 @@ FACEBOOK_POSTS_FIELDS = ['id','caption','created_time','description','from{pictu
                          'type','updated_time','likes.summary(true)','reactions.summary(true)','comments.summary(true)']
 
 FACEBOOK_URL = 'https://graph.facebook.com/v2.10/'
+
+name_gender_analyzer = NameGender()
 
 @celery.task(serializer='json', bind=True)
 def get_posts_data_for_all_users(self):
@@ -39,7 +44,7 @@ def get_tweets_per_user(self, user_id):
         twitter_auth = TwitterAuth.query.filter_by(user_id=user_id).first()
         twitter = Twython(current_app.config['TWITTER_API_KEY'],current_app.config['TWITTER_API_SECRET'],
                           twitter_auth.oauth_token, twitter_auth.oauth_token_secret)
-        tweets = twitter.get_home_timeline(count=200)
+        tweets = twitter.get_home_timeline(count=200, tweet_mode='extended')
     except:
         logger.error('There was an error fetching  twitter timeline from user {}'.format(user_id))
 
@@ -133,15 +138,19 @@ def _add_post(user, post, source):
             user.posts.append(post_item)
         db.session.commit()
         success = True
-        if not post_item.has_toxicity_rate():
-            analyze_toxicity.delay(post_item.id)
+        analyze_post.delay(post_item.id)
     except:
         logger.error('An error adding post {} from tweeter to user {}'.format(post['id'], user.id))
         success = False
     return {'success': success, 'added_new':added_new}
 
 @celery.task(serializer='json', bind=True)
-def analyze_toxicity(self, post_id):
+def analyze_post(self, post_id):
+    analyze_toxicity(post_id)
+    analyze_gender_corporate(post_id)
+
+
+def analyze_toxicity(post_id):
     post = Post.query.get(post_id)
     if not post or post.has_toxicity_rate():
         logger.warning("post {} doesn't exist or already has toxicity rate".format(post_id))
@@ -165,3 +174,17 @@ def analyze_toxicity(self, post_id):
         logger.info('could not get toxicity score for post {}'.format(post_id))
         score = -1
     post.update_toxicity(score)
+
+def analyze_gender_corporate(post_id):
+    post = Post.query.get(post_id)
+    is_facebook = post.source=='facebook'
+    gender = GenderEnum.unknown
+    corporate = False
+    if is_facebook and 'gender' in post.content['from']:
+        gender = GenderEnum.fromString(post.content['from']['gender'])
+    else:
+        score = name_gender_analyzer.process(post.get_author_name())
+        gender = score['result']
+    if gender==GenderEnum.unknown or (is_facebook and 'category' in post.content['from']):
+        corporate = True
+    post.update_gender_corporate(gender, corporate)
