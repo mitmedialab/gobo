@@ -63,3 +63,12 @@ To Deploy on Heroku:
     run `heroku buildpacks` to make sure the correct buildpacks are set.
 - Push to heroku: `git push heroku heroku-deploy:master`
 **!!! - Make sure to noth push this anywhere else!! as this contains sensitive data! - !!!**
+
+###### Edit:
+We need to manually add the migration for generating enum types.
+To do that, in your "heroku-deploy" bracnh, after the config.py is up to date with the right db address run:
+```bazaar
+source venv/bin/activate
+python manage.py db revision -m "create_gender_enum"
+```
+This will create a file `migrations/versions/hash#_create_gender_enum`
