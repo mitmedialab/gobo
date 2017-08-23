@@ -62,7 +62,7 @@ logs/*.log
 /client/yarn-debug.log*
 /client/yarn-error.log*
 
-migrations/
+migrations/versions
 server/dev.sqlite
 
 dump.rdb
