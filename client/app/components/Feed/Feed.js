@@ -54,7 +54,7 @@ class Feed extends Component {
         const max_virality = virality_scores.reduce(function(a, b) {
             return Math.max(a, b);
         }, 0);
-        
+
         this.props.feed.posts.forEach(post=>{
             var keep = true;
             if (post.is_corporate && !settings.include_corporate) {

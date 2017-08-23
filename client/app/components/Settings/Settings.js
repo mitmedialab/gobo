@@ -167,6 +167,9 @@ class Settings extends Component {
                     <li className="filter">
                         <header className="settings-header">
                             <h1>Filters</h1>
+                            <div className="submit-button">
+                                <button onClick={this.updateSettings}> Save Changes </button>
+                            </div>
                         </header>
                     </li>
                     {settings.map(feature=>(
@@ -174,12 +177,6 @@ class Settings extends Component {
                         <SettingsItem feature={feature}/>
 
                     </li>))}
-
-                 <li>
-                     <div className="filter submit-button">
-                         <button onClick={this.updateSettings}> update your filters </button>
-                     </div>
-                 </li>
                 </ul>
 
 
