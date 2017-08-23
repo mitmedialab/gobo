@@ -152,6 +152,7 @@ class Post extends Component {
         const flippedClass = this.state.flipped? "flipped": "";
 
         const srcIconClass = source=='twitter'? "source-icon icon-twitter-squared": "source-icon icon-facebook-squared";
+        const sourceLink = source=='twitter'? "https://twitter.com/": "https://www.facebook.com/";
 
         return (
             <div className="post-container">
@@ -174,7 +175,7 @@ class Post extends Component {
                             </div>
                             <div className="post-footer">
                                 <div className="footer-content">
-                                <i className={srcIconClass}></i>
+                                <a href={sourceLink} target="_blank" className={srcIconClass}></a>
                                 <a className="footer-text" onClick={this.flip}>Why am I seeing this post?</a>
                                 </div>
                             </div>

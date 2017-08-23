@@ -130,11 +130,13 @@ $post-padding: 30px;
   max-width: 100%;
 }
 
-.source-icon {
-  float: left;
-  font-size: 20px;
-  color: #fff;
-}
+.source-icon, .source-icon:hover{
+   float: left;
+   font-size: 20px;
+   color: #fff;
+   text-decoration: none;
+ }
+
 
 .footer-text {
   color: $text-color;

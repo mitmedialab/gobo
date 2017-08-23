@@ -51,6 +51,7 @@ class Settings extends Component {
         this.setState({
             settings:new_settings
         })
+        this.updateSettings();
 
     }
 
@@ -62,14 +63,20 @@ class Settings extends Component {
         const settings = [
             {
                 title:'Rudeness',
-                icon: 'glyphicon-home',
+                icon: 'icon-toxicity',
                 key: 'toxicity',
                 content: (
                     <div>
                         <div>
                             <ReactSlider defaultValue={[0, 1]} min={0} max={1} step={0.01} withBars
                                          value={[this.state.settings.rudeness_min, this.state.settings.rudeness_max]}
-                                         onChange={e=>this.handleChange(e, 'rudeness', false, true)}/>
+                                         onChange={e=>this.handleChange(e, 'rudeness', false, true)}
+                                         onAfterChange={()=>this.updateSettings()}
+                            />
+                            <div className="slider-labels">
+                                <span style={{'float':'left'}}> clean</span>
+                                <span style={{'float':'right'}}> very rude</span>
+                            </div>
                         </div>
                     </div>
                 )
@@ -77,36 +84,31 @@ class Settings extends Component {
             },
             {
                 title:'Gender',
+                icon: 'icon-gender',
                 key: 'gender',
                 content: (
                     <div>
-                        <span className="toggle">
-                            <input type="checkbox"
-                                   checked={this.state.settings.gender_filter_on}
-                                   onChange={e=>this.handleChange(e, 'gender_filter_on', true, false)}
-                            />
-                            <label data-on="ON" data-off="OFF"></label>
-
-                        </span>
-                        {this.state.settings.gender_filter_on && <div>
+                        <div>
                         <ReactSlider defaultValue={50} min={0} max={100} withBars
-                                     disabled={!this.state.settings.gender_filter_on}
                                      value={this.state.settings.gender_female_per}
                                      onChange={e=>this.handleChange(e, 'gender_female_per', false, false)}
-                                     className="slider bar-gender"/>
-                        <div>
+                                     className="slider bar-gender"
+                                     onAfterChange={()=>this.updateSettings()}/>
+                        <div className="slider-labels">
                             <span style={{'float':'left'}}> {100-this.state.settings.gender_female_per|| '0'}% men</span>
                             <span style={{'float':'right'}}> {this.state.settings.gender_female_per|| '0'}% women</span>
                         </div>
                         <br/>
+                            <div>
+                                (hint: set to {Math.round(this.props.neutralFB*100)|| 'X'}% women for no gender filtering)
+                            </div>
                         <br/>
                         <div>
                             <span><input
                                 className="checkbox"
                                 name="mute-men"
                                 type="checkbox"
-                                checked={this.state.settings.gender_female_per==100 && this.state.settings.gender_filter_on}
-                                disabled={!this.state.settings.gender_filter_on}
+                                checked={this.state.settings.gender_female_per==100}
                                 onClick={this.muteAllMen}
                             />
                             <label className="checkbox-label">
@@ -114,23 +116,23 @@ class Settings extends Component {
                             </label> </span>
                         </div>
                         </div>
-                            }
                     </div>
                 )
 
             },
             {
                 title:'Corporate',
+                icon: 'icon-corporate',
                 key: 'is_corporate',
                 content: (
-                    <div>
+                    <div className="slider-labels">
                         <span>
                         <input
                                 className="checkbox"
                                 name="corporate"
                                 type="checkbox"
                                 checked={this.state.settings.include_corporate}
-                                onChange={e=>this.handleChange(e, 'include_corporate', true)}/>
+                                onChange={e=>{this.handleChange(e, 'include_corporate', true); this.updateSettings()}}/>
                             <label className="checkbox-label">
                             Show content from corporates
                             </label>
@@ -142,18 +144,25 @@ class Settings extends Component {
             },
             {
                 title:'Virality',
+                icon: 'icon-virality',
                 key: 'virality_count',
                 content: (
                     <div>
                         <ReactSlider defaultValue={[0, 1]} min={0} max={1} step={0.01} withBars
                                      value={[this.state.settings.virality_min, this.state.settings.virality_max]}
-                                     onChange={e=>this.handleChange(e, 'virality', false, true)}/>
+                                     onChange={e=>this.handleChange(e, 'virality', false, true)}
+                                     onAfterChange={()=>this.updateSettings()}/>
+                        <div className="slider-labels">
+                            <span style={{'float':'left'}}> not viral</span>
+                            <span style={{'float':'right'}}> very viral</span>
+                        </div>
                     </div>
                 )
 
             },
             {
                 title:'News Echo',
+                icon: 'icon-echo',
                 content: (
                     <div>
                         TBD
@@ -167,9 +176,6 @@ class Settings extends Component {
                     <li className="filter">
                         <header className="settings-header">
                             <h1>Filters</h1>
-                            <div className="submit-button">
-                                <button onClick={this.updateSettings}> Save Changes </button>
-                            </div>
                         </header>
                     </li>
                     {settings.map(feature=>(

@@ -30,7 +30,8 @@ class Feed extends Component {
         super(props);
         this.state = {
             sortByToxicity: false,
-            showFiltered: false
+            showFiltered: false,
+            processing: false,
         }
         this.toggleShowFiltered = this.toggleShowFiltered.bind(this);
     }
@@ -50,7 +51,7 @@ class Feed extends Component {
     filterPosts(settings) {
         var filtered_posts = []
         var kept_posts = []
-        const virality_scores = this.props.feed.posts.map(post=>post.virality_count)
+        const virality_scores = this.props.feed.posts.map(post=>Math.log(post.virality_count+1))
         const max_virality = virality_scores.reduce(function(a, b) {
             return Math.max(a, b);
         }, 0);
@@ -66,7 +67,7 @@ class Feed extends Component {
             }
             // const virality_zScore = (post.virality_count - v_mean) / v_standardDeviation;
             // const n_z_score = (virality_zScore - min_z_score)/ (max_z_score - min_z_score)
-            const virality_score = post.virality_count *1.0 / max_virality;
+            const virality_score = Math.log(post.virality_count+1) / max_virality;
             if (virality_score>settings.virality_max || virality_score<settings.virality_min) {
                 keep = false;
             }
@@ -77,30 +78,30 @@ class Feed extends Component {
                 filtered_posts.push(post)
             }
         })
-        if (settings.gender_filter_on) {
-            const kept_female_posts = kept_posts.filter(post => post.gender == 'GenderEnum.female');
-            const kept_male_posts = kept_posts.filter(post => post.gender == 'GenderEnum.male');
-            const num_posts_to_keep = get_nums_males_females(kept_female_posts.length, kept_male_posts.length ,settings.gender_female_per/100.0)
-            // remove female posts
-            if (num_posts_to_keep['f']<kept_female_posts.length){
-                //remove kept_female_posts.length - num_posts_to_keep['f'] from kept to filtered
-                const f_posts_to_remove = kept_female_posts.slice(0,kept_female_posts.length - num_posts_to_keep['f']);
-                kept_posts = kept_posts.filter(function (post) {
-                    return f_posts_to_remove.indexOf(post) === -1;
-                });
-                filtered_posts.push(...f_posts_to_remove)
-            }
-            // remove male posts
-            if (num_posts_to_keep['m']<kept_male_posts.length){
-                //remove kept_male_posts.length - num_posts_to_keep['m'] from kept to filtered
-                const m_posts_to_remove = kept_male_posts.slice(0,kept_male_posts.length - num_posts_to_keep['m']);
-                kept_posts = kept_posts.filter(function (post) {
-                    return m_posts_to_remove.indexOf(post) === -1;
-                });
-                filtered_posts.push(...m_posts_to_remove)
-            }
+        const kept_female_posts = kept_posts.filter(post => post.gender == 'GenderEnum.female');
+        const kept_male_posts = kept_posts.filter(post => post.gender == 'GenderEnum.male');
+        const num_posts_to_keep = get_nums_males_females(kept_female_posts.length, kept_male_posts.length ,settings.gender_female_per/100.0)
+        const neutral_fb = Math.min(1, kept_female_posts.length/(kept_female_posts.length + kept_male_posts.length ))
+        // remove female posts
+        if (num_posts_to_keep['f']<kept_female_posts.length){
+            //remove kept_female_posts.length - num_posts_to_keep['f'] from kept to filtered
+            const f_posts_to_remove = kept_female_posts.slice(0,kept_female_posts.length - num_posts_to_keep['f']);
+            kept_posts = kept_posts.filter(function (post) {
+                return f_posts_to_remove.indexOf(post) === -1;
+            });
+            filtered_posts.push(...f_posts_to_remove)
         }
-        return {kept:kept_posts, filtered:filtered_posts}
+        // remove male posts
+        if (num_posts_to_keep['m']<kept_male_posts.length){
+            //remove kept_male_posts.length - num_posts_to_keep['m'] from kept to filtered
+            const m_posts_to_remove = kept_male_posts.slice(0,kept_male_posts.length - num_posts_to_keep['m']);
+            kept_posts = kept_posts.filter(function (post) {
+                return m_posts_to_remove.indexOf(post) === -1;
+            });
+            filtered_posts.push(...m_posts_to_remove)
+        }
+
+        return {kept:kept_posts, filtered:filtered_posts, fb:neutral_fb}
     }
 
     toggleShowFiltered() {
@@ -148,7 +149,7 @@ class Feed extends Component {
 
                     </div>
                     <div className={"col-sm-3 col-md-3 sidebar"}>
-                        <Settings/>
+                        <Settings neutralFB={filtered_posts.fb}/>
                     </div>
                 </div>
             </div>
