@@ -66,3 +66,6 @@ migrations/
 server/dev.sqlite
 
 dump.rdb
+
+#enum migration
+!migrations/versions/9f0383bc3d43_creat_gender_enum.py

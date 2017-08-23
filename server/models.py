@@ -123,13 +123,38 @@ class Settings(db.Model):
     user = db.relationship("User", back_populates="settings")
     rudeness_min = db.Column(db.Float, db.CheckConstraint('rudeness_min>=0'), default=0)
     rudeness_max = db.Column(db.Float, db.CheckConstraint('rudeness_max<=1'), default=1)
-    gender_female_per = db.Column(db.Integer, db.CheckConstraint('gender_female_per<=0 AND gender_female_per<=100'), default=50)
-    corporate = db.Column(db.Boolean, default=True)
+    gender_filter_on = db.Column(db.Boolean, default=False)
+    gender_female_per = db.Column(db.Integer, db.CheckConstraint('gender_female_per>=0 AND gender_female_per<=100'), default=50)
+    include_corporate = db.Column(db.Boolean, default=True)
     virality_min = db.Column(db.Float, db.CheckConstraint('virality_min>=0'), default=0)
     virality_max = db.Column(db.Float, db.CheckConstraint('virality_max<=1'), default=1)
 
     rudeness_ck = db.CheckConstraint('rudeness_max>rudeness_min')
     virality_ck = db.CheckConstraint('virality_max>virality_min')
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    def update(self, settings_dict):
+        self.rudeness_min = settings_dict['rudeness_min']
+        self.rudeness_max = settings_dict['rudeness_max']
+        self.gender_filter_on = settings_dict['gender_filter_on']
+        self.gender_female_per = settings_dict['gender_female_per']
+        self.include_corporate = settings_dict['include_corporate']
+        self.virality_min = settings_dict['virality_min']
+        self.virality_max = settings_dict['virality_max']
+
+class SettingsUpdate(db.Model):
+    __tablename__ = "settings_updates"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    update_time = db.Column(db.DateTime, nullable=False)
+    new_settings = db.Column(db.JSON, nullable=False)
+
+    def __init__(self, user_id, new_settings):
+        self.user_id = user_id
+        self.update_time = datetime.datetime.now()
+        self.new_settings = new_settings
 
 class Post(db.Model):
     __tablename__ = "posts"
@@ -145,6 +170,7 @@ class Post(db.Model):
     toxicity = db.Column(db.Float)
     gender = db.Column(db.Enum(GenderEnum))
     is_corporate = db.Column(db.Boolean)
+    virality_count = db.Column(db.Integer)
 
     db.UniqueConstraint('source_id', 'source', name='post_id')
 
@@ -169,7 +195,7 @@ class Post(db.Model):
         # TODO: logic fore getting text - should we get text from link shared, etc?
         text = ""
         if self.source=="twitter":
-            text = self.content['text']
+            text = self.content['full_text']
         if self.source=="facebook":
             text = self.content['message'] if 'message' in self.content else ""
         return text
@@ -188,6 +214,13 @@ class Post(db.Model):
         self.gender = gender
         self.is_corporate = corporate
         db.session.commit()
+
+    def update_replies_count(self, count):
+        new_content = self.content.copy()
+        prev_count = self.content['replies_count'] if 'replies_count' in self.content else 0
+        new_content['replies_count'] = max(count, prev_count)
+        self.content = new_content
+
 
     def get_author_name(self):
         return self.content['from']['name'] if self.source=='facebook' else self.content['user']['name']

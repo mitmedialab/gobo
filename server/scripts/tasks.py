@@ -138,16 +138,17 @@ def _add_post(user, post, source):
             user.posts.append(post_item)
         db.session.commit()
         success = True
-        analyze_post.delay(post_item.id)
+        analyze_post.delay(post_item.id, user.id)
     except:
         logger.error('An error adding post {} from tweeter to user {}'.format(post['id'], user.id))
         success = False
     return {'success': success, 'added_new':added_new}
 
 @celery.task(serializer='json', bind=True)
-def analyze_post(self, post_id):
+def analyze_post(self, post_id, user_id):
     analyze_toxicity(post_id)
     analyze_gender_corporate(post_id)
+    analyze_virality(post_id, user_id)
 
 
 def analyze_toxicity(post_id):
@@ -188,3 +189,44 @@ def analyze_gender_corporate(post_id):
     if gender==GenderEnum.unknown or (is_facebook and 'category' in post.content['from']):
         corporate = True
     post.update_gender_corporate(gender, corporate)
+
+def analyze_virality(post_id, user_id):
+    post = Post.query.get(post_id)
+    is_facebook = post.source=='facebook'
+
+    likes = post.content['reactions']['summary']['total_count'] if is_facebook else post.content['favorite_count']
+    if is_facebook:
+        comments = post.content['comments']['summary']['total_count']
+    else:
+        comments = count_tweet_replies(post.content, user_id)
+        post.update_replies_count(comments)
+    shares = 0
+    if is_facebook:
+        if 'shares' in post.content:
+            shares = post.content['shares']['count']
+    else:
+        shares = post.content['retweet_count']
+
+
+    total_reaction = likes+shares+comments
+    post.virality_count = max(post.virality_count, total_reaction)
+    db.session.commit()
+
+
+def count_tweet_replies(tweet, user_id):
+    #todo: this is getting to the API rate limit very quickly, find a better way to get replies count
+    # twitter_auth = TwitterAuth.query.filter_by(user_id=user_id).first()
+    # twitter = Twython(current_app.config['TWITTER_API_KEY'], current_app.config['TWITTER_API_SECRET'],
+    #                   twitter_auth.oauth_token, twitter_auth.oauth_token_secret)
+    # tweet_user_name = tweet['user']['screen_name']
+    # tweet_id = tweet['id_str']
+    # try:
+    #     results = twitter.cursor(twitter.search, q='to:{}'.format(tweet_user_name), sinceId=tweet_id)
+    #     count = len([1 for result in results if result['in_reply_to_status_id_str']==tweet_id])
+    # except:
+    #     print 'error while counting tweet {} replies'.format(tweet_id)
+    #     count = 0
+    count = 0
+    return count
+
+

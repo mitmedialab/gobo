@@ -18,7 +18,6 @@ function mapStateToProps(state) {
 
 class Profile extends Component {
     render() {
-        console.log(this.props)
         if (!this.props.auth.isAuthenticated) {
             return <Redirect to="/"/>
         }

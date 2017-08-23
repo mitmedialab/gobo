@@ -94,12 +94,3 @@ class NameGender:
             'counts': count_data,
             'definite': definite_data
         }
-
-
-if __name__ == "__main__":
-    gender = NameGender()
-    print gender.process('jasmin rubinovitz')
-    print gender.process ('Jasmine bla')
-    print gender.process ('Eran ws')
-    print gender.process ('Sands fish')
-    print gender.process ('Cooper bla')

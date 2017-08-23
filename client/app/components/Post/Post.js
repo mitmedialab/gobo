@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-// import FacebookProvider, { EmbeddedPost } from 'react-facebook';
-// import { Tweet } from 'react-twitter-widgets'
 
 
 
@@ -35,9 +33,6 @@ class Post extends Component {
         this.unFlip = this.unFlip.bind(this);
     }
 
-    // componentDidMount() {
-    //     FB.XFBML.parse();
-    // }
     makePostContent() {
         const post = this.props.post;
         var text = post.source=='twitter'? (post.content.text || post.content.full_text) : post.content.message || '';
@@ -46,10 +41,6 @@ class Post extends Component {
         var postContent  = null;
 
         if (post.source=='facebook') {
-
-            // <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3D1827785300581311%26id%3D555898814436639&width=500"
-            //         width="500" height="754" style={{'border':'none', 'overflow':'hidden'}}scrolling="no"
-            //         frameBorder="0" allowTransparency="true"></iframe>
 
             switch (post.content.type) {
                 case 'link': {
@@ -195,7 +186,11 @@ class Post extends Component {
                                 <div className="toxicity">
                                     Toxicity: {post.toxicity}
                                     <br/>
-                                    Gender: {post.gender.split('.')[1]}
+                                    Gender: {post.gender && post.gender.split('.')[1]}
+                                    <br/>
+                                    Corporate / Organization: {post.is_corporate!=null && post.is_corporate.toString()}
+                                    <br/>
+                                    Virality: {post.virality_count}
                                 </div>
                             </div>
 

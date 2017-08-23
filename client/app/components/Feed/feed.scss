@@ -7,3 +7,25 @@
     padding: 0;
   }
 }
+
+.filtered-text {
+  margin: 0 auto;
+  max-width: 900px;
+  color: $text-color;
+  padding-bottom: 1em;
+}
+
+.filtered-count {
+  font-weight: 600;
+}
+
+.filtered-link {
+  color: $text-color;
+  border-bottom: 1px dotted $text-color;
+  text-decoration: none;
+}
+
+.filtered-link:hover {
+  color: darken($text-color, 20%);
+  text-decoration: none;
+}

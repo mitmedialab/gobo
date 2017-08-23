@@ -5,7 +5,7 @@ from flask_login import login_required, login_user, logout_user, current_user
 import requests
 from twython import Twython
 
-from server.models import User, FacebookAuth, TwitterAuth, Post
+from server.models import User, FacebookAuth, TwitterAuth, Post, SettingsUpdate
 from server.scripts import tasks
 
 from server.blueprints import api
@@ -147,4 +147,27 @@ def getFacebookLongAuth(token):
 @api.route('/get_posts', methods=['GET'])
 @login_required
 def get_posts():
-    return jsonify({'posts': [post.as_dict() for post in current_user.posts.order_by(Post.created_at)][:500]})
+    return jsonify({'posts': [post.as_dict() for post in current_user.posts.order_by(Post.created_at.desc())][:500]})
+
+# ----- settings logic -----
+
+@api.route('/get_settings', methods=['GET'])
+@login_required
+def get_settings():
+    return jsonify(current_user.settings.as_dict())
+
+@api.route('/update_settings', methods=['POST'])
+@login_required
+def update_settings():
+    json_data = request.json
+
+    update = SettingsUpdate(current_user.id, json_data['settings'])
+    # try:
+    db.session.add(update)
+    current_user.settings.update(json_data['settings'])
+    db.session.commit()
+    success = True
+    # except:
+    #     print "error logging new settings for user {} to db".format(current_user.id)
+    #     success = False
+    return jsonify({'update_success': success})

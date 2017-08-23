@@ -44,6 +44,13 @@ export function getUserPosts() {
     return axios.get(API_URL+'api/get_posts')
 }
 
+export function getUserSettings() {
+    return axios.get(API_URL+'api/get_settings')
+}
+export function updateUserSettings(settings) {
+    return axios.post(API_URL+'api/update_settings', {'settings':settings})
+}
+
 export function getFacebookAppId() {
     return axios.get(API_URL+'api/get_facebook_app_id')
 }
