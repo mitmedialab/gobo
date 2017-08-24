@@ -64,6 +64,8 @@
     "serve": "^5.1.5",
     "style-loader": "^0.17.0",
     "sw-precache-webpack-plugin": "^0.11.0",
+    "twemoji": "^2.5.0",
+    "twitter-text": "^1.14.7",
     "url-search-params-polyfill": "^2.0.0",
     "webpack": "^2.5.1",
     "webpack-dev-server": "^2.4.5"
