@@ -1,0 +1,198 @@
+China;21.97;84.4
+USA;9.58;38.3
+India;8.33;36.3
+Japan;3.74;13.7
+Brazil;3.69;15.3
+Russia;2.89;10.4
+Germany;2.46;3.8
+Nigeria;2.30;0
+UK;1.95;8.4
+France;1.90;4.1
+Mexico;1.74;8.6
+South Korea;1.55;6.7
+Indonesia;1.45;22.2
+Egypt;1.38;0
+Vietnam;1.36;4.5
+Philippines;1.35;11.8
+Italy;1.25;3.4
+Turkey;1.21;8.2
+Spain;1.20;5.9
+Canada;1.13;4.6
+Poland;0.88;1.7
+Colombia;0.88;0
+Argentina;0.86;3.7
+South Africa;0.85;5.4
+Iran;0.76;0
+Australia;0.73;1.8
+Morocco;0.69;0
+Pakistan;0.69;0
+Thailand;0.66;4.5
+Saudi Arabia;0.60;4.8
+Madagascar;0.59;0
+Ukraine;0.58;0
+Kenya;0.57;0
+The Netherlands;0.55;1.1
+Venezuela;0.50;0
+Peru;0.43;0
+Malaysia;0.42;3.1
+Uzbekistan;0.41;0
+Mali;0.41;0
+Chile;0.40;0
+Romania;0.38;0
+Bangladesh;0.37;0
+Kazakhstan;0.34;0
+Belgium;0.32;0
+Sudan;0.32;0
+United Arab Emirates;0.30;1.7
+Sweden;0.29;0.5
+Czech;0.28;0
+Tanzania;0.26;0
+Hungary;0.25;0
+Switzerland;0.25;0
+Austria;0.24;0
+Portugal;0.24;0
+Algeria;0.23;0
+Uganda;0.22;0
+Greece;0.22;0
+Ecuador;0.21;0
+Israel;0.20;0
+Syria;0.20;0
+Hong Kong;0.20;0.3
+Azerbaijan;0.20;0
+Denmark;0.19;0
+Ghana;0.18;0
+Finland;0.18;0
+Dominican Republic;0.17;0
+Tunisia;0.17;0
+Norway;0.17;0
+Belarus;0.17;0
+Yemen;0.16;0
+Serbia;0.16;0
+Slovakia;0.15;0
+Singapore;0.15;0.6
+Angola;0.15;0
+Sri Lanka;0.15;0
+New Zealand;0.14;0
+Bulgaria;0.14;0
+Bolivia;0.14;0
+Ireland;0.13;0.4
+Nepal;0.12;0
+Jordan;0.12;0
+Lebanon;0.11;0
+Senegal;0.11;0
+Cuba;0.11;0
+Kuwait;0.10;0
+Zimbabwe;0.10;0
+Croatia;0.10;0
+Guatemala;0.09;0
+Iraq;0.09;0
+Oman;0.09;0
+Bosnia Herzegovina;0.09;0
+Costa Rica;0.09;0
+Zambia;0.08;0
+Qatar;0.08;0
+Georgia;0.07;0
+Lithuania;0.07;0
+Puerto Rico;0.07;0
+Uruguay;0.07;0
+Paraguay;0.07;0
+Panama;0.07;0
+Afghanistan;0.06;0
+Albania;0.06;0
+El Salvador;0.06;0
+Ethiopia;0.06;0
+Honduras;0.05;0
+Latvia;0.05;0
+Moldova;0.05;0
+Slovenia;0.05;0
+Cameroon;0.05;0
+Mozambique;0.05;0
+Jamaica;0.05;0
+Libya;0.05;0
+Kyrgyzstan;0.05;0
+Tajikistan;0.05;0
+Armenia;0.04;0
+Bahrain;0.04;0
+Haiti;0.04;0
+Rwanda;0.04;0
+Estonia;0.04;0
+Nicaragua;0.03;0
+Trinidad and Tobago;0.03;0
+Cambodia;0.03;0
+Burkina Faso;0.03;0
+Cyprus;0.02;0
+Malawi;0.02;0
+Myanmar;0.02;0
+Côte d'Ivoire;0.02;0
+Mongolia;0.02;0
+Luxembourg;0.02;0
+Benin;0.02;0
+Mauritania;0.02;0
+Turkmenistan;0.01;0
+Montenegro;0.01;0
+Namibia;0.01;0
+Fiji;0.01;0
+Iceland;0.01;0
+Togo;0.01;0
+Chad;0.01;0
+Martinique;0.01;0
+Swaziland;0.01;0
+Niger;0.01;0
+Guyana;0.01;0
+Bahamas;0.01;0
+Brunei;0.01;0
+Gambia;0.01;0
+Botswana;0.01;0
+Barbados;0.01;0
+Bhutan;0.01;0
+Guinea;0.01;0
+Suriname;0.01;0
+Cape Verde;0.01;0
+Liberia;0.01;0
+Papua New Guinea;0.01;0
+Malta;0.01;0
+Gabon;0.01;0
+New Caledonia;0.01;0
+Somalia;0.01;0
+Central African Republic;0.01;0
+French Polynesia;0.01;0
+Burundi;0.01;0;0
+Equatorial Guinea;0.00;0
+Guam;0.00;0
+Lesotho;0.00;0
+Mayotte;0.00;0
+Sierra Leone;0.00;0
+Belize;0.00;0
+Congo;0.00;0
+Aruba;0.00;0
+Antigua and Barbuda;0.00;0
+Djibouti;0.00;0
+Mauritius;0.00;0
+Andorra;0.00;0
+Bermuda;0.00;0
+Eritrea;0.00;0
+Guinea-Bissau;0.00;0
+Seychelles;0.00;0
+Comoros;0.00;0
+Sao Tome and Principe;0.00;0
+Grenada;0.00;0
+Cayman Islands;0.00;0
+Solomon Islands;0.00;0
+Faeroe Islands;0.00;0
+Dominica;0.00;0
+Tonga;0.00;0
+Greenland;0.00;0
+Liechtenstein;0.00;0
+Monaco;0.00;0
+Vanuatu;0.00;0
+Micronesia;0.00;0
+Samoa;0.00;0
+Maldives;0.00;0
+San Marino;0.00;0
+Kiribati;0.00;0
+Timor-Leste;0.00;0
+Caribbean Netherlands;0.00;0
+Tuvalu;0.00;0
+Cook Islands;0.00;0
+Marshall Islands;0.00;0
+Niue;0.00;0

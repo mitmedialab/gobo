@@ -14,6 +14,7 @@ from .celery import celery
 from ..core import db
 
 from .name_gender import NameGender
+from .gender_classifier.NameClassifier_light import NameClassifier
 
 logger = getLogger(__name__)
 
@@ -25,6 +26,7 @@ FACEBOOK_POSTS_FIELDS = ['id','caption','created_time','description','from{pictu
 FACEBOOK_URL = 'https://graph.facebook.com/v2.10/'
 
 name_gender_analyzer = NameGender()
+name_classifier = NameClassifier()
 
 @celery.task(serializer='json', bind=True)
 def get_posts_data_for_all_users(self):
@@ -184,8 +186,9 @@ def analyze_gender_corporate(post_id):
     if is_facebook and 'gender' in post.content['from']:
         gender = GenderEnum.fromString(post.content['from']['gender'])
     else:
-        score = name_gender_analyzer.process(post.get_author_name())
-        gender = score['result']
+        result, conf = name_classifier.predictGenderbyName(post.get_author_name())
+        #score = name_gender_analyzer.process(post.get_author_name())
+        gender = GenderEnum.fromString(result)
     if gender==GenderEnum.unknown or (is_facebook and 'category' in post.content['from']):
         corporate = True
     post.update_gender_corporate(gender, corporate)

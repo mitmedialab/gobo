@@ -26,8 +26,8 @@ class SettingsItem extends Component {
                 <div className="filter-title">
                     <span className={"filter-title-icon "+this.props.feature.icon}></span>
                     <span className="filter-title-text">{this.props.feature.title}</span>
-                    <i className="icon-sort"
-                       onClick={()=>this.props.dispatch(sortBy(this.props.feature.key))}></i>
+                    {/*<i className="icon-sort"*/}
+                       {/*onClick={()=>this.props.dispatch(sortBy(this.props.feature.key))}></i>*/}
 
                 </div>
                 <div className="filter-controls">
