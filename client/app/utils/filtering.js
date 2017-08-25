@@ -54,7 +54,8 @@ export function calculateFilteredPosts(posts, settings) {
                 filter_reasons[post.id].push('Corporate')
             }
 
-            if (post.toxicity != null && post.toxicity != -1 && (post.toxicity > settings.rudeness_max || post.toxicity < settings.rudeness_min)) {
+            if ((post.toxicity != null && post.toxicity != -1 && (post.toxicity > settings.rudeness_max || post.toxicity < settings.rudeness_min)) ||
+                (post.toxicity==-1 && settings.rudeness_max>0)) {
                 keep = false;
                 filter_reasons[post.id].push('Rudeness')
             }
