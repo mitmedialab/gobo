@@ -127,14 +127,8 @@ class SocialAuth extends Component {
                     accounts so we can show you your feed
                 </p>
 
-
-                {fbButton}
                 <button onClick={this.onTwitterButtonClick} className={twitter_button_class} >{twitter_button_text}</button>
-                <div style={{margin:'2em'}}>
-                    <p onClick={()=>this.props.onFinish()}>
-                        Click here to continue without authentication
-                    </p>
-                </div>
+                {fbButton}
             </div>
 
         )

@@ -62,7 +62,7 @@ class Register extends Component {
 
                     <div>
                         {this.state.step>3 && <button onClick={this.prevStep} >Back</button>}
-                        {this.state.step>2 && this.state.step<5 && <button onClick={this.nextStep} >Next</button>}
+                        {this.state.step>2 && this.state.step<4 && <button onClick={this.nextStep} >Next</button>}
                     </div>
                 </div>
             </div>

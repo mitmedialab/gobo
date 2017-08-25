@@ -8,14 +8,16 @@ class SelectPersona extends Component {
                 <p>
                     Great! Almost done.
                     <br/>
-                    Now just select your persona
+                    Now just tell up what news you would like to see
                     <br/>
-                    We will set your default settings to match that.
-                    <br/>
-                    You can always go to your settings page and change whatever you'd like.
+                    You can always go to your profile page and change that, or selct to see a wider view.
                 </p>
-                <button className="button button_wide" onClick={this.props.onFinish}>Persona #1</button>
-                <button className="button button_wide" onClick={this.props.onFinish}>Persona #2</button>
+                <button className="button button_wide" onClick={this.props.onFinish}>Left</button>
+                <button className="button button_wide" onClick={this.props.onFinish}>Center Left</button>
+                <button className="button button_wide" onClick={this.props.onFinish}>Center</button>
+                <button className="button button_wide" onClick={this.props.onFinish}>Center Right</button>
+                <button className="button button_wide" onClick={this.props.onFinish}>Right</button>
+
             </div>
         )
     }

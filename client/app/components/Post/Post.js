@@ -100,11 +100,11 @@ class Post extends Component {
         const date_moment = moment(date);
         const now = moment()
 
-        if (date_moment.isBetween(now, now.subtract(1, 'days'))) {
+        if (date_moment.isAfter(now.subtract(24, 'hours'))) {
             return date_moment.fromNow();
         }
         else {
-            return date_moment.format('MMM D, H:mma')
+            return date_moment.format('MMM D [at] H:mma')
         }
     }
 
