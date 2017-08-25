@@ -189,3 +189,18 @@ $post-padding: 30px;
 .tweet-InformationCircle::shadow {
   display: none !important;
 }
+
+// post action:
+.post-actions-list {
+  padding-top:10px;
+  .action {
+    padding:0 40px 0 0;
+    .action-icon {
+
+    }
+    .action-count {
+      margin-left:10px;
+
+    }
+  }
+}
