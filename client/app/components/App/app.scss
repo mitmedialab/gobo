@@ -165,6 +165,11 @@ button {
 	line-height: 1;
 }
 
+a, a:hover, a:focus, a:active a:visited{
+	color: $text-color;
+	text-decoration: none;
+}
+
 // While there is some elegance to having components import their own .scss files,
 // and while this compiles just fine with webpack - I choose to import all of the scss files
 // into this main app.scss so that constants (e.g. $darkColor) can be used throughout.

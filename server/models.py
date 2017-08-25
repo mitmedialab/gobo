@@ -223,6 +223,11 @@ class Post(db.Model):
 
 
     def get_author_name(self):
-        return self.content['from']['name'] if self.source=='facebook' else self.content['user']['name']
+        if self.source=='facebook':
+            return self.content['from']['name']
+        else:
+            if 'retweeted_status' in self.content:
+                return self.content['retweeted_status']['user']['name']
+            return self.content['user']['name']
 
 

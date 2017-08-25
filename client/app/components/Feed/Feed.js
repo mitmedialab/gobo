@@ -81,11 +81,7 @@ class Feed extends Component {
             <div className="container-fluid">
                 <div className={'row'}>
                     <div className="col-sm-9 col-md-9 feed">
-                        {this.props.feed.loading_posts &&
-                        <div>
-                            <Loader/>
-                            <div>Hold on while we are fetching you feed</div>
-                        </div>}
+
 
                         {!this.props.feed.loading_posts && this.props.feed.posts.length==0 &&
                         <div>
@@ -99,6 +95,13 @@ class Feed extends Component {
                         </div>}
 
                         <div className="posts">
+
+                            {this.props.feed.loading_posts &&
+                            <div>
+                                <Loader/>
+                                <div className="filtered-text">Hold on while we are fetching you feed</div>
+                            </div>}
+
                             {posts.length>0 &&
                             <div className="filtered-text">
                                 <span className="filtered-count">{filtered_text}</span><a onClick={this.toggleShowFiltered} className="filtered-link">{filtered_link_text}</a>
