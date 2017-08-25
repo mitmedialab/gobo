@@ -7,6 +7,9 @@ import {
     GET_SETTINGS_FAIL,
     UPDATE_SETTINGS,
     SORT_BY,
+    FILTER_POSTS_LOAD,
+    FILTER_POSTS_SUCCESS,
+    FILTER_POSTS_FAIL,
 } from 'actions/feed';
 
 /* ------------------- */
@@ -14,6 +17,7 @@ import {
 /* ------------------- */
 const defaultState = {
     loading_posts: false,
+    filtering_posts: false,
     get_posts_error: false,
     posts: [],
     loading_settings: false,
@@ -30,6 +34,13 @@ const defaultState = {
     get_settings_success: false,
     sort_by: null,
     sort_reverse: false,
+    filtered_posts: {
+        kept:[],
+        filtered:[],
+        fb:0,
+        reasons:{}
+    }
+
 };
 
 /* ----------------------------------------- */
@@ -83,6 +94,22 @@ export default function reducer(state = defaultState, action) {
                 ...state,
                 sort_reverse: state.sort_by==action.sort_by? !state.sort_reverse : state.sort_reverse,
                 sort_by: action.sort_by
+            };
+        case FILTER_POSTS_LOAD:
+            return {
+                ...state,
+                filtering_posts: true,
+            };
+        case FILTER_POSTS_SUCCESS:
+            return {
+                ...state,
+                filtered_posts: action.result,
+                filtering_posts: false,
+            };
+        case FILTER_POSTS_FAIL:
+            return {
+                ...state,
+                filtering_posts: false,
             };
         default:
             return state;

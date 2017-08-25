@@ -86,7 +86,7 @@ class Post extends Component {
     getFromString() {
         const post = this.props.post;
         var from = post.source=='twitter'? post.content.user.name : post.content.from.name
-        if (post.source=='facebook' && post.content.post_user &&  post.content.status_type=='wall_post' && post.content.from.name!=post.content.post_user.name) {
+        if (post.source=='facebook' && post.content.post_user && from!=post.content.post_user.name) {
             from += ' ▶ '+ post.content.post_user.name
         }
         return from;
