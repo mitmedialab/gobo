@@ -94,23 +94,18 @@ class Post extends Component {
 
     getDateString() {
         const post = this.props.post;
-        const options = {
-            weekday: "long", year: "numeric", month: "short",
-            day: "numeric", hour: "2-digit", minute: "2-digit"
-        };
+
         const date = post.created_at || post.content.created_at || post.content.created_time;
 
-        // try catch since Safari don't support Intl
-        //todo: fix this with Intl.js or make sure date formatting looks good in safari
-        try {
-            return new Intl.DateTimeFormat('en-US', options).format(new Date(date));
-        }
-        catch (e) {
-            //logMyErrors(e); // pass exception object to error handler
-            return date
-        }
+        const date_moment = moment(date);
+        const now = moment()
 
-        // return moment(date).fromNow();
+        if (date_moment.isBetween(now, now.subtract(1, 'days'))) {
+            return date_moment.fromNow();
+        }
+        else {
+            return date_moment.format('MMM D, H:mma')
+        }
     }
 
     flip() {
