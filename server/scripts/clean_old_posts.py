@@ -5,7 +5,7 @@ import os
 import psycopg2
 import urlparse
 
-NUM_DAYS = 7
+NUM_DAYS = 6
 
 urlparse.uses_netloc.append("postgres")
 url = urlparse.urlparse(os.environ["DATABASE_URL"])
@@ -29,5 +29,5 @@ cur.execute(q2)
 
 conn.commit()
 
-cur.clode()
+cur.close()
 conn.close()
