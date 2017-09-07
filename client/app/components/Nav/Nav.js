@@ -55,6 +55,10 @@ class NavBar extends Component {
                     <span className="glyphicon glyphicon-log-out"></span>
                     <a onClick={()=>this.props.dispatch(logout())}><span>Logout</span></a>
                 </li>
+                <li className="list-group-item">
+                    <span className="glyphicon glyphicon-info-sign"></span>
+                    <Link to={'/about'}> <span>About Gobo</span></Link>
+                </li>
             </ul>
         ) :
             (<ul className={dropdownMenuClass} tabIndex="0" onBlur={ ()=> this.setState( {dropdownOpen: false })} >

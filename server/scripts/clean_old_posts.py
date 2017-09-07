@@ -23,11 +23,13 @@ cur = conn.cursor()
 q1 = "DELETE FROM posts_associations WHERE post_id in(SELECT id FROM posts WHERE  DATE_PART('day', NOW() - retrieved_at) > {});".format(NUM_DAYS)
 q2 = "DELETE FROM posts WHERE DATE_PART('day', NOW() - retrieved_at) > {};".format(NUM_DAYS)
 
-cur.execute(q1)
-cur.execute(q2)
+try:
+    cur.execute(q1)
+    cur.execute(q2)
 
-
-conn.commit()
+    conn.commit()
+except:
+    print "There was an error executing posts clean up"
 
 cur.close()
 conn.close()

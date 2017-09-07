@@ -49,6 +49,7 @@ class App extends Component {
 						<Route path="/profile" component={Profile} />
 						<Route path="/settings" component={Settings} />
 						<Route path="/twitter_callback" component={TwitterCallback} />
+						<Route path="/about" component={Landing} />
 						<Route path="/api/:function"/>
 						<Route path="*/" component={NoMatch} />
 					</Switch>
