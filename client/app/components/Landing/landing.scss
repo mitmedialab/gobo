@@ -1,23 +1,42 @@
 #landing-page {
-	text-align: center;
-	.card {
-		text-decoration: none;
-		margin: 1em;
-		box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.35);
-		max-width: 500px;
-		height: 150px;
-		overflow: hidden;
-		display: inline-block;
-		position: relative;
-		img {
-			width: 100%;
+
+	.content {
+		max-width: 690px;
+		margin: 0 auto;
+		padding-bottom: 3em;
+		padding-top: 80px;
+
+		@media (max-width:600px) {
+			padding-top: 10px;
+			margin: 10px;
 		}
-		.title {
-			position: absolute;
-			color: white;
-			font-size: 1.5em;
-			padding: .25em .5em;
-			bottom: 0;
-		}
+	}
+
+	h1 {
+		color:#000;
+		font-size: 30px;
+	}
+
+	h2 {
+		font-size:20px;
+	}
+
+	h3 {
+		font-size: 1em;
+	}
+
+	a {
+		color: $button-color;
+	}
+
+	Button {
+		background-color: $button-color;
+		color: #fff;
+		width: 100%;
+		padding: 12px;
+		margin: 8px 0;
+		font-weight: 700;
+		font-size:20px;
+		border-radius: 0;
 	}
 }

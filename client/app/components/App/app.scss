@@ -8,6 +8,7 @@ $color1: #ff3b3f;
 $color2: #caebf2;
 $background-color: #efefef;
 $text-color: #909090;
+$button-color: #8cd4de;
 
 $red: #ff1e21;
 $green: #00a000;
@@ -17,7 +18,7 @@ $navBackground: $color1;
 $navColor: white;
 $background: $background-color;
 
-$button-default-bg: $color2;
+$button-default-bg: $button-color;
 $button-default-color: $text-color;
 $button-disabled: #6f6f6f;
 
@@ -34,7 +35,6 @@ $icon-font-path: "/static/bootstrap-fonts/";
 // ---- icons -----
 $font-path: "/static/custom-icons/fontello";
 $font-name: "13185361";
-
 
 
 @font-face {

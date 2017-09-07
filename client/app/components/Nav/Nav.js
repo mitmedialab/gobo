@@ -98,14 +98,9 @@ class NavBar extends Component {
                         </Link>
                         </li>
                     </ul>
-						{/*<div className="navbar-header">*/}
-							{/*<Link className="navbar-brand" to={'/'}>*/}
-								{/*<img alt="Gobo" src="/images/logo.png" height="100%"/>*/}
-							{/*</Link>*/}
-						{/*</div>*/}
-						<ul className="nav navbar-nav navbar-right">
-                                {dropdown}
-						</ul>
+                        <ul className="nav navbar-nav navbar-right">
+                            {dropdown}
+                        </ul>
 				</nav>
 			</header>
         );

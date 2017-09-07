@@ -30,14 +30,14 @@
 @media (max-width: 599px) {
   body:not(.sb-top) .navbar .navbar-right:last-child {
     margin-right: 0;
-    padding-top: 0;
+    padding-top: 10px;
     padding-bottom: 0;
   }
 }
 @media (max-width: 900px) {
   body:not(.sb-top) .navbar .navbar-right:last-child {
     margin-right: 0;
-    padding-top: 0;
+    padding-top: 10px;
     padding-bottom: 0;
   }
 }
@@ -85,11 +85,11 @@
   }
 }
 
-@media (max-width: 900px) {
-  .logo > li > a {
-    padding: 0;
-  }
-}
+//@media (max-width: 900px) {
+//  .logo > li > a {
+//    padding: 0;
+//  }
+//}
 
 .nav > li > a .name {
   color: #fff;
