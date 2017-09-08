@@ -14,6 +14,7 @@ const Login = () => <Async load={import('components/Login/Login')} />;
 const Register = () => <Async load={import('components/Register/Register')} />;
 const Feed = () => <Async load={import('components/Feed/Feed')} />;
 const Profile = () => <Async load={import('components/Profile/Profile')} />;
+const Privacy = () => <Async load={import('components/Privacy/Privacy')} />;
 const Settings = () => <Async load={import('components/Settings/Settings')} />;
 const TwitterCallback = () => <Async load={import('components/TwitterCallback/TwitterCallback')} />;
 const NoMatch = () => <Async load={import('components/NoMatch/NoMatch')} />;
@@ -50,6 +51,7 @@ class App extends Component {
 						<Route path="/settings" component={Settings} />
 						<Route path="/twitter_callback" component={TwitterCallback} />
 						<Route path="/about" component={Landing} />
+						<Route path="/privacy" component={Privacy} />
 						<Route path="/api/:function"/>
 						<Route path="*/" component={NoMatch} />
 					</Switch>
