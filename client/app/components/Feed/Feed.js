@@ -32,11 +32,12 @@ class Feed extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            sortByToxicity: false,
             showFiltered: false,
             processing: false,
+            minimizedSettings: false,
         }
         this.toggleShowFiltered = this.toggleShowFiltered.bind(this);
+        this.toggleSettings = this.toggleSettings.bind(this);
     }
 
     componentWillMount() {
@@ -45,14 +46,16 @@ class Feed extends Component {
         this.props.dispatch(getSettings());
     }
 
-    logout(e) {
-        e.preventDefault();
-        this.props.dispatch(logout());
-    }
 
     toggleShowFiltered() {
         this.setState ({
             showFiltered: !this.state.showFiltered
+        })
+    }
+
+    toggleSettings() {
+        this.setState( {
+            minimizedSettings: !this.state.minimizedSettings
         })
     }
 
@@ -80,7 +83,7 @@ class Feed extends Component {
         return (
             <div className="container-fluid">
                 <div className={'row'}>
-                    <div className="col-sm-9 col-md-9 feed">
+                    <div className={this.state.minimizedSettings? "feed wide": "feed"}>
 
 
                         {!this.props.feed.loading_posts && this.props.feed.posts.length==0 &&
@@ -98,8 +101,8 @@ class Feed extends Component {
 
                             {this.props.feed.loading_posts &&
                             <div>
-                                <Loader/>
                                 <div className="filtered-text">Hold on while we are fetching you feed</div>
+                                <Loader/>
                             </div>}
 
                             {posts.length>0 &&
@@ -117,8 +120,8 @@ class Feed extends Component {
                         </div>
 
                     </div>
-                    <div className={"col-sm-3 col-md-3 sidebar"}>
-                        <Settings neutralFB={filtered_posts.fb}/>
+                    <div className={this.state.minimizedSettings? "sidebar minimized": "sidebar"}>
+                        <Settings neutralFB={filtered_posts.fb} onMinimize={this.toggleSettings} minimized={this.state.minimizedSettings}/>
                     </div>
                 </div>
             </div>

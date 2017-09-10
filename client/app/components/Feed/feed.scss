@@ -1,10 +1,44 @@
+$settings-width: 370px;
+$settings-width-closed:56px;
+
+@mixin wide-feed-mixin { margin-right:$settings-width-closed; }
+@mixin minimized-sidebar-mixin {  width:$settings-width-closed; }
+
+
+
+.feed {
+  margin-right:$settings-width;
+  transition: 0.5s;
+}
+.sidebar {
+  width:$settings-width;
+}
+
+.feed.wide {  @include wide-feed-mixin; }
+.sidebar.minimized {  @include minimized-sidebar-mixin; }
+
+@media (max-width: 600px) {
+  %wide { @include wide-feed-mixin; }
+  %minimized { @include minimized-sidebar-mixin; }
+
+  .feed {
+    @extend %wide;
+  }
+
+  .sidebar {
+    @extend %minimized;
+  }
+}
+
+
+
 .posts {
   padding: 3em;
 }
 
 @media (max-width: 768px) {
   .posts {
-    padding: 0;
+    padding: 5px;
   }
 }
 

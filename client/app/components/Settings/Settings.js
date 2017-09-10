@@ -170,12 +170,13 @@ class Settings extends Component {
                 )
             }
         ];
+        const arrowIcon = this.props.minimized?"left-open":"right-open";
         return (
             <div className="settings-content">
                 <ul className="settings-menu">
                     <li className="filter">
                         <header className="settings-header">
-                            <h1>Filters</h1>
+                            <span><i className={"arrow-icon icon-"+arrowIcon} onClick={this.props.onMinimize}></i> <h1>Filters</h1></span>
                         </header>
                     </li>
                     {settings.map(feature=>(

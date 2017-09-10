@@ -1,6 +1,5 @@
 .sidebar {
-  position: fixed;
-  top: $navbar-height;
+  top: $navbar-height+20px;
   bottom: 0;
   right: 0;
   z-index: 1000;
@@ -17,11 +16,7 @@
   right: 0;
   overflow: hidden;
   min-height: 100%;
-
-  .submit-button {
-    text-align: center;
-    padding: 1em
-  }
+  transition: 0.5s;
 
   .checkbox {
     -webkit-appearance: none;
@@ -64,6 +59,10 @@
     padding-left: 1em;
     font-weight: 300;
   }
+
+  *:focus{
+    outline:none;
+  }
 }
 
 
@@ -91,18 +90,19 @@
 }
 
 .setting-item {
-  padding: 30px 50px 15px 30px;
+  padding: 0px;
+}
+
+.arrow-icon {
+  float:left;
+  font-size: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 
 @media (min-width: 1281px) {
   .sb-menu-icon {
-    display: none;
-  }
-}
-
-@media (max-width: 900px) {
-  .sidebar {
     display: none;
   }
 }
@@ -139,7 +139,8 @@
 }
 
 .filter {
-  width: 100%
+  width: 100%;
+  transition: 0.3s;
 }
 
 .filter-title {
@@ -154,7 +155,8 @@
 
 .filter-title-icon {
   font-size:40px;
-  vertical-align: middle;
+  vertical-align: top;
+  color:$color1;
 }
 
 .filter-controls {
@@ -232,5 +234,69 @@ $handle-height: 24px;
 
 .slider-labels {
   padding-top:10px;
+}
+
+.filter-content {
+  display:flex;
+  padding-top:8px;
+  padding-right:10px;
+  padding-bottom: 8px;
+}
+.filter-inner {
+  width: 100%;
+}
+
+@mixin small-sidebar {
+  .filter {
+    height: 56px;
+    //overflow: hidden;
+  }
+  .setting-item {
+    padding:0;
+  }
+  .filter-inner {
+    transform: translate(100px);
+  }
+  .settings-menu {
+    position: fixed;
+  }
+
+  .filter-inner.open{
+    position:absolute;
+    width: 324px; //370 - 56 or 304 + 2*padding
+    right: 56px;
+    transform: translate(-100px);
+    background-color: inherit;
+    padding: 10px;
+    z-index: 100001;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  }
+  .filter-controls {
+    position: relative;
+  }
+
+  .filter-content{
+    background-color: inherit;
+    height: 56px;
+  }
+
+  .settings-header h1 {
+    display: none;
+  }
+}
+
+.sidebar.minimized {
+  .filter:first-of-type {
+    height:88px;
+  }
+  @include small-sidebar;
+}
+
+@media (max-width: 600px) {
+  .filter:first-of-type {
+    display: none;
+  }
+
+  @include small-sidebar;
 }
 
