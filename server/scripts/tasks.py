@@ -7,6 +7,9 @@ import logging
 from logging import getLogger
 from googleapiclient import discovery
 import json
+import urllib
+from bs4 import BeautifulSoup
+
 
 from ..models import User, FacebookAuth, TwitterAuth, Post
 from ..enums import GenderEnum
@@ -151,6 +154,7 @@ def analyze_post(self, post_id, user_id):
     analyze_toxicity(post_id)
     analyze_gender_corporate(post_id)
     analyze_virality(post_id, user_id)
+    get_news_score(post_id)
 
 
 def analyze_toxicity(post_id):
@@ -214,6 +218,42 @@ def analyze_virality(post_id, user_id):
     total_reaction = likes+shares+comments
     post.virality_count = max(post.virality_count, total_reaction)
     db.session.commit()
+
+def get_news_score(post_id):
+    post = Post.query.get(post_id)
+    is_facebook = post.source=='facebook'
+    score = 0
+    if post.news_score is not None:
+        return
+    if post.has_link:
+        urls = [post.content['link']] if is_facebook else [x['expanded_url'] for x in post.content['entities']['urls']]
+        for url in urls:
+            try:
+                html = urllib.urlopen(url).read()
+            except:
+                html = ""
+            soup = BeautifulSoup(html, "html.parser")
+            # kill all script and style elements
+            for script in soup(["script", "style"]):
+                script.extract()  # rip it out
+            # get text
+            text = soup.get_text()
+            r = requests.post('http://predict-news-labels.mcnlp.media.mit.edu/predict.json', json = {'text':text})
+            result = r.json()
+            if 'taxonomies' in result:
+                scores = [float(x['score']) for x in result['taxonomies'] if '/news' in x['label'].lower()]
+                scores.append(score)
+                score = max(scores)
+    else:
+        text = post.get_text()
+        r = requests.post('http://predict-news-labels.mcnlp.media.mit.edu/predict.json', json = {'text':text})
+        result = r.json()
+        if 'taxonomies' in result:
+            scores = [float(x['score'])for x in result['taxonomies'] if '/news' in x['label'].lower()]
+            score = max(scores) if len(scores)>0 else 0
+    post.news_score = score
+    db.session.commit()
+
 
 
 def count_tweet_replies(tweet, user_id):

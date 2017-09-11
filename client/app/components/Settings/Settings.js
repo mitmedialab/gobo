@@ -65,6 +65,7 @@ class Settings extends Component {
                 title:'Rudeness',
                 icon: 'icon-toxicity',
                 key: 'toxicity',
+                sent: 'Filter out the trolls, or see just how rude they are',
                 content: (
                     <div>
                         <div>
@@ -86,6 +87,7 @@ class Settings extends Component {
                 title:'Gender',
                 icon: 'icon-gender',
                 key: 'gender',
+                sent: 'Change how much each gender is represented in your feed',
                 content: (
                     <div>
                         <div>
@@ -121,9 +123,10 @@ class Settings extends Component {
 
             },
             {
-                title:'Corporate',
+                title:'Brands',
                 icon: 'icon-corporate',
                 key: 'is_corporate',
+                sent: 'Filter out any brands from your feed to be commercial free',
                 content: (
                     <div className="slider-labels">
                         <span>
@@ -134,7 +137,7 @@ class Settings extends Component {
                                 checked={this.state.settings.include_corporate}
                                 onChange={e=>{this.handleChange(e, 'include_corporate', true); this.updateSettings()}}/>
                             <label className="checkbox-label">
-                            Show content from corporates
+                            Show content from brands / organizations
                             </label>
                         </span>
 
@@ -146,6 +149,7 @@ class Settings extends Component {
                 title:'Virality',
                 icon: 'icon-virality',
                 key: 'virality_count',
+                sent: 'See just the popular posts that are going viral',
                 content: (
                     <div>
                         <ReactSlider defaultValue={[0, 1]} min={0} max={1} step={0.01} withBars
@@ -161,8 +165,19 @@ class Settings extends Component {
 
             },
             {
-                title:'News Echo',
+                title:'Politics',
                 icon: 'icon-echo',
+                sent: 'See stories matching or challenging your political point of view',
+                content: (
+                    <div>
+                        TBD
+                    </div>
+                )
+            },
+            {
+                title:'Seriousness',
+                icon: 'icon-echo',
+                sent: 'Control the ratio of serious news to fun stuff in your feed',
                 content: (
                     <div>
                         TBD

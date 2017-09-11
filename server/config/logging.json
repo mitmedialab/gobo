@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "disable_existing_loggers": true,
+
+  "formatters": {
+    "generic": {
+      "format": "[%(asctime)s][%(levelname)s] %(name)s %(filename)s:%(funcName)s:%(lineno)d | %(message)s",
+      "datefmt": "%H:%M:%S"
+    }
+  },
+
+  "handlers": {
+    "file": {
+      "level": "DEBUG",
+      "class": "logging.handlers.RotatingFileHandler",
+      "filename": "gobo.log",
+      "formatter": "generic",
+      "maxBytes": 10485760,
+      "backupCount": 10,
+      "encoding": "utf8"
+    }
+  },
+
+  "loggers": {
+    "": {
+      "handlers": ["file"],
+      "level": "DEBUG",
+      "propagate": true
+    }
+  }
+
+}

@@ -55,7 +55,7 @@ export function calculateFilteredPosts(posts, settings) {
             }
 
             if ((post.toxicity != null && post.toxicity != -1 && (post.toxicity > settings.rudeness_max || post.toxicity < settings.rudeness_min)) ||
-                (post.toxicity==-1 && settings.rudeness_max>0)) {
+                (post.toxicity==-1 && settings.rudeness_min>0.1)) {
                 keep = false;
                 filter_reasons[post.id].push('Rudeness')
             }

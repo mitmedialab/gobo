@@ -62,10 +62,10 @@ logs/*.log
 /client/yarn-debug.log*
 /client/yarn-error.log*
 
-migrations/versions
+migrations
 server/dev.sqlite
 
 dump.rdb
 
-#enum migration
-!migrations/versions/9f0383bc3d43_creat_gender_enum.py
+
+*.log

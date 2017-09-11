@@ -171,6 +171,8 @@ class Post(db.Model):
     gender = db.Column(db.Enum(GenderEnum))
     is_corporate = db.Column(db.Boolean)
     virality_count = db.Column(db.Integer)
+    has_link = db.Column(db.Boolean)
+    news_score = db.Column(db.Float)
 
     db.UniqueConstraint('source_id', 'source', name='post_id')
 
@@ -183,8 +185,10 @@ class Post(db.Model):
         self.retrieved_at = datetime.datetime.now()
         if source=='twitter':
             self.created_at = datetime.datetime.strptime(content['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
+            self.has_link = len(content['entities']['urls']) > 0 # 'possibly_sensitive' in content
         else:
             self.created_at = datetime.datetime.strptime(content['created_time'], '%Y-%m-%dT%H:%M:%S+0000')
+            self.has_link = content['type']=='link'
 
     def as_dict(self):
         d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name!='gender'}
