@@ -82,6 +82,8 @@ $post-padding: 30px;
   @include transform(perspective(900px));
   //@include transform-style(preserve-3d);
   perspective: 900px;
+  // for safari blur
+  transform: translateZ(0);
 }
 
 .flipper.flipped {
@@ -199,7 +201,7 @@ $post-padding: 30px;
 
     }
     .action-count {
-      margin-left:10px;
+      -left:2px;
 
     }
   }

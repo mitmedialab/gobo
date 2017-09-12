@@ -17,7 +17,7 @@ $settings-width-closed:56px;
 .feed.wide {  @include wide-feed-mixin; }
 .sidebar.minimized {  @include minimized-sidebar-mixin; }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   %wide { @include wide-feed-mixin; }
   %minimized { @include minimized-sidebar-mixin; }
 

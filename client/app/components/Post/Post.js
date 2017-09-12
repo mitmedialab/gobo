@@ -366,6 +366,10 @@ class Post extends Component {
                                     Corporate / Organization: {post.is_corporate!=null && post.is_corporate.toString()}
                                     <br/>
                                     Virality: {post.virality_count}
+                                    <br/>
+                                    Seriousness: {post.news_score}
+                                    <br/>
+                                    Contains link: {post.has_link.toString()}
                                 </div>
                             </div>
 

@@ -292,11 +292,24 @@ $handle-height: 24px;
   @include small-sidebar;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   .filter:first-of-type {
     display: none;
   }
 
   @include small-sidebar;
 }
+
+@media (max-width: 767px) {
+  .sidebar {
+    top: $navbar-height+10px;
+  }
+}
+@media (max-width: 480px) {
+  .sidebar {
+    top: $navbar-height;
+  }
+}
+
+
 

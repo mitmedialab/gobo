@@ -1,6 +1,5 @@
 @import "~normalize.css";
 
-//@import url('https://fonts.googleapis.com/css?family=Eczar|Work+Sans|Khula:300,400,700|Oxygen:300,400');
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:200,200i,300,300i,400,600,700,800,900,900i');
 
 
@@ -106,9 +105,24 @@ body {
 	overflow-x: hidden;
 	background-color: $background;
 	font-family: $font;
+	font-style: normal;
 	font-weight: 300;
 	color: $text-color;
+	-webkit-font-smoothing: antialiased !important;
+	-moz-osx-font-smoothing: grayscale;
 }
+@media (max-width: 767px) {
+	body {
+		padding-top: $navbar-height+10px;
+	}
+}
+
+@media (max-width: 480px) {
+	body {
+		padding-top: $navbar-height;
+	}
+}
+
 
 .no-script {
 	display: block;
