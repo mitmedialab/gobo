@@ -1,6 +1,6 @@
 import datetime
 from server.core import db, bcrypt
-from server.enums import GenderEnum
+from server.enums import GenderEnum, PoliticsEnum, EchoRangeEnum
 
 post_associations_table = db.Table('posts_associations', db.metadata,
     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
@@ -32,6 +32,8 @@ class User(db.Model):
 
     twitter_data = db.Column(db.JSON)
     facebook_data = db.Column(db.JSON)
+
+    political_affiliation = db.Column(db.Enum(PoliticsEnum), default=PoliticsEnum.center)
 
     posts = db.relationship("Post",
                     secondary=post_associations_table, lazy='dynamic', cascade="all")
@@ -128,12 +130,19 @@ class Settings(db.Model):
     include_corporate = db.Column(db.Boolean, default=True)
     virality_min = db.Column(db.Float, db.CheckConstraint('virality_min>=0'), default=0)
     virality_max = db.Column(db.Float, db.CheckConstraint('virality_max<=1'), default=1)
+    seriousness_min = db.Column(db.Float, db.CheckConstraint('seriousness_min>=0'), default=0)
+    seriousness_max = db.Column(db.Float, db.CheckConstraint('seriousness_max<=1'), default=1)
+    echo_range = db.Column(db.Enum(EchoRangeEnum), default=EchoRangeEnum.narrow)
 
     rudeness_ck = db.CheckConstraint('rudeness_max>rudeness_min')
     virality_ck = db.CheckConstraint('virality_max>virality_min')
+    seriousness_ck = db.CheckConstraint('seriousness_max>seriousness_min')
 
     def as_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+        d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name!='echo_range'}
+        d['echo_range'] = self.echo_range.value
+        return d
+
 
     def update(self, settings_dict):
         self.rudeness_min = settings_dict['rudeness_min']
@@ -143,6 +152,9 @@ class Settings(db.Model):
         self.include_corporate = settings_dict['include_corporate']
         self.virality_min = settings_dict['virality_min']
         self.virality_max = settings_dict['virality_max']
+        self.seriousness_min = settings_dict['seriousness_min']
+        self.seriousness_max = settings_dict['seriousness_max']
+        self.echo_range = EchoRangeEnum(settings_dict['echo_range'])
 
 class SettingsUpdate(db.Model):
     __tablename__ = "settings_updates"

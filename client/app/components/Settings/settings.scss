@@ -81,6 +81,7 @@
 .settings-menu {
   list-style: none;
   padding: 0;
+  padding-bottom: 3em;
 }
 
 .settings-menu > li > div > a {
@@ -210,6 +211,10 @@ $handle-height: 24px;
 
 .bar-gender .bar.bar-1 {
   background: deepskyblue;
+}
+
+.politics .bar {
+  background: darken($color1, 20%);
 }
 
 .slider .bar {

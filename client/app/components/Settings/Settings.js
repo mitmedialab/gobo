@@ -170,17 +170,33 @@ class Settings extends Component {
                 sent: 'See stories matching or challenging your political point of view',
                 content: (
                     <div>
-                        TBD
+                        <ReactSlider defaultValue={1} min={1} max={4} step={1} withBars
+                                     value={this.state.settings.echo_range}
+                                     onChange={e=>this.handleChange(e, 'echo_range', false, false)}
+                                     className="slider politics"
+                                     onAfterChange={()=>this.updateSettings()}/>
+                        <div className="slider-labels">
+                            <span style={{'float':'left'}}>Narrow view</span>
+                            <span style={{'float':'right'}}>Wide view</span>
+                        </div>
                     </div>
                 )
             },
             {
                 title:'Seriousness',
-                icon: 'icon-echo',
+                icon: 'icon-seriousness',
                 sent: 'Control the ratio of serious news to fun stuff in your feed',
+                key: 'news_score',
                 content: (
                     <div>
-                        TBD
+                        <ReactSlider defaultValue={[0, 1]} min={0} max={1} step={0.01} withBars
+                                     value={[this.state.settings.seriousness_min, this.state.settings.seriousness_max]}
+                                     onChange={e=>this.handleChange(e, 'seriousness', false, true)}
+                                     onAfterChange={()=>this.updateSettings()}/>
+                        <div className="slider-labels">
+                            <span style={{'float':'left'}}> not serious</span>
+                            <span style={{'float':'right'}}> very serious</span>
+                        </div>
                     </div>
                 )
             }

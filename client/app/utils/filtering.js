@@ -59,8 +59,10 @@ export function calculateFilteredPosts(posts, settings) {
                 keep = false;
                 filter_reasons[post.id].push('Rudeness')
             }
-            // const virality_zScore = (post.virality_count - v_mean) / v_standardDeviation;
-            // const n_z_score = (virality_zScore - min_z_score)/ (max_z_score - min_z_score)
+            if (post.news_score != null && (post.news_score > settings.seriousness_max || post.toxicity < settings.seriousness_min))  {
+                keep = false;
+                filter_reasons[post.id].push('Seriousness')
+            }
             const virality_score = Math.log(post.virality_count + 1) / max_virality;
             if (virality_score > settings.virality_max || virality_score < settings.virality_min) {
                 keep = false;
