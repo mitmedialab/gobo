@@ -3,15 +3,20 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { sortBy } from 'actions/feed';
+import ReactModal from 'react-modal';
+
 
 class SettingsItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: false
+            open: false,
+            modalOpen: false,
         }
         this.toggleOpen = this.toggleOpen.bind(this);
         this.close = this.close.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
 
     }
 
@@ -24,6 +29,18 @@ class SettingsItem extends Component {
         })
 
 
+    }
+
+    openModal() {
+        this.setState({
+           modalOpen: true
+        })
+    }
+
+    closeModal() {
+        this.setState({
+            modalOpen: false
+        })
     }
 
     close() {
@@ -45,10 +62,26 @@ class SettingsItem extends Component {
                     {/*<i className="icon-sort"*/}
                        {/*onClick={()=>this.props.dispatch(sortBy(this.props.feature.key))}></i>*/}
                     </div>
+                    <div className="filter-description">
+                        {this.props.feature.desc}. <a onClick={this.openModal}>Learn more</a>
+                    </div>
                     <div className="filter-controls" onFocus={this.toggleOpen}>
                         {this.props.feature.content}
                     </div>
                 </div>
+                <ReactModal
+                    isOpen={this.state.modalOpen}
+                    onRequestClose={this.closeModal}
+                    contentLabel={this.props.feature.desc}
+                >
+                    <div className="filter-title">
+                        <span className="filter-title-text">{this.props.feature.title}</span>
+                    </div>
+                    {this.props.feature.desc}
+                    <div>
+                    <button onClick={this.closeModal}>Close</button>
+                    </div>
+                </ReactModal>
             </div>
         )
     }

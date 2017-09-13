@@ -289,6 +289,11 @@ $handle-height: 24px;
     display: none;
   }
 }
+.filter-description a {
+  border-bottom: 1px dotted $text-color;
+  cursor: hand;
+
+}
 
 .sidebar.minimized {
   .filter:first-of-type {
