@@ -28,6 +28,10 @@ export function postFacebookResponseToServer(response) {
     return axios.post(API_URL+'api/handle_facebook_response', {'facebook_response': response})
 }
 
+export function postPoliticalAffiliationToServer(response) {
+    return axios.post(API_URL+'api/set_political_affiliation', {'political_affiliation': response})
+}
+
 export function getTwitterAuthURl() {
     return axios.get(API_URL+'api/get_twitter_oauth_token')
 }

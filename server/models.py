@@ -83,6 +83,10 @@ class User(db.Model):
         self.twitter_authorized = True
         db.session.commit()
 
+    def set_political_affiliation(self, political_affiliation):
+        self.political_affiliation = PoliticsEnum(int(political_affiliation))
+        db.session.commit()
+
     def __repr__(self):
         return '<User {0}>'.format(self.email)
 
