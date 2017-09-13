@@ -39,6 +39,8 @@ $layer-top: $layer5;
       font-size: 18px;
       font-weight: 100;
       letter-spacing: .7px;
+      color: $button-color;
+      font-weight: 600;
 
     //  @media $mobile {
     //  font-size: 16px;
@@ -51,10 +53,6 @@ $layer-top: $layer5;
   //}
   }
 
-  &.input_empty.input_unfocused {
-    color: #c1c5cc;
-  }
-
   &.input_focused, &.input_hasValue {
     label.input_label {
       height: 46px;
@@ -64,9 +62,10 @@ $layer-top: $layer5;
     //}
 
       .label_text {
-        color: #b8bdc4;
         letter-spacing: .7px;
         font-size: 11px;
+        font-weight: 100;
+
       }
     }
   }
@@ -85,13 +84,12 @@ $layer-top: $layer5;
   @include transition(all 0.7s ease-in-out);
     z-index: $layer1;
     -webkit-appearance: none;
-    border: none;
+    border: 1px solid $button-color;
     outline: none;
     padding: 18px 15px 0 15px;
     margin: 0 auto 13px auto;
     color: $text-color;
     letter-spacing: .7px;
-    font-family: 'Roboto', sans-serif;
     font-weight: 300;
     font-size: 16px;
     height: 70px;

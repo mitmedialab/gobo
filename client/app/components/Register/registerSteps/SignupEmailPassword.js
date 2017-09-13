@@ -142,17 +142,21 @@ class SignupEmailPassword extends Component {
 
                                 <div className="status-text"> {this.props.auth.registerStatusText} </div>
 
+                                <hr/>
+
+                                <div>
+                                    <p>Already have an account?</p>
+                                    <p>
+                                        <Link to="/login">
+                                            <button className="button button_wide"> Click here to login</button>
+                                        </Link>
+                                    </p>
+                                </div>
+
                             </form>
 
 
-                            <div>
-                                <p>Already have an account?</p>
-                                <p>
-                                    <Link to="/login">
-                                        <button className="button"> Click here to login</button>
-                                    </Link>
-                                </p>
-                            </div>
+
                 </div>
         );
     }

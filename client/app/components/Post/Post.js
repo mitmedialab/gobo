@@ -369,7 +369,7 @@ class Post extends Component {
                                     <br/>
                                     Seriousness: {post.news_score}
                                     <br/>
-                                    Contains link: {post.has_link.toString()}
+                                    Contains link: {post.has_link!=null && post.has_link.toString()}
                                 </div>
                             </div>
 

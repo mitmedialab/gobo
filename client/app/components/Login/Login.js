@@ -115,16 +115,20 @@ class Login extends Component {
 
                                 {this.props.isAuthenticating && <Loader/>}
 
+                                <hr/>
+
+                                <div>
+                                    <p>Don't have an account yet?</p>
+                                    <p>
+                                        <Link to="/register">
+                                            <button className="button button_wide"> Click here to Register</button>
+                                        </Link>
+                                    </p>
+                                </div>
+
                             </form>
 
-                            <div>
-                                <p>Don't have an account yet?</p>
-                                <p>
-                                    <Link to="/register">
-                                        <button className="button"> Click here to Register</button>
-                                    </Link>
-                                </p>
-                            </div>
+
                         </div>
 
 
