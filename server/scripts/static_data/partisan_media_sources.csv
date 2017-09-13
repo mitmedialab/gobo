@@ -1,0 +1,56 @@
+Quintile,URL,Twitter Handle,Facebook Page,Enum_name,Enum_val
+,,,,,
+Right,http://www.breitbart.com,https://twitter.com/BreitbartNews,https://www.facebook.com/Breitbart,right,5
+Right,http://conservativetribune.com,https://twitter.com/conserv_tribune,https://www.facebook.com/theconservativetribune/,right,5
+Right,http://www.theblaze.com,https://twitter.com/theblaze,https://www.facebook.com/theblaze,right,5
+Right,http://dailycaller.com,https://twitter.com/dailycaller,https://www.facebook.com/DailyCaller,right,5
+Right,http://www.foxnews.com,https://twitter.com/FoxNews,https://www.facebook.com/FoxNews,right,5
+Right,http://www.dailymail.co.uk,https://twitter.com/DailyMail,https://www.facebook.com/DailyMail,right,5
+Right,http://www.thegatewaypundit.com,https://twitter.com/gatewaypundit,https://www.facebook.com/gatewaypundit,right,5
+Right,http://www.westernjournalism.com,https://twitter.com/WestJournalism,https://www.facebook.com/WesternJournalism/,right,5
+Right,http://www.nypost.com,https://twitter.com/nypost,https://www.facebook.com/NYPost/,right,5
+Right,http://thepoliticalinsider.com,https://twitter.com/TPInsidr,https://www.facebook.com/thepoliticalinsider,right,5
+,,,,,
+Left,http://www.huffingtonpost.com,https://twitter.com/HuffPost,https://www.facebook.com/HuffPost,left,1
+Left,http://www.msnbc.msn.com/,https://twitter.com/msnbc/,https://www.facebook.com/msnbc/,left,1
+Left,http://www.vox.com,https://twitter.com/voxdotcom,https://www.facebook.com/Vox,left,1
+Left,http://www.npr.org/,https://twitter.com/NPR,https://www.facebook.com/NPR/,left,1
+Left,http://www.politicususa.com,https://twitter.com/politicususa,https://www.facebook.com/PoliticusUSA/,left,1
+Left,http://www.thedailybeast.com/,https://twitter.com/thedailybeast,https://www.facebook.com/thedailybeast/,left,1
+Left,http://www.slate.com,https://twitter.com/slate,https://www.facebook.com/Slate,left,1
+Left,http://rawstory.com,https://twitter.com/rawstory,https://www.facebook.com/TheRawStory,left,1
+Left,http://www.salon.com/,https://twitter.com/salon,https://www.facebook.com/salon/,left,1
+Left,http://www.dailykos.com,https://twitter.com/dailykos,https://www.facebook.com/dailykos/,left,1
+,,,,,
+Center,http://thehill.com,https://twitter.com/thehill,https://www.facebook.com/TheHill,center,3
+Center,http://abcnews.go.com/,https://twitter.com/abcnews,https://www.facebook.com/ABCNews,center,3
+Center,http://usatoday.com/,https://twitter.com/usatoday,https://www.facebook.com/usatoday,center,3
+Center,http://www.businessinsider.com,https://twitter.com/businessinsider,https://www.facebook.com/businessinsider,center,3
+Center,http://online.wsj.com/,https://twitter.com/WSJ,https://www.facebook.com/wsj,center,3
+Center,http://www.reuters.com,https://twitter.com/reuters,https://www.facebook.com/Reuters,center,3
+Center,https://theintercept.com/,https://twitter.com/theintercept,https://www.facebook.com/theinterceptflm,center,3
+Center,http://www.mediaite.com,https://twitter.com/mediaite,https://www.facebook.com/mediaite,center,3
+Center,http://businessweek.com,https://twitter.com/BW,https://www.facebook.com/bloombergbusinessweek/,center,3
+Center,http://www.cnbc.com/,https://twitter.com/CNBC,https://www.facebook.com/cnbc/,center,3
+,,,,,
+Center Left,http://time.com,https://twitter.com/TIME,https://www.facebook.com/time,center_left,2
+Center Left,http://nytimes.com,https://twitter.com/nytimes,https://www.facebook.com/nytimes/,center_left,2
+Center Left,http://www.cnn.com/,https://twitter.com/CNN,https://www.facebook.com/cnn/,center_left,2
+Center Left,http://washingtonpost.com,https://twitter.com/washingtonpost,https://www.facebook.com/washingtonpost/,center_left,2
+Center Left,http://www.guardian.co.uk/,https://twitter.com/GuardianUs,https://www.facebook.com/GuardianUs,center_left,2
+Center Left,http://www.nbcnews.com,https://www.facebook.com/NBCNews/,https://twitter.com/NBCNews,center_left,2
+Center Left,http://politico.com,https://twitter.com/politico,https://www.facebook.com/politico/,center_left,2
+Center Left,http://www.buzzfeed.com,https://twitter.com/BuzzFeed,https://www.facebook.com/BuzzFeed/,center_left,2
+Center Left,http://www.theatlantic.com/,https://www.facebook.com/TheAtlantic/,https://twitter.com/TheAtlantic,center_left,2
+Center Left,http://www.nydailynews.com/,https://twitter.com/NYDailyNews,https://www.facebook.com/NYDailyNews/,center_left,2
+,,,,,
+Center Right,http://realclearpolitics.com/,https://twitter.com/RealClearNews,https://www.facebook.com/realclearpolitics/,center_right,4
+Center Right,http://examiner.com,,,center_right,4
+Center Right,http://www.nationalreview.com/,https://twitter.com/NRO,https://www.facebook.com/nationalreview/,center_right,4
+Center Right,http://www.rt.com,https://twitter.com/RT_com,https://www.facebook.com/RTnews/,center_right,4
+Center Right,http://tmz.com/,https://twitter.com/TMZ,https://www.facebook.com/TMZ,center_right,4
+Center Right,http://www.observer.com/politics,https://twitter.com/observer,https://www.facebook.com/observer/,center_right,4
+Center Right,http://www.redstate.com,https://twitter.com/RedState,https://www.facebook.com/RedStateBlog,center_right,4
+Center Right,http://thefreethoughtproject.com/,,https://www.facebook.com/thefreethoughtprojectcom/,center_right,4
+Center Right,http://www.reason.com/blog/,https://twitter.com/reason,https://www.facebook.com/Reason.Magazine,center_right,4
+Center Right,http://uschronicle.com/,https://twitter.com/USChroniclecom,https://www.facebook.com/uschronicleonline/,center_right,4

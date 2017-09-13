@@ -185,6 +185,7 @@ class Post(db.Model):
     virality_count = db.Column(db.Integer)
     has_link = db.Column(db.Boolean)
     news_score = db.Column(db.Float)
+    political_quintile = db.Column(db.Enum(PoliticsEnum))
 
     db.UniqueConstraint('source_id', 'source', name='post_id')
 
@@ -211,7 +212,7 @@ class Post(db.Model):
         # TODO: logic fore getting text - should we get text from link shared, etc?
         text = ""
         if self.source=="twitter":
-            text = self.content['full_text']
+            text = self.content['full_text'] if 'full_text' in self.content else self.content['text']
         if self.source=="facebook":
             text = self.content['message'] if 'message' in self.content else ""
         return text
@@ -219,8 +220,10 @@ class Post(db.Model):
     def has_toxicity_rate(self):
         return self.toxicity is not None
 
-    def update_content(self, content):
+    def update_content(self, content, is_news=False):
         self.content.update(content)
+        if is_news:
+            self.is_news = True
 
     def update_toxicity(self, score):
         self.toxicity = score

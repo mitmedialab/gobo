@@ -3,18 +3,19 @@ from datetime import datetime, timedelta
 
 from twython import Twython
 from flask import current_app
-import logging
 from logging import getLogger
 from googleapiclient import discovery
-import json
 import urllib
+import csv
 from bs4 import BeautifulSoup
+import os
 
 
 from ..models import User, FacebookAuth, TwitterAuth, Post
 from ..enums import GenderEnum
 from .celery import celery
 from ..core import db
+from server.enums import PoliticsEnum
 
 from .name_gender import NameGender
 from .gender_classifier.NameClassifier_light import NameClassifier
@@ -27,6 +28,9 @@ FACEBOOK_POSTS_FIELDS = ['id','caption','created_time','description','from{pictu
                          'type','updated_time','likes.summary(true)','reactions.summary(true)','comments.summary(true)']
 
 FACEBOOK_URL = 'https://graph.facebook.com/v2.10/'
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+MEDIA_SOURCES_FILE = os.path.join(basedir,'static_data', 'partisan_media_sources.csv')
 
 name_gender_analyzer = NameGender()
 name_classifier = NameClassifier()
@@ -82,9 +86,6 @@ def get_facebook_posts_per_user(self, user_id):
         commits_failed += not result['success']
     logger.info('Done getting facebook posts for user {}, total {} posts added to db. {} commits succeeded. '
                '{} commits failed.'.format(user_id, posts_added, commits_succeeded, commits_failed))
-
-def get_news():
-    pass
 
 def _get_facebook_posts(user):
     friends_likes = _get_facebook_friends_and_likes(user)
@@ -143,17 +144,40 @@ def _add_post(user, post, source):
             user.posts.append(post_item)
         db.session.commit()
         success = True
-        analyze_post.delay(post_item.id, user.id)
+        analyze_post.delay(post_item.id)
     except:
         logger.error('An error adding post {} from tweeter to user {}'.format(post['id'], user.id))
         success = False
     return {'success': success, 'added_new':added_new}
 
+def _add_news_post(post, source, quintile):
+    added_new = False
+    try:
+        post_id = post['id_str']  if 'id_str' in post else str(post['id'])
+        post_item = Post.query.filter_by(original_id=post_id, source=source).first()
+        if not post_item:
+            post_item = Post(post_id, source, post, True)
+            db.session.add(post_item)
+            added_new = True
+        else:
+            post_item.update_content(post, is_news=True)
+
+        post_item.political_quintile = quintile
+
+        db.session.commit()
+        success = True
+        analyze_post.delay(post_item.id)
+    except:
+        logger.error('An error adding post {}'.format(post['id']))
+        success = False
+    return {'success': success, 'added_new':added_new}
+
+
 @celery.task(serializer='json', bind=True)
-def analyze_post(self, post_id, user_id):
+def analyze_post(self, post_id):
     analyze_toxicity(post_id)
     analyze_gender_corporate(post_id)
-    analyze_virality(post_id, user_id)
+    analyze_virality(post_id)
     get_news_score(post_id)
 
 
@@ -197,7 +221,7 @@ def analyze_gender_corporate(post_id):
         corporate = True
     post.update_gender_corporate(gender, corporate)
 
-def analyze_virality(post_id, user_id):
+def analyze_virality(post_id):
     post = Post.query.get(post_id)
     is_facebook = post.source=='facebook'
 
@@ -205,7 +229,7 @@ def analyze_virality(post_id, user_id):
     if is_facebook:
         comments = post.content['comments']['summary']['total_count']
     else:
-        comments = count_tweet_replies(post.content, user_id)
+        comments = count_tweet_replies(post.content)
         post.update_replies_count(comments)
     shares = 0
     if is_facebook:
@@ -256,7 +280,7 @@ def get_news_score(post_id):
 
 
 
-def count_tweet_replies(tweet, user_id):
+def count_tweet_replies(tweet):
     #todo: this is getting to the API rate limit very quickly, find a better way to get replies count
     # twitter_auth = TwitterAuth.query.filter_by(user_id=user_id).first()
     # twitter = Twython(current_app.config['TWITTER_API_KEY'], current_app.config['TWITTER_API_SECRET'],
@@ -271,5 +295,41 @@ def count_tweet_replies(tweet, user_id):
     #     count = 0
     count = 0
     return count
+
+@celery.task(serializer='json', bind=True)
+def get_news_posts(self):
+    #facebook requests payload
+    N = 2
+    MAX_POST = 10
+    date_N_days_ago = datetime.now() - timedelta(days=N)
+    since_date = date_N_days_ago.strftime('%Y-%m-%d')
+    facebook_payload = {
+        'fields': ','.join(FACEBOOK_POSTS_FIELDS),
+        'access_token': '{}|{}'.format(current_app.config['FACEBOOK_APP_ID'], current_app.config['FACEBOOK_APP_SECRET']),
+        'since': since_date,
+        'limit': MAX_POST
+    }
+
+    with open(MEDIA_SOURCES_FILE) as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            if (row['Enum_val']):
+                quintile = PoliticsEnum(int(row['Enum_val']))
+                if row['Twitter Handle']:
+                    object = {'id': row['Twitter Handle'].replace('https://twitter.com/', '')}
+                    twitter = Twython(current_app.config['TWITTER_API_KEY'], current_app.config['TWITTER_API_SECRET'])
+                    tweets = twitter.get_user_timeline(screen_name=object['id'], count=MAX_POST, tweet_mode='extended')
+                    for post in tweets:
+                        _add_news_post(post, 'twitter', quintile)
+                    pass
+                if row['Facebook Page']:
+                    #get facebook feed
+                    object = {'id': row['Facebook Page'].replace('https://www.facebook.com/', '')}
+                    r = requests.get(FACEBOOK_URL + object['id'] + '/feed', facebook_payload)
+                    result = r.json()
+                    if 'data' in result:
+                        for p in result["data"]:
+                            post = dict(p, **{'post_user': object})
+                            _add_news_post(post, 'facebook', quintile)
 
 
