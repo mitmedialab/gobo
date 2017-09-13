@@ -59,7 +59,7 @@ export function calculateFilteredPosts(posts, settings) {
                 keep = false;
                 filter_reasons[post.id].push('Rudeness')
             }
-            if ((settings.seriousness_max<1 || settings.seriousness_min>0) && (post.news_score > settings.seriousness_max || post.news_score < settings.seriousness_min))  {
+            if ((settings.seriousness_max<0.9 || settings.seriousness_min>0.1) && (post.news_score > settings.seriousness_max || post.news_score < settings.seriousness_min))  {
                 keep = false;
                 filter_reasons[post.id].push('Seriousness')
             }

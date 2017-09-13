@@ -5,6 +5,33 @@ import { connect } from 'react-redux';
 import { sortBy } from 'actions/feed';
 import ReactModal from 'react-modal';
 
+let modalStyles = {
+    overlay : {
+        position          : 'fixed',
+            top               : 0,
+            left              : 0,
+            right             : 0,
+            bottom            : 0,
+            backgroundColor   : 'rgba(0, 0, 0, 0.8)',
+            zIndex : '1000000'
+    },
+    content : {
+
+            border                     : '1px solid #ccc',
+            background                 : '#fff',
+            overflow                   : 'auto',
+            WebkitOverflowScrolling    : 'touch',
+            borderRadius               : '4px',
+            outline                    : 'none',
+            padding                    : '20px',
+            maxWidth: '500px',
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+    }
+
+}
 
 class SettingsItem extends Component {
     constructor(props) {
@@ -73,13 +100,20 @@ class SettingsItem extends Component {
                     isOpen={this.state.modalOpen}
                     onRequestClose={this.closeModal}
                     contentLabel={this.props.feature.desc}
+                    style={modalStyles}
                 >
                     <div className="filter-title">
+                        <span className={"filter-title-icon "+this.props.feature.icon}></span>
                         <span className="filter-title-text">{this.props.feature.title}</span>
                     </div>
-                    {this.props.feature.desc}
                     <div>
-                    <button onClick={this.closeModal}>Close</button>
+                        <i>{this.props.feature.desc}</i>
+                    </div>
+                    <div>
+                        {this.props.feature.longDesc}
+                    </div>
+                    <div className="modal-close-button">
+                        <button onClick={this.closeModal}>X</button>
                     </div>
                 </ReactModal>
             </div>

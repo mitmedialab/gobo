@@ -321,5 +321,17 @@ $handle-height: 24px;
   }
 }
 
+.modal-close-button {
+  position:absolute;
+  top:0;
+  right:0;
+}
+
+.ReactModalPortal {
+  .filter-title-icon {
+    vertical-align: middle;
+  }
+}
+
 
 
