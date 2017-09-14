@@ -29,7 +29,8 @@ class PoliticsEnum(enum.Enum):
     right = 5
 
 class EchoRangeEnum(enum.Enum):
-    narrow = 1
-    mid_narrow = 2
+    narrow = 0
+    mid_narrow = 1
+    mid = 2
     mid_wide = 3
     wide = 4

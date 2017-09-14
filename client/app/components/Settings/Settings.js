@@ -176,7 +176,7 @@ class Settings extends Component {
                 longDesc: 'Worried about your "echo chamber"? Gobo will let you choose to see posts from news sources similar to those that you already read, or if you want to see a "wider" set of news you can choose to include media sources that might challenge how you read about and see the world.',
                 content: (
                     <div>
-                        <ReactSlider defaultValue={1} min={1} max={4} step={1} withBars
+                        <ReactSlider defaultValue={0} min={0} max={4} step={1} withBars
                                      value={this.state.settings.echo_range}
                                      onChange={e=>this.handleChange(e, 'echo_range', false, false)}
                                      className="slider politics"

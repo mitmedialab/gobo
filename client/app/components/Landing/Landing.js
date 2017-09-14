@@ -66,6 +66,10 @@ class Landing extends Component {
 						our motivation? Read our director <a
 						href="https://www.theatlantic.com/technology/archive/2017/05/the-case-for-a-taxpayer-supported-version-of-facebook/524037/">Ethan
 						Zuckerman's piece in the Atlantic</a> for some more background about why we are building Gobo.
+
+						<br/>
+						<br/>
+						If you have any questions, feedback, or other thoughts you can contact the Gobo team at gobo@media.mit.edu
 					</div>
 				</div>
 			</div>

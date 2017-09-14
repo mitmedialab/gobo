@@ -58,7 +58,7 @@ function Privacy() {
 
                     <h2>Notification of Changes to the Privacy Policy</h2>
                     We will review our security measures and Privacy Policy on a periodic basis, and we may modify our policies as appropriate. We may also change or update our Privacy Policy if we add new services or features. If any changes are made, we will make appropriate amendments to this policy and post them at the Site. We encourage you to review our Privacy Policy on a regular basis.
-                    If you have any questions about this Privacy Policy, the practices of this Site, or your dealings with this Site, you can contact the Gobo team at info@gobo.social.
+                    If you have any questions about this Privacy Policy, the practices of this Site, or your dealings with this Site, you can contact the Gobo team at gobo@media.mit.edu.
 
                     <h2>Effective Date</h2>
                     This Privacy Policy is in effect as of Sept 7, 2017.<br/>
