@@ -7,7 +7,7 @@ class CouhesMessage extends Component {
                     <div className="couhes-text">
                         <h2>CONSENT TO PARTICIPATE IN  NON-BIOMEDICAL RESEARCH</h2>
                         <h3>Gobo</h3>
-                        {/*<h5>TL;DR: </h5>*/}
+                        {<h5>TL;DR: This is a MIT research project to study how people filter their social media feeds. We're tracking your use of the site, but will only publish it anonymously and in aggregate. We might follow up with you to hear more about what you think about Gobo. The MIT Institutional Review Board has approved of this study.</h5>}
                         <p>You are asked to participate in a research study conducted by Ethan Zuckerman, Rahul Bhargava (M.S.), Jasmin Rubinovitz (M.S.) and Alexis Hope (M.S.), from the MIT Media Lab at the Massachusetts Institute of Technology (M.I.T.) You were selected as a possible participant in this study because you are interested in online social media platforms. You should read the information below, and ask questions about anything you do not understand, before deciding whether or not to participate.</p>
                         <h3>PARTICIPATION AND WITHDRAWAL</h3>
                         <p>Your participation in this study is completely voluntary and you are free to choose whether to be in it or not. If you choose to be in this study, you may subsequently withdraw from it at any time without penalty or consequences of any kind.  The investigator may withdraw you from this research if circumstances arise which warrant doing so.</p>
