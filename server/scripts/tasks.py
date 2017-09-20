@@ -23,8 +23,8 @@ from .gender_classifier.NameClassifier_light import NameClassifier
 logger = getLogger(__name__)
 
 
-FACEBOOK_POSTS_FIELDS = ['id','caption','created_time','description','from{picture,name,gender,category}','icon','link','message','message_tags','name', 'object_id',
-                         'parent_id','permalink_url','picture.type(large)','full_picture','place', 'properties', 'shares', 'source', 'status_type', 'story', 'story_tags' ,
+FACEBOOK_POSTS_FIELDS = ['id','caption','created_time','description','from{picture,name,gender}','icon','link','message','message_tags','name', 'object_id',
+                         'parent_id','permalink_url','picture','full_picture','place', 'properties', 'shares', 'source', 'status_type', 'story', 'story_tags' ,
                          'type','updated_time','likes.summary(true)','reactions.summary(true)','comments.summary(true)']
 
 FACEBOOK_URL = 'https://graph.facebook.com/v2.10/'
@@ -104,6 +104,7 @@ def _get_facebook_posts(user):
         for object in friends_likes[key]:
             r = requests.get(FACEBOOK_URL + object['id'] + '/feed', payload)
             result = r.json()
+            logger.warning(result)
             if 'data' in result:
                 posts.extend([dict(p, **{'post_user':object}) for p in result["data"]])
             # while 'paging' in result and 'next' in result['paging']:
@@ -300,7 +301,7 @@ def count_tweet_replies(tweet):
 def get_news_posts(self):
     #facebook requests payload
     N = 2
-    MAX_POST = 10
+    MAX_POST = 3
     date_N_days_ago = datetime.now() - timedelta(days=N)
     since_date = date_N_days_ago.strftime('%Y-%m-%d')
     facebook_payload = {
@@ -317,11 +318,13 @@ def get_news_posts(self):
                 quintile = PoliticsEnum(int(row['Enum_val']))
                 if row['Twitter Handle']:
                     object = {'id': row['Twitter Handle'].replace('https://twitter.com/', '')}
-                    twitter = Twython(current_app.config['TWITTER_API_KEY'], current_app.config['TWITTER_API_SECRET'])
-                    tweets = twitter.get_user_timeline(screen_name=object['id'], count=MAX_POST, tweet_mode='extended')
+                    try:
+                        twitter = Twython(current_app.config['TWITTER_API_KEY'], current_app.config['TWITTER_API_SECRET'])
+                        tweets = twitter.get_user_timeline(screen_name=object['id'], count=MAX_POST, tweet_mode='extended')
+                    except:
+                        tweets = []
                     for post in tweets:
                         _add_news_post(post, 'twitter', quintile)
-                    pass
                 if row['Facebook Page']:
                     #get facebook feed
                     object = {'id': row['Facebook Page'].replace('https://www.facebook.com/', '')}

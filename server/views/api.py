@@ -3,10 +3,12 @@ from flask import request, jsonify, session, url_for
 from flask import current_app as app
 from flask_login import login_required, login_user, logout_user, current_user
 import requests
+from sqlalchemy import and_
 from twython import Twython
 
 from server.models import User, FacebookAuth, TwitterAuth, Post, SettingsUpdate
 from server.scripts import tasks
+from server.enums import PoliticsEnum
 
 from server.blueprints import api
 
@@ -154,7 +156,19 @@ def getFacebookLongAuth(token):
 @api.route('/get_posts', methods=['GET'])
 @login_required
 def get_posts():
-    return jsonify({'posts': [post.as_dict() for post in current_user.posts.order_by(Post.created_at.desc())][:800]})
+    PERSONAL_POSTS_MAX = 800 #how many personal posts to grab
+    personal_posts = [post.as_dict() for post in current_user.posts.order_by(Post.created_at.desc())][:PERSONAL_POSTS_MAX]
+
+    NEWS_POSTS_COUNT = 50  # how many news posts to grab. this number should divide by 5.
+    posts_from_quintile = NEWS_POSTS_COUNT / 5
+    ignore_ids = [item.id for item in current_user.posts.all()]
+    # for quintile in PoliticsEnum:
+    #     posts = Post.query.filter((
+    #         Post.id.notin_(ignore_ids)) & (Post.political_quintile==quintile)).order_by(
+    #         Post.created_at.desc())[:posts_from_quintile]
+    #     personal_posts.extend(posts)
+
+    return jsonify({'posts': personal_posts})
 
 # ----- settings logic -----
 
