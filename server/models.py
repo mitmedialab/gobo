@@ -210,7 +210,7 @@ class Post(db.Model):
     def as_dict(self):
         d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name not in ['gender', 'political_quintile']}
         d['gender'] = str(self.gender)
-        d['political_quintile'] = self.political_quintile.value
+        d['political_quintile'] = self.political_quintile.value if self.political_quintile else None
         return d
 
     def get_text(self):
