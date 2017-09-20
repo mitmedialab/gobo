@@ -104,7 +104,6 @@ def _get_facebook_posts(user):
         for object in friends_likes[key]:
             r = requests.get(FACEBOOK_URL + object['id'] + '/feed', payload)
             result = r.json()
-            logger.warning(result)
             if 'data' in result:
                 posts.extend([dict(p, **{'post_user':object}) for p in result["data"]])
             # while 'paging' in result and 'next' in result['paging']:
@@ -276,6 +275,8 @@ def get_news_score(post_id):
         if 'taxonomies' in result:
             scores = [float(x['score'])for x in result['taxonomies'] if '/news' in x['label'].lower()]
             score = max(scores) if len(scores)>0 else 0
+    if post.is_news:
+        score = min(1, score+0.6)
     post.news_score = score
     db.session.commit()
 

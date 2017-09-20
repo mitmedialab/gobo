@@ -208,8 +208,9 @@ class Post(db.Model):
             self.has_link = content['type']=='link'
 
     def as_dict(self):
-        d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name!='gender'}
+        d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name not in ['gender', 'political_quintile']}
         d['gender'] = str(self.gender)
+        d['political_quintile'] = self.political_quintile.value
         return d
 
     def get_text(self):

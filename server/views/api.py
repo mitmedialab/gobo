@@ -157,7 +157,7 @@ def getFacebookLongAuth(token):
 @login_required
 def get_posts():
     PERSONAL_POSTS_MAX = 800 #how many personal posts to grab
-    personal_posts = [post.as_dict() for post in current_user.posts.order_by(Post.created_at.desc())][:PERSONAL_POSTS_MAX]
+    personal_posts = current_user.posts.order_by(Post.created_at.desc())[:PERSONAL_POSTS_MAX]
 
     NEWS_POSTS_COUNT = 50  # how many news posts to grab. this number should divide by 5.
     posts_from_quintile = NEWS_POSTS_COUNT / 5
@@ -168,14 +168,16 @@ def get_posts():
     #         Post.created_at.desc())[:posts_from_quintile]
     #     personal_posts.extend(posts)
 
-    return jsonify({'posts': personal_posts})
+    return jsonify({'posts': [post.as_dict() for post in personal_posts]})
 
 # ----- settings logic -----
 
 @api.route('/get_settings', methods=['GET'])
 @login_required
 def get_settings():
-    return jsonify(current_user.settings.as_dict())
+    settings = current_user.settings.as_dict()
+    settings['political_affiliation'] = current_user.political_affiliation.value
+    return jsonify(settings)
 
 @api.route('/update_settings', methods=['POST'])
 @login_required

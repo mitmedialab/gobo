@@ -68,6 +68,10 @@ export function calculateFilteredPosts(posts, settings) {
                 keep = false;
                 filter_reasons[post.id].push('Virality')
             }
+            if (post.political_quintile>(settings.political_affiliation+settings.echo_range) || post.political_quintile<(settings.political_affiliation-settings.echo_range)) {
+                keep = false;
+                filter_reasons[post.id].push('News Echo')
+            }
             if (keep) {
                 kept_posts.push(post)
             }
