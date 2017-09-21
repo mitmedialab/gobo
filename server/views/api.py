@@ -159,14 +159,14 @@ def get_posts():
     PERSONAL_POSTS_MAX = 800 #how many personal posts to grab
     personal_posts = current_user.posts.order_by(Post.created_at.desc())[:PERSONAL_POSTS_MAX]
 
-    # NEWS_POSTS_COUNT = 50  # how many news posts to grab. this number should divide by 5.
-    # posts_from_quintile = NEWS_POSTS_COUNT / 5
-    # ignore_ids = [item.id for item in current_user.posts.all()]
-    # for quintile in PoliticsEnum:
-    #     posts = Post.query.filter((
-    #         Post.id.notin_(ignore_ids)) & (Post.political_quintile==quintile)).order_by(
-    #         Post.created_at.desc())[:posts_from_quintile]
-    #     personal_posts.extend(posts)
+    NEWS_POSTS_COUNT = 50  # how many news posts to grab. this number should divide by 5.
+    posts_from_quintile = NEWS_POSTS_COUNT / 5
+    ignore_ids = [item.id for item in current_user.posts.all()]
+    for quintile in PoliticsEnum:
+        posts = Post.query.filter((
+            Post.id.notin_(ignore_ids)) & (Post.political_quintile==quintile)).order_by(
+            Post.created_at.desc())[:posts_from_quintile]
+        personal_posts.extend(posts)
 
     return jsonify({'posts': [post.as_dict() for post in personal_posts]})
 

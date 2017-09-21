@@ -72,6 +72,10 @@ class Landing extends Component {
 						If you have any questions, feedback, or other thoughts you can contact the Gobo team at gobo@media.mit.edu
 					</div>
 				</div>
+				<div className="logos">
+					<a href="https://knightfoundation.org/"><img src="static/images/KF_logo.png"/></a>
+					<a href="https://civic.mit.edu/"><img src="static/images/CivicMedia_Symbol.jpg"/></a>
+				</div>
 			</div>
         );
     }
