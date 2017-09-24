@@ -9,6 +9,7 @@ import urllib
 import csv
 from bs4 import BeautifulSoup
 import os
+from raven import Client
 
 
 from ..models import User, FacebookAuth, TwitterAuth, Post
@@ -16,11 +17,14 @@ from ..enums import GenderEnum
 from .celery import celery
 from ..core import db
 from server.enums import PoliticsEnum
+from server.config.config import config_map
 
 from .name_gender import NameGender
 from .gender_classifier.NameClassifier_light import NameClassifier
 
 logger = getLogger(__name__)
+
+client = Client(config_map['prod'].SENTRY_DSN_WORKER)
 
 
 FACEBOOK_POSTS_FIELDS = ['id','caption','created_time','description','from{picture,name,gender}','icon','link','message','message_tags','name', 'object_id',
@@ -117,8 +121,12 @@ def _get_facebook_friends_and_likes(user):
     payload = {'fields':'friends.summary(true),likes.summary(true)',
                'access_token': user.facebook_auth.access_token}
     friends_likes = {'friends': [], 'likes': []}
-    r = requests.get(FACEBOOK_URL+user.facebook_id, payload)
-    initial_result = r.json()
+    try:
+        r = requests.get(FACEBOOK_URL+user.facebook_id, payload)
+        initial_result = r.json()
+    except:
+        logger.error ('error getting friends and likes for user {}'.format(user.id))
+        #client.captureMessage('error getting friends and likes for user {}'.format(user.id))
     for key in friends_likes.keys():
         friends_likes[key].extend(initial_result[key]['data'])
         result = initial_result[key]

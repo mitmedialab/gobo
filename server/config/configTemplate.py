@@ -18,18 +18,21 @@ class BaseConfig(object):
 
     GOOGLE_API_KEY = 'XXXXX'
 
+    SENTRY_DSN = 'XXXXX'
+    SENTRY_DSN_WORKER = 'XXXXXX'
+
+    STATIC_FOLDER = '../client/dist/'
+    STATIC_URL_PATH = '/static'
+
+
 class DevConfig(BaseConfig):
     DEBUG = True
-    STATIC_FOLDER = 'client/dist'
     TEMPLATE_FOLDER = 'templates'
-    STATIC_URL_PATH = ''
 
 
 class ProductionConfig(BaseConfig):
     DEBUG = False
-    STATIC_FOLDER = 'client/dist'
-    TEMPLATE_FOLDER = 'client/dist'
-    STATIC_URL_PATH = ''
+    TEMPLATE_FOLDER = '../client/dist/'
 
 
 config_map = {

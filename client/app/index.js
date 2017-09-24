@@ -9,7 +9,7 @@ import App from 'components/App/App';
 import ManageScroll from 'components/ManageScroll/ManageScroll';
 import store from './store';
 
-// Raven.config(<Raven-URI>).install();
+// Raven.config('https://d2a0fea6a02c4cd490b46c7a7ec91992@sentry.io/221335').install();
 // require('./manageServiceWorker');
 
 const Root = () => (
