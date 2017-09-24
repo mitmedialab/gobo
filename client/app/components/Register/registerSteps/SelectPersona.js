@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 import { postPoliticalAffiliationToServer} from '../../../utils/apiRequests'
 
+const political_enums = {
+    'left': 1,
+    'center left': 2,
+    'center' : 3,
+    'center_right': 4,
+    'right': 5
+}
+
+
+
 
 class SelectPersona extends Component {
     handleClick(num) {
@@ -11,17 +21,31 @@ class SelectPersona extends Component {
         return (
             <div>
                 <p>
-                    Great! Almost done.
+                    To tailor your feed, tell us a little about what type of news you read.
                     <br/>
-                    Now just tell up what news you would like to see
+                    Scan the names of popular news sites below and click on the one you read most.
                     <br/>
-                    You can always go to your profile page and change that, or selct to see a wider view.
+                    This will help us tailor the news filter that we let you control.
                 </p>
-                <button className="button button_wide" onClick={()=>this.handleClick(1)}>Left</button>
-                <button className="button button_wide" onClick={()=>this.handleClick(2)}>Center Left</button>
-                <button className="button button_wide" onClick={()=>this.handleClick(3)}>Center</button>
-                <button className="button button_wide" onClick={()=>this.handleClick(4)}>Center Right</button>
-                <button className="button button_wide" onClick={()=>this.handleClick(5)}>Right</button>
+                <button className="button button_wide" onClick={()=>this.handleClick(political_enums['left'])}>
+                    Huffington Post, MSNBC, Vox
+                </button>
+
+                <button className="button button_wide" onClick={()=>this.handleClick(political_enums['center_left'])}>
+                    NYTimes, BuzzFeed, Time
+                </button>
+
+                <button className="button button_wide" onClick={()=>this.handleClick(political_enums['center'])}>
+                    The Hill, ABC News, Business Week
+                </button>
+
+                <button className="button button_wide" onClick={()=>this.handleClick(political_enums['center_right'])}>
+                    Examiner, National Review, US Chronicle
+                </button>
+
+                <button className="button button_wide" onClick={()=>this.handleClick(political_enums['right'])}>
+                    Breitbart, Daily Caller, Fox News
+                </button>
 
             </div>
         )
