@@ -60,12 +60,11 @@ class User(db.Model):
         return self.id
 
     def get_names(self):
-        return {
-            'email': self.email,
-            'facebook_name':self.facebook_name,
-            'twitter_name':self.twitter_name,
-            'avatar': self.twitter_data['profile_image_url_https'] if self.twitter_data else self.facebook_picture_url
-        }
+        d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name not in [
+            'password', 'id', 'political_affiliation', 'posts', 'settings', 'facebook_data']}
+        d['political_affiliation'] = self.political_affiliation.value
+        d['avatar'] = self.twitter_data['profile_image_url_https'] if self.twitter_data else self.facebook_picture_url
+        return d
 
     def set_facebook_data(self, data):
         self.facebook_name = data['name']

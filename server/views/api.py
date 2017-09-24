@@ -156,7 +156,7 @@ def getFacebookLongAuth(token):
 @api.route('/get_posts', methods=['GET'])
 @login_required
 def get_posts():
-    PERSONAL_POSTS_MAX = 800 #how many personal posts to grab
+    PERSONAL_POSTS_MAX = 400 #how many personal posts to grab
     personal_posts = current_user.posts.order_by(Post.created_at.desc())[:PERSONAL_POSTS_MAX]
 
     NEWS_POSTS_COUNT = 50  # how many news posts to grab. this number should divide by 5.

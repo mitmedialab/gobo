@@ -33,7 +33,7 @@ $icon-font-path: "/static/bootstrap-fonts/";
 
 // ---- icons -----
 $font-path: "/static/custom-icons/fontello";
-$font-name: "25867892";
+$font-name: "33540572";
 
 
 @font-face {
@@ -201,5 +201,6 @@ a, a:hover, a:focus, a:active a:visited{
 @import "../Post/post.scss";
 @import "../Feed/feed.scss";
 @import "../Settings/settings.scss";
+@import "../Profile/profile.scss";
 
 

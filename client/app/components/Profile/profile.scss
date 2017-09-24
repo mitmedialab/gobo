@@ -1,0 +1,25 @@
+.profile-content {
+  max-width: 900px;
+  margin: 0 auto;
+
+  .header {
+    width:450px;
+    max-width: 100%;
+  }
+
+  .profile-img {
+    display: inline-block;
+    max-height: 140px;
+    vertical-align: top;
+  }
+
+  .profile-info {
+    display: inline-block;
+    margin-left:20px;
+
+    h3 {
+      margin-top: 0;
+      padding: 0;
+    }
+  }
+}

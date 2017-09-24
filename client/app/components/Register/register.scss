@@ -51,6 +51,11 @@ $button-default-color: #fff;
       }
     }
 
+    .button-icon{
+      float:right;
+      font-size: 1.6em;
+    }
+
 
     .button {
       @include transition(all 0.2s ease-in-out);
@@ -79,15 +84,23 @@ $button-default-color: #fff;
 
       }
 
-      &.disabled {
-        background: $button-disabled;
-        cursor: not-allowed;
-        &:hover,
-        &:focus {
-          color: $button-default-color;
-          background: $button-disabled;
+
+        &.disabled {
+          background: #fff;
+          cursor: not-allowed;
+          color: $button-default-bg;
+          border: 1px solid  $button-default-bg;
+          &:hover,
+          &:focus {
+            background: #fff;
+            cursor: not-allowed;
+            color: $button-default-bg;
+            border: 1px solid  $button-default-bg;
+          }
         }
-      }
+
+
+
 
       &:hover,
       &:focus {
