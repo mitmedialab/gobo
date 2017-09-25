@@ -34,6 +34,8 @@ $settings-width-closed:56px;
 
 .posts {
   padding: 3em;
+  max-width:690px;
+  margin: 0 auto;
 }
 
 @media (max-width: 768px) {

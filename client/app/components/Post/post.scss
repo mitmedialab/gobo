@@ -206,3 +206,38 @@ $post-padding: 30px;
     }
   }
 }
+
+.link-card {
+  text-align: left;
+  margin-top: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+
+  img {
+    height: auto;
+    min-height: initial;
+    width: 100%;
+  }
+
+  .link-text {
+    padding: 1.2em;
+  }
+
+  .link-caption {
+    font-weight: 700;
+    font-size: 1.3em;
+    padding-botton: 0.3em;
+
+  }
+
+  .link-description {
+
+  }
+
+  .link-name {
+    padding-top: 1em;
+    font-size: 0.7em;
+
+  }
+
+}

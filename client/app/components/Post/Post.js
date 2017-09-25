@@ -187,6 +187,32 @@ class Post extends Component {
 
             switch (content.type) {
                 case 'link': {
+                    postContent = (
+                        <a href={content.link}>
+                        <div>
+                            <div className="link-card">
+                                <img src={content.full_picture || content.picture}/>
+
+                                <div className="link-text">
+                                    <div className="link-caption">
+                                        {content.name}
+
+                                    </div>
+
+                                    <div className="link-description">
+
+                                        {content.description}
+                                    </div>
+
+                                    <div className="link-name">
+                                        {content.caption && content.caption.toUpperCase()}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        </a>
+                    )
                     break;
                 }
                 case  'status': {
