@@ -51,7 +51,7 @@ class FacebookTwitterButtons extends Component {
 
     isDone() {
         if (this.state.facebookSuccess && this.state.twitterSuccess) {
-            this.props.onFinish()
+            //this.props.onFinish()
         }
     }
 
