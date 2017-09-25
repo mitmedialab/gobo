@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import { logout, tryGetUser } from 'actions/auth';
 import { getPosts, getSettings } from 'actions/feed';
+import ReactList from 'react-list';
 
 import Post from 'components/Post/Post';
 import Settings from 'components/Settings/Settings'
@@ -65,7 +66,7 @@ class Feed extends Component {
             return <Redirect to="/"/>
         }
         const posts = this.props.feed.posts;
-        const filtered_posts = this.props.feed.filtered_posts
+        const filtered_posts = this.props.feed.filtered_posts;
         const showing = this.state.showFiltered? 'filtered' : 'kept';
 
         const filtered_text = this.state.showFiltered? 'Showing filtered posts.' : filtered_posts.filtered.length +' posts filtered out of your feed.'
@@ -79,7 +80,10 @@ class Feed extends Component {
         // }
 
 
-        const postsHtml = filtered_posts[showing].map(post=><Post key={post.id} post={post} filtered={this.state.showFiltered} filtered_by={filtered_posts.reasons[post.id]}/>)
+        const postsHtml = filtered_posts[showing].map(post=><Post
+            key={post.id} post={post} filtered={this.state.showFiltered} filtered_by={filtered_posts.reasons[post.id]}
+            virality_max={this.props.feed.filtered_posts.virality_max} virality_avg={this.props.feed.filtered_posts.virality_avg}
+        />)
         return (
             <div className="container-fluid">
                 <div className={'row'}>

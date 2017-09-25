@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import twemoji from 'twemoji'
 import twitterText from 'twitter-text'
-
+import BackOfPost from './BackOfPost'
 
 
 const propTypes = {
@@ -383,21 +383,7 @@ class Post extends Component {
 
 
                         <div className="back">
-                            <div className="back-content">
-                                <div className="toxicity">
-                                    Rudeness: {post.toxicity}
-                                    <br/>
-                                    Gender: {post.gender && post.gender.split('.')[1]}
-                                    <br/>
-                                    Corporate / Organization: {post.is_corporate!=null && post.is_corporate.toString()}
-                                    <br/>
-                                    Virality: {post.virality_count}
-                                    <br/>
-                                    Seriousness: {post.news_score}
-                                    <br/>
-                                    Contains link: {post.has_link!=null && post.has_link.toString()}
-                                </div>
-                            </div>
+                            <BackOfPost post={post} virality_max={this.props.virality_max} virality_avg={this.props.virality_avg}/>
 
                             <PostFooter flipped={true} source={source} onFlipClick={this.unFlip}/>
 

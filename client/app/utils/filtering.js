@@ -45,6 +45,8 @@ export function calculateFilteredPosts(posts, settings) {
         const max_virality = virality_scores.reduce(function (a, b) {
             return Math.max(a, b);
         }, 0);
+        let sum = virality_scores.reduce((previous, current) => current += previous);
+        let virality_avg = sum / virality_scores.length;
 
         posts.forEach(post => {
             var keep = true;
@@ -113,7 +115,8 @@ export function calculateFilteredPosts(posts, settings) {
             });
             filtered_posts.push(...m_posts_to_remove)
         }
-        resolve({kept: kept_posts, filtered: filtered_posts, fb: neutral_fb, reasons: filter_reasons})
+        resolve({kept: kept_posts, filtered: filtered_posts, fb: neutral_fb, reasons: filter_reasons,
+            virality_max:max_virality, virality_avg:virality_avg})
 
     })
 }

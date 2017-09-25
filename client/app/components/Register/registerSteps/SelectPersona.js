@@ -5,7 +5,7 @@ const political_enums = {
     'left': 1,
     'center left': 2,
     'center' : 3,
-    'center_right': 4,
+    'center right': 4,
     'right': 5
 }
 
@@ -31,7 +31,7 @@ class SelectPersona extends Component {
                     Huffington Post, MSNBC, Vox
                 </button>
 
-                <button className="button button_wide" onClick={()=>this.handleClick(political_enums['center_left'])}>
+                <button className="button button_wide" onClick={()=>this.handleClick(political_enums['center left'])}>
                     NYTimes, BuzzFeed, Time
                 </button>
 
@@ -39,7 +39,7 @@ class SelectPersona extends Component {
                     The Hill, ABC News, Business Week
                 </button>
 
-                <button className="button button_wide" onClick={()=>this.handleClick(political_enums['center_right'])}>
+                <button className="button button_wide" onClick={()=>this.handleClick(political_enums['center right'])}>
                     Examiner, National Review, US Chronicle
                 </button>
 

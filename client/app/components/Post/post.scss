@@ -126,6 +126,18 @@ $post-padding: 30px;
   position: relative;
   top: 50%;
   transform: translateY(-50%);
+  color: $color1;
+
+  .icon{
+    font-size:2em;
+    margin-right: -4px;
+    vertical-align: middle;
+  }
+  .explanation {
+    display:inline-block;
+    padding-left: 1em;
+    padding-right:1em;
+  }
 }
 
 .post-inner-content div> img {
