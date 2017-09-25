@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import { logout, tryGetUser } from 'actions/auth';
 import { getPosts, getSettings } from 'actions/feed';
-import ReactList from 'react-list';
+// import ReactList from 'react-list';
+// import Infinite from 'react-infinite'
 
 import Post from 'components/Post/Post';
 import Settings from 'components/Settings/Settings'
@@ -59,7 +60,6 @@ class Feed extends Component {
             minimizedSettings: !this.state.minimizedSettings
         })
     }
-
 
     render() {
         if (!this.props.auth.isAuthenticated) {
@@ -114,6 +114,7 @@ class Feed extends Component {
                                 <span className="filtered-count">{filtered_text}</span><a onClick={this.toggleShowFiltered} className="filtered-link">{filtered_link_text}</a>
 
                             </div>}
+
                             <ReactCSSTransitionGroup
                                 transitionName="example"
                                 transitionEnterTimeout={500}
