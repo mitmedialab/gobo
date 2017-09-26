@@ -296,6 +296,7 @@ $handle-height: 24px;
 }
 
 .sidebar.minimized {
+  overflow: visible;
   .filter:first-of-type {
     height:88px;
   }
