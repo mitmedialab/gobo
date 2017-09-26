@@ -18,11 +18,14 @@ class Settings extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            settings: this.props.feed.settings
+            settings: this.props.feed.settings,
+            openFilter: -1
     }
         this.handleChange = this.handleChange.bind(this);
         this.muteAllMen = this.muteAllMen.bind(this);
         this.updateSettings = this.updateSettings.bind(this);
+        this.closeFilter = this.closeFilter.bind(this);
+        this.openFilter = this.openFilter.bind(this);
     }
 
     componentWillReceiveProps(nextProps){
@@ -53,6 +56,18 @@ class Settings extends Component {
         })
         this.updateSettings();
 
+    }
+
+    openFilter(index) {
+        this.setState({
+            openFilter: index
+        })
+    }
+
+    closeFilter() {
+        this.setState( {
+            openFilter: -1
+        })
     }
 
     updateSettings() {
@@ -217,11 +232,18 @@ class Settings extends Component {
                             <span><i className={"arrow-icon icon-"+arrowIcon} onClick={this.props.onMinimize}></i> <h1>Filters</h1></span>
                         </header>
                     </li>
-                    {settings.map(feature=>(
-                    <li className="setting-item filter" key={feature.title}>
-                        <SettingsItem feature={feature}/>
+                    {settings.map((feature, index)=> {
+                        let isOpen = this.state.openFilter!=-1 && this.state.openFilter==index
+                        return (
+                            <li className="setting-item filter" key={feature.title}>
+                                <SettingsItem feature={feature}
+                                              isOpen={isOpen}
+                                              onClose={this.closeFilter}
+                                              onOpen={this.openFilter}
+                                              index={index}/>
 
-                    </li>))}
+                            </li>)
+                    })}
                 </ul>
 
 

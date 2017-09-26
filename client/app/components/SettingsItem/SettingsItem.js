@@ -37,7 +37,6 @@ class SettingsItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: false,
             modalOpen: false,
         }
         this.toggleOpen = this.toggleOpen.bind(this);
@@ -48,14 +47,12 @@ class SettingsItem extends Component {
     }
 
     toggleOpen() {
-        // if (!this.state.open) {
-        //     this.filterElement.focus()
-        // }
-        this.setState ({
-            open: !this.state.open
-        })
-
-
+        if (this.props.isOpen) {
+            this.close()
+        }
+        else {
+            this.props.onOpen(this.props.index)
+        }
     }
 
     openModal() {
@@ -71,12 +68,10 @@ class SettingsItem extends Component {
     }
 
     close() {
-        this.setState ({
-            open: false
-        })
+        this.props.onClose()
     }
     render() {
-        const openClass = this.state.open? "open" : ""
+        const openClass = this.props.isOpen? "open" : ""
         return(
             <div className={"filter-content"}>
                 <div className="filter-icon">
