@@ -225,6 +225,8 @@ def analyze_gender_corporate(post_id):
         result, conf = name_classifier.predictGenderbyName(post.get_author_name())
         #score = name_gender_analyzer.process(post.get_author_name())
         gender = GenderEnum.fromString(result)
+    if post.is_news:
+        gender = GenderEnum.unknown
     if gender==GenderEnum.unknown or (is_facebook and 'category' in post.content['from']):
         corporate = True
     post.update_gender_corporate(gender, corporate)
