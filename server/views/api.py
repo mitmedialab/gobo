@@ -23,20 +23,25 @@ def load_user(userid):
 def register():
     json_data = request.json
     code = 403
-    user = User(
-        email=json_data['email'],
-        password=json_data['password']
-    )
+    user = False
     try:
-        db.session.add(user)
-        db.session.commit()
-        status = 'success'
-        code=200
-        login_user(user, remember=True)
-    except:
-        status = 'this user is already registered'
-    db.session.close()
-    return jsonify({'result': status}), code
+        user = User(
+            email=json_data['email'],
+            password=json_data['password']
+        )
+    except Exception as e:
+        statusText = str(e)
+    if user:
+        try:
+            db.session.add(user)
+            db.session.commit()
+            statusText = 'success'
+            code=200
+            login_user(user, remember=True)
+        except Exception as e:
+            statusText = 'user with that e-mail already exist'
+        db.session.close()
+    return jsonify({'statusText': statusText}), code
 
 @api.route ('/login', methods=['POST'])
 def login():

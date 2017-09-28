@@ -54,10 +54,11 @@ class SignupEmailPassword extends Component {
             && this.refs.password.isValid()
             && this.refs.passwordConfirm.isValid();
 
+        console.log(canProceed, this.refs.password.isValid(), this.refs.passwordConfirm.isValid())
+
         if(canProceed) {
             this.props.dispatch(registerUser(this.state.email, this.state.password));
         } else {
-            console.log('not valid!!')
             this.refs.email.isValid();
             this.refs.password.isValid();
             this.refs.passwordConfirm.isValid();
@@ -110,13 +111,13 @@ class SignupEmailPassword extends Component {
                                     text="Password"
                                     type="password"
                                     ref="password"
-                                    validator="true"
+                                    validator={true}
                                     minCharacters="6"
                                     requireCapitals="0"
                                     requireNumbers="1"
                                     forbiddenWords={this.state.forbiddenWords}
                                     value={this.state.passsword}
-                                    emptyMessage="Password is invalid"
+                                    emptyMessage="Password can't be empty"
                                     onChange={this.handlePasswordInput}
                                 />
 

@@ -49,7 +49,7 @@ export function logout() {
                 dispatch({ type: LOGOUT_USER} );
             })
             .catch((error) => {
-                console.log('logout failed!!', error);
+                // console.log('logout failed!!', error);
                 dispatch({ type: LOGOUT_USER} );
             });
     };
@@ -66,7 +66,6 @@ export function loginUser(email, password) {
                     try {
                         dispatch(loginUserSuccess(response.user));
                     } catch (e) {
-                        console.log(e);
                         dispatch(loginUserFailure({
                         response: {
                             status: 403,
@@ -116,7 +115,7 @@ export function registerUserFailure(error) {
         type: REGISTER_USER_FAILURE,
         payload: {
             status: error.response.status,
-            statusText: error.response.statusText,
+            statusText: error.response.data.statusText,
         },
     };
 }
@@ -138,13 +137,7 @@ export function registerUser(email, password) {
                 }
             })
             .catch(error => {
-                dispatch(registerUserFailure({
-                        response: {
-                            status: 403,
-                            statusText: 'User with that email already exists',
-                        },
-                    }
-                ));
+                dispatch(registerUserFailure(error));
             });
     };
 }
