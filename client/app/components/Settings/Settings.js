@@ -77,6 +77,47 @@ class Settings extends Component {
     render() {
         const settings = [
             {
+                title:'Politics',
+                icon: 'icon-echo',
+                desc: 'See stories matching or challenging your political point of view',
+                key:'echo_range',
+                longDesc: 'Worried about your "echo chamber"? Gobo will let you choose to see posts from news sources similar to those that you already read, or if you want to see a "wider" set of news you can choose to include media sources that might challenge how you read about and see the world.',
+                content: (
+                    <div>
+                        <ReactSlider defaultValue={0} min={0} max={4} step={1} withBars
+                                     value={this.state.settings.echo_range}
+                                     onChange={e=>this.handleChange(e, 'echo_range', false, false)}
+                                     className="slider politics"
+                                     onAfterChange={()=>this.updateSettings()}/>
+                        <div className="slider-labels">
+                            <span style={{'float':'left'}}>Narrow view</span>
+                            <span style={{'float':'right'}}>Wide view</span>
+                        </div>
+                    </div>
+                )
+            },
+
+            {
+                title:'Seriousness',
+                icon: 'icon-seriousness',
+                desc: 'Control the ratio of serious news to fun stuff in your feed',
+                key: 'news_score',
+                longDesc: 'Gobo will run the text of each post, and any articles linked to, through an algorithm that detects topics it talks about.  We\'ve created this algorithm ourselves, teaching it the difference based on tags in a giant set of New York Times articles.  It will mark each post with the topics it is about (sports, politics, pop culture, etc.) and then we\'ll include or exclude content based on the ratio that you set.',
+                content: (
+                    <div>
+                        <ReactSlider defaultValue={[0, 1]} min={0} max={1} step={0.01} withBars
+                                     value={[this.state.settings.seriousness_min, this.state.settings.seriousness_max]}
+                                     onChange={e=>this.handleChange(e, 'seriousness', false, true)}
+                                     onAfterChange={()=>this.updateSettings()}/>
+                        <div className="slider-labels">
+                            <span style={{'float':'left'}}> not serious</span>
+                            <span style={{'float':'right'}}> very serious</span>
+                        </div>
+                    </div>
+                )
+            },
+            
+            {
                 title:'Rudeness',
                 icon: 'icon-toxicity',
                 key: 'toxicity',
@@ -183,45 +224,7 @@ class Settings extends Component {
                 )
 
             },
-            {
-                title:'Politics',
-                icon: 'icon-echo',
-                desc: 'See stories matching or challenging your political point of view',
-                key:'echo_range',
-                longDesc: 'Worried about your "echo chamber"? Gobo will let you choose to see posts from news sources similar to those that you already read, or if you want to see a "wider" set of news you can choose to include media sources that might challenge how you read about and see the world.',
-                content: (
-                    <div>
-                        <ReactSlider defaultValue={0} min={0} max={4} step={1} withBars
-                                     value={this.state.settings.echo_range}
-                                     onChange={e=>this.handleChange(e, 'echo_range', false, false)}
-                                     className="slider politics"
-                                     onAfterChange={()=>this.updateSettings()}/>
-                        <div className="slider-labels">
-                            <span style={{'float':'left'}}>Narrow view</span>
-                            <span style={{'float':'right'}}>Wide view</span>
-                        </div>
-                    </div>
-                )
-            },
-            {
-                title:'Seriousness',
-                icon: 'icon-seriousness',
-                desc: 'Control the ratio of serious news to fun stuff in your feed',
-                key: 'news_score',
-                longDesc: 'Gobo will run the text of each post, and any articles linked to, through an algorithm that detects topics it talks about.  We\'ve created this algorithm ourselves, teaching it the difference based on tags in a giant set of New York Times articles.  It will mark each post with the topics it is about (sports, politics, pop culture, etc.) and then we\'ll include or exclude content based on the ratio that you set.',
-                content: (
-                    <div>
-                        <ReactSlider defaultValue={[0, 1]} min={0} max={1} step={0.01} withBars
-                                     value={[this.state.settings.seriousness_min, this.state.settings.seriousness_max]}
-                                     onChange={e=>this.handleChange(e, 'seriousness', false, true)}
-                                     onAfterChange={()=>this.updateSettings()}/>
-                        <div className="slider-labels">
-                            <span style={{'float':'left'}}> not serious</span>
-                            <span style={{'float':'right'}}> very serious</span>
-                        </div>
-                    </div>
-                )
-            }
+
         ];
         const arrowIcon = this.props.minimized?"left-open":"right-open";
         return (
