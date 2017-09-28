@@ -116,7 +116,7 @@ class Settings extends Component {
                     </div>
                 )
             },
-            
+
             {
                 title:'Rudeness',
                 icon: 'icon-toxicity',

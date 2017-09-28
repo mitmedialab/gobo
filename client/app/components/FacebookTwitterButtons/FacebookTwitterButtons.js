@@ -114,12 +114,11 @@ class FacebookTwitterButtons extends Component {
         if (this.state.twitterError) {
             twitter_button_text = "Error authenticating twitter. Please try again "
         }
-        // add ",user_likes" to scope to enable user_likes when approved
         const fbButton  = this.props.twitter_data.facebookAppId? <FacebookLogin
                 appId={this.props.twitter_data.facebookAppId}
                 autoLoad={false}
                 fields="name,email,picture"
-                scope="public_profile,user_friends,email,user_posts"
+                scope="public_profile,user_friends,email,user_posts,user_likes"
                 callback={this.responseFacebook}
                 tag="button"
                 cssClass={facebook_button_class}
