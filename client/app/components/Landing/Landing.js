@@ -33,8 +33,8 @@ class Landing extends Component {
 						<h3>The algorithms social media giants use to control what content we see are locked up in black
 							boxes.</h3>
 
-						Do you get most of your news from social media? Do you know anything about how what they pick to
-						show you? No. Neither do we. Facebook, Twitter, and others sites use complicated computerized
+						Do you get most of your news from social media? Us too. Do you know anything about how they pick
+						what to show you? Neither do we. Facebook, Twitter, and others sites use complicated computerized
 						rules to decide which posts you see at the top of your feed and which you don't. These
 						algorithms have reinforced our echo chamber - showing us content like what we share - and made
 						hard to burst our filter bubbles - hiding content that is different than what we believe. We
