@@ -1,4 +1,4 @@
-$settings-width: 370px;
+$settings-width: 420px;
 $settings-width-closed:56px;
 
 @mixin wide-feed-mixin { margin-right:$settings-width-closed; }
@@ -11,7 +11,7 @@ $settings-width-closed:56px;
   transition: 0.5s;
 }
 .sidebar {
-  width:$settings-width;
+  width: $settings-width;
 }
 
 .feed.wide {  @include wide-feed-mixin; }
@@ -33,9 +33,8 @@ $settings-width-closed:56px;
 
 
 .posts {
-  padding: 3em;
-  max-width:690px;
-  margin: 0 auto;
+  margin: 80px;
+  margin-top:47px;
 }
 
 @media (max-width: 768px) {

@@ -74,8 +74,15 @@
 
 .settings-header {
   text-align: center;
-  padding: 1em;
-  color: $color1
+  height: 80px;
+  color: $color1;
+
+  h1 {
+    margin: 0px;
+    padding: 0px;
+    padding-top: 25px;
+    margin-left: 170px;
+  }
 }
 
 .settings-menu {
@@ -97,8 +104,8 @@
 .arrow-icon {
   float:left;
   font-size: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 27px;
+  padding-left: 42px;
 }
 
 
@@ -158,6 +165,10 @@
   font-size:40px;
   vertical-align: top;
   color:$color1;
+  margin-right: 0.5em;
+  :before {
+    margin-left: 0px;
+  }
 }
 
 .filter-controls {
@@ -243,9 +254,10 @@ $handle-height: 24px;
 
 .filter-content {
   display:flex;
-  padding-top:8px;
-  padding-right:10px;
-  padding-bottom: 8px;
+  //padding-top:8px;
+  //padding-right:10px;
+  // padding-bottom: 8px;
+  padding: 30px 50px 30px 30px;
 }
 .filter-inner {
   width: 100%;
@@ -268,7 +280,8 @@ $handle-height: 24px;
 
   .filter-inner.open{
     position:absolute;
-    width: 324px; //370 - 56 or 304 + 2*padding
+    // width: 324px; //370 - 56 or 304 + 2*padding
+    width: 364px; // 420 - 56
     right: 56px;
     transform: translate(-100px);
     background-color: inherit;
@@ -289,10 +302,12 @@ $handle-height: 24px;
     display: none;
   }
 }
-.filter-description a {
-  border-bottom: 1px dotted $text-color;
-  cursor: hand;
-
+.filter-description {
+  margin-top: 10px;
+  a {
+    border-bottom: 1px dotted $text-color;
+    cursor: hand;
+  }
 }
 
 .sidebar.minimized {
