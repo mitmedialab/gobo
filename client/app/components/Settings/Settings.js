@@ -160,7 +160,7 @@ class Settings extends Component {
                         </div>
                         <br/>
                             <div>
-                                (hint: set to {Math.round(this.props.neutralFB*100)|| 'X'}% women for no gender filtering)
+                                (hint: set to {Math.round(this.props.neutralFB*100)|| 'X'}% women for no filtering)
                             </div>
                         <br/>
                         <div>
@@ -196,7 +196,7 @@ class Settings extends Component {
                                 checked={this.state.settings.include_corporate}
                                 onChange={e=>{this.handleChange(e, 'include_corporate', true); this.updateSettings()}}/>
                             <label className="checkbox-label">
-                            Show content from brands / organizations
+                            Show content from brands / orgs
                             </label>
                         </span>
 
