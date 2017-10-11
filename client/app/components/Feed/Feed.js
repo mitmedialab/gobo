@@ -105,7 +105,7 @@ class Feed extends Component {
 
                             {this.props.feed.loading_posts &&
                             <div>
-                                <div className="filtered-text">Hold on while we are fetching you feed</div>
+                                <div className="filtered-text">Hold on while we are fetching your feed</div>
                                 <Loader/>
                             </div>}
 
