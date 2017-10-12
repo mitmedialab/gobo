@@ -17,17 +17,11 @@ const gender_strings = {
 
 export default class BackOfPost extends Component {
     rudness_score_to_string(score) {
-        if (score<0.1) {
-            return 'not rude at all'
+        if (score<0.3) {
+            return 'not rude'
         }
-        else if (score<0.3) {
-            return 'not too rude'
-        }
-        else if (score<0.6) {
-            return 'a little rude'
-        }
-        else if (score<0.7) {
-            return 'pretty rude'
+        else if (score<0.65) {
+            return 'kind of rude'
         }
         else {
             return 'very rude'
@@ -56,18 +50,18 @@ export default class BackOfPost extends Component {
         let virality_avg = this.props.virality_avg;
         let virality_max = this.props.virality_max;
         if (log_score<virality_avg/2){
-            return "in the bottom 25% of popular posts (not viral)"
+            return "in the bottom 25% of popular posts"
         }
         else if (log_score<virality_avg){
-            return "in the lower middle 25% of popular posts (a bit viral)"
+            return "in the lower middle 25% of popular posts"
 
         }
         else if (log_score<virality_avg+((virality_max-virality_avg)/2)){
-            return "in the upper middle 25% of popular posts (pretty viral)"
+            return "in the upper middle 25% of popular posts"
 
         }
         else {
-            return "in the top 25% of popular posts (very viral)"
+            return "in the top 25% of popular posts"
 
         }
 
@@ -98,7 +92,7 @@ export default class BackOfPost extends Component {
                 }
                 {post.is_corporate!=null &&
                 <div className="explanation">
-                    <span> <i className="icon icon-corporate"/> Posted {!post.is_corporate && 'not '}by a corporate</span>
+                    <span> <i className="icon icon-corporate"/> {(post.is_corporate) ? 'Not posted' : 'Posted'} by a brand</span>
 
                 </div>
                 }
