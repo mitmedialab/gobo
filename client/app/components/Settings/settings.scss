@@ -176,8 +176,17 @@
 
 }
 
+.my-gender-ratio {
+  margin-bottom: 10px;
+  font-style: italic;
+  .stat {
+    color: $color1;
+  }
+}
 
-
+.mute-men-wrapper {
+  margin-top: 40px;
+}
 
 // react-slider
 

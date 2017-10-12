@@ -79,7 +79,7 @@ class Settings extends Component {
             {
                 title:'Politics',
                 icon: 'icon-echo',
-                desc: 'See stories matching or challenging your political point of view',
+                desc: 'See stories matching or challenging your political perspective',
                 key:'echo_range',
                 longDesc: 'Worried about your "echo chamber"? Gobo will let you choose to see posts from news sources similar to those that you already read, or if you want to see a "wider" set of news you can choose to include media sources that might challenge how you read about and see the world.',
                 content: (
@@ -90,8 +90,8 @@ class Settings extends Component {
                                      className="slider politics"
                                      onAfterChange={()=>this.updateSettings()}/>
                         <div className="slider-labels">
-                            <span style={{'float':'left'}}>Narrow view</span>
-                            <span style={{'float':'right'}}>Wide view</span>
+                            <span style={{'float':'left'}}>My perspective</span>
+                            <span style={{'float':'right'}}>Lots of perspectives</span>
                         </div>
                     </div>
                 )
@@ -148,6 +148,9 @@ class Settings extends Component {
                 longDesc: 'Curious to see what your female or male friends are talking about? Want to try rebalancing your feed to 50/50 men and women?  Gobo will use a variety of techniques to detect what gender the author of a post is. The algorithms for detecting gender generally discriminate against non-binary folks. Don\'t take this as an affront to our non-binary friends, but rather as an attempt to highlight the limits of what they can do',
                 content: (
                     <div>
+                        <div className="my-gender-ratio">
+                            You currently follow <span className="stat">{Math.round(this.props.neutralFB*100)|| 'X'}%</span> women
+                        </div>
                         <div>
                         <ReactSlider defaultValue={50} min={0} max={100} withBars
                                      value={this.state.settings.gender_female_per}
@@ -158,12 +161,7 @@ class Settings extends Component {
                             <span style={{'float':'left'}}> {100-this.state.settings.gender_female_per|| '0'}% men</span>
                             <span style={{'float':'right'}}> {this.state.settings.gender_female_per|| '0'}% women</span>
                         </div>
-                        <br/>
-                            <div>
-                                (hint: set to {Math.round(this.props.neutralFB*100)|| 'X'}% women for no filtering)
-                            </div>
-                        <br/>
-                        <div>
+                        <div className="mute-men-wrapper">
                             <span><input
                                 className="checkbox"
                                 name="mute-men"
