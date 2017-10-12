@@ -30,6 +30,13 @@ $post-footer-height:40px;
     display: inline-block;
     padding-bottom: 1em;
 
+    .rt-comment {
+      padding-bottom: 15px;
+      .icon-twitter_retweet {
+        display: inline-block;
+        width: 24px;
+      }
+    }
 
   }
 
