@@ -196,7 +196,7 @@ class Settings extends Component {
                                 checked={this.state.settings.include_corporate}
                                 onChange={e=>{this.handleChange(e, 'include_corporate', true); this.updateSettings()}}/>
                             <label className="checkbox-label">
-                            Show content from brands / orgs
+                            Show content from brands
                             </label>
                         </span>
 
