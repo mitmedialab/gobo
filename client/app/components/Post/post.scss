@@ -158,23 +158,24 @@ $post-padding: 30px;
    text-decoration: none;
  }
 
-
-.footer-text {
-  color: $text-color;
-  float: right;
-  margin-right:1em;
-  border-bottom: 1px dotted $text-color;
-  text-decoration: none;
-}
-
-.footer-text:hover {
-  color: darken($text-color, 20%);
-  text-decoration: none;
-}
-
 .footer-content {
   line-height:$post-footer-height / 2;
   padding: $post-footer-height / 8;
+
+  .footer-text {
+    color: $text-color;
+    float: right;
+    margin-right:1em;
+    border-bottom: 1px dotted $text-color;
+    text-decoration: none;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  .footer-text:hover {
+    color: darken($text-color, 20%);
+    text-decoration: none;
+  }
 }
 
 .post-container {
