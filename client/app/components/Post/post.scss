@@ -210,11 +210,13 @@ $post-padding: 30px;
   .action {
     padding:0 40px 0 0;
     .action-icon {
-
+      display: inline-block;
+      &.icon-twitter_retweet {
+        min-width: 24px;
+      }
     }
     .action-count {
-      -left:2px;
-
+      padding-left:4px;
     }
   }
 }
