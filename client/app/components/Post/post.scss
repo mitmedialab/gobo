@@ -200,6 +200,9 @@ $post-padding: 30px;
 
 .post-content-text {
   font-size:15px;
+  p {
+    margin-bottom: 0px;
+  }
 }
 
 
@@ -216,7 +219,7 @@ $post-padding: 30px;
 
 // post action:
 .post-actions-list {
-  padding-top:10px;
+  padding-top: 20px;
   .action {
     padding:0 40px 0 0;
     .action-icon {
