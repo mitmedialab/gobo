@@ -50,6 +50,15 @@ $settings-width-closed:56px;
   padding-bottom: 1em;
 }
 
+.no-posts-text {
+  margin: 0 auto;
+  max-width: 900px;
+  color: $text-color;
+  font-size:1.5em;
+  padding-bottom: 1em;
+  font-weight: 900;
+}
+
 .filtered-count {
   font-weight: 600;
 }

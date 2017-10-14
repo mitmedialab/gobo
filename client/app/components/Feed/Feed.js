@@ -78,6 +78,7 @@ class Feed extends Component {
         //         filtered_posts[showing].reverse()
         //     }
         // }
+        const noPostsText = this.state.showFiltered? "None of your posts were filtered out. Try changing the filters to see them in action. " : "None of the posts in your feed match the filters you've set. Try changing the filters.";
 
 
         const postsHtml = filtered_posts[showing].map(post=><Post
@@ -113,6 +114,11 @@ class Feed extends Component {
                             <div className="filtered-text">
                                 <span className="filtered-count">{filtered_text}</span><a onClick={this.toggleShowFiltered} className="filtered-link">{filtered_link_text}</a>
 
+                            </div>}
+
+                            {!this.props.feed.loading_posts && this.props.feed.posts.length>0 && filtered_posts[showing].length==0 &&
+                            <div className="no-posts-text">
+                                {noPostsText}
                             </div>}
 
                             {postsHtml}
