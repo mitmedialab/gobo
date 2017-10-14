@@ -109,7 +109,7 @@ class BackOfPost extends Component {
                 }
                 {post.is_corporate!=null &&
                 <div className="explanation">
-                    <span> <i className="icon icon-corporate"/> {(post.is_corporate) ? 'Not posted' : 'Posted'} by a brand</span>
+                    <span> <i className="icon icon-corporate"/> {(post.is_corporate) ? 'Posted' : 'Not Posted'} by a brand</span>
 
                 </div>
                 }

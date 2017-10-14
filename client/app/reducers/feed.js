@@ -90,7 +90,8 @@ export default function reducer(state = defaultState, action) {
         case UPDATE_SETTINGS:
             return {
                 ...state,
-                settings: action.settings
+                settings: action.settings,
+                filtering_posts: true,
             };
         case SORT_BY:
             return {

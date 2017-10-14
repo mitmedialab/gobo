@@ -103,7 +103,7 @@ class Feed extends Component {
 
                         <div className="posts">
 
-                            {this.props.feed.loading_posts &&
+                            {(this.props.feed.loading_posts || this.props.feed.filtering_posts) &&
                             <div>
                                 <div className="filtered-text">Hold on while we are fetching your feed</div>
                                 <Loader/>
@@ -115,12 +115,14 @@ class Feed extends Component {
 
                             </div>}
 
-                            <ReactCSSTransitionGroup
-                                transitionName="example"
-                                transitionEnterTimeout={500}
-                                transitionLeaveTimeout={300}>
-                                {postsHtml}
-                            </ReactCSSTransitionGroup>
+                            {postsHtml}
+
+                            {/*<ReactCSSTransitionGroup*/}
+                                {/*transitionName="example"*/}
+                                {/*transitionEnterTimeout={500}*/}
+                                {/*transitionLeaveTimeout={300}>*/}
+                                {/*{postsHtml}*/}
+                            {/*</ReactCSSTransitionGroup>*/}
 
                         </div>
 
