@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 const political_enums = {
     1 :'left',
@@ -15,7 +16,7 @@ const gender_strings = {
 }
 
 
-export default class BackOfPost extends Component {
+class BackOfPost extends Component {
     rudness_score_to_string(score) {
         if (score<0.3) {
             return 'not rude'
@@ -66,6 +67,22 @@ export default class BackOfPost extends Component {
         }
 
     }
+
+    political_quintile_text(score) {
+        const my_quintile = this.props.feed.settings.echo_range || 0;
+        const distance = Math.abs(my_quintile - score);
+        if (distance==0) {
+            return "similar to your political perspective"
+        }
+        else if (distance <=2) {
+            // distance is between 1-2
+            return "slightly different from your political perspective"
+        }
+        else {
+            // distance is between 3-4
+            return "very different from your political perspective"
+        }
+    }
     render() {
         const post = this.props.post;
         const no_content = post.gender=="None" && !post.political_quintile && (post.toxicity==null || post.toxicity==-1) && post.is_corporate==null && post.news_score==null && post.virality_count==null;
@@ -80,7 +97,7 @@ export default class BackOfPost extends Component {
                 }
                 {post.political_quintile &&
                 <div className="explanation">
-                    <span> <i className="icon icon-echo"/> From a {political_enums[post.political_quintile]} political view</span>
+                    <span> <i className="icon icon-echo"/> {this.political_quintile_text(post.political_quintile)}</span>
 
                 </div>
                 }
@@ -120,3 +137,10 @@ export default class BackOfPost extends Component {
     }
 
 }
+
+function mapStateToProps(state) {
+    return {
+        feed: state.feed,
+    };
+}
+export default connect(mapStateToProps)(BackOfPost);
