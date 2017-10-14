@@ -58,3 +58,10 @@ export function updateUserSettings(settings) {
 export function getFacebookAppId() {
     return axios.get(API_URL+'api/get_facebook_app_id')
 }
+
+export function getLockStatusFromServer() {
+    return axios.get(API_URL+'api/is_locked_with_password')
+}
+export function verifyPassword(password) {
+    return axios.post(API_URL+'api/verify_beta_password', {'password':password})
+}

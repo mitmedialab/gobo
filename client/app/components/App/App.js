@@ -11,7 +11,7 @@ require('./app.scss');
 
 const Landing = () => <Async load={import('components/Landing/Landing')} />;
 const Login = () => <Async load={import('components/Login/Login')} />;
-const Register = () => <Async load={import('components/Register/Register')} />;
+const RegisterWrapper = () => <Async load={import('components/RegisterWrapper/RegisterWrapper')} />;
 const Feed = () => <Async load={import('components/Feed/Feed')} />;
 const Profile = () => <Async load={import('components/Profile/Profile')} />;
 const Privacy = () => <Async load={import('components/Privacy/Privacy')} />;
@@ -45,7 +45,7 @@ class App extends Component {
 					<Switch>
 						<Route exact path="/" component={Home} />
 						<Route path="/login" component={Login} />
-						<Route path="/register" component={Register} />
+						<Route path="/register" component={RegisterWrapper} />
 						<Route path="/feed" component={Feed} />
 						<Route path="/profile" component={Profile} />
 						<Route path="/settings" component={Settings} />

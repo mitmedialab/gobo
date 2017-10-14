@@ -70,6 +70,18 @@ def logout():
 def confirm_auth():
     return jsonify({'result':current_user.is_authenticated(), 'user':current_user.get_names()})
 
+# -------beta password lock ----- #
+
+@api.route('/is_locked_with_password', methods=['GET'])
+def is_locked_with_password():
+    return jsonify({'locked': app.config['LOCK_WITH_PASSWORD']})
+
+@api.route('/verify_beta_password', methods=['POST'])
+def verify_beta_password():
+    pw = request.json['password']
+    success = pw==app.config['BETA_PASSWORD']
+    return jsonify({'success': success})
+
 
 # -----social authentication logic-----
 @api.route('/get_facebook_app_id', methods=['GET'])

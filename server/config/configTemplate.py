@@ -24,6 +24,9 @@ class BaseConfig(object):
     STATIC_FOLDER = '../client/dist/'
     STATIC_URL_PATH = '/static'
 
+    LOCK_WITH_PASSWORD = True
+    BETA_PASSWORD = 'XXXXXX'
+
 
 class DevConfig(BaseConfig):
     DEBUG = True

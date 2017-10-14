@@ -37,6 +37,14 @@ And in the other one:
 celery -A server.scripts.tasks worker
 ```
 
+### Locked beta version:
+To set the app to be locked in beta version set the following var in `config.py`:
+```bazaar
+    LOCK_WITH_PASSWORD = True
+    BETA_PASSWORD = 'password_you_want'
+```
+To unlock just set `LOCK_WITH_PASSWORD = False`
+
 
 To Deploy on Heroku:
  - create a new local branch called "heroku-deploy"
