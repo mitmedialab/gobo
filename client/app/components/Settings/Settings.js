@@ -215,8 +215,8 @@ class Settings extends Component {
                                      onChange={e=>this.handleChange(e, 'virality', false, true)}
                                      onAfterChange={()=>this.updateSettings()}/>
                         <div className="slider-labels">
-                            <span style={{'float':'left'}}> not viral</span>
-                            <span style={{'float':'right'}}> very viral</span>
+                            <span style={{'float':'left'}}> least viral</span>
+                            <span style={{'float':'right'}}> most viral</span>
                         </div>
                     </div>
                 )
