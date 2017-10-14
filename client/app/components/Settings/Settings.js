@@ -148,9 +148,10 @@ class Settings extends Component {
                 longDesc: 'Curious to see what your female or male friends are talking about? Want to try rebalancing your feed to 50/50 men and women?  Gobo will use a variety of techniques to detect what gender the author of a post is. The algorithms for detecting gender generally discriminate against non-binary folks. Don\'t take this as an affront to our non-binary friends, but rather as an attempt to highlight the limits of what they can do',
                 content: (
                     <div>
+                        {(this.props.neutralFB!=null && this.props.neutralFB>0) &&
                         <div className="my-gender-ratio">
-                            You currently follow <span className="stat">{Math.round(this.props.neutralFB*100)|| 'X'}%</span> women
-                        </div>
+                            You currently follow <span className="stat">{Math.round(this.props.neutralFB*100)}%</span> women
+                        </div>}
                         <div>
                         <ReactSlider defaultValue={50} min={0} max={100} withBars
                                      value={this.state.settings.gender_female_per}
