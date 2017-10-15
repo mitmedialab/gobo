@@ -313,7 +313,14 @@ $handle-height: 24px;
   margin-top: 10px;
   a {
     border-bottom: 1px dotted $text-color;
-    cursor: hand;
+    cursor: pointer;
+  }
+}
+
+.checkbox-label {
+  a {
+    border-bottom: 1px dotted $text-color;
+    cursor: pointer;
   }
 }
 
