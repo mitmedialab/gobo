@@ -225,11 +225,11 @@ $handle-height: 24px;
 }
 
 .bar-gender .bar {
-  background: deeppink;
+  background: darken($color1, 20%);
 }
 
 .bar-gender .bar.bar-1 {
-  background: deepskyblue;
+  background: lighten($text-color, 10%);
 }
 
 .politics .bar {
@@ -305,8 +305,10 @@ $handle-height: 24px;
     height: 56px;
   }
 
-  .settings-header h1 {
-    display: none;
+  .settings-header {
+    h1 {
+      display: none;
+    }
   }
 }
 .filter-description {
@@ -327,6 +329,12 @@ $handle-height: 24px;
 .sidebar.minimized {
   .filter:first-of-type {
     height:88px;
+  }
+  .arrow-icon {
+    padding-left: 14px;
+  }
+  .filter-content {
+    padding: 9px 0px;
   }
   @include small-sidebar;
 }
