@@ -65,13 +65,6 @@ To unlock just set `LOCK_WITH_PASSWORD = False`
  - add the heroku remote to the github repo
  - in "heroku-deploy" branch, 
  edit .gitignore to not ignore config.py (make sure to also save a copy of config.py somewhere else on your computer)
- - in the root directory, add a package.json file with the following content:
-    ```
-    { 
-    "engines": { "node": "6.10.2", "npm": "4.4.4" }, 
-    "scripts": { "postinstall": "cd client && npm --dev install && npm run build" } 
-    }
-     ```
  - In heroku website, add a database and a redis instance
  - Update config.py in the new brach to match the database and redis url
  - set up heroku buildpacks:

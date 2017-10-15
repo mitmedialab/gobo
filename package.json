@@ -1,0 +1,1 @@
+{ "engines": { "node": "6.10.2", "npm": "4.4.4" }, "scripts": { "postinstall": "cd client && npm --dev install && npm run build" } }
