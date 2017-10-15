@@ -14,7 +14,6 @@
   padding-bottom: 4em;
   position: fixed;
   right: 0;
-  overflow: hidden;
   min-height: 100%;
   transition: 0.5s;
 
@@ -275,7 +274,6 @@ $handle-height: 24px;
 @mixin small-sidebar {
   .filter {
     height: 56px;
-    //overflow: hidden;
   }
   .setting-item {
     padding:0;
@@ -320,7 +318,6 @@ $handle-height: 24px;
 }
 
 .sidebar.minimized {
-  overflow: visible;
   .filter:first-of-type {
     height:88px;
   }

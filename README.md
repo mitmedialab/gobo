@@ -37,6 +37,18 @@ And in the other one:
 celery -A server.scripts.tasks worker
 ```
 
+###### Run the client:
+In another terminal window open cd to `/client` and then:
+```bazaar
+npm install
+#We need to run build once in order to create a dist folder with all static files (images etc.) for the server to access
+npm run build 
+npm start
+```
+
+After that you should be able to see Gobo at localhost:5000
+
+
 ### Locked beta version:
 To set the app to be locked in beta version set the following var in `config.py`:
 ```bazaar
@@ -46,7 +58,7 @@ To set the app to be locked in beta version set the following var in `config.py`
 To unlock just set `LOCK_WITH_PASSWORD = False`
 
 
-To Deploy on Heroku:
+###Deploying on Heroku:
  - create a new local branch called "heroku-deploy"
  `git checkout -b heroku-deploy`
  - create a new heroku app on the website.
