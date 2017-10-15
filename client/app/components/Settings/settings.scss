@@ -225,11 +225,11 @@ $handle-height: 24px;
 }
 
 .bar-gender .bar {
-  background: deeppink;
+  background: darken($color1, 20%);
 }
 
 .bar-gender .bar.bar-1 {
-  background: deepskyblue;
+  background: lighten($text-color, 10%);
 }
 
 .politics .bar {
