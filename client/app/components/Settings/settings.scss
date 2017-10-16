@@ -287,10 +287,9 @@ $handle-height: 24px;
 
   .filter-inner.open{
     position:absolute;
-    // width: 324px; //370 - 56 or 304 + 2*padding
-    width: 364px; // 420 - 56
-    right: 56px;
-    transform: translate(-100px);
+    width: 314px; // manually determind
+    right: 56px;  // width of sidebar
+    transform: translate(-96px);
     background-color: inherit;
     padding: 10px;
     z-index: 100001;
@@ -303,6 +302,7 @@ $handle-height: 24px;
   .filter-content{
     background-color: inherit;
     height: 56px;
+    padding: 7px 1px;
   }
 
   .settings-header {
