@@ -242,9 +242,15 @@ $handle-height: 24px;
 }
 .slider .handle {
   top: 10px;
-  width: 10px ;
+  width: 10px;
   height: $handle-height;
   @include shadow($thumb-shadow-size, $thumb-shadow-blur, $thumb-shadow-color);
+}
+
+@media (max-width: 767px) {
+  .slider .handle {
+    width: 20px;
+  }
 }
 
 .slider.disabled {
