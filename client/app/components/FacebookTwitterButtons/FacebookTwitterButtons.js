@@ -127,7 +127,7 @@ class FacebookTwitterButtons extends Component {
                 icon = {<i className={"button-icon "+FBIcon}/>}
             /> : <div></div>
         return (
-            <div>
+            <div className="facebook_twitter_buttons">
                 <button onClick={this.onTwitterButtonClick} className={twitter_button_class} >
                     {twitter_button_text} <i className={"button-icon "+twitterIcon}/>
                 </button>

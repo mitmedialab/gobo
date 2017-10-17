@@ -2,24 +2,44 @@
   max-width: 900px;
   margin: 0 auto;
 
+  p {
+    text-align: left !important;
+    margin-bottom: 0px !important; 
+  }
+
+  .profile_content_twitter {
+    margin-top: 20px;    
+  }
+
+  .profile_content_facebook {
+    margin-top: 20px;
+  }
+
   .header {
-    width:450px;
+    width: 450px;
     max-width: 100%;
   }
 
   .profile-img {
     display: inline-block;
     max-height: 140px;
-    vertical-align: top;
+    /* vertical-align: top; */
+    padding-left: 20px;
+    padding-top: 20px;
   }
 
   .profile-info {
     display: inline-block;
-    margin-left:20px;
+    padding: 20px;
 
     h3 {
       margin-top: 0;
       padding: 0;
     }
   }
+
+  .facebook_twitter_buttons {
+    margin-bottom: 40px;
+  }
+
 }

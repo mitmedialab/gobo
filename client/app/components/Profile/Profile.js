@@ -25,8 +25,47 @@ class Profile extends Component {
         }
         //todo: remove inline styles
         const user = this.props.auth.user ;
-        console.log(user)
+        //console.log(user)
         const avatar = user.facebook_picture_url || user.avatar || '/images/avatar.png';
+        let twitterContent;
+        let facebookContent;
+        if (user.twitter_authorized) {
+            twitterContent = (
+                <div className="profile_content_twitter authorized">
+                    <p>
+                        <b>Twitter</b>:
+                        <a href={`https://twitter.com/@${user.twitter_name}`}>{'@' + user.twitter_name}</a>
+                    </p>
+                    <p>{user.twitter_data.description}</p>
+                </div>
+            );
+        } else {
+            twitterContent = (
+                <div className="profile_content_twitter unauthorized">
+                    <p>
+                        <b>Twitter</b>: Not Connected
+                    </p>
+                </div>
+            )
+        }
+        if (user.facebook_authorized) {
+            facebookContent = (
+                <div className="profile_content_facebook">
+                    <p>
+                        <b>Facebook</b>:
+                        <a href={`https://facebook.com/@${user.facebook_name}`}>{user.facebook_name}</a>
+                    </p>
+                </div>
+            );
+        } else {
+            facebookContent = (
+                <div className="profile_content_facebook unauthorized">
+                    <p>
+                        <b>Facebook</b>: Not Connected
+                    </p>
+                </div>
+            )
+        }
         return (
             <div className={'page'}>
                 <div className= {'profile-content'}>
@@ -35,10 +74,9 @@ class Profile extends Component {
                             <div className= {'row header'} >
                                 <img className="profile-img" src={avatar}/>
                                 <div className="profile-info">
-                                    <h3> {user.facebook_name || user.twitter_data.name}</h3>
-                                    <div>{(user.twitter_name && '@') + user.twitter_name}</div>
-                                    <div>{user.twitter_data.description}</div>
-
+                                    <h3>{user.facebook_name || user.twitter_data.name}</h3>
+                                    {twitterContent}
+                                    {facebookContent}
                                 </div>
                                 {/*<div>*/}
                                     {/*Political Affiliation:*/}
