@@ -36,6 +36,7 @@ class Settings extends Component {
 
     handleChange(e, key, is_bool, is_dual_slider) {
         const new_settings = this.state.settings;
+        e.preventDefault();
         if (is_dual_slider){
             new_settings[key+'_min'] = e[0];
             new_settings[key+'_max'] = e[1];
