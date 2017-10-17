@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { logout } from 'actions/auth';
 import { connect } from 'react-redux';
+import onClickOutside from 'react-onclickoutside'
 
 
 const propTypes = {
@@ -25,6 +26,16 @@ class NavBar extends Component {
         })
     }
 
+    closeDropdown() {
+        this.setState( {
+            dropdownOpen: false
+        })
+    }
+
+    handleClickOutside = evt => {
+        this.closeDropdown()
+    }
+
     toggleSlide () {
         const elem = document.getElementsByClassName('nav-menu')[0];
         if (elem.className === 'nav-menu') {
@@ -43,30 +54,30 @@ class NavBar extends Component {
 
         const dropdownActions = user? (
             <ul className={dropdownMenuClass} tabIndex="0" onBlur={ ()=> this.setState( {dropdownOpen: false })} >
-                <li className="list-group-item">
+                <li className="list-group-item" onClick={this.toggleDropdown}>
                     <span className="glyphicon glyphicon-user"></span>
                     <Link to={'/profile'}> <span>My Profile</span></Link>
                 </li>
-                <li className="list-group-item">
+                <li className="list-group-item" onClick={this.toggleDropdown}>
                     <span className="glyphicon glyphicon-align-center"></span>
                     <Link to={'/feed'}> <span>My Feed</span></Link>
                 </li>
-                <li className="list-group-item">
+                <li className="list-group-item" onClick={this.toggleDropdown}>
                     <span className="glyphicon glyphicon-log-out"></span>
                     <a onClick={()=>this.props.dispatch(logout())}><span>Logout</span></a>
                 </li>
-                <li className="list-group-item">
+                <li className="list-group-item" onClick={this.toggleDropdown}>
                     <span className="glyphicon glyphicon-info-sign"></span>
                     <Link to={'/about'}> <span>About Gobo</span></Link>
                 </li>
             </ul>
         ) :
             (<ul className={dropdownMenuClass} tabIndex="0" onBlur={ ()=> this.setState( {dropdownOpen: false })} >
-                <li className="list-group-item">
+                <li className="list-group-item" onClick={this.toggleDropdown}>
                     <span className="glyphicon glyphicon-picture"></span>
                     <Link to={'/register'}><span>Sign Up</span></Link>
                 </li>
-                <li className="list-group-item">
+                <li className="list-group-item" onClick={this.toggleDropdown}>
                     <span className="glyphicon glyphicon-log-in"></span>
                     <Link to={'/login'}> <span>Login</span></Link>
                 </li>
@@ -119,4 +130,4 @@ function mapStateToProps(state) {
 }
 
 NavBar.propTypes = propTypes;
-export default connect(mapStateToProps)(NavBar);
+export default connect(mapStateToProps)(onClickOutside(NavBar));
