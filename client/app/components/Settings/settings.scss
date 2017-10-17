@@ -286,6 +286,7 @@ $handle-height: 24px;
   }
   .filter-inner {
     transform: translate(100px);
+    width: 314px;
   }
   .settings-menu {
     position: fixed;
@@ -295,7 +296,7 @@ $handle-height: 24px;
     position:absolute;
     width: 314px; // manually determind
     right: 56px;  // width of sidebar
-    transform: translate(-90px);
+    transform: translate(-322px);
     background-color: inherit;
     padding: 10px;
     z-index: 100001;
