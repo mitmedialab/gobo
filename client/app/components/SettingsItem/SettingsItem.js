@@ -29,6 +29,8 @@ let modalStyles = {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
+            minHeight: '300px',
+            minWidth: '300px',
     }
 
 }
