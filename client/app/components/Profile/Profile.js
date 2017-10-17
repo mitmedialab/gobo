@@ -29,6 +29,12 @@ class Profile extends Component {
         const avatar = user.facebook_picture_url || user.avatar || '/images/avatar.png';
         let twitterContent;
         let facebookContent;
+        let accountName = "New User";
+        if (user.facebook_name) {
+            accountName = user.facebook_name;
+        } else if(user.twitter_data) {
+            accountName = user.twitter_data.name;
+        }
         if (user.twitter_authorized) {
             twitterContent = (
                 <div className="profile_content_twitter authorized">
@@ -74,7 +80,7 @@ class Profile extends Component {
                             <div className= {'row header'} >
                                 <img className="profile-img" src={avatar}/>
                                 <div className="profile-info">
-                                    <h3>{user.facebook_name || user.twitter_data.name}</h3>
+                                    <h3>{accountName}</h3>
                                     {twitterContent}
                                     {facebookContent}
                                 </div>
