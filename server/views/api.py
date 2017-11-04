@@ -135,7 +135,7 @@ def handle_twitter_callback():
         tasks.get_tweets_per_user.delay(current_user.get_id())
         # db.session.close()
     except:
-        print 'error in twitter auth'
+        # print 'error in twitter auth'
         success = False
 
 
