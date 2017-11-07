@@ -18,7 +18,9 @@ class RegisterWrapper extends Component {
 
     render() {
         let element;
-        if (this.props.passwordLock.password_verified || !this.props.passwordLock.is_locked) {
+        console.log(this.props.passwordLock)
+        if (this.props.passwordLock.password_verified || !this.props.passwordLock.is_locked ||
+            this.props.passwordLock.signup_step>-1 ) {
                 element = <Register/>
         }
         else {

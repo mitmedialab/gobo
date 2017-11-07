@@ -20,8 +20,8 @@ class FacebookTwitterButtons extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            facebookSuccess: this.props.facebookConnected || false,
-            twitterSuccess: this.props.twitterConnected || false,
+            facebookSuccess: this.props.facebookConnected || this.props.auth.user.facebook_authorized || false,
+            twitterSuccess: this.props.twitterConnected || this.props.auth.user.twitter_authorized || false,
             twitterError: false,
             polling: false,
             pollCount:0,
@@ -58,7 +58,14 @@ class FacebookTwitterButtons extends Component {
     componentWillReceiveProps(nextProps){
         if (this.props.twitter_data.loading_oauth_url && !nextProps.twitter_data.loading_oauth_url &&
             nextProps.twitter_data.oauth_url!=null ) {
-            window.open(nextProps.twitter_data.oauth_url, '_blank', 'width=500,height=500');
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                // redirect to twitter auth
+                console.log(nextProps.twitter_data.oauth_url)
+                window.location.replace(nextProps.twitter_data.oauth_url);
+            }
+            else {
+                window.open(nextProps.twitter_data.oauth_url, '_blank', 'width=500,height=500');
+            }
             this.props.dispatch(waitForTwitterCallback());
         }
         else if (!this.props.twitter_data.isTwitterAuthorized && nextProps.twitter_data.isTwitterAuthorized) {
@@ -124,6 +131,7 @@ class FacebookTwitterButtons extends Component {
                 cssClass={facebook_button_class}
                 textButton={facebook_button_text}
                 isDisabled={this.state.facebookSuccess}
+                disableMobileRedirect={false}
                 icon = {<i className={"button-icon "+FBIcon}/>}
             /> : <div></div>
         return (
@@ -140,4 +148,4 @@ class FacebookTwitterButtons extends Component {
 
 FacebookTwitterButtons.propTypes = propTypes;
 
-export default connect(state => ({ twitter_data: state.twitterLogin }))(FacebookTwitterButtons);
+export default connect(state => ({ twitter_data: state.twitterLogin, auth: state.auth }))(FacebookTwitterButtons);

@@ -18,6 +18,7 @@ const defaultState = {
     loading_lock_status: false,
     password_verified: false,
     checking_password: false,
+    signup_step: -1,
     pw_error_text: "",
 };
 
@@ -35,6 +36,7 @@ export default function reducer(state = defaultState, action) {
             return {
                 ...state,
                 is_locked: action.result.data.locked,
+                signup_step: action.result.data.step,
                 loading_lock_status: false,
             };
         case LOCK_STATUS_FAIL:

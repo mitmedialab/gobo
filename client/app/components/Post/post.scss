@@ -200,6 +200,7 @@ $post-padding: 30px;
 
 .post-content-text {
   font-size:15px;
+  overflow-wrap: break-word;
   p {
     margin-bottom: 0px;
   }

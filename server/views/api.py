@@ -74,7 +74,10 @@ def confirm_auth():
 
 @api.route('/is_locked_with_password', methods=['GET'])
 def is_locked_with_password():
-    return jsonify({'locked': app.config['LOCK_WITH_PASSWORD']})
+    step = -1
+    if current_user.is_authenticated:
+        step = 3
+    return jsonify({'locked': app.config['LOCK_WITH_PASSWORD'], 'step':step})
 
 @api.route('/verify_beta_password', methods=['POST'])
 def verify_beta_password():
@@ -195,6 +198,7 @@ def get_settings():
     settings = current_user.settings.as_dict()
     settings['political_affiliation'] = current_user.political_affiliation.value
     return jsonify(settings)
+
 
 @api.route('/update_settings', methods=['POST'])
 @login_required

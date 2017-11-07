@@ -12,14 +12,19 @@ import RegisterSuccess from './registerSteps/RegisterSuccess';
 const propTypes = {
     dispatch: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
+    passwordLock: PropTypes.object.isRequired,
 };
 
 class Register extends Component {
 
     constructor(props) {
         super(props);
+        var step = 1
+        if (props.passwordLock.signup_step > step) {
+            step = props.passwordLock.signup_step
+        }
         this.state = {
-            step: 1,
+            step: step,
         };
         this.nextStep = this.nextStep.bind(this);
         this.prevStep = this.prevStep.bind(this);
@@ -73,4 +78,4 @@ class Register extends Component {
 }
 
 Register.propTypes = propTypes;
-export default connect(state => ({ auth: state.auth }))(Register);
+export default connect(state => ({ auth: state.auth, passwordLock: state.passwordLock}))(Register);

@@ -14,7 +14,13 @@ class TwitterCallback extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (this.props.callbackLoading && !nextProps.callbackLoading) {
-            window.close()
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                // redirect to signup
+                window.location.replace("/register");
+            }
+            else {
+                window.close()
+            }
         }
     }
 
