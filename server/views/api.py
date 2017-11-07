@@ -172,14 +172,13 @@ def getFacebookLongAuth(token):
             print 'error in facebook auth'
 
 # ----- get feed logic -----
+PERSONAL_POSTS_MAX = 400 #how many personal posts to grab
+NEWS_POSTS_COUNT = 150  # how many news posts to grab. this number should divide by 5.
 
 @api.route('/get_posts', methods=['GET'])
 @login_required
 def get_posts():
-    PERSONAL_POSTS_MAX = 400 #how many personal posts to grab
     personal_posts = current_user.posts.order_by(Post.created_at.desc())[:PERSONAL_POSTS_MAX]
-
-    NEWS_POSTS_COUNT = 50  # how many news posts to grab. this number should divide by 5.
     posts_from_quintile = NEWS_POSTS_COUNT / 5
     ignore_ids = [item.id for item in current_user.posts.all()]
     for quintile in PoliticsEnum:
