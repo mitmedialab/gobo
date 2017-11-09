@@ -16,6 +16,7 @@ class User(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
+    completed_registration = db.Column(db.Boolean, default=False)
 
     facebook_name = db.Column(db.String(255))
     facebook_picture_url = db.Column(db.String(255))
@@ -84,6 +85,10 @@ class User(db.Model):
 
     def set_political_affiliation(self, political_affiliation):
         self.political_affiliation = PoliticsEnum(int(political_affiliation))
+        db.session.commit()
+
+    def complete_registration(self):
+        self.completed_registration = True
         db.session.commit()
 
     def __repr__(self):

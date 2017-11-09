@@ -15,8 +15,13 @@ class TwitterCallback extends Component {
     componentWillReceiveProps(nextProps) {
         if (this.props.callbackLoading && !nextProps.callbackLoading) {
             if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-                // redirect to signup
-                window.location.replace("/register");
+                // redirect to signup or profile page
+                const completed_registration = this.props.auth.user.completed_registration;
+                var redirect = "/register"
+                if (completed_registration || completed_registration==null) {
+                    redirect = "/profile"
+                }
+                window.location.replace(redirect);
             }
             else {
                 window.close()
@@ -33,4 +38,4 @@ class TwitterCallback extends Component {
         );
     }
 };
-export default withRouter(connect(state=> ({ callbackLoading: state.twitterLogin.callbackLoading }))(TwitterCallback));
+export default withRouter(connect(state=> ({ callbackLoading: state.twitterLogin.callbackLoading, auth:state.auth }))(TwitterCallback));

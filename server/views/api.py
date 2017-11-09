@@ -151,6 +151,7 @@ def handle_twitter_callback():
 def set_political_affiliation():
     json_data = request.json
     current_user.set_political_affiliation(json_data['political_affiliation'])
+    current_user.complete_registration()
     return 'success', 200
 
 
