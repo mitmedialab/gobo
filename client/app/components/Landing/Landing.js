@@ -31,21 +31,17 @@ class Landing extends Component {
 
 					<div>
 
-						<h2>The Problem We See</h2>
-						<h3>The algorithms social media giants use to control what content we see are locked up in black
-							boxes.</h3>
+						<h2>Algorithms control what we see on our feeds,<br />but we can't control the algorithms.</h2>
 
 						<p>Do you get most of your news from social media? Us too. Do you know anything about how they pick
-						what to show you? Neither do we. Facebook, Twitter, and others sites use complicated computerized
+						what to show you? No? Neither do we. Facebook, Twitter, and others sites use complicated computerized
 						rules to decide which posts you see at the top of your feed and which you don't. These
 						algorithms have reinforced our echo chamber - showing us content like what we share - and made
 						hard to burst our filter bubbles - hiding content that is different than what we believe. We
 						think escaping these echo chambers and seeing a wider picture of the news is a critical piece of
 						democratic society. We built Gobo to help demonstrate, and think about, how to do that.</p>
 
-						<h2>Our Solution</h2>
-						<h3>Use Gobo to control the algorithms that govern what you see and what you don't on your
-							social media feeds</h3>
+						<h2>Gobo lets you control what you see on your feed,<br />and what gets hidden.</h2>
 
 						<p>Sign up for Gobo, link it to your other social media profiles, and you can take control of your
 						feed. Want to read news you aren't otherwise seeing? Use our "Echo Chamber" filter to see what
@@ -57,8 +53,7 @@ class Landing extends Component {
 						to add filters too. Sign up, try it out, and see if it changes how you think about how social
 						media should work.</p>
 
-						<h2>Our Goal</h2>
-						<h3>We want to change how you think social media should work.</h3>
+						<h2>We want to change how you think social media should work</h2>
 
 						<p>Gobo is an experiment, not a startup. We are building it to change the conversation about social
 						media, algorithms, and feeds. This is a technology-to-think-with; a tool that you should play
