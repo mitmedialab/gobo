@@ -18,6 +18,9 @@
   .header {
     width: 450px;
     max-width: 100%;
+    @media (max-width: 800px) {
+      margin-top:30px;
+    }
   }
 
   .profile-img {
