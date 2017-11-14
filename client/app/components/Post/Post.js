@@ -187,9 +187,9 @@ class Post extends Component {
 
             switch (content.type) {
                 case 'link': {
-                    var caption = ''
+                    var caption = '';
                     if (content.caption) {
-                        caption = content.caption.toUpperCase()
+                        caption = content.caption.toUpperCase() || '';
                     }
                     postContent = (
                         <a href={content.link}>
