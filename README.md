@@ -1,7 +1,7 @@
 Gobo
 ====
 
-Gobo is a social media aggregator with filters you control. You can use Gobo to control what’s edited out of your feed, or configure it to include news and points of view from outside your usual orbit. Gobo aims to be completely transparent, showing you why each post was included in your feed and inviting you to explore what was filtered out by your current filter settings.
+Gobo is a responsive web-based social media aggregator with filters you can control. You can use Gobo to control what’s edited out of your feed, or configure it to include news and points of view from outside your usual orbit. Gobo aims to be completely transparent, showing you why each post was included in your feed and inviting you to explore what was filtered out by your current filter settings.
 
 Try it out at [https://gobo.social](https://gobo.social).
 
@@ -87,6 +87,8 @@ Edit the GA ID in `client/app/index.js`
 Deploying
 ---------
 
+### Setup
+
 Gobo is set up to deploy to containerized hosts like Heroku of Dokku.  Typically configuration is done with environment variables.  For now we've got a system that involves editing the config file on a local branch.  We'll get around to changing this eventually.
 
 1. create a new local branch called "deploy": `git checkout -b deploy`
@@ -98,3 +100,8 @@ Gobo is set up to deploy to containerized hosts like Heroku of Dokku.  Typically
 7. Push to that deploy remote: `git push deploy deploy:master`
     
 **!!! - Make sure to __**not push this branch**__ anywhere else!! as this contains sensitive data! - !!!**
+
+### Versioning
+
+Edit `client/app/constants/index.js` and bump up the semantic version number before every release.  This shows up at the bottom fo the about page.
+
