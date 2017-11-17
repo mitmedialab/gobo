@@ -1,11 +1,11 @@
-import React, { Component }  from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import { Route, withRouter, Switch} from 'react-router-dom';
+import { Route, withRouter, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Async from 'react-code-splitting';
 import Nav from 'components/Nav/Nav';
-import { tryGetUser } from 'actions/auth'
+import { tryGetUser } from 'actions/auth';
 
 require('./app.scss');
 
@@ -19,28 +19,27 @@ const Settings = () => <Async load={import('components/Settings/Settings')} />;
 const TwitterCallback = () => <Async load={import('components/TwitterCallback/TwitterCallback')} />;
 const NoMatch = () => <Async load={import('components/NoMatch/NoMatch')} />;
 
-
 const propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired,
+	dispatch: PropTypes.func.isRequired,
+	auth: PropTypes.object.isRequired,
 };
 
 class App extends Component {
-    componentWillMount() {
-        this.props.dispatch(tryGetUser());
-    }
 
+	componentWillMount() {
+		this.props.dispatch(tryGetUser());
+	}
 
-    render() {
-    	const Home = this.props.auth.isAuthenticated ? Feed : Landing;
-        return (
+	render() {
+		const Home = this.props.auth.isAuthenticated ? Feed : Landing;
+		return (
 			<div>
 				<Helmet>
 					<title>Gobo</title>
 					<meta name="description" content="A Site for Gobo Social" />
 				</Helmet>
 
-				<Nav auth={this.props.auth}/>
+				<Nav auth={this.props.auth} />
 				<div className="" role="main">
 					<Switch>
 						<Route exact path="/" component={Home} />
@@ -52,15 +51,15 @@ class App extends Component {
 						<Route path="/twitter_callback" component={TwitterCallback} />
 						<Route path="/about" component={Landing} />
 						<Route path="/privacy" component={Privacy} />
-						<Route path="/api/:function"/>
+						<Route path="/api/:function" />
 						<Route path="*/" component={NoMatch} />
 					</Switch>
 
 				</div>
 
 			</div>
-        );
-    }
+		);
+	}
 }
 
 App.propTypes = propTypes;

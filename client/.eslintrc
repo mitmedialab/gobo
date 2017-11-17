@@ -10,12 +10,12 @@
 		"react", "import"
 	],
 	"settings": {
-      "import/resolver": {
-        "webpack": {
-          "config": "webpack/webpackConfigDev.js"
-        }
-      }
-    },
+		"import/resolver": {
+			"webpack": {
+				"config": "webpack/webpackConfigDev.js"
+			}
+		}
+	},
 	"rules": {
 		"arrow-spacing": 0,
 		"arrow-body-style": 0,
@@ -30,5 +30,7 @@
 		"react/jsx-indent": [2, "tab"],
 		"react/jsx-indent-props": [2, "tab"],
 		"space-before-function-paren": 0,
+		"react/require-default-props": 0,
+		"max-len": 0,
 	},
 }
