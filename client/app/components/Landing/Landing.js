@@ -1,13 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Button } from '@blueprintjs/core';
 import { connect } from 'react-redux';
 
 import { VERSION } from '../../constants/index';
 
-const Landing = () => {
+const propTypes = {
+	auth: PropTypes.object.isRequired,
+};
+
+const Landing = (props) => {
 	let loginContent;
-	if (!this.props.auth.isAuthenticated) {
+	if (!props.auth.isAuthenticated) {
 		loginContent = (
 			<div>
 				<div>
@@ -78,6 +83,8 @@ const Landing = () => {
 		</div>
 	);
 };
+
+Landing.propTypes = propTypes;
 
 function mapStateToProps(state) {
 	return {
