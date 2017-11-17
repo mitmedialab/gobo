@@ -75,7 +75,7 @@ class NavBar extends Component {
             (<ul className={dropdownMenuClass} tabIndex="0" onBlur={ ()=> this.setState( {dropdownOpen: false })} >
                 <li className="list-group-item" onClick={this.toggleDropdown}>
                     <span className="glyphicon glyphicon-picture"></span>
-                    <Link to={'/register'}><span>Sign Up</span></Link>
+                    <Link to={'/register'}><span>Register</span></Link>
                 </li>
                 <li className="list-group-item" onClick={this.toggleDropdown}>
                     <span className="glyphicon glyphicon-log-in"></span>
