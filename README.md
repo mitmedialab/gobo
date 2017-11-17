@@ -16,14 +16,14 @@ Gobo is a [Flask](http://flask.pocoo.org)-based server side, which uses [React](
 Edit `server/config.py` to hold the right api keys and database url.
   
 Create a virtual environment and install all requirements
-```bazaar
+```shell
 $ virtualenv venv
 $ source venv/bin/activate
 $ pip install -r requirements.txt
 ```
 
 To set up the database run:
-```bazaar
+```shell
 $ python manage.py db init
 $ python manage.py create_db
 $ python manage.py db upgrade
@@ -42,29 +42,42 @@ In development mode Gobo has multiple pieces you need to run:
 4. We use npm to run the front-end React code that drives the UI.
 
 Run the Flask server locally:
-```bazaar
+```shell
 $ ./run.sh
 ```
 
 In order to fetch posts from FB and Twitter you need to run the redis-server and celery worker locally.  Open 2 new shell terminals, and activate the virtualenv. Then run:
-```bazaar
-redis-server
+```shell
+$ redis-server
 ```
 
 And in the other one:
-```bazaar
-celery -A server.scripts.tasks worker
+```shell
+$ celery -A server.scripts.tasks worker
 ```
 
 In another terminal window open cd to `/client` and then:
-```bazaar
-npm install
+```shell
+$ npm install
 #We need to run build once in order to create a dist folder with all static files (images etc.) for the server to access
-npm run build 
-npm start
+$ npm run build 
+$ npm start
 ```
 
 After that you should be able to see Gobo at localhost:5000
+
+
+### Recurring Tasks
+
+You need to set up two recurring tasks. The first adds tasks to the queue:
+```shell
+$ python -m server.scripts.add_tasks_to_queue
+```
+
+The second removes old posts (Gobo only tracks the last 500 posts for each user):
+```shell
+$ python server/scripts/clean_old_posts.py
+```
 
 
 Configuration
