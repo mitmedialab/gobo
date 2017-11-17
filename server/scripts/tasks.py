@@ -24,7 +24,8 @@ from .gender_classifier.NameClassifier_light import NameClassifier
 
 logger = getLogger(__name__)
 
-client = Client(config_map['prod'].SENTRY_DSN_WORKER)
+if config_map['prod'].SENTRY_DSN_WORKER:
+    client = Client(config_map['prod'].SENTRY_DSN_WORKER)
 
 
 FACEBOOK_POSTS_FIELDS = ['id','caption','created_time','description','from{picture,name,gender}','icon','link','message','message_tags','name', 'object_id',

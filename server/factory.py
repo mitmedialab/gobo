@@ -20,8 +20,8 @@ def create_app(config_type):
 
     app.config.from_object(config)
 
-    sentry = Sentry(app,
-                    dsn=config.SENTRY_DSN)
+    if config.SENTRY_DSN:
+        sentry = Sentry(app, dsn=config.SENTRY_DSN)
 
     db.init_app(app)
     bcrypt.init_app(app)
