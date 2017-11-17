@@ -10,8 +10,8 @@ import { postFacebookResponseToServer } from '../../utils/apiRequests';
 const propTypes = {
 	dispatch: PropTypes.func.isRequired,
 	twitter_data: PropTypes.object.isRequired,
-	facebookConnected: PropTypes.boolean,
-	twitterConnected: PropTypes.boolean,
+	facebookConnected: PropTypes.func,
+	twitterConnected: PropTypes.func,
 	auth: PropTypes.object,
 	// onFinish: PropTypes.func.isRequired,
 };
