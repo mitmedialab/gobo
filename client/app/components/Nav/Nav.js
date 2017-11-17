@@ -5,7 +5,6 @@ import { logout } from 'actions/auth';
 import { connect } from 'react-redux';
 import onClickOutside from 'react-onclickoutside';
 
-
 const propTypes = {
 	auth: PropTypes.object.isRequired,
 	dispatch: PropTypes.func,
