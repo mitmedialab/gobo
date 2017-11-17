@@ -1,47 +1,55 @@
-from server.core import db, bcrypt, login_manager
-from flask import request, jsonify, session, url_for
+from flask import request, jsonify, session
 from flask import current_app as app
 from flask_login import login_required, login_user, logout_user, current_user
 import requests
-from sqlalchemy import and_
+from sqlalchemy.exc import IntegrityError
 from twython import Twython
+import logging
 
+from server.core import db, bcrypt, login_manager
 from server.models import User, FacebookAuth, TwitterAuth, Post, SettingsUpdate
 from server.scripts import tasks
 from server.enums import PoliticsEnum
-
 from server.blueprints import api
 
+logger = logging.getLogger(__name__)
 
 # -----login logout logic-----
+
 
 @login_manager.user_loader
 def load_user(userid):
     return User.query.get(userid)
+
 
 @api.route('/register', methods=['POST'])
 def register():
     json_data = request.json
     code = 403
     user = False
+    status_text = ''
     try:
         user = User(
             email=json_data['email'],
             password=json_data['password']
         )
     except Exception as e:
-        statusText = str(e)
+        status_text = str(e)
     if user:
         try:
             db.session.add(user)
             db.session.commit()
-            statusText = 'success'
+            status_text = 'success'
             code=200
             login_user(user, remember=True)
+        except IntegrityError:
+            status_text = 'A user with that e-mail already exist!'
         except Exception as e:
-            statusText = 'user with that e-mail already exist'
+            status_text = 'Sorry, but something went wrong.  Please reload the page and try again.'
+            logger.exception(e)
         db.session.close()
-    return jsonify({'statusText': statusText}), code
+    return jsonify({'statusText': status_text}), code
+
 
 @api.route ('/login', methods=['POST'])
 def login():
@@ -58,6 +66,7 @@ def login():
 
     response = jsonify({'result': status, 'user':user_result})
     return response
+
 
 @api.route('/logout', methods=['GET'])
 @login_required
