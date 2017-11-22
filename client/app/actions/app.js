@@ -1,5 +1,4 @@
 import { apiFetch } from 'utils/utilities';
-import { getUser } from 'utils/apiRequests';
 
 /*--------*/
 // Define Action types
