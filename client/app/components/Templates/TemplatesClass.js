@@ -1,11 +1,11 @@
-/* --------------------------- */
-/* Stateful Component Template */
-/* --------------------------- */
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getData } from 'actions/app';
+
+/* --------------------------- */
+/* Stateful Component Template */
+/* --------------------------- */
 
 const propTypes = {
 	dispatch: PropTypes.func.isRequired,
@@ -28,4 +28,5 @@ class Template extends Component {
 }
 
 Template.propTypes = propTypes;
+
 export default connect(state => ({ appData: state.app }))(Template);

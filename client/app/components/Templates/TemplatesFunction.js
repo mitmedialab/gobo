@@ -1,10 +1,10 @@
-/* ----------------------------- */
-/* Functional Component Template */
-/* ----------------------------- */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+/* ----------------------------- */
+/* Functional Component Template */
+/* ----------------------------- */
 
 const propTypes = {
 	appData: PropTypes.object.isRequired,
@@ -20,4 +20,5 @@ const Template = function({ appData }) {
 };
 
 Template.propTypes = propTypes;
+
 export default connect(state => ({ appData: state.app }))(Template);
