@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 // import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { tryGetUser } from 'actions/auth';
 import { getPosts, getSettings } from 'actions/feed';
 // import ReactList from 'react-list';
 // import Infinite from 'react-infinite'
@@ -40,7 +39,6 @@ class Feed extends Component {
 	}
 
 	componentWillMount() {
-		this.props.dispatch(tryGetUser());
 		this.props.dispatch(getPosts());
 		this.props.dispatch(getSettings());
 	}
