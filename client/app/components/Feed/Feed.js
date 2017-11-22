@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { tryGetUser } from 'actions/auth';
+// import { tryGetUser } from 'actions/auth';
 import { getPosts, getSettings } from 'actions/feed';
 // import ReactList from 'react-list';
 // import Infinite from 'react-infinite'
@@ -14,7 +14,7 @@ import Settings from 'components/Settings/Settings';
 import Loader from 'components/Loader/Loader';
 
 const propTypes = {
-	auth: PropTypes.object.isRequired,
+	auth: PropTypes.object,
 	dispatch: PropTypes.func,
 	feed: PropTypes.object
 };
@@ -40,11 +40,11 @@ class Feed extends Component {
 	}
 
 	componentWillMount() {
-		this.props.dispatch(tryGetUser());
-		this.props.dispatch(getPosts());
-		this.props.dispatch(getSettings());
+		const { dispatch } = this.props;
+		// dispatch(tryGetUser());
+		dispatch(getPosts());
+		dispatch(getSettings());
 	}
-
 
 	toggleShowFiltered() {
 		this.setState({
@@ -59,15 +59,22 @@ class Feed extends Component {
 	}
 
 	render() {
-		if (!this.props.auth.isAuthenticated) {
+		const { auth, feed } = this.props;
+		const { posts, filteredPosts, loading_posts, filtering_posts, loading_settings } = feed;
+
+		if (!auth.isAuthenticated) {
 			return <Redirect to="/" />;
 		}
-		const posts = this.props.feed.posts;
-		const filteredPosts = this.props.feed.filteredPosts;
+
+		const loadingPosts = loading_posts;
 		const showing = this.state.showFiltered ? 'filtered' : 'kept';
 
-		const filteredText = this.state.showFiltered ? 'Showing filtered posts.' : `${filteredPosts.filtered.length} posts filtered out of your feed.`;
-		const filteredLinkText = this.state.showFiltered ? '  Back to my feed.' : '  Show me what was taken out.';
+		let filteredText;
+		let filteredLinkText;
+		if (posts.length > 0) {
+			filteredText = this.state.showFiltered ? 'Showing filtered posts.' : `${filteredPosts.filtered.length} posts filtered out of your feed.`;
+			filteredLinkText = this.state.showFiltered ? '  Back to my feed.' : '  Show me what was taken out.';
+		}
 
 		// if (this.props.feed.sort_by) {
 		//   filteredPosts[showing].sortOn(this.props.feed.sort_by);
@@ -77,23 +84,62 @@ class Feed extends Component {
 		// }
 		const noPostsText = this.state.showFiltered ? 'None of your posts were filtered out. Try changing the filters to see them in action. ' : 'None of the posts in your feed match the filters you\'ve set. Try changing the filters.';
 
-		const postsHtml = filteredPosts[showing].map(post => (
-			<Post
-				key={post.id}
-				post={post}
-				filtered={this.state.showFiltered}
-				filtered_by={filteredPosts.reasons[post.id]}
-				virality_max={this.props.feed.filteredPosts.virality_max}
-				virality_avg={this.props.feed.filteredPosts.virality_avg}
-			/>
-		));
+		let postsHtml;
+		if (filteredPosts) {
+			postsHtml = filteredPosts[showing].map(post => (
+				<Post
+					key={post.id}
+					post={post}
+					filtered={this.state.showFiltered}
+					filtered_by={filteredPosts.reasons[post.id]}
+					virality_max={filteredPosts.virality_max}
+					virality_avg={filteredPosts.virality_avg}
+				/>
+			));
+		}
+
+		let fetchingContent;
+		if (loadingPosts || filtering_posts) {
+			fetchingContent = (
+				<div>
+					<div className="filtered-text">Hold on while we are fetching your feed</div>
+					<Loader />
+				</div>
+			);
+		}
+
+		let showFilteredControl;
+		if (posts.length > 0) {
+			showFilteredControl = (
+				<div className="filtered-text">
+					<span className="filtered-count">{filteredText}</span>
+					<a onClick={this.toggleShowFiltered} className="filtered-link" role="button">{filteredLinkText}</a>
+				</div>
+			);
+		}
+
+		let noPostsContent;
+		if ((!loadingPosts) && (posts.length > 0) && (filteredPosts[showing].length === 0)) {
+			noPostsContent = (
+				<div className="no-posts-text">
+					{noPostsText}
+				</div>
+			);
+		}
+
+		let settingsContent;
+		if (filteredPosts) {
+			settingsContent = (
+				<Settings neutralFB={filteredPosts.fb} onMinimize={this.toggleSettings} minimized={this.state.minimizedSettings} />
+			);
+		}
 
 		return (
 			<div className="container-fluid">
 				<div className={'row'}>
 					<div className={this.state.minimizedSettings ? 'feed wide' : 'feed'}>
 
-						{(!this.props.feed.loading_posts) && (this.props.feed.posts.length === 0) &&
+						{(!loadingPosts) && (posts.length === 0) &&
 						(<div>
 							We couldn't find any posts for your feed.
 							<br />
@@ -106,22 +152,11 @@ class Feed extends Component {
 
 						<div className="posts">
 
-							{(this.props.feed.loading_posts || this.props.feed.filtering_posts) &&
-							<div>
-								<div className="filtered-text">Hold on while we are fetching your feed</div>
-								<Loader />
-							</div>}
+							{fetchingContent}
 
-							{posts.length > 0 &&
-							<div className="filtered-text">
-								<span className="filtered-count">{filteredText}</span>
-								<a onClick={this.toggleShowFiltered} className="filtered-link" role="button">{filteredLinkText}</a>
-							</div>}
+							{showFilteredControl}
 
-							{(!this.props.feed.loading_posts) && (this.props.feed.posts.length > 0) && (filteredPosts[showing].length === 0) &&
-							(<div className="no-posts-text">
-								{noPostsText}
-							</div>)}
+							{noPostsContent}
 
 							{postsHtml}
 
@@ -136,7 +171,7 @@ class Feed extends Component {
 
 					</div>
 					<div className={this.state.minimizedSettings ? 'sidebar minimized' : 'sidebar'}>
-						<Settings neutralFB={filteredPosts.fb} onMinimize={this.toggleSettings} minimized={this.state.minimizedSettings} />
+						{settingsContent}
 					</div>
 				</div>
 			</div>

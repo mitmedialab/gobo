@@ -108,7 +108,6 @@ const Profile = (props) => {
 	);
 };
 
-
 Profile.propTypes = propTypes;
 
 export default connect(mapStateToProps)(Profile);

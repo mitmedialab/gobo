@@ -1,31 +1,22 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
 import PropTypes from 'prop-types';
-import FacebookTwitterButtons from 'components/FacebookTwitterButtons/FacebookTwitterButtons'
-
-
+import { connect } from 'react-redux';
+import FacebookTwitterButtons from 'components/FacebookTwitterButtons/FacebookTwitterButtons';
 
 const propTypes = {
-    onFinish: PropTypes.func.isRequired,
+	onFinish: PropTypes.func.isRequired,
 };
 
-class SocialAuth extends Component {
-    render() {
-        return (
-            <div>
-                <p>
-                    Please Authenticate to your Facebook and Twitter
-                    <br/>
-                    accounts so we can show you your feed
-                </p>
-
-                <FacebookTwitterButtons onFinish={this.props.onFinish}/>
-
-            </div>
-
-        )
-    }
-}
+const SocialAuth = props => (
+	<div>
+		<p>
+			Please Authenticate to your Facebook and Twitter
+			<br />
+			accounts so we can show you your feed
+		</p>
+		<FacebookTwitterButtons onFinish={props.onFinish} />
+	</div>
+);
 
 SocialAuth.propTypes = propTypes;
 
