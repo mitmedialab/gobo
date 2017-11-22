@@ -63,7 +63,7 @@ class Feed extends Component {
 			return <Redirect to="/" />;
 		}
 		const posts = this.props.feed.posts;
-		const filteredPosts = this.props.feed.filteredPosts;
+		const filteredPosts = this.props.feed.filtered_posts;
 		const showing = this.state.showFiltered ? 'filtered' : 'kept';
 
 		const filteredText = this.state.showFiltered ? 'Showing filtered posts.' : `${filteredPosts.filtered.length} posts filtered out of your feed.`;
@@ -83,8 +83,8 @@ class Feed extends Component {
 				post={post}
 				filtered={this.state.showFiltered}
 				filtered_by={filteredPosts.reasons[post.id]}
-				virality_max={this.props.feed.filteredPosts.virality_max}
-				virality_avg={this.props.feed.filteredPosts.virality_avg}
+				virality_max={filteredPosts.virality_max}
+				virality_avg={filteredPosts.virality_avg}
 			/>
 		));
 
