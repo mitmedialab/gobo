@@ -16,7 +16,7 @@ const propTypes = {
 	// onFinish: PropTypes.func.isRequired,
 };
 
-const MAX_POLLS = 40;
+const MAX_POLLS = 120;
 
 class FacebookTwitterButtons extends Component {
 
