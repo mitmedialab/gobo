@@ -27,6 +27,8 @@ class BaseConfig(object):
     LOCK_WITH_PASSWORD = True
     BETA_PASSWORD = 'XXXXXX'
 
+    NEWS_LABELLER_URL = 'http://my_predict_news_server'
+
 
 class DevConfig(BaseConfig):
     DEBUG = True

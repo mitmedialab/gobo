@@ -273,7 +273,7 @@ def get_news_score(post_id):
                 script.extract()  # rip it out
             # get text
             text = soup.get_text()
-            r = requests.post('http://predict-news-labels.mcnlp.media.mit.edu/predict.json', json = {'text':text})
+            r = requests.post(current_app.config['NEWS_LABELLER_URL']+'/predict.json', json = {'text':text})
             result = r.json()
             if 'taxonomies' in result:
                 scores = [float(x['score']) for x in result['taxonomies'] if '/news' in x['label'].lower()]
@@ -281,7 +281,7 @@ def get_news_score(post_id):
                 score = max(scores)
     else:
         text = post.get_text()
-        r = requests.post('http://predict-news-labels.mcnlp.media.mit.edu/predict.json', json = {'text':text})
+        r = requests.post(current_app.config['NEWS_LABELLER_URL']+'/predict.json', json = {'text':text})
         result = r.json()
         if 'taxonomies' in result:
             scores = [float(x['score'])for x in result['taxonomies'] if '/news' in x['label'].lower()]
