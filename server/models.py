@@ -37,7 +37,7 @@ class User(db.Model):
     political_affiliation = db.Column(db.Enum(PoliticsEnum), default=PoliticsEnum.center)
 
     posts = db.relationship("Post",
-                    secondary=post_associations_table, lazy='dynamic', cascade="all")
+                    secondary=post_associations_table, lazy='dynamic')
 
     settings = db.relationship("Settings", uselist=False, back_populates="user")
 
@@ -243,12 +243,23 @@ class Post(db.Model):
         self.is_corporate = corporate
         db.session.commit()
 
+    def has_gender_corporate(self):
+        return (self.gender is not None) and (self.is_corporate is not None)
+
     def update_replies_count(self, count):
         new_content = self.content.copy()
         prev_count = self.content['replies_count'] if 'replies_count' in self.content else 0
         new_content['replies_count'] = max(count, prev_count)
         self.content = new_content
 
+    def has_virality(self):
+        return self.virality_count is not None
+
+    def has_news_score(self):
+        return self.news_score is not None
+
+    def has_already_been_analyzed(self):
+        return self.has_virality() and self.has_news_score() and self.has_gender_corporate() and self.has_toxicity_rate()
 
     def get_author_name(self):
         if self.source=='facebook':

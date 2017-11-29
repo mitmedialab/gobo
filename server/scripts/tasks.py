@@ -43,8 +43,10 @@ name_classifier = NameClassifier()
 @celery.task(serializer='json', bind=True)
 def get_posts_data_for_all_users(self):
     for user in User.query.all():
-        get_tweets_per_user.delay(user.id)
-        get_facebook_posts_per_user.delay(user.id)
+        if user.twitter_authorized:
+            get_tweets_per_user.delay(user.id)
+        if user.facebook_authorized:
+            get_facebook_posts_per_user.delay(user.id)
 
 @celery.task(serializer='json', bind=True)
 def get_tweets_per_user(self, user_id):
@@ -153,9 +155,13 @@ def _add_post(user, post, source):
             user.posts.append(post_item)
         db.session.commit()
         success = True
-        analyze_post.delay(post_item.id)
-    except:
-        logger.error('An error adding post {} from tweeter to user {}'.format(post['id'], user.id))
+        if not post_item.has_already_been_analyzed():
+            analyze_post.delay(post_item.id)
+        else:
+            logger.warning("post {} already has all analysis, skipping that step".format(post_id))
+    except Exception as e:
+        logger.error('An error adding post {} from twitter to user {} - {}'.format(post['id'], user.id, str(e)))
+
         success = False
     return {'success': success, 'added_new':added_new}
 
@@ -217,6 +223,9 @@ def analyze_toxicity(post_id):
 
 def analyze_gender_corporate(post_id):
     post = Post.query.get(post_id)
+    if not post or post.has_gender_corporate():
+        logger.warning("post {} doesn't exist or already has gender/corporate".format(post_id))
+        return
     is_facebook = post.source=='facebook'
     gender = GenderEnum.unknown
     corporate = False
@@ -234,6 +243,9 @@ def analyze_gender_corporate(post_id):
 
 def analyze_virality(post_id):
     post = Post.query.get(post_id)
+    if not post or post.has_virality():
+        logger.warning("post {} doesn't exist or already has virality".format(post_id))
+        return
     is_facebook = post.source=='facebook'
 
     likes = post.content['reactions']['summary']['total_count'] if is_facebook else post.content['favorite_count']
@@ -249,17 +261,18 @@ def analyze_virality(post_id):
     else:
         shares = post.content['retweet_count']
 
-
     total_reaction = likes+shares+comments
     post.virality_count = max(post.virality_count, total_reaction)
     db.session.commit()
 
 def get_news_score(post_id):
     post = Post.query.get(post_id)
+    if not post or post.has_news_score():
+        logger.warning("post {} doesn't exist or already has news score".format(post_id))
+        return
+
     is_facebook = post.source=='facebook'
     score = 0
-    if post.news_score is not None:
-        return
     if post.has_link:
         urls = [post.content['link']] if is_facebook else [x['expanded_url'] for x in post.content['entities']['urls']]
         for url in urls:
