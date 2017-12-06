@@ -68,10 +68,13 @@ class User(db.Model):
         return d
 
     def set_facebook_data(self, data):
-        self.facebook_name = data['name']
-        self.facebook_email = data['email']
+        self.facebook_name = data['name'] if 'name' in data else ''
+        self.facebook_email = data['email'] if 'email' in data else ''
         self.facebook_id = data['id']
-        self.facebook_picture_url = data['picture']['data']['url']
+        if 'picture' in data:
+            if 'data' in data['picture']:
+                if 'url' in data['picture']['data']:
+                    self.facebook_picture_url = data['picture']['data']['url']
         self.facebook_data = data
         self.facebook_authorized = True
         db.session.commit()
