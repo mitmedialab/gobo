@@ -129,12 +129,13 @@ def _get_facebook_friends_and_likes(user):
         logger.error ('error getting friends and likes for user {}'.format(user.id))
         #client.captureMessage('error getting friends and likes for user {}'.format(user.id))
     for key in friends_likes.keys():
-        friends_likes[key].extend(initial_result[key]['data'])
-        result = initial_result[key]
-        while 'paging' in result and 'next' in result['paging']:
-            r = requests.get(result['paging']['next'])
-            result = r.json()
-            friends_likes[key].extend(result['data'])
+        if key in initial_result:
+            friends_likes[key].extend(initial_result[key]['data'])
+            result = initial_result[key]
+            while 'paging' in result and 'next' in result['paging']:
+                r = requests.get(result['paging']['next'])
+                result = r.json()
+                friends_likes[key].extend(result['data'])
     return friends_likes
 
 def _add_post(user, post, source):
