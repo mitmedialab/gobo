@@ -79,6 +79,11 @@ The second removes old posts (Gobo only tracks the last 500 posts for each user)
 $ python server/scripts/clean_old_posts.py
 ```
 
+To refresh a specific user:
+```shell
+$ python -m server.scripts.add_user_tasks_to_queue [user_id]
+```
+
 
 Configuration
 -------------
