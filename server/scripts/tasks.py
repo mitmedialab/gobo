@@ -50,7 +50,6 @@ def get_posts_data_for_all_users(self):
 
 @celery.task(serializer='json', bind=True)
 def get_tweets_per_user(self, user_id):
-    db.session.rollback()
     user = User.query.get(user_id)
     if not user or not user.twitter_authorized:
         logger.info('User number {} did not authorize twitter (or does not exist) not fetching any tweets'.format(user_id))
