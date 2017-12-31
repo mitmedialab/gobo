@@ -5,6 +5,21 @@
 
     All methods update and commit to db directly and do not return anything
 """
+from ..models import Post
+from googleapiclient import discovery 
+from flask import current_app
+import tasks
+from logging import getLogger
+from server.enums import GenderEnum 
+from .gender_classifier.NameClassifier_light import NameClassifier
+from server.core import db
+from bs4 import BeautifulSoup
+import urllib
+import requests
+
+
+logger = getLogger(__name__)
+name_classifier = NameClassifier()
 
 
 def analyze_toxicity(post_id):
@@ -114,3 +129,19 @@ def analyze_news_score(post_id):
         score = min(1, score+0.6)
     post.news_score = score
     db.session.commit()
+
+def count_tweet_replies(tweet):
+    #todo: this is getting to the API rate limit very quickly, find a better way to get replies count
+    # twitter_auth = TwitterAuth.query.filter_by(user_id=user_id).first()
+    # twitter = Twython(current_app.config['TWITTER_API_KEY'], current_app.config['TWITTER_API_SECRET'],
+    #                   twitter_auth.oauth_token, twitter_auth.oauth_token_secret)
+    # tweet_user_name = tweet['user']['screen_name']
+    # tweet_id = tweet['id_str']
+    # try:
+    #     results = twitter.cursor(twitter.search, q='to:{}'.format(tweet_user_name), sinceId=tweet_id)
+    #     count = len([1 for result in results if result['in_reply_to_status_id_str']==tweet_id])
+    # except:
+    #     print 'error while counting tweet {} replies'.format(tweet_id)
+    #     count = 0
+    count = 0
+    return count

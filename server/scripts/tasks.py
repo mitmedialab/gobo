@@ -37,6 +37,10 @@ FACEBOOK_POSTS_FIELDS = ['id','caption','created_time','description',
                          'status_type', 'story', 'story_tags' ,
                          'type','updated_time','likes.summary(true)',
                          'reactions.summary(true)','comments.summary(true)']
+"""
+    Add here for any new type of filter
+    Add the processing to server.scripts.analyze_modules.analyze_<analysis_type>
+"""
 ANALYSIS_TYPES = ['toxicity','gender_corporate','virality','news_score']
 FACEBOOK_URL = 'https://graph.facebook.com/v2.10/'
 
@@ -194,33 +198,15 @@ def _add_news_post(post, source, quintile):
         success = False
     return {'success': success, 'added_new':added_new}
 
-
 @celery.task(serializer='json', bind=True)
 def analyze_post(self, post_id):
     for analysis_type in ANALYSIS_TYPES:
-        getattr(analyze_modules,"analyze_%s"%(analysis_type))()
+        getattr(analyze_modules,"analyze_%s"%(analysis_type))(post_id)
     #analyze_toxicity(post_id)
     #analyze_gender_corporate(post_id)
     #analyze_virality(post_id)
     #analyze_news_score(post_id)
 
-
-
-def count_tweet_replies(tweet):
-    #todo: this is getting to the API rate limit very quickly, find a better way to get replies count
-    # twitter_auth = TwitterAuth.query.filter_by(user_id=user_id).first()
-    # twitter = Twython(current_app.config['TWITTER_API_KEY'], current_app.config['TWITTER_API_SECRET'],
-    #                   twitter_auth.oauth_token, twitter_auth.oauth_token_secret)
-    # tweet_user_name = tweet['user']['screen_name']
-    # tweet_id = tweet['id_str']
-    # try:
-    #     results = twitter.cursor(twitter.search, q='to:{}'.format(tweet_user_name), sinceId=tweet_id)
-    #     count = len([1 for result in results if result['in_reply_to_status_id_str']==tweet_id])
-    # except:
-    #     print 'error while counting tweet {} replies'.format(tweet_id)
-    #     count = 0
-    count = 0
-    return count
 
 @celery.task(serializer='json', bind=True)
 def get_news_posts(self):
