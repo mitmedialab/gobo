@@ -33,7 +33,14 @@ class Post extends Component {
 
 	getAuthorString(content) {
 		const post = this.props.post;
-		let source = post.source === 'twitter' ? content.user.name : post.content.from.name;
+		let source;
+		if (post.source === 'twitter') {
+
+			source = content.user.name;
+		}
+		else if (post.content.from) {
+			 source = post.content.from.name;
+		}
 		if ((post.source === 'facebook') && (content.post_user) && (source !== content.post_user.name)) {
 			source += ` ▶ ${post.content.post_user.name}`;
 		}
@@ -179,7 +186,7 @@ class Post extends Component {
 		if (source === 'twitter') {
 			picSrc = content.user.profile_image_url_https;
 		} else {
-			picSrc = content.from.picture ? content.from.picture.data.url : '';
+			picSrc = (content.from && content.from.picture) ? content.from.picture.data.url : '';
 		}
 
 		const dateString = this.getDateString();
