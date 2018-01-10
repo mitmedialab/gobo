@@ -11,9 +11,11 @@ Gobo is a project of the [MIT Center for Civic Media](https://civic.mit.edu), at
 Installation
 ------------
 
-Gobo is a [Flask](http://flask.pocoo.org)-based server side, which uses [React](http://reactjs.org) & [Redux](https://github.com/reactjs/react-redux) in the browser to rnder the UI.  
+Gobo is a [Flask](http://flask.pocoo.org)-based server side, which uses [React](http://reactjs.org) & [Redux](https://github.com/reactjs/react-redux) in the browser to render the UI.
 
-Edit `server/config.py` to hold the right api keys and database url.
+Gobo uses Python 2.  
+
+Create `config.py` in `server/config/` using the provided template to hold the right api keys and database url.
   
 Create a virtual environment and install all requirements
 ```shell
