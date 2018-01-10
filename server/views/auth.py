@@ -34,8 +34,8 @@ def register():
         except IntegrityError:
             status_text = 'A user with that e-mail already exist!'
         except Exception as e:
-            status_text = ('Sorry, but something went wrong.. \
-                         Please reload the page and try again.')
+            status_text = """Sorry, but something went wrong..Please reload
+                              the page and try again"""
             logger.exception(e)
         db.session.close()
     return jsonify({'statusText': status_text}), code
