@@ -4,8 +4,7 @@ from flask_login import login_required, login_user, logout_user, current_user
 from sqlalchemy.exc import IntegrityError
 
 from server.core import db, bcrypt
-from server.models import (User, Post, SettingsUpdate, Settings,
-                           TwitterAuth, FacebookAuth, post_associations_table)
+from server.models import *
 from server.blueprints import api
 
 logger = logging.getLogger(__name__)
@@ -89,15 +88,15 @@ def delete_account():
 
         db.session.commit()
 
-        statusText = 'Account successfully deleted'
+        status = True
     except Exception as e:
-        statusText = 'Account unsuccessfully deleted: ' + str(e)
+        status = False
         logger.exception(e)
 
     db.session.close()
 
     logout_user()
-    return jsonify({'result': statusText})
+    return jsonify({'result': status})
 
 
 @api.route('/logout', methods=['GET'])
