@@ -1,5 +1,4 @@
 import os
-basedir = os.path.abspath(os.path.dirname(__file__))
 
 class BaseConfig(object):
     # Controls lots of internal things.  Set to True locally; False on production.
@@ -20,7 +19,7 @@ class BaseConfig(object):
     TWITTER_API_SECRET = 'XXXXX'
 
     # Set to the URI for a database to store everythign in. We use Postgres in development and production.
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'dev.sqlite')
+    SQLALCHEMY_DATABASE_URI = 'postgresql:///db_name'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Set this to the URI for the queue engine you can Celery to use.  We have used Redis and RabbitMQ.
