@@ -61,42 +61,8 @@ def login():
 @login_required
 def delete_account():
     user_id = current_user.id
-    try:
-        # delete posts with post_associations matching user_id
-        post_assocs = (db.session.query(post_associations_table)
-                       .filter(post_associations_table.c.user_id == user_id))
-        post_ids = [post_id for (user_id, post_id) in post_assocs.all()]
-        post_assocs.delete(synchronize_session=False)
-
-        for pid in post_ids:
-            db.session.query(Post).filter(Post.id == pid).delete()
-
-        # delete user info from other tables
-        # (db.session.query(FacebookAuth)
-        #     .filter(FacebookAuth.user_id == user_id)
-        #     .delete())
-        # (db.session.query(TwitterAuth)
-        #     .filter(TwitterAuth.user_id == user_id)
-        #     .delete())
-        (db.session.query(SettingsUpdate)
-            .filter(SettingsUpdate.user_id == user_id)
-            .delete())
-        db.session.query(Settings).filter(Settings.user_id == user_id).delete()
-
-        # delete user from users table
-        acct = db.session.query(User).filter(User.id == user_id).first()
-        db.session.delete(acct)
-        db.session.commit()
-
-        status = True
-    except Exception as e:
-        print e
-        status = False
-        logger.exception(e)
-
-    db.session.close()
-
-    # logout_user()
+    status = delete_user_by_id(user_id, db.session)
+    logout_user()
     return jsonify({'result': status})
 
 
@@ -112,3 +78,42 @@ def logout():
 def confirm_auth():
     return jsonify({'result': current_user.is_authenticated(),
                     'user': current_user.get_names()})
+
+
+def delete_user_by_id(user_id, db_session):
+    try:
+        # delete posts with post_associations matching user_id
+        post_assocs = (db_session.query(post_associations_table)
+                       .filter(post_associations_table.c.user_id == user_id))
+        post_ids = [post_id for (user_id, post_id) in post_assocs.all()]
+        post_assocs.delete(synchronize_session=False)
+
+        for pid in post_ids:
+            db_session.query(Post).filter(Post.id == pid).delete()
+
+        # delete user info from other tables
+        # (db.session.query(FacebookAuth)
+        #     .filter(FacebookAuth.user_id == user_id)
+        #     .delete())
+        # (db.session.query(TwitterAuth)
+        #     .filter(TwitterAuth.user_id == user_id)
+        #     .delete())
+        (db_session.query(SettingsUpdate)
+            .filter(SettingsUpdate.user_id == user_id)
+            .delete())
+        db_session.query(Settings).filter(Settings.user_id == user_id).delete()
+
+        # delete user from users table
+        acct = db_session.query(User).filter(User.id == user_id).first()
+        db_session.delete(acct)
+        db_session.commit()
+
+        status = True
+    except Exception as e:
+        print e
+        status = False
+        logger.exception(e)
+
+    db_session.close()
+
+    return status
