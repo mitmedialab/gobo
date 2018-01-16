@@ -72,30 +72,31 @@ def delete_account():
             db.session.query(Post).filter(Post.id == pid).delete()
 
         # delete user info from other tables
-        (db.session.query(FacebookAuth)
-            .filter(FacebookAuth.user_id == user_id)
-            .delete())
-        (db.session.query(TwitterAuth)
-            .filter(TwitterAuth.user_id == user_id)
-            .delete())
+        # (db.session.query(FacebookAuth)
+        #     .filter(FacebookAuth.user_id == user_id)
+        #     .delete())
+        # (db.session.query(TwitterAuth)
+        #     .filter(TwitterAuth.user_id == user_id)
+        #     .delete())
         (db.session.query(SettingsUpdate)
             .filter(SettingsUpdate.user_id == user_id)
             .delete())
         db.session.query(Settings).filter(Settings.user_id == user_id).delete()
 
         # delete user from users table
-        db.session.query(User).filter(User.id == user_id).delete()
-
+        acct = db.session.query(User).filter(User.id == user_id).first()
+        db.session.delete(acct)
         db.session.commit()
 
         status = True
     except Exception as e:
+        print e
         status = False
         logger.exception(e)
 
     db.session.close()
 
-    logout_user()
+    # logout_user()
     return jsonify({'result': status})
 
 
