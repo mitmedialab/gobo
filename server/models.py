@@ -25,8 +25,8 @@ class User(db.Model):
     twitter_name = db.Column(db.String(255))
     twitter_id = db.Column(db.String(255))
 
-    facebook_auth = db.relationship("FacebookAuth", uselist=False, back_populates="user")
-    twitter_auth = db.relationship("TwitterAuth", uselist=False, back_populates="user")
+    facebook_auth = db.relationship("FacebookAuth", uselist=False, back_populates="user", cascade="delete, delete-orphan")
+    twitter_auth = db.relationship("TwitterAuth", uselist=False, back_populates="user", cascade="delete, delete-orphan")
 
     twitter_authorized = db.Column(db.Boolean, nullable=False, default=False)
     facebook_authorized = db.Column(db.Boolean, nullable=False, default=False)
@@ -37,7 +37,7 @@ class User(db.Model):
     political_affiliation = db.Column(db.Enum(PoliticsEnum), default=PoliticsEnum.center)
 
     posts = db.relationship("Post",
-                    secondary=post_associations_table, lazy='dynamic')
+                            secondary=post_associations_table, lazy='dynamic')
 
     settings = db.relationship("Settings", uselist=False, back_populates="user")
 
