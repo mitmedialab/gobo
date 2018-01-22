@@ -10,6 +10,9 @@ import {
 	GET_USER_LOAD,
 	GET_USER_SUCCESS,
 	GET_USER_FAIL,
+	DELETE_USER_REQUEST,
+	DELETE_USER_SUCCESS,
+	DELETE_USER_FAILURE,
 } from '../constants/index';
 
 const initialState = {
@@ -100,5 +103,24 @@ export default createReducer(initialState, {
 			userName: null,
 			statusText: null,
 			registerStatusText: null,
+		}),
+	[DELETE_USER_REQUEST]: state =>
+	Object.assign({}, state, {
+		isAuthenticating: false,
+		statusText: null,
+	}),
+	[DELETE_USER_SUCCESS]: state =>
+		Object.assign({}, state, {
+			isAuthenticating: false,
+			isAuthenticated: false,
+			user: null,
+			userName: null,
+			statusText: 'You have successfully deleted your account.',
+		}),
+	[DELETE_USER_FAILURE]: state =>
+		Object.assign({}, state, {
+			isAuthenticating: false,
+			isAuthenticated: true,
+			statusText: 'There was an error in deleting your account. Please try again.',
 		}),
 });
