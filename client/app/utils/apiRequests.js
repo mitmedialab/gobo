@@ -67,5 +67,5 @@ export function verifyPassword(password) {
 }
 
 export function deleteAccount() {
-	return axios.post(API_URL+'api/delete_acct')
+	return axios.get(API_URL+'api/delete_acct')
 }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import FacebookTwitterButtons from 'components/FacebookTwitterButtons/FacebookTwitterButtons';
+import DeleteAccountButton from 'components/DeleteAccountButton/DeleteAccountButton';
 
 const propTypes = {
 	auth: PropTypes.object.isRequired,
@@ -96,6 +97,7 @@ const Profile = (props) => {
 									facebookConnected={user.facebook_authorized}
 									twitterConnected={user.twitter_authorized}
 								/>
+								<DeleteAccountButton />
 								<Link to="/feed">
 									<button className="button button_wide"> Back to my feed</button>
 								</Link>

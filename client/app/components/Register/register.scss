@@ -84,6 +84,19 @@ $button-default-color: #fff;
 
       }
 
+      &.button_delete {
+        background: $red;
+        &:hover,
+        &:focus {
+          background: darken($red, 10%);
+        }
+        &:active,
+        &.active {
+          @include box-shadow(none);
+          background: darken($red, 20%);
+        }
+      }
+
 
         &.disabled {
           background: #fff;
