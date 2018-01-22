@@ -12,8 +12,6 @@ const propTypes = {
 class DeleteAccountButton extends Component {
 		constructor(props) {
 		super(props);
-		// this.state = {
-		// };
 		this.onButtonClick = this.onButtonClick.bind(this);
 	}
 

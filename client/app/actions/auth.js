@@ -159,9 +159,12 @@ export function deleteUserSuccess() {
 	};
 }
 
-export function deleteUserFailure() {
+export function deleteUserFailure(error) {
 	return {
 		type: DELETE_USER_FAILURE,
+		payload: {
+			response: error.response,
+		}, 
 	};
 }
 
@@ -177,18 +180,18 @@ export function deleteUser() {
 			return deleteAccount()
 				.then(parseJSON)
 				.then((response) => {
-					if (response.status) {
+					if (response.result) {
 						try {
 							dispatch(deleteUserSuccess());
 						} catch (e) {
-							dispatch(deleteUserFailure());
+							dispatch(deleteUserFailure({response:response}));
 						}
 					} else {
-						dispatch(deleteUserFailure());
+						dispatch(deleteUserFailure({response:response}));
 					}
 				})
 				.catch(() => {
-					dispatch(deleteUserFailure());
+					dispatch(deleteUserFailure({response:response}));
 				});
 		};
 }
