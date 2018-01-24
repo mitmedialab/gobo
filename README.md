@@ -78,7 +78,7 @@ $ python -m server.scripts.add_tasks_to_queue
 
 The second removes old posts (Gobo only tracks the last 500 posts for each user):
 ```shell
-$ python server/scripts/clean_old_posts.py
+$ python -m server.scripts.clean_old_posts
 ```
 
 To refresh a specific user:

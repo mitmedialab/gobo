@@ -4,11 +4,17 @@
 import os
 import psycopg2
 import urlparse
+from ..config.config import config_map
+
+
+env = os.getenv('FLASK_ENV', 'dev')
+config_type = env.lower()
+config = config_map[config_type]
 
 NUM_DAYS = 6
 
 urlparse.uses_netloc.append("postgres")
-url = urlparse.urlparse(os.environ["DATABASE_URL"])
+url = urlparse.urlparse(config.SQLALCHEMY_DATABASE_URI)
 
 conn = psycopg2.connect(
     database=url.path[1:],
