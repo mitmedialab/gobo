@@ -18,7 +18,7 @@ def register():
     status_text = ''
     try:
         user = User(
-            email=json_data['email'],
+            email=json_data['email'].lower(),
             password=json_data['password']
         )
     except Exception as e:
@@ -44,7 +44,7 @@ def register():
 def login():
     json_data = request.json
     user_result = False
-    user = User.query.filter_by(email=json_data['email']).first()
+    user = User.query.filter_by(email=json_data['email'].lower()).first()
     if user and bcrypt.check_password_hash(
             user.password, json_data['password']):
         login_user(user, remember=True)
