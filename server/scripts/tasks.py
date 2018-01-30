@@ -83,6 +83,9 @@ def get_tweets_per_user(self, user_id):
         commits_succeeded += result['success']
         commits_failed += not result['success']
 
+    if posts_added:
+        user.set_last_post_fetch()
+
     logger.info('Done getting tweets for user {}, total {} tweets added to db. {} commits succeeded. '
                '{} commits failed.'.format(user_id, posts_added, commits_succeeded, commits_failed))
 
@@ -101,6 +104,10 @@ def get_facebook_posts_per_user(self, user_id):
         posts_added += result['added_new']
         commits_succeeded += result['success']
         commits_failed += not result['success']
+
+    if posts_added:
+        user.set_last_post_fetch()
+
     logger.info('Done getting facebook posts for user {}, total {} posts added to db. {} commits succeeded. '
                '{} commits failed.'.format(user_id, posts_added, commits_succeeded, commits_failed))
 
@@ -245,5 +252,3 @@ def get_news_posts(self):
                         for p in result["data"]:
                             post = dict(p, **{'post_user': object})
                             _add_news_post(post, 'facebook', quintile)
-
-

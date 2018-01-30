@@ -49,6 +49,7 @@ def login():
             user.password, json_data['password']):
         login_user(user, remember=True)
         user_result = user.get_names()
+        current_user.set_last_login()
         status = True
     else:
         status = False
