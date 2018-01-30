@@ -18,6 +18,9 @@ class User(db.Model):
     registered_on = db.Column(db.DateTime, nullable=False)
     completed_registration = db.Column(db.Boolean, default=False)
 
+    last_login = db.Column(db.DateTime, nullable=True)
+    last_post_fetch = db.Column(db.DateTime, nullable=True)
+
     facebook_name = db.Column(db.String(255))
     facebook_picture_url = db.Column(db.String(255))
     facebook_id = db.Column(db.String(255))
@@ -45,6 +48,7 @@ class User(db.Model):
         self.email = email
         self.password = bcrypt.generate_password_hash(password)
         self.registered_on = datetime.datetime.now()
+        self.last_login = datetime.datetime.now()
         settings = Settings()
         self.settings = settings
 
@@ -60,12 +64,22 @@ class User(db.Model):
     def get_id(self):
         return self.id
 
+    def get_last_login(self):
+        return self.last_login
+
+    def get_last_post_fetch(self):
+        return self.last_post_fetch
+
     def get_names(self):
         d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name not in [
             'password', 'id', 'political_affiliation', 'posts', 'settings', 'facebook_data']}
         d['political_affiliation'] = self.political_affiliation.value
         d['avatar'] = self.twitter_data['profile_image_url_https'] if self.twitter_data else self.facebook_picture_url
         return d
+
+    def set_last_post_fetch(self):
+        self.last_post_fetch = datetime.datetime.now()
+        db.session.commit()
 
     def set_facebook_data(self, data):
         self.facebook_name = data['name'] if 'name' in data else ''
