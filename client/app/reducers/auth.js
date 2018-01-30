@@ -24,6 +24,8 @@ const initialState = {
 	isRegistering: false,
 	isRegistered: false,
 	registerStatusText: null,
+	isDeleting: false,
+	isDeleted: false,
 };
 
 export default createReducer(initialState, {
@@ -115,12 +117,16 @@ export default createReducer(initialState, {
 			isAuthenticated: false,
 			user: null,
 			userName: null,
+			isDeleting: true,
+			isDeleted: true,
 			statusText: 'You have successfully deleted your account.',
 		}),
 	[DELETE_USER_FAILURE]: state =>
 		Object.assign({}, state, {
 			isAuthenticating: false,
 			isAuthenticated: true,
+			isDeleting: true,
+			isDeleted: false,
 			statusText: 'There was an error in deleting your account. Please try again.',
 		}),
 });

@@ -7,12 +7,33 @@ import { deleteUser } from '../../actions/auth';
 
 const propTypes = {
 	dispatch: PropTypes.func.isRequired,
+	auth: PropTypes.object,
+	isDeleting: PropTypes.bool,
+	isDeleted: PropTypes.bool,
 };
 
+function mapStateToProps(state) {
+	return {
+		auth: state.auth,
+		isDeleting: state.auth.isDeleting,
+		isDeleted: state.auth.isDeleted,
+	};
+}
+
+
 class DeleteAccountButton extends Component {
-		constructor(props) {
+	constructor(props) {
 		super(props);
+		this.state = {
+			buttonText: 'Delete my account',
+		};
 		this.onButtonClick = this.onButtonClick.bind(this);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if(nextProps.isDeleting && !nextProps.isDeleted){
+			this.setState({buttonText:'Error deleting account. Try again!'});
+		}
 	}
 
 	onButtonClick() {
@@ -23,13 +44,13 @@ class DeleteAccountButton extends Component {
 		return (
 			<div className="delete_account_button">
 				<button onClick={this.onButtonClick} className="button button_wide button_delete">
-					Delete my account
+					{this.state.buttonText}
 				</button>
 			</div>
 		);
 	}
-}
+};
 
 DeleteAccountButton.propTypes = propTypes;
 
-export default connect(state => ({}))(DeleteAccountButton);
+export default connect(mapStateToProps)(DeleteAccountButton);
