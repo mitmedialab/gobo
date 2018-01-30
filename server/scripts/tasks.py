@@ -52,7 +52,7 @@ name_classifier = NameClassifier()
 
 @celery.task(serializer='json', bind=True)
 def get_posts_data_for_all_users(self):
-    for user in User.query.filter_by():
+    for user in User.query.all():
         if user.twitter_authorized:
             get_tweets_per_user.delay(user.id)
         if user.facebook_authorized:
