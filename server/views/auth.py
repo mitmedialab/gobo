@@ -65,12 +65,15 @@ def delete_account():
         # delete posts with post_associations matching user_id
         post_assocs = (db.session.query(post_associations_table)
                        .filter(post_associations_table.c.user_id == user_id))
-        post_ids = [post_id for (user_id, post_id) in post_assocs.all()]
+        user_post_assocs = (db.session.query(post_associations_table.c.post_id)
+                            .group_by(post_associations_table.c.post_id)
+                            .having(db.func.count('*') == 1)
+                            .filter(post_associations_table.c.user_id == user_id))
+
+        post_ids = [post_id for (post_id,) in user_post_assocs.all()]
         post_assocs.delete(synchronize_session=False)
-
-        for pid in post_ids:
-            db.session.query(Post).filter(Post.id == pid).delete()
-
+        db.session.commit()
+        db.session.query(Post).filter(Post.id.in_(post_ids)).delete(synchronize_session=False)
         # delete user info from other tables
         # (db.session.query(FacebookAuth)
         #     .filter(FacebookAuth.user_id == user_id)
