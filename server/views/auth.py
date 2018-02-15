@@ -62,9 +62,11 @@ def login():
 def delete_account():
     user_id = current_user.id
     try:
-        # delete posts with post_associations matching user_id
+        # delete post_associations the user has
         post_assocs = (db.session.query(post_associations_table)
                        .filter(post_associations_table.c.user_id == user_id))
+
+        # delete only the posts the user is associated with that no one else is
         user_post_assocs = (db.session.query(post_associations_table.c.post_id)
                             .group_by(post_associations_table.c.post_id)
                             .having(db.func.count('*') == 1)
@@ -74,13 +76,14 @@ def delete_account():
         post_assocs.delete(synchronize_session=False)
         db.session.commit()
         db.session.query(Post).filter(Post.id.in_(post_ids)).delete(synchronize_session=False)
+
         # delete user info from other tables
-        # (db.session.query(FacebookAuth)
-        #     .filter(FacebookAuth.user_id == user_id)
-        #     .delete())
-        # (db.session.query(TwitterAuth)
-        #     .filter(TwitterAuth.user_id == user_id)
-        #     .delete())
+        (db.session.query(FacebookAuth)
+             .filter(FacebookAuth.user_id == user_id)
+             .delete())
+        (db.session.query(TwitterAuth)
+             .filter(TwitterAuth.user_id == user_id)
+             .delete())
         (db.session.query(SettingsUpdate)
             .filter(SettingsUpdate.user_id == user_id)
             .delete())
