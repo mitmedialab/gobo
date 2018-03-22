@@ -58,7 +58,7 @@ def get_posts_data_for_all_users(self):
         if user.facebook_authorized:
             get_facebook_posts_per_user.delay(user.id)
 
-@celery.task(serializer='json', bind=True)
+
 def get_posts_data_for_some_users(self):
     #filter for people who haven't updated in awhile but logged in recently
     prioritized_users = []
@@ -240,7 +240,6 @@ def analyze_post(self, post_id):
     #analyze_news_score(post_id)
 
 
-@celery.task(serializer='json', bind=True)
 def get_news_posts(self):
     #facebook requests payload
     N = 2
