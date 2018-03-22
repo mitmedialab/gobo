@@ -63,10 +63,12 @@ def get_posts_data_for_some_users(self):
     #filter for people who haven't updated in awhile but logged in recently
     prioritized_users = []
 
+    env = os.getenv('FLASK_ENV', 'dev')
+
     #look for most recent logins (not null)
     recent_logins = User.query.filter(User.last_login is not None).order_by(User.last_login.desc())
 
-    time_window = (datetime.now() - User.last_post_fetch) > timedelta(hours=config_map['prod'].HOURS_TO_WAIT)
+    time_window = (datetime.now() - User.last_post_fetch) > timedelta(hours=config_map[env].HOURS_TO_WAIT)
 
     #from most recent logins, grab users that haven't had their posts updated in the provided window
     oldest_post_fetches = recent_logins.filter(User.last_post_fetch is not None).filter(time_window).limit(config_map['prod'].NUMBER_OF_USERS_TO_UPDATE)
