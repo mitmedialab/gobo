@@ -71,12 +71,14 @@ def get_posts_data_for_some_users(self):
     time_window = (datetime.now() - User.last_post_fetch) > timedelta(hours=config_map[env].HOURS_TO_WAIT)
 
     #from most recent logins, grab users that haven't had their posts updated in the provided window
-    oldest_post_fetches = recent_logins.filter(User.last_post_fetch is not None).filter(time_window).limit(config_map[env].NUMBER_OF_USERS_TO_UPDATE)
+    oldest_post_fetches = recent_logins.filter(User.last_post_fetch is not None).filter(time_window).limit(
+        config_map[env].NUMBER_OF_USERS_TO_UPDATE)
     prioritized_users.extend(oldest_post_fetches.all())
 
     #to fill up the queue, find users who perhaps haven't logged in recently but also haven't had their posts updated in awhile
-    if oldest_post_fetches.all() < config_map['prod'].NUMBER_OF_USERS_TO_UPDATE:
-        oldest_post_fetches_with_no_login = User.query.filter(User.last_login is None).filter(time_window).order_by(User.last_post_fetch).limit(config_map['prod'].NUMBER_OF_USERS_TO_UPDATE - len(oldest_post_fetches))
+    if oldest_post_fetches.all() < config_map[env].NUMBER_OF_USERS_TO_UPDATE:
+        oldest_post_fetches_with_no_login = User.query.filter(User.last_login is None).filter(time_window).order_by(
+            User.last_post_fetch).limit(config_map[env].NUMBER_OF_USERS_TO_UPDATE - len(oldest_post_fetches))
         prioritized_users.extend(oldest_post_fetches_with_no_login.all())
 
     for user in prioritized_users:
