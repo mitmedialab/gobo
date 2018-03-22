@@ -53,7 +53,7 @@ const Landing = (props) => {
 					feed. Want to read news you aren't otherwise seeing? Use our "Echo Chamber" filter to see what
 					we call "wider" news. Want a better balance of men and women in your feed? Use our "gender"
 					filter to rebalance it. Want to take a lunch break and just see popular funny videos you friends
-					are sharing? Use our "virality" filter to pick only the most shared content. With Gogo you're in
+					are sharing? Use our "virality" filter to pick only the most shared content. With Gobo you're in
 					charge of the algorithmic filters that control what you see on social media. We've built a bunch
 					of filters like these already, are building more, and have made it possible for other developers
 					to add filters too. Sign up, try it out, and see if it changes how you think about how social
