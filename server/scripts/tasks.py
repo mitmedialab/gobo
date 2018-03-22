@@ -113,7 +113,7 @@ def get_tweets_per_user(self, user_id):
         commits_failed += not result['success']
 
     if posts_added:
-        user.set_last_post_fetch()
+        user.update_last_post_fetch()
 
     logger.info('Done getting tweets for user {}, total {} tweets added to db. {} commits succeeded. '
                '{} commits failed.'.format(user_id, posts_added, commits_succeeded, commits_failed))
@@ -135,7 +135,7 @@ def get_facebook_posts_per_user(self, user_id):
         commits_failed += not result['success']
 
     if posts_added:
-        user.set_last_post_fetch()
+        user.update_last_post_fetch()
 
     logger.info('Done getting facebook posts for user {}, total {} posts added to db. {} commits succeeded. '
                '{} commits failed.'.format(user_id, posts_added, commits_succeeded, commits_failed))

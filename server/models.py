@@ -77,11 +77,11 @@ class User(db.Model):
         d['avatar'] = self.twitter_data['profile_image_url_https'] if self.twitter_data else self.facebook_picture_url
         return d
 
-    def set_last_login(self):
+    def update_last_login(self):
         self.last_login = datetime.datetime.now()
         db.session.commit()
 
-    def set_last_post_fetch(self):
+    def update_last_post_fetch(self):
         self.last_post_fetch = datetime.datetime.now()
         db.session.commit()
 
