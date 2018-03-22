@@ -111,7 +111,6 @@ def delete_user_by_id(user_id, db_session):
 
         status = True
     except Exception as e:
-        print e
         status = False
         logger.exception(e)
 
