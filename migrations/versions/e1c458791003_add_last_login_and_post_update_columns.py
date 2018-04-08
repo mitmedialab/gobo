@@ -22,5 +22,5 @@ def upgrade():
 
 
 def downgrade():
-    drop_column('users', 'last_login')
-    drop_column('users', 'last_post_fetch')
+    op.drop_column('users', 'last_login')
+    op.drop_column('users', 'last_post_fetch')
