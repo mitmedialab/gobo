@@ -10,6 +10,12 @@
   },
 
   "handlers": {
+    "console": {
+      "level": "DEBUG",
+      "class": "logging.StreamHandler",
+      "formatter": "generic",
+      "stream": "ext://sys.stdout"
+    },
     "file": {
       "level": "DEBUG",
       "class": "logging.handlers.RotatingFileHandler",
@@ -23,9 +29,9 @@
 
   "loggers": {
     "": {
-      "handlers": ["file"],
+      "handlers": ["file", "console"],
       "level": "DEBUG",
-      "propagate": true
+      "propagate": false
     }
   }
 
