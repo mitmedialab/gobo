@@ -84,29 +84,54 @@ def confirm_auth():
 def delete_user_by_id(user_id, db_session):
     try:
         # delete posts with post_associations matching user_id
+        post_assocs_count = (db_session.query(post_associations_table).
+                             filter(post_associations_table.c.user_id == user_id)).count()
+        logger.debug("  post_assocs: {}".format(post_assocs_count))
         post_assocs = (db_session.query(post_associations_table)
                        .filter(post_associations_table.c.user_id == user_id))
         post_ids = [post_id for (user_id, post_id) in post_assocs.all()]
-        post_assocs.delete(synchronize_session=False)
+        logger.debug("    = {} post ids".format(len(post_ids)))
+        if post_assocs_count > 0:
+            db_session.execute("DELETE FROM posts_associations WHERE user_id = :user_id", {'user_id': user_id})
+        db_session.commit()
 
+        # only delete the posts that no-one else is linking to
+        post_ids_to_delete = []
         for pid in post_ids:
+            this_posts_assocs_count = db_session.query(post_associations_table).filter(
+                    post_associations_table.c.post_id == pid).count()
+            logger.debug("  post {} has {} assocs".format(pid, this_posts_assocs_count))
+            if this_posts_assocs_count < 2:
+                post_ids_to_delete.append(pid)
+        logger.debug("Need to delete {}/{} posts".format(len(post_ids_to_delete), len(post_ids)))
+        for pid in post_ids_to_delete:
             db_session.query(Post).filter(Post.id == pid).delete()
+        db_session.commit()
 
         # delete user info from other tables
-        # (db.session.query(FacebookAuth)
-        #     .filter(FacebookAuth.user_id == user_id)
-        #     .delete())
-        # (db.session.query(TwitterAuth)
-        #     .filter(TwitterAuth.user_id == user_id)
-        #     .delete())
-        (db_session.query(SettingsUpdate)
-            .filter(SettingsUpdate.user_id == user_id)
-            .delete())
+        db_session.query(FacebookAuth).filter(FacebookAuth.user_id == user_id).delete()
+        db_session.query(TwitterAuth).filter(TwitterAuth.user_id == user_id).delete()
+        db_session.commit()
+
+        settings_update_count = (db_session.query(SettingsUpdate).
+                          filter(SettingsUpdate.user_id == user_id).
+                          count())
+        logger.debug("  settings_update_count: {}".format(settings_update_count))
+        (db_session.query(SettingsUpdate).
+         filter(SettingsUpdate.user_id == user_id).
+         delete())
+
+        settings_count = db_session.query(Settings).filter(Settings.user_id == user_id).count()
+        logger.debug("  settings_count: {}".format(settings_count))
         db_session.query(Settings).filter(Settings.user_id == user_id).delete()
 
         # delete user from users table
         acct = db_session.query(User).filter(User.id == user_id).first()
-        db_session.delete(acct)
+        if acct is not None:
+            db_session.delete(acct)
+        else:
+            logger.warning("Trying to delete user {}, but they don't exist :-(".format(user_id))
+            return False
         db_session.commit()
 
         status = True
