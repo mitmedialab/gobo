@@ -8,7 +8,6 @@
 from ..models import Post
 from googleapiclient import discovery 
 from flask import current_app
-import tasks
 from logging import getLogger
 from server.enums import GenderEnum 
 from .gender_classifier.NameClassifier_light import NameClassifier
