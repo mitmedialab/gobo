@@ -18,7 +18,7 @@ def register():
     status_text = ''
     try:
         user = User(
-            email=json_data['email'],
+            email=json_data['email'].lower(),
             password=json_data['password']
         )
     except Exception as e:
@@ -44,11 +44,12 @@ def register():
 def login():
     json_data = request.json
     user_result = False
-    user = User.query.filter_by(email=json_data['email']).first()
+    user = User.query.filter_by(email=json_data['email'].lower()).first()
     if user and bcrypt.check_password_hash(
             user.password, json_data['password']):
         login_user(user, remember=True)
         user_result = user.get_names()
+        current_user.update_last_login()
         status = True
     else:
         status = False
@@ -61,48 +62,8 @@ def login():
 @login_required
 def delete_account():
     user_id = current_user.id
-    try:
-        # delete post_associations the user has
-        post_assocs = (db.session.query(post_associations_table)
-                       .filter(post_associations_table.c.user_id == user_id))
-
-        # delete only the posts the user is associated with that no one else is
-        user_post_assocs = (db.session.query(post_associations_table.c.post_id)
-                            .group_by(post_associations_table.c.post_id)
-                            .having(db.func.count('*') == 1)
-                            .filter(post_associations_table.c.user_id == user_id))
-
-        post_ids = [post_id for (post_id,) in user_post_assocs.all()]
-        post_assocs.delete(synchronize_session=False)
-        db.session.commit()
-        db.session.query(Post).filter(Post.id.in_(post_ids)).delete(synchronize_session=False)
-
-        # delete user info from other tables
-        (db.session.query(FacebookAuth)
-             .filter(FacebookAuth.user_id == user_id)
-             .delete())
-        (db.session.query(TwitterAuth)
-             .filter(TwitterAuth.user_id == user_id)
-             .delete())
-        (db.session.query(SettingsUpdate)
-            .filter(SettingsUpdate.user_id == user_id)
-            .delete())
-        db.session.query(Settings).filter(Settings.user_id == user_id).delete()
-
-        # delete user from users table
-        acct = db.session.query(User).filter(User.id == user_id).first()
-        db.session.delete(acct)
-        db.session.commit()
-
-        status = True
-    except Exception as e:
-        print e
-        status = False
-        logger.exception(e)
-
-    db.session.close()
-
-    # logout_user()
+    status = delete_user_by_id(user_id, db.session)
+    logout_user()
     return jsonify({'result': status})
 
 
@@ -118,3 +79,51 @@ def logout():
 def confirm_auth():
     return jsonify({'result': current_user.is_authenticated(),
                     'user': current_user.get_names()})
+
+
+def delete_user_by_id(user_id, db_session):
+    try:
+        # delete post_associations the user has
+        post_assocs = (db_session.query(post_associations_table)
+                       .filter(post_associations_table.c.user_id == user_id))
+
+        # delete only the posts the user is associated with that no one else is
+        user_post_assocs = (db_session.query(post_associations_table.c.post_id)
+                            .group_by(post_associations_table.c.post_id)
+                            .having(db.func.count('*') == 1)
+                            .filter(post_associations_table.c.user_id == user_id))
+
+        post_ids = [post_id for (post_id,) in user_post_assocs.all()]
+        post_assocs.delete(synchronize_session=False)
+        db_session.commit()
+        db_session.query(Post).filter(Post.id.in_(post_ids)).delete(synchronize_session=False)
+
+        # delete user info from other tables
+        (db_session.query(FacebookAuth)
+             .filter(FacebookAuth.user_id == user_id)
+             .delete())
+        (db_session.query(TwitterAuth)
+             .filter(TwitterAuth.user_id == user_id)
+             .delete())
+        (db_session.query(SettingsUpdate)
+            .filter(SettingsUpdate.user_id == user_id)
+            .delete())
+        db_session.query(Settings).filter(Settings.user_id == user_id).delete()
+
+        # delete user from users table
+        acct = db_session.query(User).filter(User.id == user_id).first()
+        if acct is not None:
+            db_session.delete(acct)
+        else:
+            logger.warning("Trying to delete user {}, but they don't exist :-(".format(user_id))
+            return False
+        db_session.commit()
+
+        status = True
+    except Exception as e:
+        status = False
+        logger.exception(e)
+
+    db_session.close()
+
+    return status
