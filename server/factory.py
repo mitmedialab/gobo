@@ -10,13 +10,12 @@ from .config.config import config_map
 from .blueprints import all_blueprints
 
 
-
-
 def create_app(config_type):
 
     config = config_map[config_type]
 
-    app = Flask(__name__,  template_folder=config.TEMPLATE_FOLDER, static_url_path=config.STATIC_URL_PATH, static_folder=config.STATIC_FOLDER)
+    app = Flask(__name__,  template_folder=config.TEMPLATE_FOLDER, static_url_path=config.STATIC_URL_PATH,
+                static_folder=config.STATIC_FOLDER)
 
     app.config.from_object(config)
 
@@ -28,7 +27,6 @@ def create_app(config_type):
     login_manager.init_app(app)
     migrate.init_app(app, db)
 
-
     # register_blueprints
     for bp in all_blueprints:
         import_module(bp.import_name)
@@ -36,7 +34,6 @@ def create_app(config_type):
     #
     # app.wsgi_app = HTTPMethodOverrideMiddleware(app.wsgi_app)
     return app
-
 
 
 def create_celery_app(app=None):

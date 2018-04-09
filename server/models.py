@@ -3,10 +3,10 @@ from server.core import db, bcrypt
 from server.enums import GenderEnum, PoliticsEnum, EchoRangeEnum
 
 post_associations_table = db.Table('posts_associations', db.metadata,
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('post_id', db.Integer, db.ForeignKey('posts.id')),
-    db.PrimaryKeyConstraint('user_id', 'post_id'),
-)
+                                   db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+                                   db.Column('post_id', db.Integer, db.ForeignKey('posts.id')),
+                                   db.PrimaryKeyConstraint('user_id', 'post_id'))
+
 
 class User(db.Model):
 
@@ -18,6 +18,9 @@ class User(db.Model):
     registered_on = db.Column(db.DateTime, nullable=False)
     completed_registration = db.Column(db.Boolean, default=False)
 
+    last_login = db.Column(db.DateTime, nullable=True)
+    last_post_fetch = db.Column(db.DateTime, nullable=True)
+
     facebook_name = db.Column(db.String(255))
     facebook_picture_url = db.Column(db.String(255))
     facebook_id = db.Column(db.String(255))
@@ -25,8 +28,10 @@ class User(db.Model):
     twitter_name = db.Column(db.String(255))
     twitter_id = db.Column(db.String(255))
 
-    facebook_auth = db.relationship("FacebookAuth", uselist=False, back_populates="user", cascade="delete, delete-orphan")
-    twitter_auth = db.relationship("TwitterAuth", uselist=False, back_populates="user", cascade="delete, delete-orphan")
+    facebook_auth = db.relationship("FacebookAuth", uselist=False, back_populates="user",
+                                    cascade="delete, delete-orphan")
+    twitter_auth = db.relationship("TwitterAuth", uselist=False, back_populates="user",
+                                   cascade="delete, delete-orphan")
 
     twitter_authorized = db.Column(db.Boolean, nullable=False, default=False)
     facebook_authorized = db.Column(db.Boolean, nullable=False, default=False)
@@ -36,8 +41,7 @@ class User(db.Model):
 
     political_affiliation = db.Column(db.Enum(PoliticsEnum), default=PoliticsEnum.center)
 
-    posts = db.relationship("Post",
-                            secondary=post_associations_table, lazy='dynamic')
+    posts = db.relationship("Post", secondary=post_associations_table, lazy='dynamic')
 
     settings = db.relationship("Settings", uselist=False, back_populates="user")
 
@@ -45,6 +49,7 @@ class User(db.Model):
         self.email = email
         self.password = bcrypt.generate_password_hash(password)
         self.registered_on = datetime.datetime.now()
+        self.last_login = datetime.datetime.now()
         settings = Settings()
         self.settings = settings
 
@@ -60,12 +65,26 @@ class User(db.Model):
     def get_id(self):
         return self.id
 
+    def get_last_login(self):
+        return self.last_login
+
+    def get_last_post_fetch(self):
+        return self.last_post_fetch
+
     def get_names(self):
         d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name not in [
             'password', 'id', 'political_affiliation', 'posts', 'settings', 'facebook_data']}
         d['political_affiliation'] = self.political_affiliation.value
         d['avatar'] = self.twitter_data['profile_image_url_https'] if self.twitter_data else self.facebook_picture_url
         return d
+
+    def update_last_login(self):
+        self.last_login = datetime.datetime.now()
+        db.session.commit()
+
+    def update_last_post_fetch(self):
+        self.last_post_fetch = datetime.datetime.now()
+        db.session.commit()
 
     def set_facebook_data(self, data):
         self.facebook_name = data['name'] if 'name' in data else ''
@@ -79,9 +98,9 @@ class User(db.Model):
         self.facebook_authorized = True
         db.session.commit()
 
-    def set_twitter_data(self, id, name, data):
+    def set_twitter_data(self, twitter_id, name, data):
         self.twitter_name = name
-        self.twitter_id = id
+        self.twitter_id = twitter_id
         self.twitter_data = data
         self.twitter_authorized = True
         db.session.commit()
@@ -96,6 +115,7 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User {0}>'.format(self.email)
+
 
 class FacebookAuth(db.Model):
     __tablename__ = "facebook_auths"
@@ -114,6 +134,7 @@ class FacebookAuth(db.Model):
         self.token_type = facebook_auth_data['token_type']
         self.expires_in = self.generated_on + datetime.timedelta(seconds=int(facebook_auth_data['expires_in']))
 
+
 class TwitterAuth(db.Model):
     __tablename__ = "twitter_auths"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -129,6 +150,7 @@ class TwitterAuth(db.Model):
         self.oauth_token = oauth_token
         self.oauth_token_secret = oauth_token_secret
 
+
 class Settings(db.Model):
     __tablename__ = "user_settings"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -137,7 +159,8 @@ class Settings(db.Model):
     rudeness_min = db.Column(db.Float, db.CheckConstraint('rudeness_min>=0'), default=0)
     rudeness_max = db.Column(db.Float, db.CheckConstraint('rudeness_max<=1'), default=1)
     gender_filter_on = db.Column(db.Boolean, default=False)
-    gender_female_per = db.Column(db.Integer, db.CheckConstraint('gender_female_per>=0 AND gender_female_per<=100'), default=50)
+    gender_female_per = db.Column(db.Integer, db.CheckConstraint('gender_female_per>=0 AND gender_female_per<=100'),
+                                  default=50)
     include_corporate = db.Column(db.Boolean, default=True)
     virality_min = db.Column(db.Float, db.CheckConstraint('virality_min>=0'), default=0)
     virality_max = db.Column(db.Float, db.CheckConstraint('virality_max<=1'), default=1)
@@ -150,10 +173,9 @@ class Settings(db.Model):
     seriousness_ck = db.CheckConstraint('seriousness_max>seriousness_min')
 
     def as_dict(self):
-        d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name!='echo_range'}
+        d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name != 'echo_range'}
         d['echo_range'] = self.echo_range.value
         return d
-
 
     def update(self, settings_dict):
         self.rudeness_min = settings_dict['rudeness_min']
@@ -167,6 +189,7 @@ class Settings(db.Model):
         self.seriousness_max = settings_dict['seriousness_max']
         self.echo_range = EchoRangeEnum(settings_dict['echo_range'])
 
+
 class SettingsUpdate(db.Model):
     __tablename__ = "settings_updates"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -178,6 +201,7 @@ class SettingsUpdate(db.Model):
         self.user_id = user_id
         self.update_time = datetime.datetime.now()
         self.new_settings = new_settings
+
 
 class Post(db.Model):
     __tablename__ = "posts"
@@ -200,22 +224,22 @@ class Post(db.Model):
 
     db.UniqueConstraint('source_id', 'source', name='post_id')
 
-
     def __init__(self, original_id, source, content, is_news):
         self.original_id = original_id
         self.source = source
         self.content = content
         self.is_news = is_news
         self.retrieved_at = datetime.datetime.now()
-        if source=='twitter':
+        if source == 'twitter':
             self.created_at = datetime.datetime.strptime(content['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
-            self.has_link = len(content['entities']['urls']) > 0 # 'possibly_sensitive' in content
+            self.has_link = len(content['entities']['urls']) > 0  # 'possibly_sensitive' in content
         else:
             self.created_at = datetime.datetime.strptime(content['created_time'], '%Y-%m-%dT%H:%M:%S+0000')
-            self.has_link = content['type']=='link'
+            self.has_link = content['type'] == 'link'
 
     def as_dict(self):
-        d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name not in ['gender', 'political_quintile']}
+        d = {c.name: getattr(self, c.name) for c in self.__table__.columns
+             if c.name not in ['gender', 'political_quintile']}
         d['gender'] = str(self.gender)
         d['political_quintile'] = self.political_quintile.value if self.political_quintile else None
         return d
@@ -223,9 +247,9 @@ class Post(db.Model):
     def get_text(self):
         # TODO: logic fore getting text - should we get text from link shared, etc?
         text = ""
-        if self.source=="twitter":
+        if self.source == "twitter":
             text = self.content['full_text'] if 'full_text' in self.content else self.content['text']
-        if self.source=="facebook":
+        if self.source == "facebook":
             text = self.content['message'] if 'message' in self.content else ""
         return text
 
@@ -262,14 +286,13 @@ class Post(db.Model):
         return self.news_score is not None
 
     def has_already_been_analyzed(self):
-        return self.has_virality() and self.has_news_score() and self.has_gender_corporate() and self.has_toxicity_rate()
+        return self.has_virality() and self.has_news_score() and self.has_gender_corporate()\
+               and self.has_toxicity_rate()
 
     def get_author_name(self):
-        if self.source=='facebook':
+        if self.source == 'facebook':
             return self.content['from']['name']
         else:
             if 'retweeted_status' in self.content:
                 return self.content['retweeted_status']['user']['name']
             return self.content['user']['name']
-
-

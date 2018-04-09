@@ -65,3 +65,7 @@ export function getLockStatusFromServer() {
 export function verifyPassword(password) {
 	return axios.post(API_URL+'api/verify_beta_password', {'password':password})
 }
+
+export function deleteAccount() {
+	return axios.get(API_URL+'api/delete_acct')
+}

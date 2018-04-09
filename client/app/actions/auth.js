@@ -9,9 +9,12 @@ import {
 	GET_USER_LOAD,
 	GET_USER_SUCCESS,
 	GET_USER_FAIL,
+	DELETE_USER_REQUEST,
+	DELETE_USER_SUCCESS,
+	DELETE_USER_FAILURE,
 } from '../constants/index';
 import { parseJSON } from '../utils/misc';
-import { login, register, getUser, apiLogout } from '../utils/apiRequests';
+import { login, register, getUser, apiLogout, deleteAccount} from '../utils/apiRequests';
 
 export function loginUserSuccess(user) {
 	return {
@@ -149,3 +152,47 @@ export function tryGetUser() {
 			});
 	};
 }
+
+export function deleteUserSuccess() {
+	return {
+		type: DELETE_USER_SUCCESS,
+	};
+}
+
+export function deleteUserFailure(error) {
+	return {
+		type: DELETE_USER_FAILURE,
+		payload: {
+			response: error.response,
+		}, 
+	};
+}
+
+export function deleteUserRequest() {
+	return {
+		type: DELETE_USER_REQUEST,
+	};
+}
+
+export function deleteUser() {
+	return function (dispatch) {
+			dispatch(deleteUserRequest());
+			return deleteAccount()
+				.then(parseJSON)
+				.then((response) => {
+					if (response.result) {
+						try {
+							dispatch(deleteUserSuccess());
+						} catch (e) {
+							dispatch(deleteUserFailure({response:response}));
+						}
+					} else {
+						dispatch(deleteUserFailure({response:response}));
+					}
+				})
+				.catch(() => {
+					dispatch(deleteUserFailure({response:response}));
+				});
+		};
+}
+

@@ -46,6 +46,10 @@ class BaseConfig(object):
     # use to score whether somethign is news or not for our filter. We have an instance running for developers to use.
     NEWS_LABELLER_URL = 'http://my_predict_news_server'
 
+    #Settings to control how users are prioritized in the queue
+    NUMBER_OF_USERS_TO_UPDATE = 30
+    HOURS_TO_WAIT = 6
+
 
 class DevConfig(BaseConfig):
     DEBUG = True
