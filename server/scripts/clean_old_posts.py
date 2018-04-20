@@ -1,6 +1,3 @@
-# since Heroku only allows up to 10,000 rows in db
-# this script could be run as a crone job, to remove all posts older than x days
-
 import os
 import psycopg2
 import urlparse
