@@ -16,6 +16,7 @@ config_type = env.lower()
 config = config_map[config_type]
 
 NUM_DAYS = 6
+BATCH_DELETE_LIMIT = 100000  # takes about 15 secs locally
 
 urlparse.uses_netloc.append("postgres")
 url = urlparse.urlparse(config.SQLALCHEMY_DATABASE_URI)
@@ -30,23 +31,48 @@ conn = psycopg2.connect(
 cur = conn.cursor()
 
 
-q1 = "DELETE FROM posts_associations WHERE post_id in(SELECT id FROM posts WHERE  DATE_PART('day', NOW() - retrieved_at) > {});".format(NUM_DAYS)
-q2 = "DELETE FROM posts WHERE DATE_PART('day', NOW() - retrieved_at) > {};".format(NUM_DAYS)
+total_post_assoc_query = "select count(*) from posts_associations"
+total_posts_query = "select count(*) from posts"
+
+q1 = "DELETE FROM posts_associations WHERE post_id in(SELECT id FROM posts " \
+     "WHERE retrieved_at < CURRENT_DATE - interval '{}' day) RETURNING *;".format(NUM_DAYS)
+
+q2 = "DELETE FROM posts WHERE id IN (SELECT id FROM posts " \
+     "WHERE retrieved_at < CURRENT_DATE - interval '{}' day " \
+     "ORDER BY retrieved_at ASC LIMIT {}) RETURNING *;".format(NUM_DAYS, BATCH_DELETE_LIMIT)
+
 q3 = "DELETE FROM posts WHERE id IN (" \
      "SELECT posts.id " \
      "FROM posts LEFT JOIN posts_associations ON posts.id = posts_associations.post_id " \
      "GROUP BY posts.id " \
-     "HAVING COUNT(posts_associations.user_id) = 0" \
-     ")"
+     "HAVING COUNT(posts_associations.user_id) = 0 LIMIT {}" \
+     ") RETURNING *;".format(BATCH_DELETE_LIMIT)
+
+
+def run_and_return_result(sql):
+    global cur
+    result = cur.execute(sql)
+    rows = cur.fetchall()
+    return rows
 
 try:
-    result = cur.execute(q1)
-    logging.info("Deleted {} old posts_associations".format(result))
-    result = cur.execute(q2)
-    logging.info("Deleted {} old posts".format(result))
-    result = cur.execute(q3)
-    logging.info("Deleted {} orphaned posts".format(result))
+    result = run_and_return_result(total_post_assoc_query)
+    logging.info("Starting with {} posts_associations".format(result[0][0]))
+    result = run_and_return_result(total_posts_query)
+    logging.info("Starting with {} posts".format(result[0][0]))
 
+    logging.info("Deleting old things (older than {} days, up to {} records):".format(NUM_DAYS, BATCH_DELETE_LIMIT))
+    result = run_and_return_result(q1)
+    logging.info("  Deleted {} old posts_associations".format(len(result)))
+    result = run_and_return_result(q2)
+    logging.info("  Deleted {} old posts".format(len(result)))
+    result = run_and_return_result(q3)
+    logging.info("  Deleted {} orphaned posts".format(len(result)))
+
+    result = run_and_return_result(total_post_assoc_query)
+    logging.info("Finished with {} posts_associations".format(result[0][0]))
+    result = run_and_return_result(total_posts_query)
+    logging.info("Finished with {} posts".format(result[0][0]))
     conn.commit()
 except Exception as e:
     logger.exception(e)
