@@ -83,6 +83,9 @@ def confirm_auth():
 
 def delete_user_by_id(user_id, db_session):
     try:
+        #q1 = "DELETE FROM posts_associations WHERE post_id in(SELECT id FROM posts WHERE  DATE_PART('day', NOW() - retrieved_at) > {});".format(
+        #    NUM_DAYS)
+
         # delete post_associations the user has
         post_assocs = (db_session.query(post_associations_table)
                        .filter(post_associations_table.c.user_id == user_id))
