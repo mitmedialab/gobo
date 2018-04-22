@@ -83,12 +83,11 @@ def confirm_auth():
 
 def delete_user_by_id(user_id, db_session):
     try:
-        #q1 = "DELETE FROM posts_associations WHERE post_id in(SELECT id FROM posts WHERE  DATE_PART('day', NOW() - retrieved_at) > {});".format(
-        #    NUM_DAYS)
-
+        logging.debug("Trying to delete user {}".format(user_id))
         # delete post_associations the user has
         post_assocs = (db_session.query(post_associations_table)
                        .filter(post_associations_table.c.user_id == user_id))
+        logging.debug("  found {} post_associations".format(len(post_assocs.all())))
 
         # delete only the posts the user is associated with that no one else is
         user_post_assocs = (db_session.query(post_associations_table.c.post_id)
@@ -97,9 +96,14 @@ def delete_user_by_id(user_id, db_session):
                             .filter(post_associations_table.c.user_id == user_id))
 
         post_ids = [post_id for (post_id,) in user_post_assocs.all()]
-        post_assocs.delete(synchronize_session=False)
+        logging.debug("  found {} posts belonging to only them".format(len(post_ids)))
+
+        if len(post_assocs.all()) > 0:
+            post_assocs.delete(synchronize_session=False)
         db_session.commit()
-        db_session.query(Post).filter(Post.id.in_(post_ids)).delete(synchronize_session=False)
+
+        if len(post_ids) > 0:
+            db_session.query(Post).filter(Post.id.in_(post_ids)).delete(synchronize_session=False)
 
         # delete user info from other tables
         (db_session.query(FacebookAuth)
