@@ -13,7 +13,7 @@ config_type = env.lower()
 config = config_map[config_type]
 
 NUM_DAYS = 6
-BATCH_DELETE_LIMIT = 100000  # takes about 15 secs locally
+BATCH_DELETE_LIMIT = 100
 
 urlparse.uses_netloc.append("postgres")
 url = urlparse.urlparse(config.SQLALCHEMY_DATABASE_URI)
@@ -27,16 +27,16 @@ conn = psycopg2.connect(
 )
 cur = conn.cursor()
 
-
 total_post_assoc_query = "select count(*) from posts_associations"
 total_posts_query = "select count(*) from posts"
 
 q1 = "DELETE FROM posts_associations WHERE post_id in(SELECT id FROM posts " \
-     "WHERE retrieved_at < CURRENT_DATE - interval '{}' day) RETURNING *;".format(NUM_DAYS)
-
-q2 = "DELETE FROM posts WHERE id IN (SELECT id FROM posts " \
      "WHERE retrieved_at < CURRENT_DATE - interval '{}' day " \
      "ORDER BY retrieved_at ASC LIMIT {}) RETURNING *;".format(NUM_DAYS, BATCH_DELETE_LIMIT)
+
+q2 = "DELETE FROM posts " \
+     "WHERE retrieved_at < CURRENT_DATE - interval '{}' day " \
+     "ORDER BY retrieved_at ASC LIMIT {} RETURNING *;".format(NUM_DAYS, BATCH_DELETE_LIMIT)
 
 q3 = "DELETE FROM posts WHERE id IN (" \
      "SELECT posts.id " \
@@ -48,7 +48,7 @@ q3 = "DELETE FROM posts WHERE id IN (" \
 
 def run_and_return_result(sql):
     global cur
-    result = cur.execute(sql)
+    cur.execute(sql)
     rows = cur.fetchall()
     return rows
 
