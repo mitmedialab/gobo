@@ -72,26 +72,26 @@ After that you should be able to see Gobo at localhost:5000
 ### Recurring Tasks
 
 You need to set up three recurring tasks. The first adds tasks to the queue to fetch FB and Twitter posts for users that
-have been using the system recently.  Run this frequently (every 15 minutes or so?):
+have been using the system recently.  Run this every hour or so:
 ```shell
-$ python -m server.scripts.add_incremental_tasks_to_queue
+$ python -m server.scripts.queue_prioritized_user_posts
 ```
 
-The second updates the posts from news organizations (used for the "perspectives" filter). Run this every 3 hours or so:
+The second updates the posts from news organizations (used for the "perspectives" filter). Run this every 6 hours or so:
 ```shell
-$ python -m server.scripts.get_perspective_posts
+$ python -m server.scripts.queue_latest_news_posts
 ```
 
-The third removes old posts (Gobo only tracks the last 500 posts for each user). Run this once a night:
+The third removes old posts (Gobo only tracks the posts within the last two weeks). Run this once a night:
 ```shell
-$ python -m server.scripts.clean_old_posts
+$ python -m server.scripts.delete_old_posts
 ```
 
 ### Manual Tasks
 
-To queue up a task that refreshes a specific user:
+To delete a specific user:
 ```shell
-$ python -m server.scripts.add_user_tasks_to_queue [user_id]
+$ python -m server.scripts.delete_user [user_id]
 ```
 
 

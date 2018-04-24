@@ -12,7 +12,7 @@ env = os.getenv('FLASK_ENV', 'dev')
 config_type = env.lower()
 config = config_map[config_type]
 
-NUM_DAYS = 6
+NUM_DAYS = 14
 BATCH_DELETE_LIMIT = 100
 
 urlparse.uses_netloc.append("postgres")

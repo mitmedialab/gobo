@@ -45,7 +45,7 @@ ANALYSIS_TYPES = ['toxicity','gender_corporate','virality','news_score']
 FACEBOOK_URL = 'https://graph.facebook.com/v2.10/'
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-MEDIA_SOURCES_FILE = os.path.join(basedir,'static_data', 'partisan_media_sources.csv')
+MEDIA_SOURCES_FILE = os.path.join(basedir, 'static_data', 'partisan_media_sources.csv')
 
 name_gender_analyzer = NameGender()
 name_classifier = NameClassifier()
@@ -215,7 +215,8 @@ def analyze_post(self, post_id):
     #analyze_news_score(post_id)
 
 
-def get_news_posts(self):
+def get_news_posts():
+    REALLY_QUEUE = False
     #facebook requests payload
     N = 2
     MAX_POST = 3
@@ -230,24 +231,33 @@ def get_news_posts(self):
 
     with open(MEDIA_SOURCES_FILE) as csvfile:
         reader = csv.DictReader(csvfile)
+        row_num = 0
         for row in reader:
-            if (row['Enum_val']):
+            logger.info("Row {}".format(row_num))
+            if row['Enum_val']:
                 quintile = PoliticsEnum(int(row['Enum_val']))
                 if row['Twitter Handle']:
+                    logger.info("  {}".format(row['Twitter Handle']))
                     object = {'id': row['Twitter Handle'].replace('https://twitter.com/', '')}
                     try:
                         twitter = Twython(current_app.config['TWITTER_API_KEY'], current_app.config['TWITTER_API_SECRET'])
                         tweets = twitter.get_user_timeline(screen_name=object['id'], count=MAX_POST, tweet_mode='extended')
                     except:
                         tweets = []
-                    for post in tweets:
-                        _add_news_post(post, 'twitter', quintile)
+                    logger.info("  adding {} tweets".format(len(tweets)))
+                    if REALLY_QUEUE:
+                        for post in tweets:
+                            _add_news_post(post, 'twitter', quintile)
                 if row['Facebook Page']:
+                    logger.info("  {}".format(row['Facebook Page']))
                     #get facebook feed
                     object = {'id': row['Facebook Page'].replace('https://www.facebook.com/', '')}
                     r = requests.get(FACEBOOK_URL + object['id'] + '/feed', facebook_payload)
                     result = r.json()
-                    if 'data' in result:
-                        for p in result["data"]:
-                            post = dict(p, **{'post_user': object})
-                            _add_news_post(post, 'facebook', quintile)
+                    logger.info("  adding {} facebook posts".format(len(result['data'])))
+                    if REALLY_QUEUE:
+                        if 'data' in result:
+                            for p in result["data"]:
+                                post = dict(p, **{'post_user': object})
+                                _add_news_post(post, 'facebook', quintile)
+            row_num = row_num + 1
