@@ -1,0 +1,54 @@
+import os
+import logging
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from datetime import datetime
+import sys
+
+from server.models import User
+from server.config.config import config_map
+import server.scripts.tasks as tasks
+
+logger = logging.getLogger(__name__)
+
+env = os.getenv('FLASK_ENV', 'dev')
+config_type = env.lower()
+config = config_map[config_type]
+
+engine = create_engine(config.SQLALCHEMY_DATABASE_URI)
+Session = sessionmaker(bind=engine)
+session = Session()
+
+
+def queue_user_posts(db_session, user_id):
+    logger.info("Queueing posts for user {}".format(user_id))
+
+    users = db_session.query(User).filter(User.id == user_id)
+
+    tasks_queued = 0
+    for user in users:
+        task_queued = False
+        if user.twitter_authorized:
+            tasks.get_tweets_per_user.delay(user.id)
+            tasks_queued = tasks_queued + 1
+            task_queued = True
+        if user.facebook_authorized:
+            tasks.get_facebook_posts_per_user.delay(user.id)
+            tasks_queued = tasks_queued + 1
+            task_queued = True
+        # and mark that we tried to update them so they move to bottom of the priority list
+        if task_queued:
+            db_session.query(User).filter(User.id == user.id).\
+                update({"last_post_fetch": datetime.now()})
+            logger.info("  Updated user {}".format(user.id))
+    db_session.commit()
+    logger.info("queued {} tasks".format(tasks_queued))
+
+if __name__ == '__main__':
+
+    if len(sys.argv) is not 2:
+        logger.error("You have to provide a user_id to delete!")
+
+    user_id = int(sys.argv[1])
+
+    queue_user_posts(session, user_id)

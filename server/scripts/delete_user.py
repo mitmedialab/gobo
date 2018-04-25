@@ -17,11 +17,13 @@ engine = create_engine(config.SQLALCHEMY_DATABASE_URI)
 Session = sessionmaker(bind=engine)
 session = Session()
 
-if len(sys.argv) is not 2:
-    logger.error("You have to provide a user_id to delete!")
+if __name__ == '__main__':
 
-user_id = int(sys.argv[1])
+    if len(sys.argv) is not 2:
+        logger.error("You have to provide a user_id to delete!")
 
-logger.info("Delete user ".format(user_id))
-deletion_worked = delete_user_by_id(user_id, session)
-logger.info("Success: {}".format(deletion_worked))
+    user_id = int(sys.argv[1])
+
+    logger.info("Delete user ".format(user_id))
+    deletion_worked = delete_user_by_id(user_id, session)
+    logger.info("Success: {}".format(deletion_worked))
