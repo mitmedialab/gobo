@@ -19,15 +19,14 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 
-def get_posts_data_for_some_users(db_session):
-    env = os.getenv('FLASK_ENV', 'dev')
-    queue_size = config_map[env].NUMBER_OF_USERS_TO_UPDATE
+def queue_prioritized_users_posts(db_session):
+    queue_size = config.NUMBER_OF_USERS_TO_UPDATE
     prioritized_users = []
     logger.info("Searching for {} users to priorize for updating".format(queue_size))
 
     # helpers for filtering users
     connected_to_services = (User.twitter_authorized == True) or (User.facebook_authorized == True)
-    not_fetched_recently = (datetime.now() - User.last_post_fetch) > timedelta(hours=config_map[env].HOURS_TO_WAIT)
+    not_fetched_recently = (datetime.now() - User.last_post_fetch) > timedelta(hours=config.HOURS_TO_WAIT)
 
     # 1. First find connected users that have logged in recently but we haven't updated recently
     if len(prioritized_users) < queue_size:
@@ -85,4 +84,4 @@ def get_posts_data_for_some_users(db_session):
     logger.info("queued {} tasks".format(tasks_queued))
 
 if __name__ == '__main__':
-    get_posts_data_for_some_users(session)
+    queue_prioritized_users_posts(session)

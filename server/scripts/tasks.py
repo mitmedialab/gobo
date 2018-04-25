@@ -5,19 +5,12 @@ from datetime import datetime, timedelta
 from twython import Twython
 from flask import current_app
 from logging import getLogger
-from googleapiclient import discovery
-import urllib
-import csv
-from bs4 import BeautifulSoup
-import os
 from raven import Client
 import analyze_modules
 
-from ..models import User, FacebookAuth, TwitterAuth, Post
-from ..enums import GenderEnum
+from ..models import User, TwitterAuth, Post
 from .celery import celery
 from ..core import db
-from server.enums import PoliticsEnum
 from server.config.config import config_map
 
 from .name_gender import NameGender
@@ -29,14 +22,15 @@ if config_map['prod'].SENTRY_DSN_WORKER:
     client = Client(config_map['prod'].SENTRY_DSN_WORKER)
 
 
-FACEBOOK_POSTS_FIELDS = ['id','caption','created_time','description',
-                         'from{picture,name,gender}','icon','link',
-                         'message','message_tags','name', 'object_id',
-                         'parent_id','permalink_url','picture','full_picture',
+FACEBOOK_POSTS_FIELDS = ['id', 'caption', 'created_time', 'description',
+                         'from{picture,name,gender}', 'icon', 'link',
+                         'message', 'message_tags', 'name', 'object_id',
+                         'parent_id', 'permalink_url', 'picture', 'full_picture',
                          'place', 'properties', 'shares', 'source',
-                         'status_type', 'story', 'story_tags' ,
-                         'type','updated_time','likes.summary(true)',
-                         'reactions.summary(true)','comments.summary(true)']
+                         'status_type', 'story', 'story_tags',
+                         'type', 'updated_time', 'likes.summary(true)',
+                         'reactions.summary(true)', 'comments.summary(true)']
+
 """
     Add here for any new type of filter
     Add the processing to server.scripts.analyze_modules.analyze_<analysis_type>
@@ -44,11 +38,10 @@ FACEBOOK_POSTS_FIELDS = ['id','caption','created_time','description',
 ANALYSIS_TYPES = ['toxicity','gender_corporate','virality','news_score']
 FACEBOOK_URL = 'https://graph.facebook.com/v2.10/'
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-MEDIA_SOURCES_FILE = os.path.join(basedir, 'static_data', 'partisan_media_sources.csv')
 
 name_gender_analyzer = NameGender()
 name_classifier = NameClassifier()
+
 
 @celery.task(serializer='json', bind=True)
 def get_posts_data_for_all_users(self):
@@ -68,7 +61,7 @@ def get_tweets_per_user(self, user_id):
     tweets = []
     try:
         twitter_auth = TwitterAuth.query.filter_by(user_id=user_id).first()
-        twitter = Twython(current_app.config['TWITTER_API_KEY'],current_app.config['TWITTER_API_SECRET'],
+        twitter = Twython(current_app.config['TWITTER_API_KEY'], current_app.config['TWITTER_API_SECRET'],
                           twitter_auth.oauth_token, twitter_auth.oauth_token_secret)
         tweets = twitter.get_home_timeline(count=200, tweet_mode='extended')
     except:
@@ -87,7 +80,8 @@ def get_tweets_per_user(self, user_id):
         user.update_last_post_fetch()
 
     logger.info('Done getting tweets for user {}, total {} tweets added to db. {} commits succeeded. '
-               '{} commits failed.'.format(user_id, posts_added, commits_succeeded, commits_failed))
+                '{} commits failed.'.format(user_id, posts_added, commits_succeeded, commits_failed))
+
 
 @celery.task(serializer='json', bind=True)
 def get_facebook_posts_per_user(self, user_id):
@@ -109,7 +103,8 @@ def get_facebook_posts_per_user(self, user_id):
         user.update_last_post_fetch()
 
     logger.info('Done getting facebook posts for user {}, total {} posts added to db. {} commits succeeded. '
-               '{} commits failed.'.format(user_id, posts_added, commits_succeeded, commits_failed))
+                '{} commits failed.'.format(user_id, posts_added, commits_succeeded, commits_failed))
+
 
 def _get_facebook_posts(user):
     friends_likes = _get_facebook_friends_and_likes(user)
@@ -137,6 +132,7 @@ def _get_facebook_posts(user):
             #         posts.extend(result["data"])
     return posts
 
+
 def _get_facebook_friends_and_likes(user):
     payload = {'fields':'friends.summary(true),likes.summary(true)',
                'access_token': user.facebook_auth.access_token}
@@ -146,7 +142,7 @@ def _get_facebook_friends_and_likes(user):
         initial_result = r.json()
     except:
         logger.error ('error getting friends and likes for user {}'.format(user.id))
-        #client.captureMessage('error getting friends and likes for user {}'.format(user.id))
+        # client.captureMessage('error getting friends and likes for user {}'.format(user.id))
     for key in friends_likes.keys():
         if key in initial_result:
             friends_likes[key].extend(initial_result[key]['data'])
@@ -156,6 +152,7 @@ def _get_facebook_friends_and_likes(user):
                 result = r.json()
                 friends_likes[key].extend(result['data'])
     return friends_likes
+
 
 def _add_post(user, post, source):
     added_new = False
@@ -183,81 +180,13 @@ def _add_post(user, post, source):
         success = False
     return {'success': success, 'added_new':added_new}
 
-def _add_news_post(post, source, quintile):
-    added_new = False
-    try:
-        post_id = post['id_str']  if 'id_str' in post else str(post['id'])
-        post_item = Post.query.filter_by(original_id=post_id, source=source).first()
-        if not post_item:
-            post_item = Post(post_id, source, post, True)
-            db.session.add(post_item)
-            added_new = True
-        else:
-            post_item.update_content(post, is_news=True)
 
-        post_item.political_quintile = quintile
-
-        db.session.commit()
-        success = True
-        analyze_post.delay(post_item.id)
-    except:
-        logger.error('An error adding post {}'.format(post['id']))
-        success = False
-    return {'success': success, 'added_new':added_new}
 
 @celery.task(serializer='json', bind=True)
 def analyze_post(self, post_id):
     for analysis_type in ANALYSIS_TYPES:
         getattr(analyze_modules,"analyze_%s"%(analysis_type))(post_id)
-    #analyze_toxicity(post_id)
-    #analyze_gender_corporate(post_id)
-    #analyze_virality(post_id)
-    #analyze_news_score(post_id)
-
-
-def get_news_posts():
-    REALLY_QUEUE = False
-    #facebook requests payload
-    N = 2
-    MAX_POST = 3
-    date_N_days_ago = datetime.now() - timedelta(days=N)
-    since_date = date_N_days_ago.strftime('%Y-%m-%d')
-    facebook_payload = {
-        'fields': ','.join(FACEBOOK_POSTS_FIELDS),
-        'access_token': '{}|{}'.format(current_app.config['FACEBOOK_APP_ID'], current_app.config['FACEBOOK_APP_SECRET']),
-        'since': since_date,
-        'limit': MAX_POST
-    }
-
-    with open(MEDIA_SOURCES_FILE) as csvfile:
-        reader = csv.DictReader(csvfile)
-        row_num = 0
-        for row in reader:
-            logger.info("Row {}".format(row_num))
-            if row['Enum_val']:
-                quintile = PoliticsEnum(int(row['Enum_val']))
-                if row['Twitter Handle']:
-                    logger.info("  {}".format(row['Twitter Handle']))
-                    object = {'id': row['Twitter Handle'].replace('https://twitter.com/', '')}
-                    try:
-                        twitter = Twython(current_app.config['TWITTER_API_KEY'], current_app.config['TWITTER_API_SECRET'])
-                        tweets = twitter.get_user_timeline(screen_name=object['id'], count=MAX_POST, tweet_mode='extended')
-                    except:
-                        tweets = []
-                    logger.info("  adding {} tweets".format(len(tweets)))
-                    if REALLY_QUEUE:
-                        for post in tweets:
-                            _add_news_post(post, 'twitter', quintile)
-                if row['Facebook Page']:
-                    logger.info("  {}".format(row['Facebook Page']))
-                    #get facebook feed
-                    object = {'id': row['Facebook Page'].replace('https://www.facebook.com/', '')}
-                    r = requests.get(FACEBOOK_URL + object['id'] + '/feed', facebook_payload)
-                    result = r.json()
-                    logger.info("  adding {} facebook posts".format(len(result['data'])))
-                    if REALLY_QUEUE:
-                        if 'data' in result:
-                            for p in result["data"]:
-                                post = dict(p, **{'post_user': object})
-                                _add_news_post(post, 'facebook', quintile)
-            row_num = row_num + 1
+    # analyze_toxicity(post_id)
+    # analyze_gender_corporate(post_id)
+    # analyze_virality(post_id)
+    # analyze_news_score(post_id)
