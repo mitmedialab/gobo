@@ -13,7 +13,7 @@ config_type = env.lower()
 config = config_map[config_type]
 
 NUM_DAYS = 14
-BATCH_DELETE_LIMIT = 100
+BATCH_DELETE_LIMIT = 5000
 
 urlparse.uses_netloc.append("postgres")
 url = urlparse.urlparse(config.SQLALCHEMY_DATABASE_URI)
@@ -34,9 +34,10 @@ q1 = "DELETE FROM posts_associations WHERE post_id in(SELECT id FROM posts " \
      "WHERE retrieved_at < CURRENT_DATE - interval '{}' day " \
      "ORDER BY retrieved_at ASC LIMIT {}) RETURNING *;".format(NUM_DAYS, BATCH_DELETE_LIMIT)
 
-q2 = "DELETE FROM posts " \
+q2 = "DELETE FROM posts WHERE id in(" \
+     "SELECT id from posts " \
      "WHERE retrieved_at < CURRENT_DATE - interval '{}' day " \
-     "ORDER BY retrieved_at ASC LIMIT {} RETURNING *;".format(NUM_DAYS, BATCH_DELETE_LIMIT)
+     "ORDER BY retrieved_at ASC LIMIT {}) RETURNING *".format(NUM_DAYS, BATCH_DELETE_LIMIT)
 
 q3 = "DELETE FROM posts WHERE id IN (" \
      "SELECT posts.id " \
