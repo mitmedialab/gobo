@@ -63,11 +63,9 @@ const Landing = (props) => {
 
 					<p>Gobo is an experiment, not a startup. We are building it to change the conversation about social
 					media, algorithms, and feeds. This is a technology-to-think-with; a tool that you should play
-					with and challenge yourself to use. Gobo is being built by a small team of developers at the 
-					<a href="https://www.media.mit.edu/groups/civic-media/overview/">MIT Media Lab's Center for Civic
+					with and challenge yourself to use. Gobo is being built by a small team of developers at the <a href="https://www.media.mit.edu/groups/civic-media/overview/">MIT Media Lab's Center for Civic
 					Media</a>, where we work on technologies for social change like this. Want to learn more about
-					our motivation? Read our director 
-					<a href="https://www.theatlantic.com/technology/archive/2017/05/the-case-for-a-taxpayer-supported-version-of-facebook/524037/">Ethan
+					our motivation? Read our director <a href="https://www.theatlantic.com/technology/archive/2017/05/the-case-for-a-taxpayer-supported-version-of-facebook/524037/">Ethan
 					Zuckerman's piece in the Atlantic</a> for some more background about why we are building Gobo.</p>
 
 					<p>If you have any questions, feedback, or other thoughts you can contact the Gobo team at gobo@media.mit.edu</p>
