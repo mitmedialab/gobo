@@ -20,12 +20,12 @@ logger = logging.getLogger(__name__)
 def upgrade():
     try:
         op.add_column('users', sa.Column('last_login', sa.DateTime, nullable=True))
-    except sa.exc.ProgrammingError as pe:
-        logger.warn("Couldn't add column: users.last_login - {}".format(pe))
+    except Exception as e:
+        logger.warn("Couldn't add column: users.last_login - {}".format(e))
     try:
         op.add_column('users', sa.Column('last_post_fetch', sa.DateTime, nullable=True))
-    except sa.exc.ProgrammingError as pe:
-        logger.warn("Couldn't add column: users.last_post_fetch - {}".format(pe))
+    except Exception as e:
+        logger.warn("Couldn't add column: users.last_post_fetch - {}".format(e))
 
 
 def downgrade():
