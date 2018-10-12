@@ -80,7 +80,7 @@ class Settings extends Component {
 				icon: 'icon-echo',
 				desc: 'See stories matching or challenging your political perspective',
 				key: 'echo_range',
-				longDesc: 'Worried about your "echo chamber"? Gobo will let you choose to see posts from news sources similar to those that you already read, or if you want to see a "wider" set of news you can choose to include media sources that might challenge how you read about and see the world.',
+				longDesc: 'Worried about your "echo chamber"? Gobo will let you choose to see posts from news sources similar to those that you already read, or if you want to see a "wider" set of news you can choose to include media sources that might challenge how you read about and see the world. Our algorithm curates these sources based on a left-right political spectrum in the U.S.',
 				content: (
 					<div>
 						<ReactSlider
@@ -107,7 +107,7 @@ class Settings extends Component {
 				icon: 'icon-seriousness',
 				desc: 'Control the ratio of serious news to fun stuff in your feed',
 				key: 'news_score',
-				longDesc: 'Gobo will run the text of each post, and any articles linked to, through an algorithm that detects topics it talks about.  We\'ve created this algorithm ourselves, teaching it the difference based on tags in a giant set of New York Times articles.  It will mark each post with the topics it is about (sports, politics, pop culture, etc.) and then we\'ll include or exclude content based on the ratio that you set.',
+				longDesc: "Social media can be overwhelming, and sometimes it’s necessary to have a break from the news cycles. Gobo will run the text of each post, and any articles linked to, through an algorithm that detects topics it talks about. We've created this algorithm ourselves, teaching it the difference based on tags in a giant set of New York Times articles. It will mark each post with the topics it is about (sports, politics, pop culture, etc.) and then we'll include or exclude content based on the ratio that you set.",
 				content: (
 					<div>
 						<ReactSlider
@@ -133,7 +133,7 @@ class Settings extends Component {
 				icon: 'icon-toxicity',
 				key: 'toxicity',
 				desc: 'Filter out the trolls, or see just how rude they are',
-				longDesc: 'Want to enforce good manners on your feed?  Rude and obnoxious behaviour on social media has sadly become the norm.  Gobo uses a Google algorithm to measure how "rude" a post is, and lets you filter it out.  Beware - like most algorithms this one exhibits questionable behaviour when it comes to race.',
+				longDesc: 'Want to enforce good manners on your feed? Rude and obnoxious behaviour on social media has sadly become the norm. Gobo uses a Google algorithm to measure how "rude" a post is, and lets you filter it out. Beware - like most algorithms this one exhibits questionable behaviour when it comes to race, particularly in its failure to account for African-American Vernacular English.',
 				content: (
 					<div>
 						<div>
@@ -161,7 +161,7 @@ class Settings extends Component {
 				icon: 'icon-gender',
 				key: 'gender',
 				desc: 'Change how much each gender is represented in your feed',
-				longDesc: 'Curious to see what your female or male friends are talking about? Want to try rebalancing your feed to 50/50 men and women?  Gobo will use a variety of techniques to detect what gender the author of a post is. The algorithms for detecting gender generally discriminate against non-binary folks. Don\'t take this as an affront to our non-binary friends, but rather as an attempt to highlight the limits of what they can do',
+				longDesc: 'Curious to see what your female or male friends are talking about? Want to try rebalancing your feed to 50/50 men and women? Gobo will use a variety of techniques to detect what gender the author of a post is. We recognize that the algorithms for detecting gender discriminate against non-binary folks, and we include it here to invite criticism of Gobo and other social media platforms.',
 				content: (
 					<div>
 						{(this.props.neutralFB !== null && this.props.neutralFB > 0) &&
@@ -205,7 +205,7 @@ class Settings extends Component {
 				icon: 'icon-corporate',
 				key: 'is_corporate',
 				desc: 'Filter out any brands from your feed to be commercial free',
-				longDesc: 'Want to limit your feed to the friends and family you actually care about? Brands are major players on social media platforms, often consuming large amounts of our feeds with either reposts or sponsored content that is featured.  Gobo detects content from brands and lets you exclude them if you want to.',
+				longDesc: 'Want to limit your feed to the friends and family you actually care about? Brands are major players on social media platforms, often consuming large amounts of our feeds with either reposts or sponsored content that is featured. Gobo detects content from brands and lets you exclude them if you want to. At the moment, our algorithm doesn’t differentiate between corporations and non-profit organizations.',
 				content: (
 					<div className="slider-labels">
 						<span>
@@ -225,11 +225,11 @@ class Settings extends Component {
 
 			},
 			{
-				title: 'Virality',
+				title: 'Obscurity',
 				icon: 'icon-virality',
 				key: 'virality_count',
-				desc: 'See just the popular posts that are going viral',
-				longDesc: 'Want to take a lunch break and watch cat videos?  Curious to see what is popular right now? Gobo will look at the number of shares and likes each post in your feed has and include it or exclude it based on your settings.  Social media sites do a similar thing with their "trending" topics; highlighting content that is growing in popularity.',
+				desc: 'See the posts that aren’t getting as much love',
+				longDesc: 'Social media sites prioritize the posts with the most shares and likes. So what are the posts that you might not being seeing? Gobo will look at the number of shares and likes each post in your feed has and include it or exclude it based on your settings.',
 				content: (
 					<div>
 						<ReactSlider
@@ -243,8 +243,8 @@ class Settings extends Component {
 							onAfterChange={()=>this.updateSettings()}
 						/>
 						<div className="slider-labels">
-							<span style={{ float: 'left' }}> least viral</span>
-							<span style={{ float: 'right' }}> most viral</span>
+							<span style={{ float: 'left' }}> obscure </span>
+							<span style={{ float: 'right' }}> viral</span>
 						</div>
 					</div>
 				)
