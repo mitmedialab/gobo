@@ -3,7 +3,6 @@ from flask import request, jsonify
 from flask_login import login_required, login_user, logout_user, current_user
 from sqlalchemy.exc import IntegrityError
 
-from server.core import db, bcrypt
 from server.models import *
 from server.blueprints import api
 

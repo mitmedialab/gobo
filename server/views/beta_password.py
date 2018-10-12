@@ -13,7 +13,7 @@ def is_locked_with_password():
     step = -1
     if current_user.is_authenticated:
         step = 3
-    return jsonify({'locked': app.config['LOCK_WITH_PASSWORD'], 'step':step})
+    return jsonify({'locked': app.config['LOCK_WITH_PASSWORD'], 'step': step})
 
 
 @api.route('/verify_beta_password', methods=['POST'])
