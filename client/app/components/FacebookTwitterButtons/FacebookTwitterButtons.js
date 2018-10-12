@@ -118,7 +118,7 @@ class FacebookTwitterButtons extends Component {
 			twitterButtonText = 'Error authenticating twitter. Please try again ';
 		}
 		let fbButton;
-		if (this.props.twitter_data.facebookAppId) {
+		if (this.props.twitter_data.isFacebookEnabled && this.props.twitter_data.facebookAppId) {
 			fbButton = (
 				<FacebookLogin
 					appId={this.props.twitter_data.facebookAppId}

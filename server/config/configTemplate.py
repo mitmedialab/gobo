@@ -9,6 +9,7 @@ class BaseConfig(object):
 
     # Get these from the Facebook developer dashboard for the application you create. These are needed to
     # let Gobo ingest data from Facebook. Set one up yourself on Facebook's developer portal.
+    ENABLE_FACEBOOK = False
     FACEBOOK_APP_ID = 'XXXX'
     FACEBOOK_APP_SECRET = 'XXXX'
 
