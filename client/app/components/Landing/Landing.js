@@ -52,7 +52,7 @@ const Landing = (props) => {
 					<p>Sign up for Gobo, link it to your other social media profiles, and you can take control of your
 					feed. Want to read news you aren't otherwise seeing? Use our "Echo Chamber" filter to see what
 					we call "wider" news. Want a better balance of men and women in your feed? Use our "gender"
-					filter to rebalance it. Want to take a lunch break and just see popular funny videos you friends
+					filter to rebalance it. Want to take a lunch break and just see popular funny videos your friends
 					are sharing? Use our "virality" filter to pick only the most shared content. With Gobo you're in
 					charge of the algorithmic filters that control what you see on social media. We've built a bunch
 					of filters like these already, are building more, and have made it possible for other developers
