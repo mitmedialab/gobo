@@ -13,11 +13,13 @@ Installation
 
 Gobo is a [Flask](http://flask.pocoo.org)-based server side, which uses [React](http://reactjs.org) & [Redux](https://github.com/reactjs/react-redux) in the browser to render the UI.
 
-Gobo uses Python 2.  
+### Backend
+
+Gobo uses Python 2.
 
 Create `config.py` in `server/config/` using the provided template to hold the right api keys and database url.
   
-Create a virtual environment and install all requirements
+Create a virtual environment and install all requirements:
 ```shell
 $ virtualenv venv
 $ source venv/bin/activate
@@ -32,6 +34,22 @@ $ python manage.py db upgrade
 $ python manage.py db migrate
 ```
 
+### Front-end
+In another terminal window, cd to `/client`.
+
+If you haven't already, install [Node Version Manager](https://github.com/creationix/nvm).
+
+Install and use version node version 10.13.0:
+```shell
+$ nvm install 10.13.0
+$ nvm use 10.13.0
+```
+
+Install requirements and build static assets:
+```shell
+$ npm install
+$ npm run build 
+```
 
 Running
 -------
@@ -61,9 +79,7 @@ $ celery -A server.scripts.tasks worker
 
 In another terminal window open cd to `/client` and then:
 ```shell
-$ npm install
-#We need to run build once in order to create a dist folder with all static files (images etc.) for the server to access
-$ npm run build 
+$ nvm use 10.13.0
 $ npm start
 ```
 
