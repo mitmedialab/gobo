@@ -55,6 +55,7 @@ $ redis-server
 
 And in the other one:
 ```shell
+$ source venv/bin/activate
 $ celery -A server.scripts.tasks worker
 ```
 
