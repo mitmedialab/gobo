@@ -22,7 +22,6 @@
     "react/require-default-props": 0,
     "max-len": 0,
     "camelcase": 0,
-    "consistent-return": 0,
     "array-callback-return": 0,
     "no-mixed-operators": 0,
     "no-param-reassign": 0,

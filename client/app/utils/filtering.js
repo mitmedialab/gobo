@@ -86,6 +86,7 @@ export default function calculateFilteredPosts(posts, settings) {
           return true;
         }
         filter_reasons[post.id].push('Gender');
+        return false;
       });
       filtered_posts.push(...f_posts_to_remove);
     }
@@ -98,6 +99,7 @@ export default function calculateFilteredPosts(posts, settings) {
           return true;
         }
         filter_reasons[post.id].push('Gender');
+        return false;
       });
       filtered_posts.push(...m_posts_to_remove);
     }
