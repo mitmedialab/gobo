@@ -49,7 +49,7 @@ const ravenOptions = {
     /127\.0\.0\.1:4001\/isrunning/i,  // Cacaoweb
     /webappstoolbarba\.texthelp\.com\//i,
     /metrics\.itunes\.apple\.com\.edgesuite\.net\//i,
-    /localhost\:5000\/api\/confirm_auth/i,
+    /localhost:5000\/api\/confirm_auth/i,
     /gobo\.mcservices1\.media\.mit\.edu\/api\/confirm_auth/i,
   ],
 };
