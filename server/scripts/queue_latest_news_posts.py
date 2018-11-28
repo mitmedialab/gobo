@@ -50,7 +50,7 @@ def queue_one_news_post(post, source, quintile, db_session):
 
 
 def queye_lastest_news_posts(db_session):
-    REALLY_QUEUE = False
+    REALLY_QUEUE = True
     # facebook requests payload
     N = 2
     MAX_POST = 3
