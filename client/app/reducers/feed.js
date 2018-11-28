@@ -96,7 +96,7 @@ export default function reducer(state = defaultState, action) {
     case SORT_BY:
       return {
         ...state,
-        sort_reverse: state.sort_by == action.sort_by ? !state.sort_reverse : state.sort_reverse,
+        sort_reverse: state.sort_by === action.sort_by ? !state.sort_reverse : state.sort_reverse,
         sort_by: action.sort_by,
       };
     case FILTER_POSTS_LOAD:

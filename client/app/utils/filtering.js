@@ -1,17 +1,17 @@
 
 function get_nums_males_females(f, m, r) {
-  if (m == 0) {
-    if (f == 0) {
+  if (m === 0) {
+    if (f === 0) {
             // m = 0, f = 0
       return { f: 0, m: 0 };
     }
 
             // m = 0 f > 0
     return { f: r * f, m: 0 };
-  } else if (f == 0) {
+  } else if (f === 0) {
     return { f: 0, m: m * r };
   } else if (m >= f) {
-    if (r == 0) {
+    if (r === 0) {
       return { f: 0, m };
     } else if (r < f / m) {
       return { f: Math.min((r / (1 - r) * m), f), m };
@@ -21,7 +21,7 @@ function get_nums_males_females(f, m, r) {
   }
 
         // m < f
-  if (r == 1) {
+  if (r === 1) {
     return { f, m: 0 };
   } else if (r < m / f) {
     return { f, m: Math.min(((1 - r) / r * f), m) };
@@ -47,8 +47,8 @@ export function calculateFilteredPosts(posts, settings) {
         filter_reasons[post.id].push('Corporate');
       }
 
-      if ((post.toxicity != null && post.toxicity != -1 && (post.toxicity > settings.rudeness_max || post.toxicity < settings.rudeness_min)) ||
-                (post.toxicity == -1 && settings.rudeness_min > 0.1)) {
+      if ((post.toxicity !== null && post.toxicity !== -1 && (post.toxicity > settings.rudeness_max || post.toxicity < settings.rudeness_min)) ||
+                (post.toxicity === -1 && settings.rudeness_min > 0.1)) {
         keep = false;
         filter_reasons[post.id].push('Rudeness');
       }
@@ -73,8 +73,8 @@ export function calculateFilteredPosts(posts, settings) {
         filtered_posts.push(post);
       }
     });
-    const kept_female_posts = kept_posts.filter(post => post.gender == 'GenderEnum.female');
-    const kept_male_posts = kept_posts.filter(post => post.gender == 'GenderEnum.male');
+    const kept_female_posts = kept_posts.filter(post => post.gender === 'GenderEnum.female');
+    const kept_male_posts = kept_posts.filter(post => post.gender === 'GenderEnum.male');
     const num_posts_to_keep = get_nums_males_females(kept_female_posts.length, kept_male_posts.length, settings.gender_female_per / 100.0);
     const neutral_fb = Math.min(1, kept_female_posts.length / (kept_female_posts.length + kept_male_posts.length));
         // remove female posts
