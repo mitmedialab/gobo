@@ -53,7 +53,7 @@ export function cloneDeep(obj) {
   if (obj instanceof Object) {
     copy = {};
     for (const attr in obj) {
-      if (obj.hasOwnProperty(attr)) copy[attr] = cloneDeep(obj[attr]);
+      if (Object.prototype.hasOwnProperty.call(obj, attr)) copy[attr] = cloneDeep(obj[attr]);
     }
     return copy;
   }
