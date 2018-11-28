@@ -79,7 +79,13 @@
   "devDependencies": {
     "bootstrap-sass": "^3.3.7",
     "file-loader": "^0.11.2",
+    "husky": "^1.2.0",
     "manifest-revision-webpack-plugin": "^0.4.0",
     "url-loader": "^0.5.9"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
   }
 }

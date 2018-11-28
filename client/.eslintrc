@@ -1,25 +1,58 @@
 {
-	parser: "babel-eslint",
-	extends: "eslint-config-airbnb",
-	env: {
-		"browser": true,
-		"node": true,
-		"mocha": true
-	},
-	plugins: [
-		"react", "import"
-	],
-	"settings": {
-		"import/resolver": {
-			"webpack": {
-				"config": "webpack/webpackConfigDev.js"
-			}
-		}
-	},
-	"rules": {
-		"import/no-extraneous-dependencies": 0,
-		"react/jsx-filename-extension": 0,
-		"react/require-default-props": 0,
-		"max-len": 0,
-	},
+  parser: "babel-eslint",
+  extends: "eslint-config-airbnb",
+  env: {
+    "browser": true,
+    "node": true,
+    "mocha": true
+  },
+  plugins: [
+    "react", "import"
+  ],
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack/webpackConfigDev.js"
+      }
+    }
+  },
+  "rules": {
+    "import/no-extraneous-dependencies": 0,
+    "react/jsx-filename-extension": 0,
+    "react/require-default-props": 0,
+    "max-len": 0,
+    "no-unused-vars": 0,
+    "func-names": 0,
+    "no-prototype-builtins": 0,
+    "no-restricted-syntax": 0,
+    "camelcase": 0,
+    "consistent-return": 0,
+    "array-callback-return": 0,
+    "eqeqeq": 0,
+    "no-mixed-operators": 0,
+    "no-param-reassign": 0,
+    "no-return-assign": 0,
+    "no-underscore-dangle": 0,
+    "no-useless-escape": 0,
+    "no-multi-spaces": 0,
+    "no-undef": 0,
+    "no-confusing-arrow": 0,
+    "react/forbid-prop-types": 0,
+    "react/no-unescaped-entities": 0,
+    "react/no-string-refs": 0,
+    "react/jsx-no-undef": 0,
+    "react/no-unused-prop-types": 0,
+    "react/jsx-no-bind": 0,
+    "react/no-array-index-key": 0,
+    "react/jsx-no-target-blank": 0,
+    "jsx-a11y/interactive-supports-focus": 0,
+    "jsx-a11y/no-noninteractive-tabindex": 0,
+    "jsx-a11y/no-static-element-interactions": 0,
+    "jsx-a11y/label-has-for": 0,
+    "jsx-a11y/media-has-caption": 0,
+    "jsx-a11y/alt-text": 0,
+    "jsx-a11y/anchor-has-content": 0,
+    "import/prefer-default-export": 0,
+    "class-methods-use-this": 0,
+  },
 }
