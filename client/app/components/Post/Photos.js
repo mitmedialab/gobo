@@ -15,6 +15,7 @@ class Photos extends React.Component {
   }
   */
 
+  // eslint-disable-next-line class-methods-use-this
   onClick() {
     // this.context.toggleModal(idx)
   }
