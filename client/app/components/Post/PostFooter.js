@@ -14,7 +14,7 @@ const PostFooter = (props) => {
   return (
     <div className="post-footer">
       <div className="footer-content">
-        <a href={url} target="_blank" className={iconClass} />
+        <a href={url} target="_blank" rel="noopener noreferrer" className={iconClass} />
         <a className="footer-text" onClick={props.onFlipClick} role="button">{text}</a>
       </div>
     </div>
