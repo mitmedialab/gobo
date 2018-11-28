@@ -176,6 +176,7 @@ class Input extends Component {
   }
 
   checkWords(value) {
+    // eslint-disable-next-line no-confusing-arrow
     return _.some(this.state.forbiddenWords, word => (word === value) ? true : '');
   }
 
