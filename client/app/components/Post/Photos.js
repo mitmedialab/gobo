@@ -195,6 +195,8 @@ class Photos extends React.Component {
       }
 
       mediaElements.push(
+        // TODO: binding works, but is bad for memory
+        // eslint-disable-next-line react/jsx-no-bind
         <div onClick={this.onClick.bind(this, i)} className="AdaptiveMedia-photoContainer" style={containStyle} key={i}>
           <img src={m.media_url_https} style={photoStyle} />
         </div>,
