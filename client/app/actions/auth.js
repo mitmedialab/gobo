@@ -188,8 +188,8 @@ export function deleteUser() {
             dispatch(deleteUserFailure({ response }));
           }
         })
-        .catch(() => {
-          dispatch(deleteUserFailure({ response }));
+        .catch((e) => {
+          dispatch(deleteUserFailure({ e }));
         });
   };
 }
