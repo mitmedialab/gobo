@@ -24,6 +24,7 @@ const Video = (props) => {
 
   if (typeof window.videojs !== 'undefined') {
     VideoComponent = (
+      // eslint-disable-next-line react/jsx-no-undef
       <VideoJS src={videoSrc} controls={!gif} autoPlay={gif} loop={gif} style={styles.video}>
         {'Your browser does not support the '}<code>{'video '}</code>{'element.'}
       </VideoJS>
