@@ -1,4 +1,4 @@
-/* eslint camelcase: 0 */
+/* eslint camelcase: 0, no-mixed-operators: 0 */
 
 function get_nums_males_females(f, m, r) {
   if (m === 0) {
