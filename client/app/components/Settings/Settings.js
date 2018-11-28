@@ -192,7 +192,7 @@ class Settings extends Component {
                     checked={this.state.settings.gender_female_per === 100}
                     onClick={this.muteAllMen}
                   />
-                  <label className="checkbox-label">Mute all men.                                                                                                                <MuteAllMenWhy /></label>
+                  <label className="checkbox-label">Mute all men.<MuteAllMenWhy /></label>
                 </span>
               </div>
             </div>
