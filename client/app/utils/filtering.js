@@ -29,7 +29,7 @@ function get_nums_males_females(f, m, r) {
   return { f: Math.min((r / (1 - r) * m), f), m };
 }
 
-export function calculateFilteredPosts(posts, settings) {
+export default function calculateFilteredPosts(posts, settings) {
   return new Promise((resolve) => {
     const filtered_posts = [];
     let kept_posts = [];

@@ -1,5 +1,5 @@
 import { getUserPosts, getUserSettings, updateUserSettings } from '../utils/apiRequests';
-import { calculateFilteredPosts } from '../utils/filtering';
+import calculateFilteredPosts from '../utils/filtering';
 
 export const GET_POSTS_LOAD = 'feed/GET_POSTS_LOAD';
 export const GET_POSTS_SUCCESS = 'feed/GET_POSTS_SUCCESS';
