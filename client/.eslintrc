@@ -21,7 +21,6 @@
     "react/jsx-filename-extension": 0,
     "react/require-default-props": 0,
     "max-len": 0,
-    "no-restricted-syntax": 0,
     "camelcase": 0,
     "consistent-return": 0,
     "array-callback-return": 0,

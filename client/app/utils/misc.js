@@ -52,9 +52,9 @@ export function cloneDeep(obj) {
   // Handle Object
   if (obj instanceof Object) {
     copy = {};
-    for (const attr in obj) {
+    Object.keys(obj).forEach((attr) => {
       if (Object.prototype.hasOwnProperty.call(obj, attr)) copy[attr] = cloneDeep(obj[attr]);
-    }
+    });
     return copy;
   }
   throw new Error("Unable to copy obj! Its type isn't supported.");
