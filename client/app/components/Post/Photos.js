@@ -1,3 +1,5 @@
+/* eslint react/jsx-no-bind:0, react/no-array-index-key: 0 */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { cloneDeep } from '../../utils/misc';
@@ -196,7 +198,8 @@ class Photos extends React.Component {
 
       mediaElements.push(
         // TODO: binding works, but is bad for memory
-        // eslint-disable-next-line react/jsx-no-bind
+        // TODO: make these keys unique as they're likely not currently
+        // TODO: after fixing these, remove the eslint rule disable comment at the top of the file
         <div onClick={this.onClick.bind(this, i)} className="AdaptiveMedia-photoContainer" style={containStyle} key={i}>
           <img src={m.media_url_https} style={photoStyle} />
         </div>,

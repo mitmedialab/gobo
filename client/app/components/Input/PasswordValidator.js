@@ -36,8 +36,8 @@ class PasswordValidator extends Component {
       invisible: !this.props.visible,
     });
 
-    const forbiddenWords = this.state.forbiddenWords.map((word, i) => (
-      <span key={i} className="bad_word">&ldquo;{word}&rdquo;</span>
+    const forbiddenWords = this.state.forbiddenWords.map(word => (
+      <span key={word} className="bad_word">&ldquo;{word}&rdquo;</span>
     ));
 
     let validatorTitle;
