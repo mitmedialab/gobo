@@ -34,7 +34,7 @@ class Login extends Component {
     this.setState(nextState);
   }
 
-  _handleKeyPress(e) {
+  handleKeyPress(e) {
     if (e.key === 'Enter') {
       if (!this.state.disabled) {
         this.checkAndLogin(e);
@@ -59,7 +59,7 @@ class Login extends Component {
       return <Redirect to="/feed" />;
     }
     return (
-      <div className="create_account_screen" id="login-box" role="button" onKeyPress={e => this._handleKeyPress(e)}>
+      <div className="create_account_screen" id="login-box" role="button" onKeyPress={e => this.handleKeyPress(e)}>
         <div>
           <h1>Registration</h1>
 
