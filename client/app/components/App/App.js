@@ -20,48 +20,48 @@ const TwitterCallback = () => <Async load={import('components/TwitterCallback/Tw
 const NoMatch = () => <Async load={import('components/NoMatch/NoMatch')} />;
 
 const propTypes = {
-	dispatch: PropTypes.func.isRequired,
-	auth: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 class App extends Component {
 
-	componentWillMount() {
-		this.props.dispatch(tryGetUser());
-	}
+  componentWillMount() {
+    this.props.dispatch(tryGetUser());
+  }
 
-	render() {
-		const Home = this.props.auth.isAuthenticated ? Feed : Landing;
-		return (
-			<div>
-				<Helmet>
-					<title>Gobo</title>
-					<meta name="description" content="A Site for Gobo Social" />
-				</Helmet>
+  render() {
+    const Home = this.props.auth.isAuthenticated ? Feed : Landing;
+    return (
+      <div>
+        <Helmet>
+          <title>Gobo</title>
+          <meta name="description" content="A Site for Gobo Social" />
+        </Helmet>
 
-				<Nav auth={this.props.auth} />
-				<div className="" role="main">
-					<Switch>
-						<Route exact path="/" component={Home} />
-						<Route path="/login" component={Login} />
-						<Route path="/register" component={RegisterWrapper} />
-						<Route path="/feed" component={Feed} />
-						<Route path="/profile" component={Profile} />
-						<Route path="/settings" component={Settings} />
-						<Route path="/twitter_callback" component={TwitterCallback} />
-						<Route path="/about" component={Landing} />
-						<Route path="/privacy" component={Privacy} />
-						<Route path="/api/:function" />
-						<Route path="*/" component={NoMatch} />
-					</Switch>
+        <Nav auth={this.props.auth} />
+        <div className="" role="main">
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={RegisterWrapper} />
+            <Route path="/feed" component={Feed} />
+            <Route path="/profile" component={Profile} />
+            <Route path="/settings" component={Settings} />
+            <Route path="/twitter_callback" component={TwitterCallback} />
+            <Route path="/about" component={Landing} />
+            <Route path="/privacy" component={Privacy} />
+            <Route path="/api/:function" />
+            <Route path="*/" component={NoMatch} />
+          </Switch>
 
-				</div>
+        </div>
 
-			</div>
-		);
-	}
+      </div>
+    );
+  }
 }
 
 App.propTypes = propTypes;
 
-export default withRouter(connect(state=> ({ auth: state.auth }))(App));
+export default withRouter(connect(state => ({ auth: state.auth }))(App));

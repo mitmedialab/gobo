@@ -8,23 +8,23 @@ import { getData } from 'actions/app';
 /* --------------------------- */
 
 const propTypes = {
-	dispatch: PropTypes.func.isRequired,
-	appData: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  appData: PropTypes.object.isRequired,
 };
 
 class Template extends Component {
-	componentWillMount() {
-		this.props.dispatch(getData());
-	}
+  componentWillMount() {
+    this.props.dispatch(getData());
+  }
 
-	render() {
-		return (
-			<div id="template-page">
-				Template
-				{JSON.stringify(this.props.appData)}
-			</div>
-		);
-	}
+  render() {
+    return (
+      <div id="template-page">
+        Template
+        {JSON.stringify(this.props.appData)}
+      </div>
+    );
+  }
 }
 
 Template.propTypes = propTypes;

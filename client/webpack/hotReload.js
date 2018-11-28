@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import Root from '../app';
 
 const render = () => {
-	ReactDOM.render(<Root />, document.querySelector('react'));
+  ReactDOM.render(<Root />, document.querySelector('react'));
 };
 
 render();

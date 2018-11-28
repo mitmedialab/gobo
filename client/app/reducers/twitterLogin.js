@@ -57,13 +57,13 @@ export default function reducer(state = defaultState, action) {
     case FETCH_TWITTER_STATUS_LOAD:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
       };
     case FETCH_TWITTER_STATUS_SUCCESS:
       return {
         ...state,
         isFetching: false,
-        isTwitterAuthorized:action.result.isTwitterAuthorized,
+        isTwitterAuthorized: action.result.isTwitterAuthorized,
 
       };
     case FETCH_TWITTER_STATUS_FAIL:
@@ -74,7 +74,7 @@ export default function reducer(state = defaultState, action) {
     case POST_CALLBACK_LOAD:
       return {
         ...state,
-        callbackLoading: true
+        callbackLoading: true,
       };
     case POST_CALLBACK_SUCCESS:
       return {
@@ -89,7 +89,7 @@ export default function reducer(state = defaultState, action) {
     case GET_FACEBOOK_APP_ID_SUCCESS:
       return {
         ...state,
-        //facebookAppId: action.result.data,
+        // facebookAppId: action.result.data,
         ...action.result.data,
       };
     default:

@@ -4,18 +4,18 @@ import { connect } from 'react-redux';
 import FacebookTwitterButtons from 'components/FacebookTwitterButtons/FacebookTwitterButtons';
 
 const propTypes = {
-	onFinish: PropTypes.func.isRequired,
+  onFinish: PropTypes.func.isRequired,
 };
 
 const SocialAuth = props => (
-	<div>
-		<p>
-			Please Authenticate to your Facebook and Twitter
-			<br />
-			accounts so we can show you your feed
-		</p>
-		<FacebookTwitterButtons onFinish={props.onFinish} />
-	</div>
+  <div>
+    <p>
+      Please Authenticate to your Facebook and Twitter
+      <br />
+      accounts so we can show you your feed
+    </p>
+    <FacebookTwitterButtons onFinish={props.onFinish} />
+  </div>
 );
 
 SocialAuth.propTypes = propTypes;

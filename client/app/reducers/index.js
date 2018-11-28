@@ -6,9 +6,9 @@ import feed from './feed';
 import passwordLock from './passwordLock';
 
 export default combineReducers({
-	app,
-	auth,
-	twitterLogin,
-	feed,
-	passwordLock,
+  app,
+  auth,
+  twitterLogin,
+  feed,
+  passwordLock,
 });
