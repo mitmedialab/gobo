@@ -7,14 +7,12 @@ import { deleteUser } from '../../actions/auth';
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
-  auth: PropTypes.object,
   isDeleting: PropTypes.bool,
   isDeleted: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
   return {
-    auth: state.auth,
     isDeleting: state.auth.isDeleting,
     isDeleted: state.auth.isDeleted,
   };
