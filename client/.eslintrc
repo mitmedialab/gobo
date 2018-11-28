@@ -21,7 +21,6 @@
     "react/jsx-filename-extension": 0,
     "react/require-default-props": 0,
     "max-len": 0,
-    "no-unused-vars": 0,
     "func-names": 0,
     "no-prototype-builtins": 0,
     "no-restricted-syntax": 0,

@@ -10,6 +10,7 @@ import ManageScroll from 'components/ManageScroll/ManageScroll';
 import store from './store';
 
 // raven options taken from https://docs.sentry.io/clients/javascript/tips/ with some additions
+// eslint-disable-next-line no-unused-vars
 const ravenOptions = {
   ignoreErrors: [
         // Random plugins/extensions
