@@ -19,14 +19,14 @@ export const GET_DATA_FAIL = 'app/GET_DATA_FAIL';
 // function calls
 /*--------*/
 export function getData(user) {
-	return (dispatch) => {
-		dispatch({ type: GET_DATA_LOAD });
-		return apiFetch(user)
-		.then((result) => {
-			dispatch({ type: GET_DATA_SUCCESS, result });
-		})
-		.catch((error) => {
-			dispatch({ type: GET_DATA_FAIL, error });
-		});
-	};
+  return (dispatch) => {
+    dispatch({ type: GET_DATA_LOAD });
+    return apiFetch(user)
+    .then((result) => {
+      dispatch({ type: GET_DATA_SUCCESS, result });
+    })
+    .catch((error) => {
+      dispatch({ type: GET_DATA_FAIL, error });
+    });
+  };
 }

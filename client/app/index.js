@@ -10,61 +10,62 @@ import ManageScroll from 'components/ManageScroll/ManageScroll';
 import store from './store';
 
 // raven options taken from https://docs.sentry.io/clients/javascript/tips/ with some additions
-var ravenOptions = {
-    ignoreErrors: [
+// eslint-disable-next-line no-unused-vars
+const ravenOptions = {
+  ignoreErrors: [
         // Random plugins/extensions
-        'top.GLOBALS',
+    'top.GLOBALS',
         // See: http://blog.errorception.com/2012/03/tale-of-unfindable-js-error. html
-        'originalCreateNotification',
-        'canvas.contentDocument',
-        'MyApp_RemoveAllHighlights',
-        'http://tt.epicplay.com',
-        'Can\'t find variable: ZiteReader',
-        'jigsaw is not defined',
-        'ComboSearch is not defined',
-        'http://loading.retry.widdit.com/',
-        'atomicFindClose',
+    'originalCreateNotification',
+    'canvas.contentDocument',
+    'MyApp_RemoveAllHighlights',
+    'http://tt.epicplay.com',
+    'Can\'t find variable: ZiteReader',
+    'jigsaw is not defined',
+    'ComboSearch is not defined',
+    'http://loading.retry.widdit.com/',
+    'atomicFindClose',
         // Facebook borked
-        'fb_xd_fragment',
+    'fb_xd_fragment',
         // ISP "optimizing" proxy - `Cache-Control: no-transform` seems to
         // reduce this. (thanks @acdha)
         // See http://stackoverflow.com/questions/4113268
-        'bmi_SafeAddOnload',
-        'EBCallBackMessageReceived',
+    'bmi_SafeAddOnload',
+    'EBCallBackMessageReceived',
         // See http://toolbar.conduit.com/Developer/HtmlAndGadget/Methods/JSInjection.aspx
-        'conduitPage'
-    ],
-    ignoreUrls: [
+    'conduitPage',
+  ],
+  ignoreUrls: [
         // Facebook flakiness
-        /graph\.facebook\.com/i,
+    /graph\.facebook\.com/i,
         // Facebook blocked
-        /connect\.facebook\.net\/en_US\/all\.js/i,
+    /connect\.facebook\.net\/en_US\/all\.js/i,
         // Woopra flakiness
-        /eatdifferent\.com\.woopra-ns\.com/i,
-        /static\.woopra\.com\/js\/woopra\.js/i,
+    /eatdifferent\.com\.woopra-ns\.com/i,
+    /static\.woopra\.com\/js\/woopra\.js/i,
         // Chrome extensions
-        /extensions\//i,
-        /^chrome:\/\//i,
+    /extensions\//i,
+    /^chrome:\/\//i,
         // Other plugins
-        /127\.0\.0\.1:4001\/isrunning/i,  // Cacaoweb
-        /webappstoolbarba\.texthelp\.com\//i,
-        /metrics\.itunes\.apple\.com\.edgesuite\.net\//i,
-		/localhost\:5000\/api\/confirm_auth/i,
-        /gobo\.mcservices1\.media\.mit\.edu\/api\/confirm_auth/i,
-    ]
+    /127\.0\.0\.1:4001\/isrunning/i,  // Cacaoweb
+    /webappstoolbarba\.texthelp\.com\//i,
+    /metrics\.itunes\.apple\.com\.edgesuite\.net\//i,
+    /localhost:5000\/api\/confirm_auth/i,
+    /gobo\.mcservices1\.media\.mit\.edu\/api\/confirm_auth/i,
+  ],
 };
 
 Raven.config('https://d2a0fea6a02c4cd490b46c7a7ec91992@sentry.io/221335').install();
 // require('./manageServiceWorker');
 
 const Root = () => (
-	<Provider store={store}>
-		<BrowserRouter id="UA-*******-**">
-			<ManageScroll>
-				<App />
-			</ManageScroll>
-		</BrowserRouter>
-	</Provider>
+  <Provider store={store}>
+    <BrowserRouter id="UA-*******-**">
+      <ManageScroll>
+        <App />
+      </ManageScroll>
+    </BrowserRouter>
+  </Provider>
 );
 
 export default Root;

@@ -7,46 +7,46 @@ import { startPostTwitterCallback } from 'actions/twitterLogin';
 import Loader from 'components/Loader/Loader';
 
 const propTypes = {
-	location: PropTypes.object,
-	dispatch: PropTypes.func,
-	callbackLoading: PropTypes.func,
-	auth: PropTypes.object,
+  location: PropTypes.object,
+  dispatch: PropTypes.func,
+  callbackLoading: PropTypes.func,
+  auth: PropTypes.object,
 };
 
 class TwitterCallback extends Component {
 
-	componentDidMount() {
-		const parsed = queryString.parse(this.props.location.search);
-		this.props.dispatch(startPostTwitterCallback(parsed));
-	}
+  componentDidMount() {
+    const parsed = queryString.parse(this.props.location.search);
+    this.props.dispatch(startPostTwitterCallback(parsed));
+  }
 
-	componentWillReceiveProps(nextProps) {
-		if (this.props.callbackLoading && !nextProps.callbackLoading) {
-			if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-				// redirect to signup or profile page
-				const completedReg = this.props.auth.user.completedReg;
-				let redirect = '/register';
-				if (completedReg || completedReg === null) {
-					redirect = '/profile';
-				}
-				window.location.replace(redirect);
-			} else {
-				window.close();
-			}
-		}
-	}
+  componentWillReceiveProps(nextProps) {
+    if (this.props.callbackLoading && !nextProps.callbackLoading) {
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        // redirect to signup or profile page
+        const completedReg = this.props.auth.user.completedReg;
+        let redirect = '/register';
+        if (completedReg || completedReg === null) {
+          redirect = '/profile';
+        }
+        window.location.replace(redirect);
+      } else {
+        window.close();
+      }
+    }
+  }
 
-	render() {
-		return (
-			<div>
-				<div> Thanks for authenticating your twitter account!</div>
-				<Loader />
-			</div>
-		);
-	}
+  render() {
+    return (
+      <div>
+        <div> Thanks for authenticating your twitter account!</div>
+        <Loader />
+      </div>
+    );
+  }
 
 }
 
 TwitterCallback.propTypes = propTypes;
 
-export default withRouter(connect(state=> ({ callbackLoading: state.twitterLogin.callbackLoading, auth: state.auth }))(TwitterCallback));
+export default withRouter(connect(state => ({ callbackLoading: state.twitterLogin.callbackLoading, auth: state.auth }))(TwitterCallback));

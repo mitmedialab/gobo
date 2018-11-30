@@ -28,54 +28,54 @@ export const GET_FACEBOOK_APP_ID_SUCCESS = 'twitterLogin/GET_FACEBOOK_APP_ID_SUC
 // function calls
 /*--------*/
 export function getAuthUrl() {
-	return (dispatch) => {
-		dispatch({ type: GET_AUTH_URL_LOAD });
-		return getTwitterAuthURl()
-		.then((result) => {
-			dispatch({ type: GET_AUTH_URL_SUCCESS, result });
-		})
-		.catch((error) => {
-			dispatch({ type: GET_AUTH_URL_FAIL, error });
-		});
-	};
+  return (dispatch) => {
+    dispatch({ type: GET_AUTH_URL_LOAD });
+    return getTwitterAuthURl()
+    .then((result) => {
+      dispatch({ type: GET_AUTH_URL_SUCCESS, result });
+    })
+    .catch((error) => {
+      dispatch({ type: GET_AUTH_URL_FAIL, error });
+    });
+  };
 }
 
 export function fetchFacebookAppId() {
-	return (dispatch) => {
-		dispatch({ type: GET_FACEBOOK_APP_ID_LOAD });
-		return getFacebookAppId()
-			.then((result) => {
-				dispatch({ type: GET_FACEBOOK_APP_ID_SUCCESS, result });
-			})
-			.catch((error) => {
-				dispatch({ type: GET_FACEBOOK_APP_ID_FAIL, error });
-			});
-	};
+  return (dispatch) => {
+    dispatch({ type: GET_FACEBOOK_APP_ID_LOAD });
+    return getFacebookAppId()
+      .then((result) => {
+        dispatch({ type: GET_FACEBOOK_APP_ID_SUCCESS, result });
+      })
+      .catch((error) => {
+        dispatch({ type: GET_FACEBOOK_APP_ID_FAIL, error });
+      });
+  };
 }
 
 export function startPostTwitterCallback(query) {
-	return (dispatch) => {
-		dispatch({ type: POST_CALLBACK_LOAD });
-		return postTwitterCallback(query)
-			.then((result) => {
-				dispatch({ type: POST_CALLBACK_SUCCESS, result });
-			})
-			.catch((error) => {
-				dispatch({ type: POST_CALLBACK_FAIL, error });
-			});
-	};
+  return (dispatch) => {
+    dispatch({ type: POST_CALLBACK_LOAD });
+    return postTwitterCallback(query)
+      .then((result) => {
+        dispatch({ type: POST_CALLBACK_SUCCESS, result });
+      })
+      .catch((error) => {
+        dispatch({ type: POST_CALLBACK_FAIL, error });
+      });
+  };
 }
 
 export function waitForTwitterCallback() {
-	return (dispatch) => {
-		dispatch({ type: FETCH_TWITTER_STATUS_LOAD });
-		return waitTwitterCallback()
-			.then((response) => {
-				const result = response.data;
-				dispatch({ type: FETCH_TWITTER_STATUS_SUCCESS, result });
-			})
-			.catch((error) => {
-				dispatch({ type: FETCH_TWITTER_STATUS_FAIL, error });
-			});
-	};
+  return (dispatch) => {
+    dispatch({ type: FETCH_TWITTER_STATUS_LOAD });
+    return waitTwitterCallback()
+      .then((response) => {
+        const result = response.data;
+        dispatch({ type: FETCH_TWITTER_STATUS_SUCCESS, result });
+      })
+      .catch((error) => {
+        dispatch({ type: FETCH_TWITTER_STATUS_FAIL, error });
+      });
+  };
 }

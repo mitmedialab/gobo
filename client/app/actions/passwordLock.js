@@ -22,27 +22,27 @@ export const VERIFY_PW_FAIL = 'passwordLock/VERIFY_PW_FAIL';
 // function calls
 /*--------*/
 export function getLockStatus() {
-	return (dispatch) => {
-		dispatch({ type: LOCK_STATUS_LOAD });
-		return getLockStatusFromServer()
-			.then((result) => {
-				dispatch({ type: LOCK_STATUS_SUCCESS, result });
-			})
-			.catch((error) => {
-				dispatch({ type: LOCK_STATUS_FAIL, error });
-			});
-	};
+  return (dispatch) => {
+    dispatch({ type: LOCK_STATUS_LOAD });
+    return getLockStatusFromServer()
+      .then((result) => {
+        dispatch({ type: LOCK_STATUS_SUCCESS, result });
+      })
+      .catch((error) => {
+        dispatch({ type: LOCK_STATUS_FAIL, error });
+      });
+  };
 }
 
 export function verifyBetaPassword(password) {
-	return (dispatch) => {
-		dispatch({ type: VERIFY_PW_LOAD });
-		return verifyPassword(password)
-			.then((result) => {
-				dispatch({ type: VERIFY_PW_SUCCESS, result });
-			})
-			.catch((error) => {
-				dispatch({ type: VERIFY_PW_FAIL, error });
-			});
-	};
+  return (dispatch) => {
+    dispatch({ type: VERIFY_PW_LOAD });
+    return verifyPassword(password)
+      .then((result) => {
+        dispatch({ type: VERIFY_PW_SUCCESS, result });
+      })
+      .catch((error) => {
+        dispatch({ type: VERIFY_PW_FAIL, error });
+      });
+  };
 }
