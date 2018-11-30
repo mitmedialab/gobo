@@ -1,6 +1,6 @@
 import os
 import logging
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, or_, text
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime, timedelta
 
@@ -22,10 +22,10 @@ session = Session()
 def queue_prioritized_users_posts(db_session):
     queue_size = config.NUMBER_OF_USERS_TO_UPDATE
     prioritized_users = []
-    logger.info("Searching for {} users to priorize for updating".format(queue_size))
+    logger.info("Searching for {} users to prioritize for updating".format(queue_size))
 
     # helpers for filtering users
-    connected_to_services = (User.twitter_authorized == True) or (User.facebook_authorized == True)
+    connected_to_services = or_(User.twitter_authorized == True, User.facebook_authorized == True)
     not_fetched_recently = (datetime.now() - User.last_post_fetch) > timedelta(hours=config.HOURS_TO_WAIT)
 
     # 1. First find connected users that have logged in recently but we haven't updated recently
