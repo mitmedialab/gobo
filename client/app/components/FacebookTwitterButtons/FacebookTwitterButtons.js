@@ -8,12 +8,12 @@ import { postFacebookResponseToServer } from '../../utils/apiRequests';
 
 
 const propTypes = {
-	dispatch: PropTypes.func.isRequired,
-	twitter_data: PropTypes.object.isRequired,
-	facebookConnected: PropTypes.bool,
-	twitterConnected: PropTypes.bool,
-	auth: PropTypes.object,
-	// onFinish: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  twitter_data: PropTypes.object.isRequired,
+  facebookConnected: PropTypes.bool,
+  twitterConnected: PropTypes.bool,
+  auth: PropTypes.object,
+  // onFinish: PropTypes.func.isRequired,
 };
 
 const MAX_POLLS = 120;
