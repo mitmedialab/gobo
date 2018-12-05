@@ -9,15 +9,22 @@ from server.core import db
 
 env = os.getenv('FLASK_ENV', 'dev')
 app = create_app(env.lower())
-manager = Manager(app)
 
 # migrations
+manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
 @manager.command
 def create_db():
     """Creates the db tables."""
     db.create_all()
+
+    # load the Alembic configuration and generate the
+    # version table, "stamping" it with the most recent rev
+    from alembic.config import Config
+    from alembic import command
+    alembic_cfg = Config("./migrations/alembic.ini")
+    command.stamp(alembic_cfg, "head")
 
 
 @manager.command

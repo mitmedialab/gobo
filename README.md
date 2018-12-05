@@ -28,10 +28,8 @@ $ pip install -r requirements.txt
 
 To set up the database run:
 ```shell
-$ python manage.py db init
 $ python manage.py create_db
 $ python manage.py db upgrade
-$ python manage.py db migrate
 ```
 
 ### Front-end
@@ -128,6 +126,17 @@ To remove the password just set `LOCK_WITH_PASSWORD = False`.
 
 Edit the GA ID in `client/app/index.js`
 
+
+Development
+-----------
+
+When updating models that result in a table change (e.g. column added/removed), generate migrations with:
+
+```shell
+$ python manage.py db migrate
+```
+
+This will generate a new migration file in `migrations/versions` that should be added to version control.
 
 Deploying
 ---------
