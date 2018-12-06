@@ -10,10 +10,12 @@ from .core import db, bcrypt, login_manager, migrate
 from .config.config import config_map
 from .blueprints import all_blueprints
 
+from commands import create_db, drop_db
 
-def create_app(config_type):
 
-    config = config_map[config_type]
+def create_app(env=None):
+    env = env or os.getenv('FLASK_ENV', 'dev')
+    config = config_map[env]
 
     app = Flask(__name__, template_folder=config.TEMPLATE_FOLDER, static_url_path=config.STATIC_URL_PATH,
                 static_folder=config.STATIC_FOLDER)
@@ -32,6 +34,11 @@ def create_app(config_type):
     for bp in all_blueprints:
         import_module(bp.import_name)
         app.register_blueprint(bp)
+
+    # register commands
+    app.cli.add_command(create_db)
+    app.cli.add_command(drop_db)
+
     #
     # app.wsgi_app = HTTPMethodOverrideMiddleware(app.wsgi_app)
     return app

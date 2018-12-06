@@ -28,6 +28,8 @@ $ make requirements-local.py
 
 To set up the database run:
 ```shell
+$ export FLASK_ENV=dev
+$ export FLASK_APP="server.factory:create_app"
 $ make db-setup
 ```
 
@@ -116,8 +118,8 @@ Configuration
 
 You can choose to only allow signup to people that have a special password.  Add the following vars in `config.py`:
 ```python
-    LOCK_WITH_PASSWORD = True
-    BETA_PASSWORD = 'password_you_want'
+LOCK_WITH_PASSWORD = True
+BETA_PASSWORD = 'password_you_want'
 ```
 To remove the password just set `LOCK_WITH_PASSWORD = False`.
 
@@ -132,7 +134,7 @@ Development
 When updating models that result in a table change (e.g. column added/removed), generate migrations with:
 
 ```shell
-$ python manage.py db migrate
+$ flask db migrate
 ```
 
 This will generate a new migration file in `migrations/versions` that should be added to version control.

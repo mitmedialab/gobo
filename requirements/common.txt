@@ -18,7 +18,6 @@ Flask-Bcrypt==0.7.1
 Flask-Cors==3.0.3
 Flask-Login==0.4.0
 Flask-Migrate==2.0.4
-Flask-Script==2.0.5
 Flask-SQLAlchemy==2.2
 google-api-python-client==1.6.2
 greenlet==0.4.12

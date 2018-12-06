@@ -2,5 +2,6 @@
 cd client
 npm run build
 cd ..
-python manage.py create_db
-python manage.py db upgrade
+export FLASK_APP="server.factory:create_app"
+flask create_db
+flask db upgrade
