@@ -13,7 +13,7 @@ click==6.7
 contextlib2==0.5.5
 enum-compat==0.0.2
 enum34==1.1.6
-Flask==0.12.2
+Flask==1.0.1
 Flask-Bcrypt==0.7.1
 Flask-Cors==3.0.3
 Flask-Login==0.4.0
@@ -26,7 +26,7 @@ gunicorn==19.7.1
 httplib2==0.10.3
 idna==2.5
 itsdangerous==0.24
-Jinja2==2.9.6
+Jinja2==2.10.0
 kombu==4.1.0
 Mako==1.0.6
 MarkupSafe==1.0
@@ -52,4 +52,4 @@ Unidecode==0.4.21
 uritemplate==3.0.0
 urllib3==1.21.1
 vine==1.1.4
-Werkzeug==0.12.2
+Werkzeug==0.14.1

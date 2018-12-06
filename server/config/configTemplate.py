@@ -34,7 +34,7 @@ class BaseConfig(object):
 
     # The javsacript will be complied to here during the release process
     STATIC_FOLDER = '../client/dist/'
-    STATIC_URL_PATH = '/static'
+    STATIC_URL_PATH = ''
 
     # Use these if you want to require a magic password to be entered before people are allowed to signup
     # for new accounts.
