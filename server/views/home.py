@@ -32,3 +32,7 @@ def feed():
 @home.route('/profile', methods=['GET'])
 def profile():
     return render_template('index.html')
+
+@home.route('/twitter_callback', methods=['GET'])
+def twitter_callback():
+    return render_template('index.html')
