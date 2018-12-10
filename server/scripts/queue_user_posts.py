@@ -1,3 +1,5 @@
+#  pylint: disable=singleton-comparison
+
 import os
 import logging
 import sys
@@ -51,6 +53,6 @@ if __name__ == '__main__':
     if len(sys.argv) != 2:
         logger.error("You have to provide a user_id to delete!")
 
-    user_id = int(sys.argv[1])
+    user_id_arg = int(sys.argv[1])
 
-    queue_user_posts(session, user_id)
+    queue_user_posts(session, user_id_arg)

@@ -143,12 +143,11 @@ disable=print-statement,
         unused-wildcard-import,
         relative-import,
         bare-except,
-        redefined-outer-name,
         line-too-long,
         superfluous-parens,
         no-self-use,
         too-few-public-methods,
-        old-style-class,git st
+        old-style-class,
         unused-variable,
         unused-import,
         unused-argument,
@@ -165,7 +164,6 @@ disable=print-statement,
         too-many-statements,
         too-many-arguments,
         too-many-nested-blocks,
-        singleton-comparison,
         redefined-builtin
 
 
