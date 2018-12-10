@@ -91,7 +91,7 @@ def get_facebook_long_auth(token):
                'client_id': app.config['FACEBOOK_APP_ID'],
                'client_secret': app.config['FACEBOOK_APP_SECRET'],
                'fb_exchange_token': token
-               }
+              }
     r = requests.get('https://graph.facebook.com/oauth/access_token', payload)
     if r.status_code == requests.codes.ok:
         try:

@@ -112,8 +112,8 @@ def delete_user_by_id(user_id, db_session):
          .filter(TwitterAuth.user_id == user_id)
          .delete())
         (db_session.query(SettingsUpdate)
-            .filter(SettingsUpdate.user_id == user_id)
-            .delete())
+         .filter(SettingsUpdate.user_id == user_id)
+         .delete())
         db_session.query(Settings).filter(Settings.user_id == user_id).delete()
 
         # delete user from users table
