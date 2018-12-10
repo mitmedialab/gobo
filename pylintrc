@@ -168,8 +168,8 @@ disable=print-statement,
         singleton-comparison,
         redefined-builtin,
         bad-whitespace,
-        ungrouped-imports,
-        unexpected-keyword-arg
+        ungrouped-imports
+        
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
