@@ -148,7 +148,7 @@ disable=print-statement,
         superfluous-parens,
         no-self-use,
         too-few-public-methods,
-        old-style-class,
+        old-style-class,git st
         unused-variable,
         unused-import,
         unused-argument,
@@ -166,8 +166,7 @@ disable=print-statement,
         too-many-arguments,
         too-many-nested-blocks,
         singleton-comparison,
-        redefined-builtin,
-        bad-whitespace
+        redefined-builtin
 
 
 # Enable the message, report, category or checker with the given id(s). You can

@@ -14,7 +14,7 @@ def create_app(config_type):
 
     config = config_map[config_type]
 
-    app = Flask(__name__,  template_folder=config.TEMPLATE_FOLDER, static_url_path=config.STATIC_URL_PATH,
+    app = Flask(__name__, template_folder=config.TEMPLATE_FOLDER, static_url_path=config.STATIC_URL_PATH,
                 static_folder=config.STATIC_FOLDER)
 
     app.config.from_object(config)
