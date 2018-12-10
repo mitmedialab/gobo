@@ -134,7 +134,56 @@ disable=print-statement,
         deprecated-sys-function,
         exception-escape,
         comprehension-escape,
-        missing-docstring
+        missing-docstring,
+        invalid-name,
+        fixme,
+        no-member,
+        pointless-string-statement,
+        logging-format-interpolation,
+        wrong-import-order,
+        unused-wildcard-import,
+        relative-import,
+        bare-except,
+        redefined-outer-name,
+        line-too-long,
+        superfluous-parens,
+        no-self-use,
+        too-few-public-methods,
+        old-style-class,
+        unused-variable,
+        no-else-return,
+        unused-import,
+        unused-argument,
+        len-as-condition,
+        bad-continuation,
+        anomalous-backslash-in-string,
+        too-many-branches,
+        wildcard-import,
+        consider-iterating-dictionary,
+        broad-except,
+        wrong-import-position,
+        too-many-return-statements,
+        too-many-locals,
+        too-many-instance-attributes,
+        duplicate-code,
+        unidiomatic-typecheck,
+        too-many-statements,
+        too-many-arguments,
+        too-many-nested-blocks,
+        singleton-comparison,
+        redefined-builtin,
+        no-init,
+        literal-comparison,
+        import-error,
+        bad-whitespace,
+        ungrouped-imports,
+        unexpected-keyword-arg,
+        undefined-variable,
+        too-many-format-args,
+        reimported,
+        inconsistent-return-statements,
+        global-statement,
+        consider-using-enumerate
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -162,7 +211,7 @@ evaluation=10.0 - ((float(5 * error + warning + refactor + convention) / stateme
 output-format=colorized
 
 # Tells whether to display a full report or only the messages
-reports=yes
+reports=no
 
 # Activate the evaluation score.
 score=yes

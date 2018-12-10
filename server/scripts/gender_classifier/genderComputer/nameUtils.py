@@ -17,7 +17,6 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>."""
 
 from nameparser import HumanName
-from unidecode import unidecode
 import re
 
 
@@ -169,7 +168,7 @@ def getFirstNameFromSplitName(splitName, order):
         return splitName[-1]
 
 
-'''Extract the first name from a <name>, assuming a 
+'''Extract the first name from a <name>, assuming a
 given <order>ing of first/last name parts (direct, inverse)'''
 
 

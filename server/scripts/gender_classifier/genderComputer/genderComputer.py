@@ -17,7 +17,6 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>."""
 
-
 import re
 import csv
 import os
@@ -92,11 +91,11 @@ def loadData(country, dataPath, hasHeader=True, script="Latin"):
     females = loadGenderList('Female', country, dataPath, hasHeader, script)
     return males, females
 
+
 # returns the map of countries' datasets to scripts
 
 
 def getScriptMap(dataPath):
-
     fd = open(os.path.join(dataPath, 'script_map.csv'), 'rb')
     reader = csv.reader(fd)
 
@@ -126,7 +125,7 @@ class GenderComputer():
         '''gender.c, already lowercase'''
         self.genderDict = MyDict(os.path.join(self.dataPath, 'gender.dict'))
 
-        '''Order of countries (columns) in the 
+        '''Order of countries (columns) in the
 		nam_dict.txt file shipped together with gender.c'''
         self.countriesOrder = {
             'UK': 0,
@@ -217,10 +216,10 @@ class GenderComputer():
         #
 
         '''Exceptions (approximations)'''
-        #malesFrance, femalesFrance = loadData('Wallonia', self.dataPath, False)
-        #self.nameLists['France'] = {}
-        #self.nameLists['France']['male'] 	= malesFrance
-        #self.nameLists['France']['female'] 	= femalesFrance
+        # malesFrance, femalesFrance = loadData('Wallonia', self.dataPath, False)
+        # self.nameLists['France'] = {}
+        # self.nameLists['France']['male'] 	= malesFrance
+        # self.nameLists['France']['female'] 	= femalesFrance
 
         malesNL, femalesNL = loadData('Frisia', self.dataPath, False, script="Latin")
         self.nameLists['Latin']['The Netherlands'] = {}
@@ -229,12 +228,12 @@ class GenderComputer():
 
         '''Black list of first names'''
         self.blackList = ['The', 'the', 'nil', 'Nil', 'NULL', 'null',
-                                        'stack', 'cache', 'queue', 'core', 'linux', 'Net',
-                                        'stillo', 'alfa', 'beta', 'testing', 'me']
+                          'stack', 'cache', 'queue', 'core', 'linux', 'Net',
+                          'stillo', 'alfa', 'beta', 'testing', 'me']
 
         '''Gender-specific words'''
         self.maleWords = ['Mr.', 'mr.', 'Mr', 'mr', 'Sir', 'sir', 'Captain', 'captain', 'wizard',
-                                        'warrior', 'hillbilly', 'beer', 'Mister', 'Lord', 'Duke', 'Baron', 'coolguy', 'man']
+                          'warrior', 'hillbilly', 'beer', 'Mister', 'Lord', 'Duke', 'Baron', 'coolguy', 'man']
         self.femaleWords = ['girl', 'grrl', 'grrrl', 'miss', 'Miss', 'Girl']
 
         '''Suffixes'''
@@ -267,7 +266,8 @@ class GenderComputer():
         self.suffixes['Macedonia (FYROM)']['male'] = {}
         self.suffixes['Macedonia (FYROM)']['male']['include'] = ['ov', 'ev', 'ski', 'evsk']
         self.suffixes['Macedonia (FYROM)']['male']['exclude'] = ['Iakov', 'Jakov',
-                                                                 'Yakov', 'dev', 'Dev', 'Lev', 'boy', 'Boy', 'toy', 'Toy']
+                                                                 'Yakov', 'dev', 'Dev', 'Lev', 'boy', 'Boy', 'toy',
+                                                                 'Toy']
         self.suffixes['Macedonia (FYROM)']['female'] = {}
         self.suffixes['Macedonia (FYROM)']['female']['include'] = ['ova', 'eva', 'ska', 'evska']
         self.suffixes['Macedonia (FYROM)']['female']['exclude'] = {}
@@ -291,7 +291,7 @@ class GenderComputer():
         self.suffixes['Czech Republic']['female']['include'] = ['ova', 'ska', 'na']
         self.suffixes['Czech Republic']['female']['exclude'] = {}
 
-        '''Male Latvian personal and family names typically end in  -s (-š). Some may be derived 
+        '''Male Latvian personal and family names typically end in  -s (-š). Some may be derived
 		from Russian names, with an -s ending: e.g. Vladislavs KAZANOVS
 		Only Russian forms are included since we cannot distinguish between the regular Latvian -s and English plural -s'''
 
@@ -313,8 +313,10 @@ class GenderComputer():
         self.suffixes['Lithuania']['female']['exclude'] = {}
 
         '''All inverse order countries should also be checked for direct order'''
-        self.invOrder = ['Russia', 'Belarus', 'Ukraine', 'Turkmenistan', 'Kyrgyzstan', 'Tajikistan', 'Kazakhstan', 'Uzbekistan',
-                         'Azerbaijan', 'Uzbekistan', 'Hungary', 'China', 'Bosnia', 'Serbia', 'Croatia', 'Sri Lanka', 'Vietnam',
+        self.invOrder = ['Russia', 'Belarus', 'Ukraine', 'Turkmenistan', 'Kyrgyzstan', 'Tajikistan', 'Kazakhstan',
+                         'Uzbekistan',
+                         'Azerbaijan', 'Uzbekistan', 'Hungary', 'China', 'Bosnia', 'Serbia', 'Croatia', 'Sri Lanka',
+                         'Vietnam',
                          'North Korea', 'South Korea']
 
         '''Diminutives list'''
@@ -332,7 +334,7 @@ class GenderComputer():
 
         '''Distribution of twitter users per different countries'''
         '''If there is no statistics for the number of twitter users, we use the percentage of internet users per country '''
-        #fd = open(os.path.join(self.dataPath, 'countryStats.csv'), 'rb')
+        # fd = open(os.path.join(self.dataPath, 'countryStats.csv'), 'rb')
         fd = open(os.path.join(self.dataPath, 'internetusers_stats.csv'), 'rb')
 
         reader = UnicodeReader(fd)
@@ -341,7 +343,7 @@ class GenderComputer():
         for row in reader:
             country = row[0]
             numUsers = float(row[2])
-            #total += numUsers
+            # total += numUsers
             pinternetusers = float(row[1])
             self.countryStats[country] = [pinternetusers, numUsers]
         # for country in self.countryStats.keys():
@@ -454,7 +456,7 @@ class GenderComputer():
                 return gender
         return None
 
-    '''Given <fullName>, checks both male and female 
+    '''Given <fullName>, checks both male and female
 	name suffixes and infers gender for <country>.'''
 
     def suffixLookup(self, fullName, country):
@@ -505,13 +507,13 @@ class GenderComputer():
             if d['mmale'] - d['mfemale'] > thr:
                 conf = round(d['mmale'] / (d['mmale'] + d['mfemale']), 3)
                 gender = 'male'
-            elif (thr >= d['mmale']-d['mfemale']) and (d['mmale'] > d['mfemale']):
+            elif (thr >= d['mmale'] - d['mfemale']) and (d['mmale'] > d['mfemale']):
                 conf = round(d['mmale'] / (d['mmale'] + d['mfemale']), 3)
                 gender = 'mostly male'
             elif d['mfemale'] - d['mmale'] > thr:
                 conf = round(d['mfemale'] / (d['mmale'] + d['mfemale']), 3)
                 gender = 'female'
-            elif (thr >= d['mfemale']-d['mmale']) and (d['mfemale'] > d['mmale']):
+            elif (thr >= d['mfemale'] - d['mmale']) and (d['mfemale'] > d['mmale']):
                 conf = round(d['mfemale'] / (d['mmale'] + d['mfemale']), 3)
                 gender = 'mostly female'
             else:
@@ -582,7 +584,7 @@ class GenderComputer():
 	Restrict search to a given <country>.'''
 
     def resolveFirstName(self, firstName, country, withDiminutives, script):
-        '''Start with easy checks. If successful 
+        '''Start with easy checks. If successful
         then return gender directly, otherwise continue'''
         (gender, conf) = self.initialCheck(firstName)
         if gender is not None:
@@ -647,7 +649,7 @@ class GenderComputer():
         # If all countries have twitter user stats, then use stats of twitter users, else use stats of internet users
         for cnt, gnd in countriesGenders.iteritems():
             userNum = self.countryStats[cnt][1] if hasStat else self.countryStats[cnt][0]
-#
+            #
             # try:
             # 	arbiter[gnd] += self.countryStats[cnt]
             # except:
