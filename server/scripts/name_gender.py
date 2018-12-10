@@ -16,6 +16,8 @@ class NameGender:
 
         self.computed_names = {}
 
+    # TODO: refactor this method
+    # pylint: disable=too-many-branches
     def process(self, name):
         score = {'result': GenderEnum.unknown, 'counts': 0}
 
