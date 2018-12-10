@@ -1,3 +1,5 @@
+# pylint: disable=too-many-instance-attributes
+
 import datetime
 from server.core import db, bcrypt
 from server.enums import GenderEnum, PoliticsEnum, EchoRangeEnum
