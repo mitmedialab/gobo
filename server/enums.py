@@ -19,8 +19,7 @@ class GenderEnum(enum.Enum):
             return cls.female
         elif string.lower() == "male":
             return cls.male
-        else:
-            return cls.unknown
+        return cls.unknown
 
 
 class PoliticsEnum(enum.Enum):
