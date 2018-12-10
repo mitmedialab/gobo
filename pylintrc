@@ -178,7 +178,6 @@ disable=print-statement,
         unexpected-keyword-arg,
         undefined-variable,
         too-many-format-args,
-        reimported,
         inconsistent-return-statements,
         global-statement,
         consider-using-enumerate

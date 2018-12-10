@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."""
 
 import re
 import csv
-import os
 from dictUtils import MyDict
 from unicodeMagic import UnicodeReader
 from unidecode import unidecode
