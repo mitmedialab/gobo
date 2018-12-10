@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 @api.route('/get_facebook_app_id', methods=['GET'])
 def get_facebook_app_id():
-    #return str(app.config['FACEBOOK_APP_ID'])
+    # return str(app.config['FACEBOOK_APP_ID'])
     return jsonify({
         'facebookAppId': str(app.config['FACEBOOK_APP_ID']),
         'isFacebookEnabled': app.config['ENABLE_FACEBOOK'],
@@ -50,7 +50,7 @@ def wait_for_twitter_callback():
 @api.route('/handle_twitter_callback', methods=['POST'])
 @login_required
 def handle_twitter_callback():
-    twitter = Twython(app.config['TWITTER_API_KEY'],app.config['TWITTER_API_SECRET'],
+    twitter = Twython(app.config['TWITTER_API_KEY'], app.config['TWITTER_API_SECRET'],
                       session['oauth_token'], session['oauth_token_secret'])
     success = True
 
@@ -59,7 +59,7 @@ def handle_twitter_callback():
         user_oauth_token = final_step['oauth_token']
         user_oauth_token_secret = final_step['oauth_token_secret']
 
-        user_twitter = Twython(app.config['TWITTER_API_KEY'],app.config['TWITTER_API_SECRET'],
+        user_twitter = Twython(app.config['TWITTER_API_KEY'], app.config['TWITTER_API_SECRET'],
                                user_oauth_token, user_oauth_token_secret)
         twitter_user_show = user_twitter.show_user(user_id=final_step['user_id'])
         current_user.set_twitter_data(final_step['user_id'], final_step['screen_name'], twitter_user_show)

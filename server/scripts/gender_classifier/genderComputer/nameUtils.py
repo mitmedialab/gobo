@@ -1,3 +1,4 @@
+import unicodedata
 """Copyright 2012-2013
 Eindhoven University of Technology
 Bogdan Vasilescu
@@ -24,10 +25,12 @@ def convert1(name):
     first_cap_re = re.compile('(.)([A-Z][a-z]+)')
     all_cap_re = re.compile('([a-z0-9])([A-Z])')
     s1 = first_cap_re.sub(r'\1_\2', name)
-    return all_cap_re.sub(r'\1_\2', s1)#.lower()
+    return all_cap_re.sub(r'\1_\2', s1)  # .lower()
 
 
 '''Reverse camel-casing: ABCDefgh -> A_B_C_Defgh'''
+
+
 def splitCamelCase(name):
     newstr = name[0]
     try:
@@ -42,6 +45,8 @@ def splitCamelCase(name):
 
 
 '''Inverse name parts: Bogdan Vasilescu -> Vasilescu Bogdan'''
+
+
 def inverseNameParts(name):
     inverse = name.split()
     inverse.reverse()
@@ -51,6 +56,8 @@ def inverseNameParts(name):
 
 '''Translate 1337 to Engligh
 http://simple.wikipedia.org/wiki/Leet'''
+
+
 def leet2eng(text):
     text = text.replace("4", "A")
     text = text.replace("@", "a")
@@ -99,56 +106,73 @@ def leet2eng(text):
     return text
 
 
-
-import unicodedata
 cyrillic_letters = {}
 greek_letters = {}
 
 '''From http://stackoverflow.com/questions/3094498/how-can-i-check-if-a-python-unicode-string-contains-non-western-letters'''
 
 '''Check whether a given character is written in Cyrillic'''
+
+
 def is_cyrillic(uchr):
-    try: return cyrillic_letters[uchr]
+    try:
+        return cyrillic_letters[uchr]
     except KeyError:
         return cyrillic_letters.setdefault(uchr, 'CYRILLIC' in unicodedata.name(uchr))
 
+
 '''Check whether a given string is written in Cyrillic'''
+
+
 def only_cyrillic_chars(unistr):
     return all(is_cyrillic(uchr)
-        for uchr in unistr if uchr.isalpha())
+               for uchr in unistr if uchr.isalpha())
+
 
 '''Check whether a given character is written in Greek'''
+
+
 def is_greek(uchr):
-    try: return greek_letters[uchr]
+    try:
+        return greek_letters[uchr]
     except KeyError:
         return greek_letters.setdefault(uchr, 'GREEK' in unicodedata.name(uchr))
 
+
 '''Check whether a given string is written in Greek'''
+
+
 def only_greek_chars(unistr):
     return all(is_greek(uchr)
-        for uchr in unistr if uchr.isalpha())
-
+               for uchr in unistr if uchr.isalpha())
 
 
 '''Get first name from <humanName> (python-nameparser object),
 for a given <order> (direct, inverse)'''
+
+
 def getFirstNameFromHumanName(humanName, order):
     if (order == 'direct'):
         return humanName.first
-    else: #order == 'inverse'
+    else:  # order == 'inverse'
         return humanName.last
+
 
 '''Get first name from normal string of name parts
 separated by space, for a given <order> (direct, inverse)'''
+
+
 def getFirstNameFromSplitName(splitName, order):
     if (order == 'direct'):
         return splitName[0]
-    else: #order == 'inverse'
+    else:  # order == 'inverse'
         return splitName[-1]
 
 
 '''Extract the first name from a <name>, assuming a 
 given <order>ing of first/last name parts (direct, inverse)'''
+
+
 def extractFirstName(name, order):
     '''Split on dots'''
     name = ' '.join(name.split('.'))
@@ -170,13 +194,13 @@ def extractFirstName(name, order):
         name = re.sub("\?", "_", oldname)
 
     name = ' '.join(name.split('_'))
-    
+
     '''Use the Python name parser'''
     try:
         firstName = getFirstNameFromHumanName(HumanName(name), order)
     except:
         firstName = getFirstNameFromSplitName(name.split(), order)
-    
+
     '''If fail, use heuristics'''
     if firstName.strip() == name.strip():
         '''firstName('Ben Voigt') = 'Ben Voigt'!!!'''
@@ -192,11 +216,9 @@ def extractFirstName(name, order):
                         firstName = getFirstNameFromSplitName(firstName.split(), order)
                 except:
                     firstName = getFirstNameFromSplitName(uncamel.split(), order)
-    
+
     if firstName == 'Mc':
         firstName = ''
     if len(firstName) == 1:
         firstName = ''
     return firstName.lower()
-
-

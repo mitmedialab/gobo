@@ -44,6 +44,7 @@ def queue_user_posts(db_session, user_id):
     db_session.commit()
     logger.info("queued {} tasks".format(tasks_queued))
 
+
 if __name__ == '__main__':
 
     if len(sys.argv) is not 2:

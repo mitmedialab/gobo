@@ -21,7 +21,7 @@ def get_posts():
     ignore_ids = [item.id for item in current_user.posts.all()]
     for quintile in PoliticsEnum:
         posts = Post.query.filter((
-            Post.id.notin_(ignore_ids)) & (Post.political_quintile==quintile)).order_by(
+            Post.id.notin_(ignore_ids)) & (Post.political_quintile == quintile)).order_by(
             Post.created_at.desc())[:posts_from_quintile]
         personal_posts.extend(posts)
 

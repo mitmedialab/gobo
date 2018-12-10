@@ -287,7 +287,7 @@ class Post(db.Model):
 
     def has_already_been_analyzed(self):
         return self.has_virality() and self.has_news_score() and self.has_gender_corporate()\
-               and self.has_toxicity_rate()
+            and self.has_toxicity_rate()
 
     def get_author_name(self):
         if self.source == 'facebook':

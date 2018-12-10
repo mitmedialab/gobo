@@ -53,6 +53,7 @@ def run_and_return_result(sql):
     rows = cur.fetchall()
     return rows
 
+
 try:
     result = run_and_return_result(total_post_assoc_query)
     logging.info("Starting with {} posts_associations".format(result[0][0]))

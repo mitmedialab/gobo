@@ -35,7 +35,7 @@ FACEBOOK_POSTS_FIELDS = ['id', 'caption', 'created_time', 'description',
     Add here for any new type of filter
     Add the processing to server.scripts.analyze_modules.analyze_<analysis_type>
 """
-ANALYSIS_TYPES = ['toxicity','gender_corporate','virality','news_score']
+ANALYSIS_TYPES = ['toxicity', 'gender_corporate', 'virality', 'news_score']
 FACEBOOK_URL = 'https://graph.facebook.com/v2.10/'
 
 
@@ -124,7 +124,7 @@ def _get_facebook_posts(user):
             r = requests.get(FACEBOOK_URL + object['id'] + '/feed', payload)
             result = r.json()
             if 'data' in result:
-                posts.extend([dict(p, **{'post_user':object}) for p in result["data"]])
+                posts.extend([dict(p, **{'post_user': object}) for p in result["data"]])
             # while 'paging' in result and 'next' in result['paging']:
             #     r = requests.get(result['paging']['next'])
             #     result = r.json()
@@ -134,14 +134,14 @@ def _get_facebook_posts(user):
 
 
 def _get_facebook_friends_and_likes(user):
-    payload = {'fields':'friends.summary(true),likes.summary(true)',
+    payload = {'fields': 'friends.summary(true),likes.summary(true)',
                'access_token': user.facebook_auth.access_token}
     friends_likes = {'friends': [], 'likes': []}
     try:
         r = requests.get(FACEBOOK_URL+user.facebook_id, payload)
         initial_result = r.json()
     except:
-        logger.error ('error getting friends and likes for user {}'.format(user.id))
+        logger.error('error getting friends and likes for user {}'.format(user.id))
         # client.captureMessage('error getting friends and likes for user {}'.format(user.id))
     for key in friends_likes.keys():
         if key in initial_result:
@@ -157,7 +157,7 @@ def _get_facebook_friends_and_likes(user):
 def _add_post(user, post, source):
     added_new = False
     try:
-        post_id = post['id_str']  if 'id_str' in post else str(post['id'])
+        post_id = post['id_str'] if 'id_str' in post else str(post['id'])
         post_item = Post.query.filter_by(original_id=post_id, source=source).first()
         if not post_item:
             post_item = Post(post_id, source, post, False)
@@ -178,14 +178,13 @@ def _add_post(user, post, source):
         logger.error('An error adding post {} from twitter to user {} - {}'.format(post['id'], user.id, str(e)))
 
         success = False
-    return {'success': success, 'added_new':added_new}
-
+    return {'success': success, 'added_new': added_new}
 
 
 @celery.task(serializer='json', bind=True)
 def analyze_post(self, post_id):
     for analysis_type in ANALYSIS_TYPES:
-        getattr(analyze_modules,"analyze_%s"%(analysis_type))(post_id)
+        getattr(analyze_modules, "analyze_%s" % (analysis_type))(post_id)
     # analyze_toxicity(post_id)
     # analyze_gender_corporate(post_id)
     # analyze_virality(post_id)

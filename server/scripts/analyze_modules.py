@@ -6,10 +6,10 @@
     All methods update and commit to db directly and do not return anything
 """
 from ..models import Post
-from googleapiclient import discovery 
+from googleapiclient import discovery
 from flask import current_app
 from logging import getLogger
-from server.enums import GenderEnum 
+from server.enums import GenderEnum
 from .gender_classifier.NameClassifier_light import NameClassifier
 from server.core import db
 from bs4 import BeautifulSoup
@@ -30,7 +30,8 @@ def analyze_toxicity(post_id):
 
     # Generates API client object dynamically based on service name and version.
     # cache_dicovery=False to silence google file_cache error https://github.com/google/google-api-python-client/issues/299
-    service = discovery.build('commentanalyzer', 'v1alpha1', developerKey=current_app.config['GOOGLE_API_KEY'], cache_discovery=False)
+    service = discovery.build('commentanalyzer', 'v1alpha1',
+                              developerKey=current_app.config['GOOGLE_API_KEY'], cache_discovery=False)
 
     analyze_request = {
         'comment': {'text': text},
@@ -46,12 +47,13 @@ def analyze_toxicity(post_id):
         score = -1
     post.update_toxicity(score)
 
+
 def analyze_gender_corporate(post_id):
     post = Post.query.get(post_id)
     if not post or post.has_gender_corporate():
         logger.warning("post {} doesn't exist or already has gender/corporate".format(post_id))
         return
-    is_facebook = post.source=='facebook'
+    is_facebook = post.source == 'facebook'
     gender = GenderEnum.unknown
     corporate = False
     if is_facebook and 'gender' in post.content['from']:
@@ -62,16 +64,17 @@ def analyze_gender_corporate(post_id):
         gender = GenderEnum.fromString(result)
     if post.is_news:
         gender = GenderEnum.unknown
-    if gender==GenderEnum.unknown or (is_facebook and 'category' in post.content['from']):
+    if gender == GenderEnum.unknown or (is_facebook and 'category' in post.content['from']):
         corporate = True
     post.update_gender_corporate(gender, corporate)
+
 
 def analyze_virality(post_id):
     post = Post.query.get(post_id)
     if not post or post.has_virality():
         logger.warning("post {} doesn't exist or already has virality".format(post_id))
         return
-    is_facebook = post.source=='facebook'
+    is_facebook = post.source == 'facebook'
 
     likes = post.content['reactions']['summary']['total_count'] if is_facebook else post.content['favorite_count']
     if is_facebook:
@@ -90,13 +93,14 @@ def analyze_virality(post_id):
     post.virality_count = max(post.virality_count, total_reaction)
     db.session.commit()
 
+
 def analyze_news_score(post_id):
     post = Post.query.get(post_id)
     if not post or post.has_news_score():
         logger.warning("post {} doesn't exist or already has news score".format(post_id))
         return
 
-    is_facebook = post.source=='facebook'
+    is_facebook = post.source == 'facebook'
     score = 0
     if post.has_link:
         urls = [post.content['link']] if is_facebook else [x['expanded_url'] for x in post.content['entities']['urls']]
@@ -111,7 +115,7 @@ def analyze_news_score(post_id):
                 script.extract()  # rip it out
             # get text
             text = soup.get_text()
-            r = requests.post(current_app.config['NEWS_LABELLER_URL']+'/predict.json', json = {'text':text})
+            r = requests.post(current_app.config['NEWS_LABELLER_URL']+'/predict.json', json={'text': text})
             result = r.json()
             if 'taxonomies' in result:
                 scores = [float(x['score']) for x in result['taxonomies'] if '/news' in x['label'].lower()]
@@ -119,18 +123,19 @@ def analyze_news_score(post_id):
                 score = max(scores)
     else:
         text = post.get_text()
-        r = requests.post(current_app.config['NEWS_LABELLER_URL']+'/predict.json', json = {'text':text})
+        r = requests.post(current_app.config['NEWS_LABELLER_URL']+'/predict.json', json={'text': text})
         result = r.json()
         if 'taxonomies' in result:
             scores = [float(x['score'])for x in result['taxonomies'] if '/news' in x['label'].lower()]
-            score = max(scores) if len(scores)>0 else 0
+            score = max(scores) if len(scores) > 0 else 0
     if post.is_news:
         score = min(1, score+0.6)
     post.news_score = score
     db.session.commit()
 
+
 def count_tweet_replies(tweet):
-    #todo: this is getting to the API rate limit very quickly, find a better way to get replies count
+    # todo: this is getting to the API rate limit very quickly, find a better way to get replies count
     # twitter_auth = TwitterAuth.query.filter_by(user_id=user_id).first()
     # twitter = Twython(current_app.config['TWITTER_API_KEY'], current_app.config['TWITTER_API_SECRET'],
     #                   twitter_auth.oauth_token, twitter_auth.oauth_token_secret)

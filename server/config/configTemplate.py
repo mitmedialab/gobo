@@ -1,9 +1,10 @@
 import os
 
+
 class BaseConfig(object):
     # Controls lots of internal things.  Set to True locally; False on production.
     DEBUG = True
-    
+
     # Used to generate secure cookies.  Set to some random string of your own.
     SECRET_KEY = 'The quick brown fox jumps over the lazy dog'
 
@@ -14,7 +15,7 @@ class BaseConfig(object):
     FACEBOOK_APP_SECRET = 'XXXX'
 
     # Get these from the Twitter developer dashboard for the application you create. These are needed to
-    # let Gobo ingest data from Twitter. Create an application for yourself on Twitter with your own account 
+    # let Gobo ingest data from Twitter. Create an application for yourself on Twitter with your own account
     # via Twitter's developer portal.
     TWITTER_API_KEY = 'XXXXX'
     TWITTER_API_SECRET = 'XXXXX'
@@ -47,7 +48,7 @@ class BaseConfig(object):
     # use to score whether somethign is news or not for our filter. We have an instance running for developers to use.
     NEWS_LABELLER_URL = 'http://my_predict_news_server'
 
-    #Settings to control how users are prioritized in the queue
+    # Settings to control how users are prioritized in the queue
     NUMBER_OF_USERS_TO_UPDATE = 30
     HOURS_TO_WAIT = 6
 

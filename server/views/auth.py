@@ -106,11 +106,11 @@ def delete_user_by_id(user_id, db_session):
 
         # delete user info from other tables
         (db_session.query(FacebookAuth)
-             .filter(FacebookAuth.user_id == user_id)
-             .delete())
+         .filter(FacebookAuth.user_id == user_id)
+         .delete())
         (db_session.query(TwitterAuth)
-             .filter(TwitterAuth.user_id == user_id)
-             .delete())
+         .filter(TwitterAuth.user_id == user_id)
+         .delete())
         (db_session.query(SettingsUpdate)
             .filter(SettingsUpdate.user_id == user_id)
             .delete())

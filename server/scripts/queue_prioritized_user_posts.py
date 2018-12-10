@@ -83,5 +83,6 @@ def queue_prioritized_users_posts(db_session):
     db_session.commit()
     logger.info("queued {} tasks".format(tasks_queued))
 
+
 if __name__ == '__main__':
     queue_prioritized_users_posts(session)

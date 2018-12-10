@@ -2,8 +2,8 @@ import tweepy
 
 __author__ = 'pvandepavoordt'
 
-class RetrieveTwitter :
 
+class RetrieveTwitter:
 
     def retrieveAccount(self, accountId, twitterConfig):
         consumerKey = twitterConfig['consumerkey']

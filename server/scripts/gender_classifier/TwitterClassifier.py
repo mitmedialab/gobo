@@ -9,7 +9,7 @@ __author__ = 'pvandepavoordt'
 class TwitterClassifier(object):
     def __init__(self, name_classifier):
         self.name_classifier = name_classifier
-    
+
     def readConfig(self):
         from read_config import read_api_config
         config_files = os.path.join('./config.cfg')
@@ -31,7 +31,8 @@ class TwitterClassifier(object):
         # if name classification had no result try image classification
         if result == 'unknown':
             try:
-                result = ImageClassifier().classifyImage(account.profile_image_url.replace('normal', '400x400'), config['faceplusplus'])
+                result = ImageClassifier().classifyImage(
+                    account.profile_image_url.replace('normal', '400x400'), config['faceplusplus'])
                 result = result.lower()
             except:
                 raise Exception('Error in image recognition')
