@@ -49,7 +49,7 @@ q3 = "DELETE FROM posts WHERE id IN (" \
 
 
 def run_and_return_result(sql):
-    global cur
+    global cur # pylint: disable=global-statement
     cur.execute(sql)
     rows = cur.fetchall()
     return rows

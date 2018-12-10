@@ -172,8 +172,7 @@ disable=print-statement,
         unexpected-keyword-arg,
         undefined-variable,
         too-many-format-args,
-        inconsistent-return-statements,
-        global-statement
+        inconsistent-return-statements
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
