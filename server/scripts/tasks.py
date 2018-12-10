@@ -168,7 +168,7 @@ def _add_post(user, post, source):
         else:
             post_item.update_content(post)
 
-        if not (post_item in user.posts):
+        if not post_item in user.posts:
             user.posts.append(post_item)
         db.session.commit()
         success = True

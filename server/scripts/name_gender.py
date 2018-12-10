@@ -40,21 +40,21 @@ class NameGender:
                 total = male + female
                 prob_male = 0
                 prob_female = 0
-                if (total > 0):
+                if total > 0:
                     # compute probabilities
                     prob_male = male / float(total) if male else 0
                     prob_female = female / float(total) if female else 0
 
                     score['counts'] = {'male': prob_male, 'female': prob_female}
 
-                if (male > 0 and female > 0):
-                    if (prob_female > 0.66):
+                if male > 0 and female > 0:
+                    if prob_female > 0.66:
                         score['result'] = GenderEnum.female
-                    elif(prob_male > 0.66):
+                    elif prob_male > 0.66:
                         score['result'] = GenderEnum.male
-                elif(male > 0):
+                elif male > 0:
                     score['result'] = GenderEnum.male
-                elif(female > 0):
+                elif female > 0:
                     score['result'] = GenderEnum.female
                 else:
                     if first_name in self.names['male']['definite']:
