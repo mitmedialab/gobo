@@ -56,6 +56,7 @@ def get_posts_data_for_all_users(self): # pylint: disable=unused-argument
 def get_tweets_per_user(self, user_id): # pylint: disable=unused-argument
     user = User.query.get(user_id)
     if not user or not user.twitter_authorized:
+        # pylint: disable=line-too-long
         logger.info('User number {} did not authorize twitter (or does not exist) not fetching any tweets'.format(user_id))
         return
     tweets = []
@@ -87,6 +88,7 @@ def get_tweets_per_user(self, user_id): # pylint: disable=unused-argument
 def get_facebook_posts_per_user(self, user_id): # pylint: disable=unused-argument
     user = User.query.get(user_id)
     if not user or not user.facebook_authorized or not user.facebook_auth:
+        # pylint: disable=line-too-long
         logger.info('User number {} did not authorize facebook (or does not exist) not fetching any posts'.format(user_id))
         return
     posts = _get_facebook_posts(user)

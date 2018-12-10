@@ -32,7 +32,8 @@ def analyze_toxicity(post_id):
     text = post.get_text()
 
     # Generates API client object dynamically based on service name and version.
-    # cache_dicovery=False to silence google file_cache error https://github.com/google/google-api-python-client/issues/299
+    # cache_dicovery=False to silence google file_cache
+    # error https://github.com/google/google-api-python-client/issues/299
     service = discovery.build('commentanalyzer', 'v1alpha1',
                               developerKey=current_app.config['GOOGLE_API_KEY'], cache_discovery=False)
 

@@ -40,6 +40,7 @@ def queue_prioritized_users_posts(db_session):
             order_by(User.last_login.desc()). \
             limit(queue_size - len(prioritized_users))
         matching_user_count = matching_users.count()
+        # pylint: disable=line-too-long
         logger.debug("  adding {} users that haven't logged in but we haven't updated recently".format(matching_user_count))
         prioritized_users.extend(matching_users.all())
 
@@ -52,6 +53,7 @@ def queue_prioritized_users_posts(db_session):
             order_by(User.last_login.desc()). \
             limit(queue_size - len(prioritized_users))
         matching_user_count = matching_users.count()
+        # pylint: disable=line-too-long
         logger.debug("  adding {} users that haven't logged in recently and we've never updated".format(matching_user_count))
         prioritized_users.extend(matching_users.all())
 
@@ -62,6 +64,7 @@ def queue_prioritized_users_posts(db_session):
             filter(text("last_login is NULL and last_post_fetch is NULL")).\
             limit(queue_size - len(prioritized_users))
         matching_user_count = matching_users.count()
+        # pylint: disable=line-too-long
         logger.debug("  adding {} users that haven't logged in ever and we've never updated".format(matching_user_count))
         prioritized_users.extend(matching_users.all())
 

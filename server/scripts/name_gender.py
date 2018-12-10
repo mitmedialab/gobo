@@ -33,6 +33,7 @@ class NameGender:
                 score = self.computed_names[first_name]
             else:
                 male = self.names['male']['counts'][first_name] if first_name in self.names['male']['counts'] else 0
+                # pylint: disable=line-too-long
                 female = self.names['female']['counts'][first_name] if first_name in self.names['female']['counts'] else 0
                 total = male + female
                 prob_male = 0
