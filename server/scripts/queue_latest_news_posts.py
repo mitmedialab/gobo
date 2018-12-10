@@ -1,10 +1,10 @@
 import os
 import logging
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+import csv
 from datetime import datetime, timedelta
 import requests
-import csv
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from twython import Twython
 
 from server.models import Post

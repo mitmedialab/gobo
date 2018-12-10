@@ -19,9 +19,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>."""
 
 import re
 import csv
-from dictUtils import MyDict
-from unicodeMagic import UnicodeReader
 from unidecode import unidecode
+from unicodeMagic import UnicodeReader
+from dictUtils import MyDict
 from nameUtils import only_greek_chars, only_cyrillic_chars
 from nameUtils import leet2eng, inverseNameParts, extractFirstName
 from filters import normaliseCountryName

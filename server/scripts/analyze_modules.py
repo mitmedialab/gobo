@@ -5,16 +5,19 @@
 
     All methods update and commit to db directly and do not return anything
 """
-from ..models import Post
+from logging import getLogger
+import urllib
+
+from bs4 import BeautifulSoup
 from googleapiclient import discovery
 from flask import current_app
-from logging import getLogger
-from server.enums import GenderEnum
-from .gender_classifier.NameClassifier_light import NameClassifier
-from server.core import db
-from bs4 import BeautifulSoup
-import urllib
 import requests
+
+from server.core import db
+from server.enums import GenderEnum
+
+from .gender_classifier.NameClassifier_light import NameClassifier
+from ..models import Post
 
 
 logger = getLogger(__name__)

@@ -1,9 +1,10 @@
+import logging
+
 from flask import request, jsonify, session
 from flask import current_app as app
 from flask_login import login_required, current_user
 import requests
 from twython import Twython
-import logging
 
 from server.core import db
 from server.models import FacebookAuth, TwitterAuth

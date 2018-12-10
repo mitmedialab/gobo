@@ -1,3 +1,4 @@
+import re
 import unicodedata
 """Copyright 2012-2013
 Eindhoven University of Technology
@@ -17,7 +18,6 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>."""
 
 from nameparser import HumanName
-import re
 
 
 def convert1(name):

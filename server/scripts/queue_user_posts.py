@@ -1,9 +1,10 @@
 import os
 import logging
+import sys
+
+from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime
-import sys
 
 from server.models import User
 from server.config.config import config_map

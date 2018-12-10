@@ -1,17 +1,17 @@
-import requests
-
 from datetime import datetime, timedelta
+from logging import getLogger
+
+import requests
 
 from twython import Twython
 from flask import current_app
-from logging import getLogger
 from raven import Client
 import analyze_modules
 
+from server.config.config import config_map
 from ..models import User, TwitterAuth, Post
 from .celery import celery
 from ..core import db
-from server.config.config import config_map
 
 from .name_gender import NameGender
 from .gender_classifier.NameClassifier_light import NameClassifier

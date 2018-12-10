@@ -1,6 +1,7 @@
+import logging
+
 from flask import request, jsonify
 from flask_login import login_required, current_user
-import logging
 
 from server.core import db
 from server.models import Post, SettingsUpdate

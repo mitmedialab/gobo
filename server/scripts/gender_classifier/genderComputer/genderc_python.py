@@ -1,5 +1,7 @@
 # This Python file uses the following encoding: UTF-8
 
+import os
+
 import pickle
 from unicodeMagic import UnicodeReader
 """Copyright 2012-2013
@@ -18,8 +20,6 @@ GNU Lesser General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>."""
-
-import os
 
 '''char set = iso8859-1
 "Non-iso" unicode chars are represented as follows'''

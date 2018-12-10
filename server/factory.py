@@ -1,8 +1,8 @@
 import os
+from importlib import import_module
 
 from celery import Celery
 from flask import Flask
-from importlib import import_module
 from raven.contrib.flask import Sentry
 
 from .core import db, bcrypt, login_manager, migrate

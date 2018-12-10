@@ -1,7 +1,8 @@
 import os
-import psycopg2
-import urlparse
 import logging
+import urlparse
+
+import psycopg2
 
 from server.config.config import config_map
 
