@@ -19,7 +19,7 @@ session = Session()
 
 if __name__ == '__main__':
 
-    if len(sys.argv) is not 2:
+    if len(sys.argv) != 2:
         logger.error("You have to provide a user_id to delete!")
 
     user_id = int(sys.argv[1])
