@@ -6,6 +6,8 @@ import os
 from ..models import GenderEnum
 
 
+# TODO: update this class
+# pylint: disable=old-style-class
 class NameGender:
 
     def __init__(self):
