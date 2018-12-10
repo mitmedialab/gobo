@@ -1,6 +1,3 @@
-import os
-
-
 class BaseConfig(object):
     # Controls lots of internal things.  Set to True locally; False on production.
     DEBUG = True

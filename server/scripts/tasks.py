@@ -44,7 +44,7 @@ name_classifier = NameClassifier()
 
 
 @celery.task(serializer='json', bind=True)
-def get_posts_data_for_all_users(self):
+def get_posts_data_for_all_users(self): # pylint: disable=unused-argument
     for user in User.query.all():
         if user.twitter_authorized:
             get_tweets_per_user.delay(user.id)
@@ -53,7 +53,7 @@ def get_posts_data_for_all_users(self):
 
 
 @celery.task(serializer='json', bind=True)
-def get_tweets_per_user(self, user_id):
+def get_tweets_per_user(self, user_id): # pylint: disable=unused-argument
     user = User.query.get(user_id)
     if not user or not user.twitter_authorized:
         logger.info('User number {} did not authorize twitter (or does not exist) not fetching any tweets'.format(user_id))
@@ -84,7 +84,7 @@ def get_tweets_per_user(self, user_id):
 
 
 @celery.task(serializer='json', bind=True)
-def get_facebook_posts_per_user(self, user_id):
+def get_facebook_posts_per_user(self, user_id): # pylint: disable=unused-argument
     user = User.query.get(user_id)
     if not user or not user.facebook_authorized or not user.facebook_auth:
         logger.info('User number {} did not authorize facebook (or does not exist) not fetching any posts'.format(user_id))
@@ -182,7 +182,7 @@ def _add_post(user, post, source):
 
 
 @celery.task(serializer='json', bind=True)
-def analyze_post(self, post_id):
+def analyze_post(self, post_id): # pylint: disable=unused-argument
     for analysis_type in ANALYSIS_TYPES:
         getattr(analyze_modules, "analyze_%s" % (analysis_type))(post_id)
     # analyze_toxicity(post_id)

@@ -1,3 +1,5 @@
+# pylint: disable=singleton-comparison
+
 import os
 import logging
 from datetime import datetime, timedelta

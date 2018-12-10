@@ -62,7 +62,7 @@ def analyze_gender_corporate(post_id):
     if is_facebook and 'gender' in post.content['from']:
         gender = GenderEnum.fromString(post.content['from']['gender'])
     else:
-        result, conf = name_classifier.predictGenderbyName(post.get_author_name())
+        result, _conf = name_classifier.predictGenderbyName(post.get_author_name())
         #score = name_gender_analyzer.process(post.get_author_name())
         gender = GenderEnum.fromString(result)
     if post.is_news:
@@ -137,7 +137,7 @@ def analyze_news_score(post_id):
     db.session.commit()
 
 
-def count_tweet_replies(tweet):
+def count_tweet_replies(tweet): # pylint: disable=unused-argument
     # todo: this is getting to the API rate limit very quickly, find a better way to get replies count
     # twitter_auth = TwitterAuth.query.filter_by(user_id=user_id).first()
     # twitter = Twython(current_app.config['TWITTER_API_KEY'], current_app.config['TWITTER_API_SECRET'],

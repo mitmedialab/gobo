@@ -8,7 +8,7 @@ def index():
 
 
 @home.route('/<path:path>', methods=['GET'])
-def any_root_path(path):
+def any_root_path(path): # pylint: disable=unused-argument
     return render_template('index.html')
 
 

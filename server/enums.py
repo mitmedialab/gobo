@@ -1,5 +1,4 @@
 import enum
-import json
 
 # class EnumEncoder(json.JSONEncoder):
 #     def default(self, obj):
