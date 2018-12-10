@@ -10,4 +10,3 @@ requirements-local.py:
 db-setup:
 	python manage.py create_db
 	python manage.py db upgrade
-git 
