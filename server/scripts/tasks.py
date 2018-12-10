@@ -121,6 +121,7 @@ def _get_facebook_posts(user):
         'since': since_date,
         'limit': MAX_POST
     }
+    # pylint: disable=consider-iterating-dictionary
     for key in friends_likes.keys():
         for object in friends_likes[key]:
             r = requests.get(FACEBOOK_URL + object['id'] + '/feed', payload)
@@ -145,6 +146,7 @@ def _get_facebook_friends_and_likes(user):
     except:
         logger.error('error getting friends and likes for user {}'.format(user.id))
         # client.captureMessage('error getting friends and likes for user {}'.format(user.id))
+    # pylint: disable=consider-iterating-dictionary
     for key in friends_likes.keys():
         if key in initial_result:
             friends_likes[key].extend(initial_result[key]['data'])

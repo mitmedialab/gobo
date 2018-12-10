@@ -140,14 +140,13 @@ disable=print-statement,
         relative-import,
         too-few-public-methods,
         fixme,
+        broad-except,
         # add these back in over time
         invalid-name,
         logging-format-interpolation,
         unused-wildcard-import,
         len-as-condition,
         wildcard-import,
-        consider-iterating-dictionary,
-        broad-except,
         duplicate-code,
         redefined-builtin
 
