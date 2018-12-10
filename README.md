@@ -23,13 +23,12 @@ Create a virtual environment and install all requirements:
 ```shell
 $ virtualenv venv
 $ source venv/bin/activate
-$ pip install -r requirements.txt
+$ make requirements-local.py
 ```
 
 To set up the database run:
 ```shell
-$ python manage.py create_db
-$ python manage.py db upgrade
+$ make db-setup
 ```
 
 ### Front-end
