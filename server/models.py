@@ -1,4 +1,4 @@
-# pylint: disable=too-many-instance-attributes
+# pylint: disable=too-many-instance-attributes,no-self-use
 
 import datetime
 from server.core import db, bcrypt

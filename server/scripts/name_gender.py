@@ -73,6 +73,8 @@ class NameGender:
 
         return score
 
+    # TODO: this could be a static function probably
+    # pylint: disable=no-self-use
     def _read_names(self, gender):
         lang = "EN"
         country = "US"
