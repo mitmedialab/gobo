@@ -155,9 +155,6 @@ disable=print-statement,
         consider-iterating-dictionary,
         broad-except,
         duplicate-code,
-        too-many-statements,
-        too-many-arguments,
-        too-many-nested-blocks,
         redefined-builtin
 
 

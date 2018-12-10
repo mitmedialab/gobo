@@ -66,6 +66,8 @@ def queye_lastest_news_posts(db_session):
     with open(MEDIA_SOURCES_FILE) as csvfile:
         reader = csv.DictReader(csvfile)
         row_num = 0
+        # TODO: refactor this
+        # pylint: disable=too-many-nested-blocks
         for row in reader:
             logger.info("Row {}".format(row_num))
             if row['Enum_val']:
