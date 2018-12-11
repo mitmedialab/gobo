@@ -143,8 +143,7 @@ disable=print-statement,
         broad-except,
         # add these back in over time
         invalid-name,
-        logging-format-interpolation,
-        duplicate-code
+        logging-format-interpolation
 
 
 # Enable the message, report, category or checker with the given id(s). You can
@@ -238,7 +237,7 @@ ignore-docstrings=yes
 ignore-imports=no
 
 # Minimum lines number of a similarity.
-min-similarity-lines=4
+min-similarity-lines=20
 
 
 [TYPECHECK]
