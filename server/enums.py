@@ -1,11 +1,11 @@
 import enum
-import json
 
 # class EnumEncoder(json.JSONEncoder):
 #     def default(self, obj):
 #         if isinstance(obj, enum.Enum):
 #             return obj.name
 #         return json.JSONEncoder.default(self, obj)
+
 
 class GenderEnum(enum.Enum):
     female = 1
@@ -14,12 +14,12 @@ class GenderEnum(enum.Enum):
 
     @classmethod
     def fromString(cls, string):
-        if string.lower()=="female":
+        if string.lower() == "female":
             return cls.female
-        elif string.lower()=="male":
+        elif string.lower() == "male":
             return cls.male
-        else:
-            return cls.unknown
+        return cls.unknown
+
 
 class PoliticsEnum(enum.Enum):
     left = 1
@@ -27,6 +27,7 @@ class PoliticsEnum(enum.Enum):
     center = 3
     center_right = 4
     right = 5
+
 
 class EchoRangeEnum(enum.Enum):
     narrow = 0

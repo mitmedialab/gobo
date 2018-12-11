@@ -2,15 +2,17 @@ import requests
 
 __author__ = 'pvandepavoordt'
 
+
 class ImageClassifier:
 
-    def classifyImage(self, pictureUrl, faceplusplusConfig, confidenceThreshold = 0, countThreshold = 1):
+    def classifyImage(self, pictureUrl, faceplusplusConfig, confidenceThreshold=0, countThreshold=1):
         # Check if default image is used
         if "/default_profile_images/" in pictureUrl:
             return 'unknown'
         apiSecret = faceplusplusConfig['apisecret']
         apiKey = faceplusplusConfig['apikey']
-        url = 'https://apius.faceplusplus.com/v2/detection/detect?url=' + pictureUrl + '&api_secret=' + apiSecret + '&api_key=' + apiKey + '&attribute=gender'
+        url = 'https://apius.faceplusplus.com/v2/detection/detect?url=' + pictureUrl + \
+            '&api_secret=' + apiSecret + '&api_key=' + apiKey + '&attribute=gender'
 
         response = requests.get(url)
 
@@ -37,7 +39,7 @@ class ImageClassifier:
             return 'unknown'
 
         try:
-            sortedByConfidence = sorted(faces, key=lambda k:k['attribute']['gender']['confidence'], reverse=True)
+            sortedByConfidence = sorted(faces, key=lambda k: k['attribute']['gender']['confidence'], reverse=True)
             topDetection = sortedByConfidence[0]
             if topDetection['attribute']['gender']['confidence'] >= confidenceThreshold:
                 return topDetection['attribute']['gender']['value']

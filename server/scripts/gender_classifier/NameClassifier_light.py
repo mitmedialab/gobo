@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 __author__ = 'parisazahedi'
 
-import os, unicodedata
+import os
+import unicodedata
 
 from genderComputer.genderComputer import GenderComputer
 from utils import *
@@ -31,7 +32,6 @@ class NameClassifier:
         return (commonCharacter)
 
     def cleanName(self, name):
-
         '''clean account name'''
         name = name.strip()
         name = toUnicode(name)
@@ -83,7 +83,7 @@ class NameClassifier:
                 # Assume it is the full country name
                 (gender, conf) = self.genderComputer.resolveGenderByCountry(name, location, script)
             else:
-                #Country is a two letter code
+                # Country is a two letter code
                 countryName = cntName[0]
                 (gender, conf) = self.genderComputer.resolveGenderByCountry(name, countryName, script)
 

@@ -1,9 +1,12 @@
+#  pylint: disable=singleton-comparison
+
 import os
 import logging
+import sys
+
+from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime
-import sys
 
 from server.models import User
 from server.config.config import config_map
@@ -44,11 +47,12 @@ def queue_user_posts(db_session, user_id):
     db_session.commit()
     logger.info("queued {} tasks".format(tasks_queued))
 
+
 if __name__ == '__main__':
 
-    if len(sys.argv) is not 2:
+    if len(sys.argv) != 2:
         logger.error("You have to provide a user_id to delete!")
 
-    user_id = int(sys.argv[1])
+    user_id_arg = int(sys.argv[1])
 
-    queue_user_posts(session, user_id)
+    queue_user_posts(session, user_id_arg)

@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from NameClassifier_light import  *
+from NameClassifier_light import *
 
 __author__ = 'Tomaz-UNGP'
 
 # TODO: Add image face recognition (out for now because API calls are not scalable)
+
 
 class ScalableClassifier:
 

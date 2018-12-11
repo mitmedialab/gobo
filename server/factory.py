@@ -1,8 +1,8 @@
 import os
+from importlib import import_module
 
 from celery import Celery
 from flask import Flask
-from importlib import import_module
 from raven.contrib.flask import Sentry
 
 from .core import db, bcrypt, login_manager, migrate
@@ -14,13 +14,13 @@ def create_app(config_type):
 
     config = config_map[config_type]
 
-    app = Flask(__name__,  template_folder=config.TEMPLATE_FOLDER, static_url_path=config.STATIC_URL_PATH,
+    app = Flask(__name__, template_folder=config.TEMPLATE_FOLDER, static_url_path=config.STATIC_URL_PATH,
                 static_folder=config.STATIC_FOLDER)
 
     app.config.from_object(config)
 
     if config.SENTRY_DSN:
-        sentry = Sentry(app, dsn=config.SENTRY_DSN)
+        Sentry(app, dsn=config.SENTRY_DSN)
 
     db.init_app(app)
     bcrypt.init_app(app)

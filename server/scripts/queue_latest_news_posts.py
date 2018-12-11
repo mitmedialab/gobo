@@ -1,10 +1,10 @@
 import os
 import logging
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+import csv
 from datetime import datetime, timedelta
 import requests
-import csv
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from twython import Twython
 
 from server.models import Post
@@ -29,7 +29,7 @@ MEDIA_SOURCES_FILE = os.path.join(basedir, 'static_data', 'partisan_media_source
 def queue_one_news_post(post, source, quintile, db_session):
     added_new = False
     try:
-        post_id = post['id_str']  if 'id_str' in post else str(post['id'])
+        post_id = post['id_str'] if 'id_str' in post else str(post['id'])
         post_item = Post.query.filter_by(original_id=post_id, source=source).first()
         if not post_item:
             post_item = Post(post_id, source, post, True)
@@ -46,7 +46,7 @@ def queue_one_news_post(post, source, quintile, db_session):
     except:
         logger.error('An error adding post {}'.format(post['id']))
         success = False
-    return {'success': success, 'added_new':added_new}
+    return {'success': success, 'added_new': added_new}
 
 
 def queye_lastest_news_posts(db_session):
@@ -66,16 +66,19 @@ def queye_lastest_news_posts(db_session):
     with open(MEDIA_SOURCES_FILE) as csvfile:
         reader = csv.DictReader(csvfile)
         row_num = 0
+        # TODO: refactor this
+        # pylint: disable=too-many-nested-blocks
         for row in reader:
             logger.info("Row {}".format(row_num))
             if row['Enum_val']:
                 quintile = PoliticsEnum(int(row['Enum_val']))
                 if row['Twitter Handle']:
                     logger.info("  {}".format(row['Twitter Handle']))
-                    object = {'id': row['Twitter Handle'].replace('https://twitter.com/', '')}
+                    obj = {'id': row['Twitter Handle'].replace('https://twitter.com/', '')}
                     try:
                         twitter = Twython(config.TWITTER_API_KEY, config.TWITTER_API_SECRET)
-                        tweets = twitter.get_user_timeline(screen_name=object['id'], count=MAX_POST, tweet_mode='extended')
+                        tweets = twitter.get_user_timeline(
+                            screen_name=obj['id'], count=MAX_POST, tweet_mode='extended')
                     except:
                         tweets = []
                     logger.info("  adding {} tweets".format(len(tweets)))
@@ -103,4 +106,3 @@ def queye_lastest_news_posts(db_session):
 
 if __name__ == '__main__':
     queye_lastest_news_posts(session)
-

@@ -1,8 +1,11 @@
+# pylint: disable=singleton-comparison
+
 import os
 import logging
+from datetime import datetime, timedelta
+
 from sqlalchemy import create_engine, or_, text
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime, timedelta
 
 from server.models import User
 from server.config.config import config_map
@@ -37,6 +40,7 @@ def queue_prioritized_users_posts(db_session):
             order_by(User.last_login.desc()). \
             limit(queue_size - len(prioritized_users))
         matching_user_count = matching_users.count()
+        # pylint: disable=line-too-long
         logger.debug("  adding {} users that haven't logged in but we haven't updated recently".format(matching_user_count))
         prioritized_users.extend(matching_users.all())
 
@@ -49,6 +53,7 @@ def queue_prioritized_users_posts(db_session):
             order_by(User.last_login.desc()). \
             limit(queue_size - len(prioritized_users))
         matching_user_count = matching_users.count()
+        # pylint: disable=line-too-long
         logger.debug("  adding {} users that haven't logged in recently and we've never updated".format(matching_user_count))
         prioritized_users.extend(matching_users.all())
 
@@ -59,6 +64,7 @@ def queue_prioritized_users_posts(db_session):
             filter(text("last_login is NULL and last_post_fetch is NULL")).\
             limit(queue_size - len(prioritized_users))
         matching_user_count = matching_users.count()
+        # pylint: disable=line-too-long
         logger.debug("  adding {} users that haven't logged in ever and we've never updated".format(matching_user_count))
         prioritized_users.extend(matching_users.all())
 
@@ -82,6 +88,7 @@ def queue_prioritized_users_posts(db_session):
             logger.info("  Updated user {}".format(user.id))
     db_session.commit()
     logger.info("queued {} tasks".format(tasks_queued))
+
 
 if __name__ == '__main__':
     queue_prioritized_users_posts(session)

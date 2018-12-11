@@ -1,7 +1,8 @@
 import os
-import psycopg2
-import urlparse
 import logging
+import urlparse
+
+import psycopg2
 
 from server.config.config import config_map
 
@@ -48,10 +49,11 @@ q3 = "DELETE FROM posts WHERE id IN (" \
 
 
 def run_and_return_result(sql):
-    global cur
+    global cur # pylint: disable=global-statement
     cur.execute(sql)
     rows = cur.fetchall()
     return rows
+
 
 try:
     result = run_and_return_result(total_post_assoc_query)

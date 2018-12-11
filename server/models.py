@@ -1,3 +1,5 @@
+# pylint: disable=too-many-instance-attributes,no-self-use
+
 import datetime
 from server.core import db, bcrypt
 from server.enums import GenderEnum, PoliticsEnum, EchoRangeEnum
@@ -232,6 +234,8 @@ class Post(db.Model):
         self.retrieved_at = datetime.datetime.now()
         if source == 'twitter':
             self.created_at = datetime.datetime.strptime(content['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
+            # TODO: fix this eventually
+            # pylint: disable=len-as-condition
             self.has_link = len(content['entities']['urls']) > 0  # 'possibly_sensitive' in content
         else:
             self.created_at = datetime.datetime.strptime(content['created_time'], '%Y-%m-%dT%H:%M:%S+0000')
@@ -287,7 +291,7 @@ class Post(db.Model):
 
     def has_already_been_analyzed(self):
         return self.has_virality() and self.has_news_score() and self.has_gender_corporate()\
-               and self.has_toxicity_rate()
+            and self.has_toxicity_rate()
 
     def get_author_name(self):
         if self.source == 'facebook':

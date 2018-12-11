@@ -16,8 +16,9 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>."""
 
 
-
 '''Normalise country names to match those used in the gender.c database'''
+
+
 def normaliseCountryName(country):
     if country in ['Algeria', 'Bahrain', 'Comoros', 'Djibouti',
                    'Egypt', 'Irak', 'Iran', 'Jordan', 'Kuwait',
@@ -31,6 +32,3 @@ def normaliseCountryName(country):
     elif country in ['North Korea', 'South Korea']:
         return 'Korea'
     return country
-
-
-

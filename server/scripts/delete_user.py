@@ -19,11 +19,11 @@ session = Session()
 
 if __name__ == '__main__':
 
-    if len(sys.argv) is not 2:
+    if len(sys.argv) != 2:
         logger.error("You have to provide a user_id to delete!")
 
     user_id = int(sys.argv[1])
 
-    logger.info("Delete user ".format(user_id))
+    logger.info("Delete user {}".format(user_id))
     deletion_worked = delete_user_by_id(user_id, session)
     logger.info("Success: {}".format(deletion_worked))

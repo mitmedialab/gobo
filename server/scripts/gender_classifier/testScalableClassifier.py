@@ -5,6 +5,7 @@ __author__ = 'Tomaz-UNGP'
 import unittest
 from ScalableClassifier import ScalableClassifier
 
+
 class TestScalableClassifier(unittest.TestCase):
 
     _classifier = None
@@ -29,16 +30,17 @@ class TestScalableClassifier(unittest.TestCase):
     _testAssertions = {
         1: 'male',
         2: 'female',
-        3: None, # Ignore, Jean fails (or more to the point, it fails for English, matches with French Jean and returns male)
-        4: 'male', # migh be unisex some day
+        # Ignore, Jean fails (or more to the point, it fails for English, matches with French Jean and returns male)
+        3: None,
+        4: 'male',  # migh be unisex some day
         5: 'Unknown',
         6: 'male',
-        7: 'Unknown', # should be female once Persian/Arabic is in
-        8: 'male', # false positive for now
-        12: 'Unknown', # should be female once Japanese is in
-        15: 'Unknown', # should be male once Greek is in
+        7: 'Unknown',  # should be female once Persian/Arabic is in
+        8: 'male',  # false positive for now
+        12: 'Unknown',  # should be female once Japanese is in
+        15: 'Unknown',  # should be male once Greek is in
         17: 'male',
-        19: 'Unknown' # should be female once Russian/Bulgarian is in
+        19: 'Unknown'  # should be female once Russian/Bulgarian is in
     }
 
     def setUp(self):
@@ -49,6 +51,7 @@ class TestScalableClassifier(unittest.TestCase):
         for res in classifierResult:
             if self._testAssertions[res['id']] is not None:
                 self.assertEqual(self._testAssertions[res['id']], res['result'])
+
 
 if __name__ == '__main__':
     unittest.main()

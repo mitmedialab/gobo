@@ -5,6 +5,9 @@ import csv
 import os
 from ..models import GenderEnum
 
+
+# TODO: update this class
+# pylint: disable=old-style-class
 class NameGender:
 
     def __init__(self):
@@ -15,10 +18,12 @@ class NameGender:
 
         self.computed_names = {}
 
+    # TODO: refactor this method
+    # pylint: disable=too-many-branches
     def process(self, name):
         score = {'result': GenderEnum.unknown, 'counts': 0}
 
-        if name and name!="":
+        if name and name != "":
             if (isinstance(name, basestring) and name != ""):
 
                 first_name = name.split(" ")[0].lower()
@@ -27,28 +32,29 @@ class NameGender:
 
             # try to retrieve from cache
             if first_name and first_name in self.computed_names:
-                    score = self.computed_names[first_name]
+                score = self.computed_names[first_name]
             else:
                 male = self.names['male']['counts'][first_name] if first_name in self.names['male']['counts'] else 0
+                # pylint: disable=line-too-long
                 female = self.names['female']['counts'][first_name] if first_name in self.names['female']['counts'] else 0
                 total = male + female
                 prob_male = 0
                 prob_female = 0
-                if (total > 0):
+                if total > 0:
                     # compute probabilities
                     prob_male = male / float(total) if male else 0
                     prob_female = female / float(total) if female else 0
 
-                    score['counts'] = {'male': prob_male,'female': prob_female}
+                    score['counts'] = {'male': prob_male, 'female': prob_female}
 
-                if (male > 0 and female > 0):
-                    if (prob_female > 0.66):
+                if male > 0 and female > 0:
+                    if prob_female > 0.66:
                         score['result'] = GenderEnum.female
-                    elif(prob_male > 0.66):
+                    elif prob_male > 0.66:
                         score['result'] = GenderEnum.male
-                elif(male > 0):
+                elif male > 0:
                     score['result'] = GenderEnum.male
-                elif(female > 0):
+                elif female > 0:
                     score['result'] = GenderEnum.female
                 else:
                     if first_name in self.names['male']['definite']:
@@ -56,19 +62,21 @@ class NameGender:
                         score['counts'] = {'male': 1.0, 'female': 0.0}
                     elif first_name in self.names['female']['definite']:
                         score['result'] = GenderEnum.female
-                        score['counts'] = {'male' : 0.0,'female' : 1.0}
+                        score['counts'] = {'male': 0.0, 'female': 1.0}
                     else:
                         score['result'] = GenderEnum.unknown
-                        score['counts'] = {'male' : 0.0, 'female': 0.0}
+                        score['counts'] = {'male': 0.0, 'female': 0.0}
 
                 # cache for future use
                 self.computed_names[first_name] = score
         else:
             score['result'] = GenderEnum.unknown
-            score['counts'] = {'male':0.0, 'female': 0.0}
+            score['counts'] = {'male': 0.0, 'female': 0.0}
 
         return score
 
+    # TODO: this could be a static function probably
+    # pylint: disable=no-self-use
     def _read_names(self, gender):
         lang = "EN"
         country = "US"

@@ -3,6 +3,8 @@ from flask import request, jsonify
 from flask_login import login_required, login_user, logout_user, current_user
 from sqlalchemy.exc import IntegrityError
 
+# TODO: import only what is needed
+# pylint: disable=unused-wildcard-import,wildcard-import
 from server.models import *
 from server.blueprints import api
 
@@ -97,23 +99,27 @@ def delete_user_by_id(user_id, db_session):
         post_ids = [post_id for (post_id,) in user_post_assocs.all()]
         logging.debug("  found {} posts belonging to only them".format(len(post_ids)))
 
+        # TODO: fix this eventually
+        # pylint: disable=len-as-condition
         if len(post_assocs.all()) > 0:
             post_assocs.delete(synchronize_session=False)
         db_session.commit()
 
+        # TODO: fix this eventually
+        # pylint: disable=len-as-condition
         if len(post_ids) > 0:
             db_session.query(Post).filter(Post.id.in_(post_ids)).delete(synchronize_session=False)
 
         # delete user info from other tables
         (db_session.query(FacebookAuth)
-             .filter(FacebookAuth.user_id == user_id)
-             .delete())
+         .filter(FacebookAuth.user_id == user_id)
+         .delete())
         (db_session.query(TwitterAuth)
-             .filter(TwitterAuth.user_id == user_id)
-             .delete())
+         .filter(TwitterAuth.user_id == user_id)
+         .delete())
         (db_session.query(SettingsUpdate)
-            .filter(SettingsUpdate.user_id == user_id)
-            .delete())
+         .filter(SettingsUpdate.user_id == user_id)
+         .delete())
         db_session.query(Settings).filter(Settings.user_id == user_id).delete()
 
         # delete user from users table

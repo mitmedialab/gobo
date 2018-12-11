@@ -1,17 +1,17 @@
-import requests
-
 from datetime import datetime, timedelta
+from logging import getLogger
+
+import requests
 
 from twython import Twython
 from flask import current_app
-from logging import getLogger
 from raven import Client
 import analyze_modules
 
+from server.config.config import config_map
 from ..models import User, TwitterAuth, Post
 from .celery import celery
 from ..core import db
-from server.config.config import config_map
 
 from .name_gender import NameGender
 from .gender_classifier.NameClassifier_light import NameClassifier
@@ -35,7 +35,7 @@ FACEBOOK_POSTS_FIELDS = ['id', 'caption', 'created_time', 'description',
     Add here for any new type of filter
     Add the processing to server.scripts.analyze_modules.analyze_<analysis_type>
 """
-ANALYSIS_TYPES = ['toxicity','gender_corporate','virality','news_score']
+ANALYSIS_TYPES = ['toxicity', 'gender_corporate', 'virality', 'news_score']
 FACEBOOK_URL = 'https://graph.facebook.com/v2.10/'
 
 
@@ -44,7 +44,7 @@ name_classifier = NameClassifier()
 
 
 @celery.task(serializer='json', bind=True)
-def get_posts_data_for_all_users(self):
+def get_posts_data_for_all_users(self): # pylint: disable=unused-argument
     for user in User.query.all():
         if user.twitter_authorized:
             get_tweets_per_user.delay(user.id)
@@ -53,9 +53,10 @@ def get_posts_data_for_all_users(self):
 
 
 @celery.task(serializer='json', bind=True)
-def get_tweets_per_user(self, user_id):
+def get_tweets_per_user(self, user_id): # pylint: disable=unused-argument
     user = User.query.get(user_id)
     if not user or not user.twitter_authorized:
+        # pylint: disable=line-too-long
         logger.info('User number {} did not authorize twitter (or does not exist) not fetching any tweets'.format(user_id))
         return
     tweets = []
@@ -84,9 +85,10 @@ def get_tweets_per_user(self, user_id):
 
 
 @celery.task(serializer='json', bind=True)
-def get_facebook_posts_per_user(self, user_id):
+def get_facebook_posts_per_user(self, user_id): # pylint: disable=unused-argument
     user = User.query.get(user_id)
     if not user or not user.facebook_authorized or not user.facebook_auth:
+        # pylint: disable=line-too-long
         logger.info('User number {} did not authorize facebook (or does not exist) not fetching any posts'.format(user_id))
         return
     posts = _get_facebook_posts(user)
@@ -119,12 +121,13 @@ def _get_facebook_posts(user):
         'since': since_date,
         'limit': MAX_POST
     }
+    # pylint: disable=consider-iterating-dictionary
     for key in friends_likes.keys():
-        for object in friends_likes[key]:
-            r = requests.get(FACEBOOK_URL + object['id'] + '/feed', payload)
+        for obj in friends_likes[key]:
+            r = requests.get(FACEBOOK_URL + obj['id'] + '/feed', payload)
             result = r.json()
             if 'data' in result:
-                posts.extend([dict(p, **{'post_user':object}) for p in result["data"]])
+                posts.extend([dict(p, **{'post_user': obj}) for p in result["data"]])
             # while 'paging' in result and 'next' in result['paging']:
             #     r = requests.get(result['paging']['next'])
             #     result = r.json()
@@ -134,15 +137,16 @@ def _get_facebook_posts(user):
 
 
 def _get_facebook_friends_and_likes(user):
-    payload = {'fields':'friends.summary(true),likes.summary(true)',
+    payload = {'fields': 'friends.summary(true),likes.summary(true)',
                'access_token': user.facebook_auth.access_token}
     friends_likes = {'friends': [], 'likes': []}
     try:
         r = requests.get(FACEBOOK_URL+user.facebook_id, payload)
         initial_result = r.json()
     except:
-        logger.error ('error getting friends and likes for user {}'.format(user.id))
+        logger.error('error getting friends and likes for user {}'.format(user.id))
         # client.captureMessage('error getting friends and likes for user {}'.format(user.id))
+    # pylint: disable=consider-iterating-dictionary
     for key in friends_likes.keys():
         if key in initial_result:
             friends_likes[key].extend(initial_result[key]['data'])
@@ -157,7 +161,7 @@ def _get_facebook_friends_and_likes(user):
 def _add_post(user, post, source):
     added_new = False
     try:
-        post_id = post['id_str']  if 'id_str' in post else str(post['id'])
+        post_id = post['id_str'] if 'id_str' in post else str(post['id'])
         post_item = Post.query.filter_by(original_id=post_id, source=source).first()
         if not post_item:
             post_item = Post(post_id, source, post, False)
@@ -166,7 +170,7 @@ def _add_post(user, post, source):
         else:
             post_item.update_content(post)
 
-        if not (post_item in user.posts):
+        if not post_item in user.posts:
             user.posts.append(post_item)
         db.session.commit()
         success = True
@@ -178,14 +182,13 @@ def _add_post(user, post, source):
         logger.error('An error adding post {} from twitter to user {} - {}'.format(post['id'], user.id, str(e)))
 
         success = False
-    return {'success': success, 'added_new':added_new}
-
+    return {'success': success, 'added_new': added_new}
 
 
 @celery.task(serializer='json', bind=True)
-def analyze_post(self, post_id):
+def analyze_post(self, post_id): # pylint: disable=unused-argument
     for analysis_type in ANALYSIS_TYPES:
-        getattr(analyze_modules,"analyze_%s"%(analysis_type))(post_id)
+        getattr(analyze_modules, "analyze_%s" % (analysis_type))(post_id)
     # analyze_toxicity(post_id)
     # analyze_gender_corporate(post_id)
     # analyze_virality(post_id)
