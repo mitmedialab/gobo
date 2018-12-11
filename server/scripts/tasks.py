@@ -8,6 +8,7 @@ from flask import current_app
 from raven import Client
 import analyze_modules
 
+# pylint: disable=no-name-in-module,import-error
 from server.config.config import config_map
 from ..models import User, TwitterAuth, Post
 from .celery import celery

@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from server.views.auth import delete_user_by_id
+# pylint: disable=no-name-in-module,import-error
 from server.config.config import config_map
 
 logger = logging.getLogger(__name__)
