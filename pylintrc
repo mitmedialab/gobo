@@ -144,7 +144,6 @@ disable=print-statement,
         # add these back in over time
         invalid-name,
         logging-format-interpolation,
-        unused-wildcard-import,
         len-as-condition,
         wildcard-import,
         duplicate-code,
