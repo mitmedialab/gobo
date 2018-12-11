@@ -1,0 +1,19 @@
+language:
+  - python
+python:
+  - "2.7"
+stages:
+- PR checks ✅
+- name: "Ship It \U0001F6A2"
+  if: branch=master AND type=push
+install:
+  - make requirements-local.py
+jobs:
+  include:
+  - stage: PR checks ✅
+    env:
+    - NAME=Validation Checks
+    script: "./.travis/validate_changes_for_merge.sh"
+  - stage: "Ship It \U0001F6A2"
+    env:
+    - NAME=Publish
