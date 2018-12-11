@@ -8,7 +8,6 @@ stages:
   if: branch=master AND type=push
 install:
   - make requirements-local.py
-  - npm install
 jobs:
   include:
   - stage: PR checks ✅

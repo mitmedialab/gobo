@@ -1,4 +1,4 @@
-Gobo
+Gobo [![Build Status](https://travis-ci.com/mitmedialab/gobo.svg?branch=master)](https://travis-ci.com/mitmedialab/gobo)
 ====
 
 Gobo is a responsive web-based social media aggregator with filters you can control. You can use Gobo to control what’s edited out of your feed, or configure it to include news and points of view from outside your usual orbit. Gobo aims to be completely transparent, showing you why each post was included in your feed and inviting you to explore what was filtered out by your current filter settings.
