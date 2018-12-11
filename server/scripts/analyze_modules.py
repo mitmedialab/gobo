@@ -131,6 +131,8 @@ def analyze_news_score(post_id):
         result = r.json()
         if 'taxonomies' in result:
             scores = [float(x['score'])for x in result['taxonomies'] if '/news' in x['label'].lower()]
+            # TODO: fix this eventually
+            # pylint: disable=len-as-condition
             score = max(scores) if len(scores) > 0 else 0
     if post.is_news:
         score = min(1, score+0.6)

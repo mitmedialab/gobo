@@ -99,10 +99,14 @@ def delete_user_by_id(user_id, db_session):
         post_ids = [post_id for (post_id,) in user_post_assocs.all()]
         logging.debug("  found {} posts belonging to only them".format(len(post_ids)))
 
+        # TODO: fix this eventually
+        # pylint: disable=len-as-condition
         if len(post_assocs.all()) > 0:
             post_assocs.delete(synchronize_session=False)
         db_session.commit()
 
+        # TODO: fix this eventually
+        # pylint: disable=len-as-condition
         if len(post_ids) > 0:
             db_session.query(Post).filter(Post.id.in_(post_ids)).delete(synchronize_session=False)
 

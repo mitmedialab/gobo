@@ -234,6 +234,8 @@ class Post(db.Model):
         self.retrieved_at = datetime.datetime.now()
         if source == 'twitter':
             self.created_at = datetime.datetime.strptime(content['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
+            # TODO: fix this eventually
+            # pylint: disable=len-as-condition
             self.has_link = len(content['entities']['urls']) > 0  # 'possibly_sensitive' in content
         else:
             self.created_at = datetime.datetime.strptime(content['created_time'], '%Y-%m-%dT%H:%M:%S+0000')
