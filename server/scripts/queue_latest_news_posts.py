@@ -8,6 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from twython import Twython
 
 from server.models import Post
+# pylint: disable=no-name-in-module,import-error
 from server.config.config import config_map
 import server.scripts.tasks as tasks
 from server.enums import PoliticsEnum

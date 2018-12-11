@@ -6,6 +6,7 @@ from flask import Flask
 from raven.contrib.flask import Sentry
 
 from .core import db, bcrypt, login_manager, migrate
+# pylint: disable=no-name-in-module,import-error
 from .config.config import config_map
 from .blueprints import all_blueprints
 
