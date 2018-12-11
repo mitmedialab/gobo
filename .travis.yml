@@ -2,10 +2,6 @@ language:
   - python
 python:
   - "2.7"
-env:
-  - NODE_VERSION="10.13.0"
-before_install:
-  - nvm install $NODE_VERSION
 stages:
 - PR checks ✅
 - name: "Ship It \U0001F6A2"
