@@ -123,11 +123,11 @@ def _get_facebook_posts(user):
     }
     # pylint: disable=consider-iterating-dictionary
     for key in friends_likes.keys():
-        for object in friends_likes[key]:
-            r = requests.get(FACEBOOK_URL + object['id'] + '/feed', payload)
+        for obj in friends_likes[key]:
+            r = requests.get(FACEBOOK_URL + obj['id'] + '/feed', payload)
             result = r.json()
             if 'data' in result:
-                posts.extend([dict(p, **{'post_user': object}) for p in result["data"]])
+                posts.extend([dict(p, **{'post_user': obj}) for p in result["data"]])
             # while 'paging' in result and 'next' in result['paging']:
             #     r = requests.get(result['paging']['next'])
             #     result = r.json()

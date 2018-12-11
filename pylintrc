@@ -146,8 +146,7 @@ disable=print-statement,
         logging-format-interpolation,
         len-as-condition,
         wildcard-import,
-        duplicate-code,
-        redefined-builtin
+        duplicate-code
 
 
 # Enable the message, report, category or checker with the given id(s). You can

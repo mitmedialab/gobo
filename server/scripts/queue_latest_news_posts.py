@@ -74,11 +74,11 @@ def queye_lastest_news_posts(db_session):
                 quintile = PoliticsEnum(int(row['Enum_val']))
                 if row['Twitter Handle']:
                     logger.info("  {}".format(row['Twitter Handle']))
-                    object = {'id': row['Twitter Handle'].replace('https://twitter.com/', '')}
+                    obj = {'id': row['Twitter Handle'].replace('https://twitter.com/', '')}
                     try:
                         twitter = Twython(config.TWITTER_API_KEY, config.TWITTER_API_SECRET)
                         tweets = twitter.get_user_timeline(
-                            screen_name=object['id'], count=MAX_POST, tweet_mode='extended')
+                            screen_name=obj['id'], count=MAX_POST, tweet_mode='extended')
                     except:
                         tweets = []
                     logger.info("  adding {} tweets".format(len(tweets)))
