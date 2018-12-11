@@ -4,7 +4,7 @@ from flask_login import login_required, login_user, logout_user, current_user
 from sqlalchemy.exc import IntegrityError
 
 # TODO: import only what is needed
-# pylint: disable=unused-wildcard-import
+# pylint: disable=unused-wildcard-import,wildcard-import
 from server.models import *
 from server.blueprints import api
 
