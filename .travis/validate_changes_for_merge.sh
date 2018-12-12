@@ -4,4 +4,5 @@
 
 EXIT_STATUS=0
 pylint server || EXIT_STATUS=$?
+cd client && npm run lint || EXIT_STATUS=$?
 exit $EXIT_STATUS
