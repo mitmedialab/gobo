@@ -5,12 +5,12 @@ from celery import Celery
 from flask import Flask
 from raven.contrib.flask import Sentry
 
+from commands import create_db, drop_db
+
 from .core import db, bcrypt, login_manager, migrate
 # pylint: disable=no-name-in-module,import-error
 from .config.config import config_map
 from .blueprints import all_blueprints
-
-from commands import create_db, drop_db
 
 
 def create_app(env=None):
