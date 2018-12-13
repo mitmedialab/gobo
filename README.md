@@ -29,7 +29,6 @@ $ make requirements-local.py
 To set up the database run:
 ```shell
 $ export FLASK_ENV=dev
-$ export FLASK_APP="server.factory:create_app"
 $ make db-setup
 ```
 

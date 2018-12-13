@@ -37,6 +37,7 @@ pyasn1==0.3.1
 pyasn1-modules==0.0.10
 pycparser==2.17
 python-dateutil==2.6.0
+python-dotenv-0.10.0
 python-editor==1.0.3
 pytz==2017.2
 raven==6.2.1
