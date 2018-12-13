@@ -47,7 +47,7 @@ class NavBar extends Component {
 
   render() {
     const user = this.props.auth.isAuthenticated ? this.props.auth.user : null;
-    const defaultAvatar = 'static/images/avatar.png';
+    const defaultAvatar = 'images/avatar.png';
 
     const avatar = user ? user.avatar || defaultAvatar : defaultAvatar;
     const dropdownMenuClass = 'dropdown-menu list-group keep-dropdown w230';
@@ -118,7 +118,7 @@ class NavBar extends Component {
           <ul className="nav navbar-nav navbar-left logo">
             <li>
               <Link to={'/'}>
-                <img alt="Gobo" src="static/images/gobo_temp_logo.png" height="100%" width="auto" />
+                <img alt="Gobo" src="images/gobo_temp_logo.png" height="100%" width="auto" />
                 <span className="logo-title">GOBO</span>
               </Link>
             </li>

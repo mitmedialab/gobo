@@ -28,11 +28,11 @@ $font: 'Nunito Sans', sans-serif;
 
 $navbar-height: 60px;
 
-$icon-font-path: "/static/bootstrap-fonts/";
+$icon-font-path: "/bootstrap-fonts/";
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
 // ---- icons -----
-$font-path: "/static/custom-icons/fontello";
+$font-path: "/custom-icons/fontello";
 $font-name: "33540572";
 
 
@@ -202,5 +202,3 @@ a, a:hover, a:focus, a:active a:visited{
 @import "../Post/post.scss";
 @import "../Feed/feed.scss";
 @import "../Settings/settings.scss";
-
-

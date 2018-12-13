@@ -75,8 +75,8 @@ const Landing = (props) => {
         </div>
       </div>
       <div className="logos">
-        <a href="https://knightfoundation.org/"><img src="static/images/KF_logo.png" alt="Knight Foundation" /></a>
-        <a href="https://civic.mit.edu/"><img src="static/images/CivicMedia_Symbol.jpg" alt="Center for Civic Media" /></a>
+        <a href="https://knightfoundation.org/"><img src="images/KF_logo.png" alt="Knight Foundation" /></a>
+        <a href="https://civic.mit.edu/"><img src="images/CivicMedia_Symbol.jpg" alt="Center for Civic Media" /></a>
       </div>
     </div>
   );

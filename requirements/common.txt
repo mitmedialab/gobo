@@ -13,12 +13,11 @@ click==6.7
 contextlib2==0.5.5
 enum-compat==0.0.2
 enum34==1.1.6
-Flask==0.12.2
+Flask==1.0.1
 Flask-Bcrypt==0.7.1
 Flask-Cors==3.0.3
 Flask-Login==0.4.0
 Flask-Migrate==2.0.4
-Flask-Script==2.0.5
 Flask-SQLAlchemy==2.2
 google-api-python-client==1.6.2
 greenlet==0.4.12
@@ -26,7 +25,7 @@ gunicorn==19.7.1
 httplib2==0.10.3
 idna==2.5
 itsdangerous==0.24
-Jinja2==2.9.6
+Jinja2==2.10.0
 kombu==4.1.0
 Mako==1.0.6
 MarkupSafe==1.0
@@ -38,6 +37,7 @@ pyasn1==0.3.1
 pyasn1-modules==0.0.10
 pycparser==2.17
 python-dateutil==2.6.0
+python-dotenv==0.10.0
 python-editor==1.0.3
 pytz==2017.2
 raven==6.2.1
@@ -52,4 +52,4 @@ Unidecode==0.4.21
 uritemplate==3.0.0
 urllib3==1.21.1
 vine==1.1.4
-Werkzeug==0.12.2
+Werkzeug==0.14.1

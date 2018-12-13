@@ -8,5 +8,5 @@ requirements-local.py:
 	pip install -q -r requirements/local.txt --exists-action w
 
 db-setup:
-	python manage.py create_db
-	python manage.py db upgrade
+	flask create_db
+	flask db upgrade

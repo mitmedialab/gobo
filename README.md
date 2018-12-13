@@ -28,6 +28,7 @@ $ make requirements-local.py
 
 To set up the database run:
 ```shell
+$ export FLASK_ENV=dev
 $ make db-setup
 ```
 
@@ -116,8 +117,8 @@ Configuration
 
 You can choose to only allow signup to people that have a special password.  Add the following vars in `config.py`:
 ```python
-    LOCK_WITH_PASSWORD = True
-    BETA_PASSWORD = 'password_you_want'
+LOCK_WITH_PASSWORD = True
+BETA_PASSWORD = 'password_you_want'
 ```
 To remove the password just set `LOCK_WITH_PASSWORD = False`.
 
@@ -132,7 +133,7 @@ Development
 When updating models that result in a table change (e.g. column added/removed), generate migrations with:
 
 ```shell
-$ python manage.py db migrate
+$ flask db migrate
 ```
 
 This will generate a new migration file in `migrations/versions` that should be added to version control.
@@ -164,7 +165,7 @@ Contributing
 A pre-commit hooks will run JavaScript linting (e.g. when you commit, linting will be run). You can try to automatically fix JavaScript linting errors by running:
 
 ```shell
-npm run lint_fix
+$ npm run lint_fix
 ```
 
 Not all errors can be fixed this way and for more details about the linting error see [eslint](https://eslint.org).

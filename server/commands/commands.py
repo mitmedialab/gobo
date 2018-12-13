@@ -1,20 +1,11 @@
-import os
+import click
+from flask.cli import with_appcontext
 
-from flask_migrate import MigrateCommand
-from flask_script import Manager
-
-from server.factory import create_app
 from server.core import db
 
 
-env = os.getenv('FLASK_ENV', 'dev')
-app = create_app(env.lower())
-
-# migrations
-manager = Manager(app)
-manager.add_command('db', MigrateCommand)
-
-@manager.command
+@click.command()
+@with_appcontext
 def create_db():
     """Creates the db tables."""
     db.create_all()
@@ -27,17 +18,8 @@ def create_db():
     command.stamp(alembic_cfg, "head")
 
 
-@manager.command
+@click.command()
+@with_appcontext
 def drop_db():
     """Drops the db tables."""
     db.drop_all()
-
-
-@manager.command
-def create_data():
-    """Creates sample data."""
-    pass
-
-
-if __name__ == '__main__':
-    manager.run()
