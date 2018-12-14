@@ -1,3 +1,3 @@
 release: ./release-tasks.sh
-web: gunicorn "server.factory:create_app"
+web: gunicorn server.wsgi:app
 worker: celery -A server.scripts.tasks worker -l INFO
