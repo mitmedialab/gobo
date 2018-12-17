@@ -64,7 +64,6 @@
     "redux": "^3.5.2",
     "redux-thunk": "^2.2.0",
     "sass-loader": "^6.0.5",
-    "serve": "^5.1.5",
     "style-loader": "^0.17.0",
     "sw-precache-webpack-plugin": "^0.11.0",
     "twemoji": "^2.5.0",
