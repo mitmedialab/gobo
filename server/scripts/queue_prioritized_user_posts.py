@@ -4,7 +4,7 @@ import os
 import logging
 from datetime import datetime, timedelta
 
-from sqlalchemy import create_engine, or_, text
+from sqlalchemy import and_, create_engine, or_
 from sqlalchemy.orm import sessionmaker
 
 from server.models import User
@@ -42,14 +42,14 @@ def queue_prioritized_users_posts(db_session):
             limit(queue_size - len(prioritized_users))
         matching_user_count = matching_users.count()
         # pylint: disable=line-too-long
-        logger.debug("  adding {} users that haven't logged in but we haven't updated recently".format(matching_user_count))
+        logger.debug("  adding {} users that have logged in recently but we haven't updated recently".format(matching_user_count))
         prioritized_users.extend(matching_users.all())
 
     # 2. Then add connected users that we've never updated and haven't logged in a while
     if len(prioritized_users) < queue_size:
         matching_users = db_session.query(User).\
             filter(connected_to_services).\
-            filter(text("last_post_fetch is NULL")).\
+            filter(User.last_post_fetch.is_(None)).\
             filter(User.last_login.isnot(None)). \
             order_by(User.last_login.desc()). \
             limit(queue_size - len(prioritized_users))
@@ -62,7 +62,7 @@ def queue_prioritized_users_posts(db_session):
     if len(prioritized_users) < queue_size:
         matching_users = db_session.query(User).\
             filter(connected_to_services).\
-            filter(text("last_login is NULL and last_post_fetch is NULL")).\
+            filter(and_(User.last_login.is_(None), User.last_post_fetch.is_(None))).\
             limit(queue_size - len(prioritized_users))
         matching_user_count = matching_users.count()
         # pylint: disable=line-too-long
