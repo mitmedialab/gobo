@@ -36,3 +36,11 @@ def profile():
 @home.route('/twitter_callback', methods=['GET'])
 def twitter_callback():
     return render_template('index.html')
+
+@home.route('/privacy', methods=['GET'])
+def privacy():
+    return render_template('index.html')
+
+@home.route('/about', methods=['GET'])
+def about():
+    return render_template('index.html')
