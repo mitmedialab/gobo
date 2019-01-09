@@ -44,8 +44,6 @@ class SignupEmailPassword extends Component {
       && this.refs.password.isValid()
       && this.refs.passwordConfirm.isValid();
 
-    // console.log(canProceed, this.refs.password.isValid(), this.refs.passwordConfirm.isValid());
-
     if (canProceed) {
       this.props.dispatch(registerUser(this.state.email, this.state.password));
     } else {
@@ -84,11 +82,8 @@ class SignupEmailPassword extends Component {
   render() {
     return (
       <div>
-
         <form>
-
-          <p>Register with email and password</p>
-
+          <p className="registration-description">Register with email and password</p>
           <Input
             text="Email Address"
             ref="email"
@@ -101,7 +96,6 @@ class SignupEmailPassword extends Component {
             emptyMessage="Email can't be empty"
             errorVisible={this.state.showEmailError}
           />
-
           <Input
             text="Password"
             type="password"
@@ -115,7 +109,6 @@ class SignupEmailPassword extends Component {
             emptyMessage="Password can't be empty"
             onChange={this.handlePasswordInput}
           />
-
           <Input
             text="Confirm password"
             ref="passwordConfirm"
@@ -126,7 +119,6 @@ class SignupEmailPassword extends Component {
             emptyMessage="Please confirm your password"
             errorMessage="Passwords don't match"
           />
-
           <button
             className="button button_wide"
             onClick={this.saveAndContinue}
@@ -141,7 +133,7 @@ class SignupEmailPassword extends Component {
           <hr />
 
           <div>
-            <p>Already have an account?</p>
+            <p className="registration-description">Already have an account?</p>
             <p>
               <Link to="/login">
                 <button className="button button_wide"> Click here to login</button>

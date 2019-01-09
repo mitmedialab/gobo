@@ -9,7 +9,7 @@ const propTypes = {
 
 const SocialAuth = props => (
   <div>
-    <p>
+    <p className="registration-description">
       Please Authenticate to your Facebook and Twitter
       <br />
       accounts so we can show you your feed
