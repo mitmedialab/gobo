@@ -17,10 +17,37 @@ class NavBar extends Component {
     this.state = {
       dropdownOpen: false,
     };
-    this.toggleDropdown = this.toggleDropdown.bind(this);
   }
 
-  toggleDropdown() {
+  getUserName = (user) => {
+    let userName = 'User';
+    if (user) {
+      if (user.facebook_name) {
+        userName = user.facebook_name.split(' ')[0];
+      } else if (user.twitter_name) {
+        userName = `@${user.twitter_name}`;
+      }
+    }
+    return userName;
+  }
+
+  getNavLinkItem = (glyphType, link, text) => (
+    <li className="list-group-item" role="menuitem" onClick={this.toggleDropdown}>
+      <span className={`glyphicon ${glyphType}`} />
+      <Link to={`${link}`}> <span>{text}</span></Link>
+    </li>
+  );
+
+  toggleSlide = () => {
+    const elem = document.getElementsByClassName('nav-menu')[0];
+    if (elem.className === 'nav-menu') {
+      elem.className = 'nav-menu open';
+    } else {
+      elem.className = 'nav-menu';
+    }
+  }
+
+  toggleDropdown = () => {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen,
     });
@@ -36,51 +63,27 @@ class NavBar extends Component {
     this.closeDropdown();
   }
 
-  toggleSlide = () => {
-    const elem = document.getElementsByClassName('nav-menu')[0];
-    if (elem.className === 'nav-menu') {
-      elem.className = 'nav-menu open';
-    } else {
-      elem.className = 'nav-menu';
-    }
-  }
 
   render() {
     const user = this.props.auth.isAuthenticated ? this.props.auth.user : null;
-    const defaultAvatar = 'images/avatar.png';
-
-    const avatar = user ? user.avatar || defaultAvatar : defaultAvatar;
     const dropdownMenuClass = 'dropdown-menu list-group keep-dropdown w230';
 
     const dropdownActions = user ? (
       <ul className={dropdownMenuClass} role="menu" tabIndex="0" onBlur={() => this.setState({ dropdownOpen: false })} >
-        <li className="list-group-item" role="menuitem" onClick={this.toggleDropdown}>
-          <span className="glyphicon glyphicon-user" />
-          <Link to={'/profile'}> <span>My Profile</span></Link>
-        </li>
-        <li className="list-group-item" role="menuitem" onClick={this.toggleDropdown}>
-          <span className="glyphicon glyphicon-align-center" />
-          <Link to={'/feed'}> <span>My Feed</span></Link>
-        </li>
+        {this.getNavLinkItem('glyphicon-user', '/profile', 'My Profile')}
+        {this.getNavLinkItem('glyphicon-align-center', '/feed', 'My Feed')}
+        {this.getNavLinkItem('glyphicon-info-sign', '/about', 'About Gobo')}
+        {this.getNavLinkItem('glyphicon-eye-open', '/privacy', 'Privacy Policy')}
         <li className="list-group-item" role="menuitem" onClick={this.toggleDropdown}>
           <span className="glyphicon glyphicon-log-out" />
-          <a role="button" onClick={() => this.props.dispatch(logout())}><span>Logout</span></a>
-        </li>
-        <li className="list-group-item" role="menuitem" onClick={this.toggleDropdown}>
-          <span className="glyphicon glyphicon-info-sign" />
-          <Link to={'/about'}> <span>About Gobo</span></Link>
+          <a role="button" tabIndex="0" onClick={() => this.props.dispatch(logout())}><span>Logout</span></a>
         </li>
       </ul>
     ) :
       (<ul className={dropdownMenuClass} role="menu" tabIndex="0" onBlur={() => this.setState({ dropdownOpen: false })} >
-        <li className="list-group-item" role="menuitem" onClick={this.toggleDropdown}>
-          <span className="glyphicon glyphicon-picture" />
-          <Link to={'/register'}><span>Register</span></Link>
-        </li>
-        <li className="list-group-item" role="menuitem" onClick={this.toggleDropdown}>
-          <span className="glyphicon glyphicon-log-in" />
-          <Link to={'/login'}> <span>Login</span></Link>
-        </li>
+        {this.getNavLinkItem('glyphicon-picture', '/register', 'Register')}
+        {this.getNavLinkItem('glyphicon-log-in', '/login', 'Login')}
+        {this.getNavLinkItem('glyphicon-eye-open', '/privacy', 'Privacy Policy')}
       </ul>);
 
     let dropdownClass = 'dropdown dropdown-fuse navbar-user';
@@ -88,19 +91,10 @@ class NavBar extends Component {
       dropdownClass += ' open';
     }
 
+    const defaultAvatar = 'images/avatar.png';
+    const avatar = user ? user.avatar || defaultAvatar : defaultAvatar;
     const dropDownArrowDir = this.state.dropdownOpen ? 'up' : 'down';
-    let userName;
-    if (user) {
-      if (user.facebook_name) {
-        userName = user.facebook_name.split(' ')[0];
-      } else if (user.twitter_name) {
-        userName = `@${user.twitter_name}`;
-      } else {
-        userName = 'User';
-      }
-    } else {
-      userName = 'User';
-    }
+    const userName = this.getUserName(user);
     const dropdown = (
       <li className={dropdownClass}>
         <a className="dropdown-toggle" onClick={this.toggleDropdown} aria-expanded={this.state.dropdownOpen} role="button">
