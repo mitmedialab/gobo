@@ -22,7 +22,7 @@ class SelectPersona extends Component {
   render() {
     return (
       <div>
-        <p>
+        <p className="registration-description">
           To tailor your feed, tell us a little about what type of news you read.
           <br />
           Scan the names of popular news sites below and click on the one you read most.

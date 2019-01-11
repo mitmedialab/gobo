@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const RegisterSuccess = () => (
   <div>
-    <p>
+    <p className="registration-description">
       You are all set to start using Gobo!
       <br />
       Go ahead and check out your feed

@@ -19,9 +19,7 @@ const Profile = (props) => {
   if (!props.auth.isAuthenticated) {
     return <Redirect to="/" />;
   }
-  // todo: remove inline styles
   const user = props.auth.user;
-  // console.log(user)
   const avatar = user.facebook_picture_url || user.avatar || '/images/avatar.png';
   let twitterContent;
   let facebookContent;
@@ -33,7 +31,7 @@ const Profile = (props) => {
   }
   if (user.twitter_authorized) {
     twitterContent = (
-      <div className="profile_content_twitter authorized">
+      <div className="profile-content authorized">
         <p>
           <b>Twitter</b>:
           <a href={`https://twitter.com/@${user.twitter_name}`}>{`@${user.twitter_name}`}</a>
@@ -43,7 +41,7 @@ const Profile = (props) => {
     );
   } else {
     twitterContent = (
-      <div className="profile_content_twitter unauthorized">
+      <div className="profile-content unauthorized">
         <p>
           <b>Twitter</b>: Not Connected
         </p>
@@ -52,16 +50,16 @@ const Profile = (props) => {
   }
   if (user.facebook_authorized) {
     facebookContent = (
-      <div className="profile_content_facebook">
+      <div className="profile-content">
         <p>
           <b>Facebook</b>:
-          <a href={`https://facebook.com/@${user.facebook_name}`}>{user.facebook_name}</a>
+          <a href={`https://facebook.com/@${user.facebook_name}`}> {user.facebook_name}</a>
         </p>
       </div>
     );
   } else {
     facebookContent = (
-      <div className="profile_content_facebook unauthorized">
+      <div className="profile-content unauthorized">
         <p>
           <b>Facebook</b>: Not Connected
         </p>
@@ -69,11 +67,11 @@ const Profile = (props) => {
     );
   }
   return (
-    <div className={'page'}>
-      <div className={'profile-content'}>
+    <div className="page">
+      <div className="profile-content">
         <div className="create_account_screen">
           <div className="create_account_form">
-            <div className={'row header'} >
+            <div className="row header" >
               <img className="profile-img" src={avatar} alt={accountName} />
               <div className="profile-info">
                 <h3>{accountName}</h3>
@@ -101,6 +99,7 @@ const Profile = (props) => {
                 <Link to="/feed">
                   <button className="button button_wide"> Back to my feed</button>
                 </Link>
+                <p className="profile-privacy-description"><small>See our <Link to={'/privacy'}> privacy policy</Link> for more information.</small></p>
               </div>
             </div>
           </div>

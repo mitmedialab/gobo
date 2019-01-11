@@ -18,6 +18,6 @@ export const DELETE_USER_REQUEST = 'DELETE_USER_REQUEST';
 export const DELETE_USER_SUCCESS = 'DELETE_USER_SUCCESS';
 export const DELETE_USER_FAILURE = 'DELETE_USER_FAILURE';
 
-export const VERSION = 'v1.6.0';
+export const VERSION = 'v1.7.0';
 
 export const API_URL = '';  // process.env.NODE_ENV === 'production' ? '': 'http://localhost:5000/'

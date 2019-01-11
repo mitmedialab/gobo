@@ -109,7 +109,7 @@ class Login extends Component {
                 <hr />
 
                 <div>
-                  <p>Don&apos;t have an account yet?</p>
+                  <p className="registration-description">Don&apos;t have an account yet?</p>
                   <p>
                     <Link to="/register">
                       <button className="button button_wide"> Click here to Register</button>

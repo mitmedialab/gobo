@@ -1,18 +1,15 @@
 .profile-content {
+  $large-buffer: $padding-large-vertical * 2;
+
   max-width: 900px;
   margin: 0 auto;
 
-  p {
-    text-align: left !important;
-    margin-bottom: 0px !important; 
+  .create_account_screen {
+    margin-bottom: 0px;
   }
 
-  .profile_content_twitter {
-    margin-top: 20px;    
-  }
-
-  .profile_content_facebook {
-    margin-top: 20px;
+  .profile-content {
+    margin-top: $large-buffer;
   }
 
   .header {
@@ -26,14 +23,14 @@
   .profile-img {
     display: inline-block;
     max-height: 140px;
-    /* vertical-align: top; */
+    vertical-align: top;
     padding-left: 20px;
     padding-top: 60px;
   }
 
   .profile-info {
     display: inline-block;
-    padding: 20px;
+    padding: $large-buffer;
 
     h3 {
       margin-top: 0;
@@ -42,7 +39,11 @@
   }
 
   .facebook_twitter_buttons {
-    margin-bottom: 40px;
+    margin-bottom: $padding-large-vertical;
+  }
+
+  .profile-privacy-description {
+    margin-top: $large-buffer;
   }
 
 }

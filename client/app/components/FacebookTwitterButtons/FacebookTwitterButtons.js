@@ -7,15 +7,6 @@ import { getAuthUrl, waitForTwitterCallback, fetchFacebookAppId } from '../../ac
 import { postFacebookResponseToServer } from '../../utils/apiRequests';
 
 
-const propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  twitter_data: PropTypes.object.isRequired,
-  facebookConnected: PropTypes.bool,
-  twitterConnected: PropTypes.bool,
-  auth: PropTypes.object,
-  // onFinish: PropTypes.func.isRequired,
-};
-
 const MAX_POLLS = 120;
 
 class FacebookTwitterButtons extends Component {
@@ -29,9 +20,6 @@ class FacebookTwitterButtons extends Component {
       polling: false,
       pollCount: 0,
     };
-    this.responseFacebook = this.responseFacebook.bind(this);
-    this.onTwitterButtonClick = this.onTwitterButtonClick.bind(this);
-    this.facebookAppId = '';
   }
 
   componentWillMount() {
@@ -43,7 +31,6 @@ class FacebookTwitterButtons extends Component {
       nextProps.twitter_data.oauth_url != null) {
       if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         // redirect to twitter auth
-        console.log(nextProps.twitter_data.oauth_url);
         window.location.replace(nextProps.twitter_data.oauth_url);
       } else {
         window.open(nextProps.twitter_data.oauth_url, '_blank', 'width=500,height=500');
@@ -64,10 +51,77 @@ class FacebookTwitterButtons extends Component {
     clearTimeout(this.timeout);
   }
 
-  onTwitterButtonClick() {
+  onTwitterButtonClick = () => {
     this.props.dispatch(getAuthUrl());
     this.startPoll();
     this.setState({ polling: true });
+  }
+
+
+  getConnectButtonClass = (success) => {
+    let buttonClass = 'button button_wide ';
+    if (success) {
+      buttonClass += 'disabled';
+    }
+    return buttonClass;
+  }
+
+  getButtonDefaults = (success, platformName) => ({
+    buttonClass: this.getConnectButtonClass(success),
+    buttonText: success ? `${platformName} Connected` : `Connect your ${platformName}`,
+    buttonIcon: success ? 'icon-tick' : '',
+  })
+
+  getFacebookButton = () => {
+    const buttonProps = this.getButtonDefaults(this.state.facebookSuccess, 'Facebook');
+    return (
+      <div>
+        <FacebookLogin
+          appId={this.props.twitter_data.facebookAppId}
+          autoLoad={false}
+          fields="name,email,picture"
+          scope="public_profile,user_friends,email,user_posts,user_likes"
+          callback={this.responseFacebook}
+          tag="button"
+          cssClass={buttonProps.buttonClass}
+          textButton={buttonProps.buttonText}
+          isDisabled={this.state.facebookSuccess}
+          disableMobileRedirect={false}
+          icon={<i className={`button-icon ${buttonProps.buttonIcon}`} />}
+        />
+        <p><small>Connect to Facebook to allow Gobo to read Facebook pages that you like. Gobo displays public posts from liked pages for you to filter. Unfortunately we cannot display posts on your feed from your friends.</small></p>
+      </div>
+    );
+  }
+
+  getTwitterButton = () => {
+    const buttonProps = this.getButtonDefaults(this.state.twitterSuccess, 'Twitter');
+    if (this.state.twitterError) {
+      buttonProps.buttonText = 'Error authenticating twitter. Please try again ';
+    }
+    return (
+      <div>
+        <button onClick={this.onTwitterButtonClick} className={buttonProps.buttonClass} >
+          {buttonProps.buttonText} <i className={`button-icon ${buttonProps.buttonIcon}`} />
+        </button>
+        <p><small>Connect to Twitter to allow Gobo to read tweets from your timeline. Gobo displays up to 500 of the most recent posts from your feed for you to filter.</small></p>
+      </div>
+    );
+  }
+
+  isDone() {
+    if (this.state.facebookSuccess && this.state.twitterSuccess) {
+      // this.props.onFinish()
+    }
+  }
+
+  responseFacebook = (response) => {
+    if ('name' in response) {
+      this.setState({ facebookSuccess: true });
+      // dispatch response to server
+      postFacebookResponseToServer(response);
+    }
+    this.isDone();
   }
 
   startPoll() {
@@ -79,74 +133,28 @@ class FacebookTwitterButtons extends Component {
     }
   }
 
-  responseFacebook(response) {
-    console.log(response);
-    if ('name' in response) {
-      this.setState({ facebookSuccess: true });
-      // dispatch response to server
-      postFacebookResponseToServer(response);
-    }
-    this.isDone();
-  }
-
-  isDone() {
-    if (this.state.facebookSuccess && this.state.twitterSuccess) {
-      // this.props.onFinish()
-    }
-  }
-
   render() {
-    let facebookButtonClass = 'button button_wide ';
-    let twitterButtonClass = 'button button_wide ';
-
-    if (this.state.facebookSuccess) {
-      facebookButtonClass += 'disabled';
-    }
-
-    if (this.state.twitterSuccess) {
-      twitterButtonClass += 'disabled';
-    }
-    const successIcon = 'icon-tick';
-    const addIcon = 'icon-plus';
-
-    const FBIcon = this.state.facebookSuccess ? successIcon : addIcon;
-    const twitterIcon = this.state.twitterSuccess ? successIcon : addIcon;
-
-    const facebookButtonText = this.state.facebookSuccess ? 'Facebook Connected' : 'Connect your Facebook';
-    let twitterButtonText = this.state.twitterSuccess ? 'Twitter Connected' : 'Connect your Twitter';
-    if (this.state.twitterError) {
-      twitterButtonText = 'Error authenticating twitter. Please try again ';
-    }
-    let fbButton;
-    if (this.props.twitter_data.isFacebookEnabled && this.props.twitter_data.facebookAppId) {
-      fbButton = (
-        <FacebookLogin
-          appId={this.props.twitter_data.facebookAppId}
-          autoLoad={false}
-          fields="name,email,picture"
-          scope="public_profile,user_friends,email,user_posts,user_likes"
-          callback={this.responseFacebook}
-          tag="button"
-          cssClass={facebookButtonClass}
-          textButton={facebookButtonText}
-          isDisabled={this.state.facebookSuccess}
-          disableMobileRedirect={false}
-          icon={<i className={`button-icon ${FBIcon}`} />}
-        />);
-    } else {
-      fbButton = (<div />);
-    }
+    const isFacebookEnabled = this.props.twitter_data.isFacebookEnabled && this.props.twitter_data.facebookAppId;
     return (
       <div className="facebook_twitter_buttons">
-        <button onClick={this.onTwitterButtonClick} className={twitterButtonClass} >
-          {twitterButtonText} <i className={`button-icon ${twitterIcon}`} />
-        </button>
-        {fbButton}
+        {this.getTwitterButton()}
+        {isFacebookEnabled && this.getFacebookButton()}
       </div>
     );
   }
 }
 
-FacebookTwitterButtons.propTypes = propTypes;
+FacebookTwitterButtons.defaultProps = {
+  facebookConnected: false,
+  twitterConnected: false,
+};
+
+FacebookTwitterButtons.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  twitter_data: PropTypes.object.isRequired,
+  facebookConnected: PropTypes.bool,
+  twitterConnected: PropTypes.bool,
+  auth: PropTypes.object.isRequired,
+};
 
 export default connect(state => ({ twitter_data: state.twitterLogin, auth: state.auth }))(FacebookTwitterButtons);
