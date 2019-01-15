@@ -37,9 +37,9 @@ class LockScreen extends Component {
 
   render() {
     return (
-      <div className="create_account_screen">
+      <div className="registration-screen">
         <h1>Registration</h1>
-        <div className="create_account_form">
+        <div className="registration-form">
           <div className="content">
             <div>
               <p>

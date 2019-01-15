@@ -72,3 +72,16 @@ export function verifyPassword(password) {
 export function deleteAccount() {
   return axios.get(`${API_URL}api/delete_acct`);
 }
+
+export function emailResetPassword(email) {
+  return axios.post(`${API_URL}api/email_reset_password`, {
+    email,
+  });
+}
+
+export function updatePassword(token, password) {
+  return axios.post(`${API_URL}api/reset_password`, {
+    token,
+    password,
+  });
+}

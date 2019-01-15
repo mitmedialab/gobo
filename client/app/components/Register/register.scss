@@ -1,5 +1,5 @@
 $button-default-color: #fff;
-.create_account_screen {
+.registration-screen {
   @include display(absolute);
   @include topLeft(0, 0);
   @include bottomRight(0, 0);
@@ -13,7 +13,7 @@ $button-default-color: #fff;
     text-align: center;
   }
 
-  .create_account_form {
+  .registration-form {
     @include flex-display();
     @include flex-direction(column);
     @include justify-content(center);
@@ -100,23 +100,19 @@ $button-default-color: #fff;
         }
       }
 
-
-        &.disabled {
+      &.disabled {
+        background: #fff;
+        cursor: not-allowed;
+        color: $button-default-bg;
+        border: 1px solid  $button-default-bg;
+        &:hover,
+        &:focus {
           background: #fff;
           cursor: not-allowed;
           color: $button-default-bg;
           border: 1px solid  $button-default-bg;
-          &:hover,
-          &:focus {
-            background: #fff;
-            cursor: not-allowed;
-            color: $button-default-bg;
-            border: 1px solid  $button-default-bg;
-          }
         }
-
-
-
+      }
 
       &:hover,
       &:focus {
@@ -181,7 +177,7 @@ $button-default-color: #fff;
   }
 
   @media (max-width: 700px) {
-    .create_account_form {
+    .registration-form {
       margin: 30px 3px 40px 3px;
     }
 
@@ -192,6 +188,10 @@ $button-default-color: #fff;
   margin: 0 auto;
   text-align: center;
   padding-top: 2em;
+}
+
+.forgot-password {
+  padding-bottom: $padding-large-vertical * 1.2;
 }
 
 //$-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }

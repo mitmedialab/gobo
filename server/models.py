@@ -1,6 +1,9 @@
 # pylint: disable=too-many-instance-attributes,no-self-use
 
 import datetime
+
+from sqlalchemy.ext.hybrid import hybrid_property
+
 from server.core import db, bcrypt
 from server.enums import GenderEnum, PoliticsEnum, EchoRangeEnum
 
@@ -16,7 +19,7 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(255), unique=True, nullable=False)
-    password = db.Column(db.String(255), nullable=False)
+    _password = db.Column('password', db.String(255), nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
     completed_registration = db.Column(db.Boolean, default=False)
 
@@ -49,11 +52,22 @@ class User(db.Model):
 
     def __init__(self, email, password):
         self.email = email
-        self.password = bcrypt.generate_password_hash(password)
+        self.password = password
         self.registered_on = datetime.datetime.now()
         self.last_login = datetime.datetime.now()
         settings = Settings()
         self.settings = settings
+
+    @hybrid_property
+    def password(self):
+        return self._password
+
+    @password.setter
+    def _set_password(self, plaintext):
+        self._password = bcrypt.generate_password_hash(plaintext)
+
+    def check_password(self, plaintext):
+        return bcrypt.check_password_hash(self.password, plaintext)
 
     def is_authenticated(self):
         return True
