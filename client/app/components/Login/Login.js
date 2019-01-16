@@ -121,6 +121,10 @@ Login.propTypes = {
   isPasswordUpdated: PropTypes.bool,
 };
 
+Login.defaultProps = {
+  isPasswordUpdated: false,
+};
+
 function mapStateToProps(state) {
   return {
     auth: state.auth,
