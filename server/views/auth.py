@@ -1,5 +1,5 @@
 import logging
-from flask import current_app as app, url_for, render_template, request, jsonify
+from flask import current_app as app, url_for, render_template_string, request, jsonify
 from flask_login import login_required, login_user, logout_user, current_user
 from itsdangerous import BadData, URLSafeTimedSerializer
 from sqlalchemy.exc import IntegrityError
@@ -9,6 +9,7 @@ from server.core import db, mail
 from server.models import FacebookAuth, Post, post_associations_table, Settings, SettingsUpdate, TwitterAuth, User
 from server.blueprints import api
 
+from server.templates.email.forgot_password import FORGOT_PASSWORD
 from server.utils import send_email
 
 logger = logging.getLogger(__name__)
@@ -155,8 +156,8 @@ def email_reset_password():
     token = URLSafeTimedSerializer(app.config["SECRET_KEY"]).dumps(user.email, salt=RESET_PASSWORD_SALT)
     password_reset_url = url_for('home.reset_password', token=token, _external=True)
 
-    message = render_template(
-        'email/forgot-password.html',
+    message = render_template_string(
+        FORGOT_PASSWORD,
         password_reset_url=password_reset_url)
     send_email(mail, [user.email], 'Reset your Gobo password', message)
     return jsonify({'statusText': 'Email sent'})
