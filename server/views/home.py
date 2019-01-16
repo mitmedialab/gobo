@@ -8,7 +8,7 @@ def index():
 
 
 @home.route('/<path:path>', methods=['GET'])
-def any_root_path(path): # pylint: disable=unused-argument
+def any_root_path(path):  # pylint: disable=unused-argument
     return render_template('index.html')
 
 
@@ -55,5 +55,5 @@ def forgot_password():
 
 
 @home.route('/reset_password?token=<token>', methods=['GET'])
-def reset_password(_token):
+def reset_password(token):  # pylint: disable=unused-argument
     return render_template('index.html')

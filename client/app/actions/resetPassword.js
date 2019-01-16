@@ -8,13 +8,20 @@ export const RESET_PASSWORD_REQUEST = 'password/RESET_PASSWORD_REQUEST';
 export const RESET_PASSWORD_FAILURE = 'password/RESET_PASSWORD_FAILURE';
 export const RESET_PASSWORD_SUCCESS = 'password/RESET_PASSWORD_SUCCESS';
 
+const DEFAULT_ERROR = {
+  response: {
+    status: 500,
+    statusText: 'Something went wrong. Try again.',
+  },
+};
+
 export function emailResetPasswordRequest() {
   return {
     type: EMAIL_RESET_PASSWORD_REQUEST,
   };
 }
 
-export function emailSentFailure(error) {
+export function emailSentFailure(error = DEFAULT_ERROR) {
   return {
     type: EMAIL_RESET_PASSWORD_REQUEST_FAILURE,
     payload: {
@@ -40,7 +47,12 @@ export function sendResetPassword(email) {
       .then((response) => {
         if (response.status === 200) {
           dispatch(emailSentSuccess());
-        } else if (response.status === 404) {
+        } else {
+          dispatch(emailSentFailure());
+        }
+      })
+      .catch((e) => {
+        if (e.response.status === 404) {
           dispatch(emailSentFailure({
             response: {
               status: 404,
@@ -48,21 +60,8 @@ export function sendResetPassword(email) {
             },
           }));
         } else {
-          dispatch(emailSentFailure({
-            response: {
-              status: 500,
-              statusText: 'Something went wrong. Try again.',
-            },
-          }));
+          dispatch(emailSentFailure());
         }
-      })
-      .catch(() => {
-        dispatch(emailSentFailure({
-          response: {
-            status: 500,
-            statusText: 'Something went wrong. Try again.',
-          },
-        }));
       });
   };
 }
@@ -74,7 +73,7 @@ export function resetPasswordRequest() {
   };
 }
 
-export function resetPasswordFailure(error) {
+export function resetPasswordFailure(error = DEFAULT_ERROR) {
   return {
     type: RESET_PASSWORD_FAILURE,
     payload: {
@@ -83,11 +82,11 @@ export function resetPasswordFailure(error) {
   };
 }
 
-export function resetPasswordSuccess(user) {
+export function resetPasswordSuccess() {
   return {
     type: RESET_PASSWORD_SUCCESS,
     payload: {
-      user,
+      status: 200,
     },
   };
 }
@@ -99,29 +98,28 @@ export function resetPassword(token, password) {
       .then((response) => {
         if (response.status === 200) {
           dispatch(resetPasswordSuccess());
-        } else if (response.status === 404) {
+        } else {
+          dispatch(resetPasswordFailure());
+        }
+      })
+      .catch((e) => {
+        if (e.response.status === 404) {
           dispatch(resetPasswordFailure({
             response: {
               status: 404,
               statusText: 'Email not found.',
             },
           }));
-        } else {
+        } else if (e.response.status === 400) {
           dispatch(resetPasswordFailure({
             response: {
               status: 400,
               statusText: 'Password reset expired.',
             },
           }));
+        } else {
+          dispatch(resetPasswordFailure());
         }
-      })
-      .catch(() => {
-        dispatch(resetPasswordFailure({
-          response: {
-            status: 500,
-            statusText: 'Something went wrong. Try again.',
-          },
-        }));
       });
   };
 }
