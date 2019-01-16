@@ -3,12 +3,13 @@ from flask import current_app as app, url_for, render_template, request, jsonify
 from flask_login import login_required, login_user, logout_user, current_user
 from itsdangerous import BadData, URLSafeTimedSerializer
 from sqlalchemy.exc import IntegrityError
-from werkzeug.exceptions import BadRequest, InternalServerError
+from werkzeug.exceptions import BadRequest, InternalServerError, NotImplemented as NotImplementedEndpoint
 
-from server.core import db
+from server.core import db, mail
 from server.models import FacebookAuth, Post, post_associations_table, Settings, SettingsUpdate, TwitterAuth, User
 from server.blueprints import api
 
+from server.utils import send_email
 
 logger = logging.getLogger(__name__)
 RESET_PASSWORD_SALT = 'RESET_PASSWORD'
@@ -146,23 +147,18 @@ def delete_user_by_id(user_id, db_session):
 
 @api.route('/email_reset_password', methods=["POST"])
 def email_reset_password():
+    if not app.config['ENABLE_MAIL']:
+        raise NotImplementedEndpoint()
     json_data = request.json
     email = json_data['email']
     user = User.query.filter_by(email=email).first_or_404()
     token = URLSafeTimedSerializer(app.config["SECRET_KEY"]).dumps(user.email, salt=RESET_PASSWORD_SALT)
-    password_reset_url = url_for('home.reset_password', token=token)
+    password_reset_url = url_for('home.reset_password', token=token, _external=True)
 
-    html = render_template(
+    message = render_template(
         'email/forgot-password.html',
         password_reset_url=password_reset_url)
-
-    subject = password_reset_url
-    return send_email(user.email, subject, html)
-
-
-# TODO: send an email and do it from utils?
-def send_email(email, subject, html):
-    logger.debug(subject)
+    send_email(mail, [user.email], 'Reset your Gobo password', message)
     return jsonify({'statusText': 'Email sent'})
 
 

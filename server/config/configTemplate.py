@@ -49,6 +49,14 @@ class BaseConfig(object):
     NUMBER_OF_USERS_TO_UPDATE = 30
     HOURS_TO_WAIT = 6
 
+    ENABLE_MAIL = False
+    MAIL_DEFAULT_SENDER = ''
+    MAIL_SERVER = ''
+    MAIL_PORT = 0
+    MAIL_USE_SSL = True
+    MAIL_USERNAME = ''
+    MAIL_PASSWORD = ''
+
 
 class DevConfig(BaseConfig):
     DEBUG = True

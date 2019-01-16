@@ -55,5 +55,5 @@ def forgot_password():
 
 
 @home.route('/reset_password?token=<token>', methods=['GET'])
-def reset_password(token):
+def reset_password(_token):
     return render_template('index.html')

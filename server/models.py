@@ -59,7 +59,7 @@ class User(db.Model):
         self.settings = settings
 
     @hybrid_property
-    def password(self):
+    def password(self):  # pylint: disable=method-hidden
         return self._password
 
     @password.setter
