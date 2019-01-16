@@ -7,7 +7,7 @@ from raven.contrib.flask import Sentry
 
 from commands import create_db, drop_db
 
-from .core import db, bcrypt, login_manager, migrate
+from .core import db, bcrypt, login_manager, mail, migrate
 # pylint: disable=no-name-in-module,import-error
 from .config.config import config_map
 from .blueprints import all_blueprints
@@ -29,6 +29,9 @@ def create_app(env=None):
     bcrypt.init_app(app)
     login_manager.init_app(app)
     migrate.init_app(app, db)
+
+    if config.ENABLE_MAIL:
+        mail.init_app(app)
 
     # register_blueprints
     for bp in all_blueprints:

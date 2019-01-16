@@ -1,14 +1,18 @@
 import logging
-from flask import request, jsonify
+from flask import current_app as app, url_for, render_template, request, jsonify
 from flask_login import login_required, login_user, logout_user, current_user
+from itsdangerous import BadData, URLSafeTimedSerializer
 from sqlalchemy.exc import IntegrityError
+from werkzeug.exceptions import BadRequest, InternalServerError, NotImplemented as NotImplementedEndpoint
 
-# TODO: import only what is needed
-# pylint: disable=unused-wildcard-import,wildcard-import
-from server.models import *
+from server.core import db, mail
+from server.models import FacebookAuth, Post, post_associations_table, Settings, SettingsUpdate, TwitterAuth, User
 from server.blueprints import api
 
+from server.utils import send_email
+
 logger = logging.getLogger(__name__)
+RESET_PASSWORD_SALT = 'RESET_PASSWORD'
 
 
 @api.route('/register', methods=['POST'])
@@ -37,7 +41,8 @@ def register():
             status_text = """Sorry, but something went wrong..Please reload
                               the page and try again"""
             logger.exception(e)
-        db.session.close()
+        finally:
+            db.session.close()
     return jsonify({'statusText': status_text}), code
 
 
@@ -46,8 +51,7 @@ def login():
     json_data = request.json
     user_result = False
     user = User.query.filter_by(email=json_data['email'].lower()).first()
-    if user and bcrypt.check_password_hash(
-            user.password, json_data['password']):
+    if user and user.check_password(json_data['password']):
         login_user(user, remember=True)
         user_result = user.get_names()
         current_user.update_last_login()
@@ -139,3 +143,46 @@ def delete_user_by_id(user_id, db_session):
     db_session.close()
 
     return status
+
+
+@api.route('/email_reset_password', methods=["POST"])
+def email_reset_password():
+    if not app.config['ENABLE_MAIL']:
+        raise NotImplementedEndpoint()
+    json_data = request.json
+    email = json_data['email']
+    user = User.query.filter_by(email=email).first_or_404()
+    token = URLSafeTimedSerializer(app.config["SECRET_KEY"]).dumps(user.email, salt=RESET_PASSWORD_SALT)
+    password_reset_url = url_for('home.reset_password', token=token, _external=True)
+
+    message = render_template(
+        'email/forgot-password.html',
+        password_reset_url=password_reset_url)
+    send_email(mail, [user.email], 'Reset your Gobo password', message)
+    return jsonify({'statusText': 'Email sent'})
+
+
+@api.route('/reset_password', methods=["POST"])
+def reset_with_token():
+    json_data = request.json
+    token = json_data['token']
+    password = json_data['password']
+    ts = URLSafeTimedSerializer(app.config["SECRET_KEY"])
+
+    try:
+        hour = 86400
+        email = ts.loads(token, salt=RESET_PASSWORD_SALT, max_age=hour)
+        user = User.query.filter_by(email=email).first_or_404()
+        user.password = password
+        db.session.add(user)
+        db.session.commit()
+    except BadData as e:
+        logger.exception(e)
+        raise BadRequest('Token invalid')
+    except Exception as e:
+        logger.exception(e)
+        raise InternalServerError()
+    finally:
+        db.session.close()
+
+    return jsonify({'statusText': 'Password updated'})

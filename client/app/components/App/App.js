@@ -18,6 +18,8 @@ const Privacy = () => <Async load={import('components/Privacy/Privacy')} />;
 const Settings = () => <Async load={import('components/Settings/Settings')} />;
 const TwitterCallback = () => <Async load={import('components/TwitterCallback/TwitterCallback')} />;
 const NoMatch = () => <Async load={import('components/NoMatch/NoMatch')} />;
+const ForgotPassword = () => <Async load={import('components/ForgotPassword/ForgotPassword')} />;
+const ResetPassword = () => <Async load={import('components/ResetPassword/ResetPassword')} />;
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -51,6 +53,8 @@ class App extends Component {
             <Route path="/twitter_callback" component={TwitterCallback} />
             <Route path="/about" component={Landing} />
             <Route path="/privacy" component={Privacy} />
+            <Route path="/forgot_password" component={ForgotPassword} />
+            <Route path="/reset_password%3Ftoken%3D:token" component={ResetPassword} />
             <Route path="/api/:function" />
             <Route path="*/" component={NoMatch} />
           </Switch>

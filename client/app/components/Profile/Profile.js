@@ -69,8 +69,8 @@ const Profile = (props) => {
   return (
     <div className="page">
       <div className="profile-content">
-        <div className="create_account_screen">
-          <div className="create_account_form">
+        <div className="registration-screen">
+          <div className="registration-form">
             <div className="row header" >
               <img className="profile-img" src={avatar} alt={accountName} />
               <div className="profile-info">

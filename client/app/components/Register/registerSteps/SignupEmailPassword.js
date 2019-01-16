@@ -1,12 +1,14 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { registerUser } from 'actions/auth';
+import EmailInput from 'components/Input/EmailInput';
+import PasswordInput from 'components/Input/PasswordInput';
 import Input from 'components/Input/Input';
 import { validateEmail } from 'utils/misc';
-import _ from 'lodash';
 import Loader from 'components/Loader/Loader';
-import { Link } from 'react-router-dom';
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -19,10 +21,9 @@ class SignupEmailPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: null,
-      password: null,
+      email: '',
+      password: '',
       confirmPassword: null,
-      forbiddenWords: ['password', 'user', 'username'],
     };
     this.handlePasswordInput = this.handlePasswordInput.bind(this);
     this.handleConfirmPasswordInput = this.handleConfirmPasswordInput.bind(this);
@@ -41,14 +42,14 @@ class SignupEmailPassword extends Component {
     e.preventDefault();
 
     const canProceed = validateEmail(this.state.email)
-      && this.refs.password.isValid()
+      && this.passwordRef.isValid()
       && this.refs.passwordConfirm.isValid();
 
     if (canProceed) {
       this.props.dispatch(registerUser(this.state.email, this.state.password));
     } else {
-      this.refs.email.isValid();
-      this.refs.password.isValid();
+      this.emailRef.isValid();
+      this.passwordRef.isValid();
       this.refs.passwordConfirm.isValid();
     }
   }
@@ -84,29 +85,14 @@ class SignupEmailPassword extends Component {
       <div>
         <form>
           <p className="registration-description">Register with email and password</p>
-          <Input
-            text="Email Address"
-            ref="email"
-            type="text"
-            defaultValue={this.state.email}
-            validate={validateEmail}
-            value={this.state.email}
+          <EmailInput
+            onRef={(c) => { this.emailRef = c; }}
+            email={this.state.email}
             onChange={this.handleEmailInput}
-            errorMessage="Email is invalid"
-            emptyMessage="Email can't be empty"
-            errorVisible={this.state.showEmailError}
           />
-          <Input
-            text="Password"
-            type="password"
-            ref="password"
-            validator
-            minCharacters="6"
-            requireCapitals="0"
-            requireNumbers="1"
-            forbiddenWords={this.state.forbiddenWords}
-            value={this.state.passsword}
-            emptyMessage="Password can't be empty"
+          <PasswordInput
+            onRef={(c) => { this.passwordRef = c; }}
+            password={this.state.password}
             onChange={this.handlePasswordInput}
           />
           <Input

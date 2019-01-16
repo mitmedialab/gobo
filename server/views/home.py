@@ -8,7 +8,7 @@ def index():
 
 
 @home.route('/<path:path>', methods=['GET'])
-def any_root_path(path): # pylint: disable=unused-argument
+def any_root_path(path):  # pylint: disable=unused-argument
     return render_template('index.html')
 
 
@@ -33,14 +33,27 @@ def feed():
 def profile():
     return render_template('index.html')
 
+
 @home.route('/twitter_callback', methods=['GET'])
 def twitter_callback():
     return render_template('index.html')
+
 
 @home.route('/privacy', methods=['GET'])
 def privacy():
     return render_template('index.html')
 
+
 @home.route('/about', methods=['GET'])
 def about():
+    return render_template('index.html')
+
+
+@home.route('/forgot_password', methods=['GET'])
+def forgot_password():
+    return render_template('index.html')
+
+
+@home.route('/reset_password?token=<token>', methods=['GET'])
+def reset_password(token):  # pylint: disable=unused-argument
     return render_template('index.html')

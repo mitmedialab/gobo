@@ -5,15 +5,8 @@ import { loginUser } from 'actions/auth';
 import { validateEmail } from 'utils/misc';
 import PropTypes from 'prop-types';
 import Loader from 'components/Loader/Loader';
-import Input from 'components/Input/Input';
-
-function mapStateToProps(state) {
-  return {
-    auth: state.auth,
-    isAuthenticating: state.auth.isAuthenticating,
-    isAuthenticated: state.auth.isAuthenticated,
-  };
-}
+import EmailInput from 'components/Input/EmailInput';
+import PasswordInput from 'components/Input/PasswordInput';
 
 class Login extends Component {
 
@@ -27,7 +20,7 @@ class Login extends Component {
     };
   }
 
-  changeValue(e, type) {
+  handleChange = (e, type) => {
     const value = e.target.value;
     const nextState = {};
     nextState[type] = value;
@@ -59,41 +52,33 @@ class Login extends Component {
       return <Redirect to="/feed" />;
     }
     return (
-      <div className="create_account_screen" id="login-box" role="button" onKeyPress={e => this.handleKeyPress(e)}>
+      <div className="registration-screen" id="login-box" role="button" onKeyPress={e => this.handleKeyPress(e)}>
         <div>
           <h1>Registration</h1>
 
           <div>
-            <div className="create_account_form">
+            <div className="registration-form">
               <h1>Login to Gobo</h1>
+              {this.props.isPasswordUpdated &&
+                <div className="status-text">Password updated. Please login.</div>
+              }
               <form>
-
-                <Input
-                  text="Email Address"
-                  ref={(c) => { this.emailRef = c; }}
-                  type="text"
-                  defaultValue={this.state.email}
-                  validate={validateEmail}
-                  value={this.state.email}
-                  onChange={e => this.changeValue(e, 'email')}
-                  errorMessage="Email is invalid"
-                  emptyMessage="Email can't be empty"
-                  errorVisible={this.state.showEmailError}
+                <EmailInput
+                  onRef={(c) => { this.emailRef = c; }}
+                  email={this.state.email}
+                  onChange={this.handleChange}
                 />
-
-                <Input
-                  text="Password"
-                  type="password"
-                  ref={(c) => { this.passwordRef = c; }}
-                  validator={false}
-                  minCharacters="6"
-                  requireCapitals="0"
-                  requireNumbers="1"
+                <PasswordInput
+                  useValidator={false}
                   forbiddenWords={[]}
-                  value={this.state.passsword}
-                  emptyMessage="Password is invalid"
-                  onChange={e => this.changeValue(e, 'password')}
+                  onRef={(c) => { this.passwordRef = c; }}
+                  password={this.state.password}
+                  onChange={this.handleChange}
                 />
+
+                <Link className="forgot-password pull-right" to="/forgot_password">
+                  Forgot your password?
+                </Link>
 
                 <button
                   className="button button_wide"
@@ -128,13 +113,25 @@ class Login extends Component {
   }
 }
 
-const propTypes = {
-  dispatch: PropTypes.func,
-  auth: PropTypes.object,
-  isAuthenticating: PropTypes.bool,
-  isAuthenticated: PropTypes.bool,
+Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  isAuthenticating: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  isPasswordUpdated: PropTypes.bool,
 };
 
-Login.propTypes = propTypes;
+Login.defaultProps = {
+  isPasswordUpdated: false,
+};
+
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+    isAuthenticating: state.auth.isAuthenticating,
+    isAuthenticated: state.auth.isAuthenticated,
+    isPasswordUpdated: state.resetPassword.isSuccess,
+  };
+}
 
 export default connect(mapStateToProps)(Login);
