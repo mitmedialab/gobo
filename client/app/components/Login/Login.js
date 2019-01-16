@@ -8,14 +8,6 @@ import Loader from 'components/Loader/Loader';
 import EmailInput from 'components/Input/EmailInput';
 import PasswordInput from 'components/Input/PasswordInput';
 
-function mapStateToProps(state) {
-  return {
-    auth: state.auth,
-    isAuthenticating: state.auth.isAuthenticating,
-    isAuthenticated: state.auth.isAuthenticated,
-  };
-}
-
 class Login extends Component {
 
   constructor(props) {
@@ -67,6 +59,9 @@ class Login extends Component {
           <div>
             <div className="registration-form">
               <h1>Login to Gobo</h1>
+              {this.props.isPasswordUpdated &&
+                <div className="status-text">Password updated. Please login.</div>
+              }
               <form>
                 <EmailInput
                   onRef={(c) => { this.emailRef = c; }}
@@ -118,13 +113,21 @@ class Login extends Component {
   }
 }
 
-const propTypes = {
-  dispatch: PropTypes.func,
-  auth: PropTypes.object,
-  isAuthenticating: PropTypes.bool,
-  isAuthenticated: PropTypes.bool,
+Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  isAuthenticating: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  isPasswordUpdated: PropTypes.bool,
 };
 
-Login.propTypes = propTypes;
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+    isAuthenticating: state.auth.isAuthenticating,
+    isAuthenticated: state.auth.isAuthenticated,
+    isPasswordUpdated: state.resetPassword.isSuccess,
+  };
+}
 
 export default connect(mapStateToProps)(Login);
