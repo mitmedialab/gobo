@@ -14,24 +14,19 @@ class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      settings: this.props.feed.settings,
+      settings: { ...this.props.feed.settings },
       openFilter: -1,
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.muteAllMen = this.muteAllMen.bind(this);
-    this.updateSettings = this.updateSettings.bind(this);
-    this.closeFilter = this.closeFilter.bind(this);
-    this.openFilter = this.openFilter.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     if (!this.props.feed.get_settings_success && nextProps.feed.get_settings_success) {
-      this.setState({ settings: nextProps.feed.settings });
+      this.setState({ settings: { ...nextProps.feed.settings } });
     }
   }
 
-  handleChange(e, key, isBool, isDualSlider) {
-    const newSettings = this.state.settings;
+  handleChange = (e, key, isBool, isDualSlider) => {
+    const newSettings = { ...this.state.settings };
     if (isDualSlider) {
       newSettings[`${key}_min`] = e[0];
       newSettings[`${key}_max`] = e[1];
@@ -43,8 +38,8 @@ class Settings extends Component {
     });
   }
 
-  muteAllMen() {
-    const newSettings = this.state.settings;
+  muteAllMen = () => {
+    const newSettings = { ...this.state.settings };
     newSettings.gender_female_per = 100;
     this.setState({
       settings: newSettings,
@@ -52,19 +47,19 @@ class Settings extends Component {
     this.updateSettings();
   }
 
-  openFilter(index) {
+  openFilter = (index) => {
     this.setState({
       openFilter: index,
     });
   }
 
-  closeFilter() {
+  closeFilter = () => {
     this.setState({
       openFilter: -1,
     });
   }
 
-  updateSettings() {
+  updateSettings = () => {
     this.props.dispatch(updateSettings(this.state.settings));
   }
 
@@ -90,8 +85,8 @@ class Settings extends Component {
               onAfterChange={() => this.updateSettings()}
             />
             <div className="slider-labels">
-              <span style={{ float: 'left' }}>My perspective</span>
-              <span style={{ float: 'right' }}>Lots of perspectives</span>
+              <span className="pull-left">My perspective</span>
+              <span className="pull-right">Lots of perspectives</span>
             </div>
           </div>
         ),
