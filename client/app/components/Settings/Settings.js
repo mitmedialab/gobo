@@ -8,13 +8,6 @@ import SettingsItem from 'components/SettingsItem/SettingsItem';
 import isEnabled, { KEYWORD_FILTER } from 'utils/featureFlags';
 import MuteAllMenWhy from './MuteAllMenWhy';
 
-const propTypes = {
-  dispatch: PropTypes.func,
-  feed: PropTypes.object,
-  neutralFB: PropTypes.number,
-  minimized: PropTypes.bool,
-  onMinimize: PropTypes.func,
-};
 
 class Settings extends Component {
 
@@ -194,7 +187,7 @@ class Settings extends Component {
                     checked={this.state.settings.gender_female_per === 100}
                     onClick={this.muteAllMen}
                   />
-                  <label className="checkbox-label">Mute all men.<MuteAllMenWhy /></label>
+                  <label htmlFor="mute-men" className="checkbox-label">Mute all men.<MuteAllMenWhy /></label>
                 </span>
               </div>
             </div>
@@ -305,6 +298,12 @@ function mapStateToProps(state) {
   };
 }
 
-Settings.propTypes = propTypes;
+Settings.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  neutralFB: PropTypes.number.isRequired,
+  minimized: PropTypes.bool.isRequired,
+  onMinimize: PropTypes.func.isRequired,
+  feed: PropTypes.object.isRequired,
+};
 
 export default connect(mapStateToProps)(Settings);
