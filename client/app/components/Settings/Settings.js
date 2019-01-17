@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import ReactSlider from 'react-slider';
+import PropTypes from 'prop-types';
+
 import { updateSettings } from 'actions/feed';
 import SettingsItem from 'components/SettingsItem/SettingsItem';
-import ReactSlider from 'react-slider';
+import isEnabled, { KEYWORD_FILTER } from 'utils/featureFlags';
 import MuteAllMenWhy from './MuteAllMenWhy';
 
 const propTypes = {
@@ -252,6 +254,22 @@ class Settings extends Component {
       },
 
     ];
+
+    if (isEnabled(KEYWORD_FILTER)) {
+      settings.push({
+        title: 'Keyword Filter',
+        icon: 'icon-seriousness',
+        desc: 'TBD',
+        key: 'keyword',
+        longDesc: 'TBD',
+        content: (
+          <div>
+            TBD
+          </div>
+        ),
+      });
+    }
+
     const arrowIcon = this.props.minimized ? 'left-open' : 'right-open';
     return (
       <div className="settings-content">
