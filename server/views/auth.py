@@ -151,7 +151,7 @@ def email_reset_password():
     if not app.config['ENABLE_MAIL']:
         raise NotImplementedEndpoint()
     json_data = request.json
-    email = json_data['email']
+    email = json_data['email'].lower()
     user = User.query.filter_by(email=email).first_or_404()
     token = URLSafeTimedSerializer(app.config["SECRET_KEY"]).dumps(user.email, salt=RESET_PASSWORD_SALT)
     password_reset_url = url_for('home.reset_password', token=token, _external=True)
