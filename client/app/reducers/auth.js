@@ -29,102 +29,102 @@ const initialState = {
 };
 
 export default createReducer(initialState, {
-  [LOGIN_USER_REQUEST]: state =>
-    Object.assign({}, state, {
-      isAuthenticating: true,
-      statusText: null,
-    }),
-  [LOGIN_USER_SUCCESS]: (state, payload) =>
-    Object.assign({}, state, {
-      isAuthenticating: false,
-      isAuthenticated: true,
-      user: payload.user,
-      statusText: 'You have been successfully logged in.',
-    }),
-  [LOGIN_USER_FAILURE]: (state, payload) =>
-    Object.assign({}, state, {
-      isAuthenticating: false,
-      isAuthenticated: false,
-      user: null,
-      userName: null,
-      statusText: `${payload.statusText}`,
-    }),
-  [LOGOUT_USER]: state =>
-    Object.assign({}, state, {
-      isAuthenticating: false,
-      isAuthenticated: false,
-      isRegistering: false,
-      isRegistered: false,
-      user: null,
-      userName: null,
-      statusText: null,
-      registerStatusText: null,
-    }),
-  [REGISTER_USER_SUCCESS]: (state, payload) =>
-    Object.assign({}, state, {
-      isAuthenticating: false,
-      isAuthenticated: true,
-      isRegistering: false,
-      isRegistered: true,
-      user: payload.user,
-      userName: 'TBD fix me',
-      registerStatusText: 'You have successfully registered!',
-    }),
-  [REGISTER_USER_REQUEST]: state =>
-    Object.assign({}, state, {
-      isRegistering: true,
-      registerStatusText: null,
-    }),
-  [REGISTER_USER_FAILURE]: (state, payload) =>
-    Object.assign({}, state, {
-      isAuthenticated: false,
-      isRegistering: false,
-      user: null,
-      userName: null,
-      registerStatusText: payload.statusText,
-    }),
-  [GET_USER_LOAD]: state =>
-    Object.assign({}, state, {
-      isAuthenticating: true,
-      statusText: null,
-      registerStatusText: null,
-    }),
-  [GET_USER_SUCCESS]: (state, payload) => (
-      Object.assign({}, state, {
-        isAuthenticating: false,
-        isAuthenticated: true,
-        user: payload.user,
-      })),
-  [GET_USER_FAIL]: state =>
-    Object.assign({}, state, {
-      isAuthenticating: false,
-      isAuthenticated: false,
-      user: null,
-      userName: null,
-      statusText: null,
-      registerStatusText: null,
-    }),
-  [DELETE_USER_REQUEST]: state =>
-  Object.assign({}, state, {
+  [LOGIN_USER_REQUEST]: state => ({
+    ...state,
+    isAuthenticating: true,
+    statusText: null,
+  }),
+  [LOGIN_USER_SUCCESS]: (state, payload) => ({
+    ...state,
+    isAuthenticating: false,
+    isAuthenticated: true,
+    user: payload.user,
+    statusText: 'You have been successfully logged in.',
+  }),
+  [LOGIN_USER_FAILURE]: (state, payload) => ({
+    ...state,
+    isAuthenticating: false,
+    isAuthenticated: false,
+    user: null,
+    userName: null,
+    statusText: payload.statusText,
+  }),
+  [LOGOUT_USER]: state => ({
+    ...state,
+    isAuthenticating: false,
+    isAuthenticated: false,
+    isRegistering: false,
+    isRegistered: false,
+    user: null,
+    userName: null,
+    statusText: null,
+    registerStatusText: null,
+  }),
+  [REGISTER_USER_SUCCESS]: (state, payload) => ({
+    ...state,
+    isAuthenticating: false,
+    isAuthenticated: true,
+    isRegistering: false,
+    isRegistered: true,
+    user: payload.user,
+    userName: 'TBD fix me',
+    registerStatusText: 'You have successfully registered!',
+  }),
+  [REGISTER_USER_REQUEST]: state => ({
+    ...state,
+    isRegistering: true,
+    registerStatusText: null,
+  }),
+  [REGISTER_USER_FAILURE]: (state, payload) => ({
+    ...state,
+    isAuthenticated: false,
+    isRegistering: false,
+    user: null,
+    userName: null,
+    registerStatusText: payload.statusText,
+  }),
+  [GET_USER_LOAD]: state => ({
+    ...state,
+    isAuthenticating: true,
+    statusText: null,
+    registerStatusText: null,
+  }),
+  [GET_USER_SUCCESS]: (state, payload) => ({
+    ...state,
+    isAuthenticating: false,
+    isAuthenticated: true,
+    user: payload.user,
+  }),
+  [GET_USER_FAIL]: state => ({
+    ...state,
+    isAuthenticating: false,
+    isAuthenticated: false,
+    user: null,
+    userName: null,
+    statusText: null,
+    registerStatusText: null,
+  }),
+  [DELETE_USER_REQUEST]: state => ({
+    ...state,
     isAuthenticating: false,
     statusText: null,
   }),
-  [DELETE_USER_SUCCESS]: state =>
-    Object.assign({}, state, {
-      isAuthenticating: false,
-      isAuthenticated: false,
-      user: null,
-      userName: null,
-      isDeleting: true,
-      isDeleted: true,
-      statusText: 'You have successfully deleted your account.',
-    }),
-  [DELETE_USER_FAILURE]: state =>
-    Object.assign({}, state, {
-      isAuthenticating: false,
-      isAuthenticated: true,
-      isDeleting: true,
-      isDeleted: false,
-      statusText: 'There was an error in deleting your account. Please try again.',
-    }),
+  [DELETE_USER_SUCCESS]: state => ({
+    ...state,
+    isAuthenticating: false,
+    isAuthenticated: false,
+    user: null,
+    userName: null,
+    isDeleting: true,
+    isDeleted: true,
+    statusText: 'You have successfully deleted your account.',
+  }),
+  [DELETE_USER_FAILURE]: state => ({
+    ...state,
+    isAuthenticating: false,
+    isAuthenticated: true,
+    isDeleting: true,
+    isDeleted: false,
+    statusText: 'There was an error in deleting your account. Please try again.',
+  }),
 });
