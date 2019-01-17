@@ -6,7 +6,7 @@ import Loader from 'components/Loader/Loader';
 class SingleRegistrationWrapper extends Component {
   handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      this.checkAndDispatch(e);
+      this.props.checkAndDispatch(e);
     }
   }
 
