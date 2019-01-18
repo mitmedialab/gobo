@@ -1,5 +1,7 @@
 import queryString from 'query-string';
 
+export const KEYWORD_FILTER = 'kwfilter';
+
 /**
  * QueryParams are the location.search part of the url (e.g. ft=experiment,toggle).
  *

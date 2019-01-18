@@ -80,7 +80,8 @@
     margin: 0px;
     padding: 0px;
     padding-top: 25px;
-    margin-left: 170px;
+    margin-left: 150px;
+    color: $color1;
   }
 }
 
@@ -101,10 +102,11 @@
 }
 
 .arrow-icon {
-  float:left;
+  @extend .pull-left;
   font-size: 20px;
+  color: $color1;
   padding-top: 27px;
-  padding-left: 42px;
+  padding-left: 30px;
 }
 
 
@@ -338,7 +340,7 @@ $handle-height: 24px;
     height:88px;
   }
   .arrow-icon {
-    padding-left: 14px;
+    padding-left: 0;
   }
   .filter-content {
     padding: 9px 0px;
@@ -376,6 +378,3 @@ $handle-height: 24px;
     vertical-align: middle;
   }
 }
-
-
-
