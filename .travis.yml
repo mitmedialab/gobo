@@ -13,5 +13,9 @@ jobs:
   include:
   - stage: PR checks ✅
     env:
+    - NAME=Unit Tests
+    script: cd client && npm run test
+  - stage: PR checks ✅
+    env:
     - NAME=Validation Checks
     script: "./.travis/validate_changes_for_merge.sh"
