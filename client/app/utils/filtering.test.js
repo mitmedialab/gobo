@@ -478,9 +478,11 @@ describe('filtering', () => {
       expect(filter_reasons).toEqual({ 4521474: ['Corporate'], 4521515: ['Corporate'], 4521559: [] });
     });
 
+    // TODO: partial match?
     it('filters by keyword', () => {
       const settings = {
-        keywords: '',
+        include_corporate: true,
+        keywords: ['appointments'],
       };
       const {
         kept_posts,
