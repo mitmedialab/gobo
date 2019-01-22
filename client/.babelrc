@@ -6,11 +6,19 @@
     ],
 	"plugins": [
 		[
+			"transform-decorators-legacy",
 			"transform-runtime",
 			{
 				"helpers": false,
 				"polyfill": false
 			}
 		]
-	]
+	],
+	"env": {
+		"test": {
+			"presets": [["env", {
+				"modules": "commonjs"
+				}]]
+			}
+		}	
 }
