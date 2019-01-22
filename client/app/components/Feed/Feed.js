@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-// import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import PropTypes from 'prop-types';
-// import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { getPosts, getSettings } from 'actions/feed';
-// import ReactList from 'react-list';
-// import Infinite from 'react-infinite'
 
 import Post from 'components/Post/Post';
 import Settings from 'components/Settings/Settings';
@@ -90,19 +86,16 @@ class Feed extends Component {
       <div className="container-fluid">
         <div className={'row'}>
           <div className={this.state.minimizedSettings ? 'feed wide' : 'feed'}>
-
-            {(!this.props.feed.loading_posts) && (this.props.feed.posts.length === 0) &&
-            (<div>
-              We couldn't find any posts for your feed.
-              <br />
-              Did you authenticate your secial media accounts?
-              <br />
-              You can go to your profile page to add Facebook or Twitter
-              <br />
-              If you did authenticate - try refreshing this page
-            </div>)}
-
             <div className="posts">
+              {(!this.props.feed.loading_posts) && (this.props.feed.posts.length === 0) &&
+              (<div>
+                <p>We couldn't find any posts for your feed.</p>
+                <p>Did you authenticate your social media accounts?</p>
+                <p>Visit your <Link to="/profile">
+                  profile
+                </Link> page to add Facebook or Twitter.</p>
+                <p>If you did authenticate - try refreshing this page.</p>
+              </div>)}
 
               {(this.props.feed.loading_posts || this.props.feed.filtering_posts) &&
               <div>
