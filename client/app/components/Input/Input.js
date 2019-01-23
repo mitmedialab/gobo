@@ -21,6 +21,7 @@ const propTypes = {
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   text: PropTypes.string,
+  handleKeypress: PropTypes.func,
 };
 
 class Input extends Component {
@@ -224,6 +225,7 @@ class Input extends Component {
           onChange={this.handleChange}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
+          onKeyPress={this.props.handleKeypress}
           type={this.props.type}
         />
 

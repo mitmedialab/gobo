@@ -477,5 +477,21 @@ describe('filtering', () => {
       expect(filtered_posts.length).toBe(2);
       expect(filter_reasons).toEqual({ 4521474: ['Corporate'], 4521515: ['Corporate'], 4521559: [] });
     });
+
+    // TODO: partial match?
+    it('filters by keyword', () => {
+      const settings = {
+        include_corporate: true,
+        keywords: ['appointments'],
+      };
+      const {
+        kept_posts,
+        filtered_posts,
+        filter_reasons,
+      } = getFilteredPosts(POSTS.posts, settings);
+      expect(kept_posts.length).toBe(2);
+      expect(filtered_posts.length).toBe(1);
+      expect(filter_reasons).toEqual({ 4521474: [], 4521515: [], 4521559: ['Keyword'] });
+    });
   });
 });

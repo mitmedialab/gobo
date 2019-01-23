@@ -30,6 +30,29 @@ function get_nums_males_females(f, m, r) {
   return { f: Math.min((r / (1 - r) * m), f), m };
 }
 
+function filterPostByKeyword(post, settings) {
+  let filtered = false;
+  if (settings.keywords && settings.keywords.length > 0) {
+    const fullText = post.content.full_text.toLowerCase();
+    settings.keywords.forEach((keyword) => {
+      if (fullText.indexOf(keyword.toLowerCase()) > -1) {
+        filtered = true;
+      }
+    });
+  }
+  return {
+    filtered,
+    reason: 'Keyword',
+  };
+}
+
+function filterPostByCorporate(post, settings) {
+  return {
+    filtered: post.is_corporate && !settings.include_corporate,
+    reason: 'Corporate',
+  };
+}
+
 export function getFilteredPosts(posts, settings) {
   const filtered_posts = [];
   let kept_posts = [];
@@ -39,13 +62,20 @@ export function getFilteredPosts(posts, settings) {
   const sum = virality_scores.reduce((previous, current) => current += previous);
   const virality_avg = sum / virality_scores.length;
 
+  // TODO: continue refactoring filters to this pattern
+  const filters = [filterPostByCorporate, filterPostByKeyword];
+
   posts.forEach((post) => {
     let keep = true;
     filter_reasons[post.id] = [];
-    if (post.is_corporate && !settings.include_corporate) {
-      keep = false;
-      filter_reasons[post.id].push('Corporate');
-    }
+
+    filters.forEach((filter) => {
+      const { filtered, reason } = filter(post, settings);
+      if (filtered) {
+        keep = false;
+        filter_reasons[post.id].push(reason);
+      }
+    });
 
     if ((post.toxicity !== null && post.toxicity !== -1 && (post.toxicity > settings.rudeness_max || post.toxicity < settings.rudeness_min)) ||
               (post.toxicity === -1 && settings.rudeness_min > 0.1)) {

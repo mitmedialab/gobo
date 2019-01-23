@@ -4,6 +4,7 @@ import ReactSlider from 'react-slider';
 import PropTypes from 'prop-types';
 
 import { updateSettings } from 'actions/feed';
+import Input from 'components/Input/Input';
 import SettingsItem from 'components/SettingsItem/SettingsItem';
 import isEnabled, { KEYWORD_FILTER } from 'utils/featureFlags';
 import MuteAllMenWhy from './MuteAllMenWhy';
@@ -24,27 +25,70 @@ class Settings extends Component {
       this.setState({ settings: { ...nextProps.feed.settings } });
     }
   }
-
-  handleChange = (e, key, isBool, isDualSlider) => {
-    const newSettings = { ...this.state.settings };
-    if (isDualSlider) {
-      newSettings[`${key}_min`] = e[0];
-      newSettings[`${key}_max`] = e[1];
-    } else {
-      newSettings[key] = isBool ? e.target.checked : e;
+  componentDidUpdate(prevProps, prevState) {
+    if (this.areSettingsChanged(prevState.settings, this.state.settings)) {
+      this.props.dispatch(updateSettings(this.state.settings));
     }
-    this.setState({
-      settings: newSettings,
+  }
+
+  areSettingsChanged = (prevSettings, currSettings) => {
+    const keys = ['include_corporate', 'gender_filter_on',
+      'virality_min', 'virality_max', 'gender_female_per',
+      'rudeness_min', 'rudeness_max', 'seriousness_min',
+      'seriousness_max', 'echo_range', 'keywords'];
+
+    if (isEnabled(KEYWORD_FILTER)) {
+      keys.push('keywords');
+    }
+
+    let isChanged = false;
+    keys.forEach((key) => {
+      if (prevSettings[key] !== currSettings[key]) {
+        isChanged = true;
+      }
     });
+    return isChanged;
+  }
+
+  handleDualSliderChange = (e, key) => {
+    const settings = { ...this.state.settings };
+    settings[`${key}_min`] = e[0];
+    settings[`${key}_max`] = e[1];
+    this.setState({ settings });
+  }
+
+  handleCheckBoxChange = (e, key) => {
+    const settings = { ...this.state.settings };
+    settings[key] = e.target.checked;
+    this.setState({ settings });
+  }
+
+  handleInputChange = (e, key) => {
+    const settings = { ...this.state.settings };
+    settings[key] = ['anti-abortion'];
+    this.setState({ settings });
+  }
+
+  handleChange = (e, key) => {
+    const settings = { ...this.state.settings };
+    settings[key] = e;
+    this.setState({ settings });
+  }
+
+  handleKeywordKeypress = (e) => {
+    if (e.key === 'Enter') {
+      const keywords = e.target.value.length > 0 ? [e.target.value] : [];
+      this.setState({
+        settings: {
+          ...this.state.settings,
+          keywords,
+        },
+      });
+    }
   }
 
   muteAllMen = () => {
-    const newSettings = { ...this.state.settings };
-    newSettings.gender_female_per = 100;
-    this.setState({
-      settings: newSettings,
-    });
-    this.updateSettings();
+    this.handleChange(100, 'gender_female_per');
   }
 
   openFilter = (index) => {
@@ -57,10 +101,6 @@ class Settings extends Component {
     this.setState({
       openFilter: -1,
     });
-  }
-
-  updateSettings = () => {
-    this.props.dispatch(updateSettings(this.state.settings));
   }
 
   politicsSetting = () => ({
@@ -78,9 +118,8 @@ class Settings extends Component {
           step={1}
           withBars
           value={this.state.settings.echo_range}
-          onChange={e => this.handleChange(e, 'echo_range', false, false)}
+          onChange={e => this.handleChange(e, 'echo_range')}
           className="slider politics"
-          onAfterChange={() => this.updateSettings()}
         />
         <div className="slider-labels">
           <span className="pull-left">My perspective</span>
@@ -105,8 +144,7 @@ class Settings extends Component {
           step={0.01}
           withBars
           value={[this.state.settings.seriousness_min, this.state.settings.seriousness_max]}
-          onChange={e => this.handleChange(e, 'seriousness', false, true)}
-          onAfterChange={() => this.updateSettings()}
+          onChange={e => this.handleDualSliderChange(e, 'seriousness')}
         />
         <div className="slider-labels">
           <span className="pull-left"> not serious</span>
@@ -132,8 +170,7 @@ class Settings extends Component {
             step={0.01}
             withBars
             value={[this.state.settings.rudeness_min, this.state.settings.rudeness_max]}
-            onChange={e => this.handleChange(e, 'rudeness', false, true)}
-            onAfterChange={() => this.updateSettings()}
+            onChange={e => this.handleDualSliderChange(e, 'rudeness')}
           />
           <div className="slider-labels">
             <span className="pull-left"> clean</span>
@@ -163,9 +200,8 @@ class Settings extends Component {
             max={100}
             withBars
             value={this.state.settings.gender_female_per}
-            onChange={e => this.handleChange(e, 'gender_female_per', false, false)}
+            onChange={e => this.handleChange(e, 'gender_female_per')}
             className="slider bar-gender"
-            onAfterChange={() => this.updateSettings()}
           />
           <div className="slider-labels">
             <span className="pull-left"> {100 - this.state.settings.gender_female_per || '0'}% men</span>
@@ -202,7 +238,7 @@ class Settings extends Component {
             name="corporate"
             type="checkbox"
             checked={this.state.settings.include_corporate}
-            onChange={(e) => { this.handleChange(e, 'include_corporate', true); this.updateSettings(); }}
+            onChange={(e) => { this.handleCheckBoxChange(e, 'include_corporate'); }}
           />
           <label htmlFor="corporate" className="checkbox-label">
               Show content from brands
@@ -227,8 +263,7 @@ class Settings extends Component {
           step={0.01}
           withBars
           value={[this.state.settings.virality_min, this.state.settings.virality_max]}
-          onChange={e => this.handleChange(e, 'virality', false, true)}
-          onAfterChange={() => this.updateSettings()}
+          onChange={e => this.handleDualSliderChange(e, 'virality')}
         />
         <div className="slider-labels">
           <span className="pull-left"> obscure </span>
@@ -241,14 +276,18 @@ class Settings extends Component {
   keywordSetting = () => ({
     title: 'Keyword Filter',
     icon: 'icon-seriousness',
-    desc: 'TBD',
+    desc: 'Enter to filter by keyword. Blank to clear.',
     key: 'keyword',
-    longDesc: 'TBD',
+    longDesc: 'Proof of Concept. Needs some UX',
     content: (
-      <div>
-            TBD
-      </div>
-        ),
+      <Input
+        text="PoC - Keyword Filter"
+        type="text"
+        errorMessage="Invalid"
+        emptyMessage="Can't be empty"
+        handleKeypress={this.handleKeywordKeypress}
+      />
+    ),
   })
 
   render() {
