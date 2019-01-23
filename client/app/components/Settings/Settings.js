@@ -35,7 +35,12 @@ class Settings extends Component {
     const keys = ['include_corporate', 'gender_filter_on',
       'virality_min', 'virality_max', 'gender_female_per',
       'rudeness_min', 'rudeness_max', 'seriousness_min',
-      'seriousness_max', 'echo_range'];
+      'seriousness_max', 'echo_range', 'keywords'];
+
+    if (isEnabled(KEYWORD_FILTER)) {
+      keys.push('keywords');
+    }
+
     let isChanged = false;
     keys.forEach((key) => {
       if (prevSettings[key] !== currSettings[key]) {
@@ -68,6 +73,18 @@ class Settings extends Component {
     const settings = { ...this.state.settings };
     settings[key] = e;
     this.setState({ settings });
+  }
+
+  handleKeywordKeypress = (e) => {
+    if (e.key === 'Enter') {
+      const keywords = e.target.value.length > 0 ? [e.target.value] : [];
+      this.setState({
+        settings: {
+          ...this.state.settings,
+          keywords,
+        },
+      });
+    }
   }
 
   muteAllMen = () => {
@@ -259,7 +276,7 @@ class Settings extends Component {
   keywordSetting = () => ({
     title: 'Keyword Filter',
     icon: 'icon-seriousness',
-    desc: 'TBD',
+    desc: 'Enter to filter by keyword. Blank to clear.',
     key: 'keyword',
     longDesc: 'Proof of Concept. Needs some UX',
     content: (
@@ -268,7 +285,7 @@ class Settings extends Component {
         type="text"
         errorMessage="Invalid"
         emptyMessage="Can't be empty"
-        onChange={e => this.handleInputChange(e, 'keywords')}
+        handleKeypress={this.handleKeywordKeypress}
       />
     ),
   })
