@@ -25,6 +25,25 @@ class Settings extends Component {
       this.setState({ settings: { ...nextProps.feed.settings } });
     }
   }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.areSettingsChanged(prevState.settings, this.state.settings)) {
+      this.props.dispatch(updateSettings(this.state.settings));
+    }
+  }
+
+  areSettingsChanged = (prevSettings, currSettings) => {
+    const keys = ['include_corporate', 'gender_filter_on',
+      'virality_min', 'virality_max', 'gender_female_per',
+      'rudeness_min', 'rudeness_max', 'seriousness_min',
+      'seriousness_max', 'echo_range'];
+    let isChanged = false;
+    keys.forEach((key) => {
+      if (prevSettings[key] !== currSettings[key]) {
+        isChanged = true;
+      }
+    });
+    return isChanged;
+  }
 
   handleDualSliderChange = (e, key) => {
     const settings = { ...this.state.settings };
@@ -37,7 +56,12 @@ class Settings extends Component {
     const settings = { ...this.state.settings };
     settings[key] = e.target.checked;
     this.setState({ settings });
-    this.updateSettings();
+  }
+
+  handleInputChange = (e, key) => {
+    const settings = { ...this.state.settings };
+    settings[key] = ['anti-abortion'];
+    this.setState({ settings });
   }
 
   handleChange = (e, key) => {
@@ -48,7 +72,6 @@ class Settings extends Component {
 
   muteAllMen = () => {
     this.handleChange(100, 'gender_female_per');
-    this.updateSettings();
   }
 
   openFilter = (index) => {
@@ -61,10 +84,6 @@ class Settings extends Component {
     this.setState({
       openFilter: -1,
     });
-  }
-
-  updateSettings = () => {
-    this.props.dispatch(updateSettings(this.state.settings));
   }
 
   politicsSetting = () => ({
@@ -84,7 +103,6 @@ class Settings extends Component {
           value={this.state.settings.echo_range}
           onChange={e => this.handleChange(e, 'echo_range')}
           className="slider politics"
-          onAfterChange={() => this.updateSettings()}
         />
         <div className="slider-labels">
           <span className="pull-left">My perspective</span>
@@ -110,7 +128,6 @@ class Settings extends Component {
           withBars
           value={[this.state.settings.seriousness_min, this.state.settings.seriousness_max]}
           onChange={e => this.handleDualSliderChange(e, 'seriousness')}
-          onAfterChange={() => this.updateSettings()}
         />
         <div className="slider-labels">
           <span className="pull-left"> not serious</span>
@@ -137,7 +154,6 @@ class Settings extends Component {
             withBars
             value={[this.state.settings.rudeness_min, this.state.settings.rudeness_max]}
             onChange={e => this.handleDualSliderChange(e, 'rudeness')}
-            onAfterChange={() => this.updateSettings()}
           />
           <div className="slider-labels">
             <span className="pull-left"> clean</span>
@@ -169,7 +185,6 @@ class Settings extends Component {
             value={this.state.settings.gender_female_per}
             onChange={e => this.handleChange(e, 'gender_female_per')}
             className="slider bar-gender"
-            onAfterChange={() => this.updateSettings()}
           />
           <div className="slider-labels">
             <span className="pull-left"> {100 - this.state.settings.gender_female_per || '0'}% men</span>
@@ -206,7 +221,7 @@ class Settings extends Component {
             name="corporate"
             type="checkbox"
             checked={this.state.settings.include_corporate}
-            onChange={(e) => { this.handleCheckBoxChange(e, 'include_corporate', true); }}
+            onChange={(e) => { this.handleCheckBoxChange(e, 'include_corporate'); }}
           />
           <label htmlFor="corporate" className="checkbox-label">
               Show content from brands
@@ -232,7 +247,6 @@ class Settings extends Component {
           withBars
           value={[this.state.settings.virality_min, this.state.settings.virality_max]}
           onChange={e => this.handleDualSliderChange(e, 'virality')}
-          onAfterChange={() => this.updateSettings()}
         />
         <div className="slider-labels">
           <span className="pull-left"> obscure </span>
@@ -250,17 +264,11 @@ class Settings extends Component {
     longDesc: 'Proof of Concept. Needs some UX',
     content: (
       <Input
-        text="Keyword Filter"
+        text="PoC - Keyword Filter"
         type="text"
-        // defaultValue={props.email}
-        // validate={validateEmail}
-        // value={props.email}
-        // ref={props.onRef}
-        // onChange={e => props.onChange(e, 'email')}
         errorMessage="Invalid"
         emptyMessage="Can't be empty"
-        onChange={e => this.handleChange(e, 'keywords', false, false)}
-        onAfterChange={() => this.updateSettings()}
+        onChange={e => this.handleInputChange(e, 'keywords')}
       />
     ),
   })
