@@ -31,13 +31,13 @@ def queue_one_news_post(post, source, quintile, db_session):
     added_new = False
     try:
         post_id = post['id_str'] if 'id_str' in post else str(post['id'])
-        post_item = Post.query.filter_by(original_id=post_id, source=source).first()
-        if not post_item:
+        post_item = db_session.query(Post).filter_by(original_id=post_id, source=source).first()
+        if post_item:
+            post_item.update_content(post, is_news=True)
+        else:
             post_item = Post(post_id, source, post, True)
             db_session.add(post_item)
             added_new = True
-        else:
-            post_item.update_content(post, is_news=True)
 
         post_item.political_quintile = quintile
 
