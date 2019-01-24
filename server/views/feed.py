@@ -26,6 +26,8 @@ def get_posts():
                 Post.created_at.desc())[:posts_from_quintile]
         personal_posts.extend(posts)
 
+    personal_posts = sorted(personal_posts, key=lambda p: p.created_at, reverse=True)
+
     return jsonify({'posts': [post.as_dict() for post in personal_posts]})
 
 
