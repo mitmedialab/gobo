@@ -310,7 +310,7 @@ class Settings extends Component {
         <ul className="settings-menu">
           <li className="filter">
             <header className="settings-header">
-              <span><button onClick={this.props.onMinimize}><span className={`arrow-icon icon-${arrowIcon}`} /><h1>Filters</h1></button></span>
+              <span><button className="filter-toggle-btn" onClick={this.props.onMinimize}><span className={`arrow-icon icon-${arrowIcon}`} /><h1>Filters</h1></button></span>
             </header>
           </li>
           {settings.map((feature, index) => {
