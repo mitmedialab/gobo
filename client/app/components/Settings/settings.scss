@@ -5,17 +5,17 @@
   z-index: 1000;
   display: block;
   padding: 0;
-  //overflow-x: hidden;
-  //overflow-y: auto;
-  background-color:#fff; //$color2;
-  //border-left: 1px solid #8e8e8e;
-  color: #8e8e8e; //$text-color;
+  background-color:#fff;
+  color: #8e8e8e;
 
   padding-bottom: 4em;
   position: fixed;
   right: 0;
   min-height: 100%;
-  //transition: 0.5s;
+
+  .filter-toggle-btn {
+    background-color: $navColor;
+  }
 
   .checkbox {
     -webkit-appearance: none;
@@ -174,7 +174,6 @@
 
 .filter-controls {
   padding: 1em 0;
-
 }
 
 .my-gender-ratio {
@@ -204,7 +203,6 @@ $handle-height: 24px;
   max-width: 500px;
   height: $handle-height + 2;
   margin-bottom: 2px;
-  //margin-top: 1.8em;
 }
 
 .handle {
@@ -270,9 +268,6 @@ $handle-height: 24px;
 
 .filter-content {
   display:flex;
-  //padding-top:8px;
-  //padding-right:10px;
-  // padding-bottom: 8px;
   padding: 30px 50px 30px 30px;
 }
 .filter-inner {
