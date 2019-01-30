@@ -35,10 +35,11 @@ class Settings extends Component {
     const keys = ['include_corporate', 'gender_filter_on',
       'virality_min', 'virality_max', 'gender_female_per',
       'rudeness_min', 'rudeness_max', 'seriousness_min',
-      'seriousness_max', 'echo_range', 'keywords'];
+      'seriousness_max', 'echo_range'];
 
     if (isEnabled(KEYWORD_FILTER)) {
-      keys.push('keywords');
+      keys.push('keywordsOr');
+      keys.push('keywordsAnd');
     }
 
     let isChanged = false;
@@ -75,13 +76,25 @@ class Settings extends Component {
     this.setState({ settings });
   }
 
-  handleKeywordKeypress = (e) => {
+  handleKeywordOrKeypress = (e) => {
     if (e.key === 'Enter') {
-      const keywords = e.target.value.length > 0 ? [e.target.value] : [];
+      const keywordsOr = e.target.value.length > 0 ? e.target.value.split(' ') : [];
       this.setState({
         settings: {
           ...this.state.settings,
-          keywords,
+          keywordsOr,
+        },
+      });
+    }
+  }
+
+  handleKeywordAndKeypress = (e) => {
+    if (e.key === 'Enter') {
+      const keywordsAnd = e.target.value.length > 0 ? e.target.value.split(' ') : [];
+      this.setState({
+        settings: {
+          ...this.state.settings,
+          keywordsAnd,
         },
       });
     }
@@ -273,19 +286,36 @@ class Settings extends Component {
       ),
   })
 
-  keywordSetting = () => ({
-    title: 'Keyword Filter',
+  keywordOrSetting = () => ({
+    title: 'Any Keyword Filter (a.k.a. OR)',
     icon: 'icon-seriousness',
-    desc: 'Enter to filter by keyword. Blank to clear.',
-    key: 'keyword',
+    desc: 'Enter to filter by any keywords. Space for multiple keywords. Blank to clear.',
+    key: 'keywordOr',
     longDesc: 'Proof of Concept. Needs some UX',
     content: (
       <Input
-        text="PoC - Keyword Filter"
+        text="PoC - OR Keyword Filter"
         type="text"
         errorMessage="Invalid"
         emptyMessage="Can't be empty"
-        handleKeypress={this.handleKeywordKeypress}
+        handleKeypress={this.handleKeywordOrKeypress}
+      />
+    ),
+  })
+
+  keywordAndSetting = () => ({
+    title: 'All Keyword Filter (a.k.a. AND)',
+    icon: 'icon-seriousness',
+    desc: 'Enter to filter by all keywords. Space for multiple keywords. Blank to clear.',
+    key: 'keywordAnd',
+    longDesc: 'Proof of Concept. Needs some UX',
+    content: (
+      <Input
+        text="PoC - AND Keyword Filter"
+        type="text"
+        errorMessage="Invalid"
+        emptyMessage="Can't be empty"
+        handleKeypress={this.handleKeywordAndKeypress}
       />
     ),
   })
@@ -301,7 +331,8 @@ class Settings extends Component {
     ];
 
     if (isEnabled(KEYWORD_FILTER)) {
-      settings.push(this.keywordSetting());
+      settings.push(this.keywordOrSetting());
+      settings.push(this.keywordAndSetting());
     }
 
     const arrowIcon = this.props.minimized ? 'left-open' : 'right-open';

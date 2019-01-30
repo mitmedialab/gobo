@@ -30,11 +30,41 @@ function get_nums_males_females(f, m, r) {
   return { f: Math.min((r / (1 - r) * m), f), m };
 }
 
-function filterPostByKeyword(post, settings) {
+/**
+ * Post is filtered if all keywords are found.
+ */
+function filterPostByKeywordAnd(post, settings) {
   let filtered = false;
-  if (settings.keywords && settings.keywords.length > 0) {
+  let keywords = settings.keywordsAnd;
+  if (keywords && keywords.length > 0) {
     const fullText = post.content.full_text.toLowerCase();
-    settings.keywords.forEach((keyword) => {
+    keywords = keywords.map(keyword => keyword.toLowerCase());
+    const foundKeyword = {};
+    keywords.forEach((keyword) => {
+      foundKeyword[keyword] = false;
+    });
+    keywords.forEach((keyword) => {
+      if (fullText.indexOf(keyword) > -1) {
+        foundKeyword[keyword] = true;
+      }
+    });
+    filtered = keywords.reduce((accumulator, keyword) => foundKeyword[keyword] && accumulator, true);
+  }
+  return {
+    filtered,
+    reason: 'Keyword',
+  };
+}
+
+/**
+ * Post is filtered if any word is included.
+ */
+function filterPostByKeywordOr(post, settings) {
+  let filtered = false;
+  const keywords = settings.keywordsOr;
+  if (keywords && keywords.length > 0) {
+    const fullText = post.content.full_text.toLowerCase();
+    keywords.forEach((keyword) => {
       if (fullText.indexOf(keyword.toLowerCase()) > -1) {
         filtered = true;
       }
@@ -63,7 +93,7 @@ export function getFilteredPosts(posts, settings) {
   const virality_avg = sum / virality_scores.length;
 
   // TODO: continue refactoring filters to this pattern
-  const filters = [filterPostByCorporate, filterPostByKeyword];
+  const filters = [filterPostByCorporate, filterPostByKeywordOr, filterPostByKeywordAnd];
 
   posts.forEach((post) => {
     let keep = true;
