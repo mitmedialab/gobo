@@ -21,8 +21,6 @@ class Register extends Component {
       step = props.passwordLock.signup_step;
     }
     this.state = { step };
-    this.nextStep = this.nextStep.bind(this);
-    this.prevStep = this.prevStep.bind(this);
   }
 
   getCurrentElement() {
@@ -42,11 +40,11 @@ class Register extends Component {
     }
   }
 
-  nextStep() {
+  nextStep = () => {
     this.setState({ step: this.state.step + 1 });
   }
 
-  prevStep() {
+  prevStep = () => {
     this.setState({ step: this.state.step - 1 });
   }
 

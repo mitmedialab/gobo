@@ -59,6 +59,10 @@ $button-default-color: #fff;
       font-size: 1.6em;
     }
 
+    .confirm-age {
+      margin-top: $padding-large-vertical;
+      margin-bottom: $padding-large-vertical;
+    }
 
     .button {
       @include transition(all 0.2s ease-in-out);
@@ -100,6 +104,8 @@ $button-default-color: #fff;
         }
       }
 
+      &:disabled,
+      &[disabled],
       &.disabled {
         background: #fff;
         cursor: not-allowed;
@@ -180,7 +186,6 @@ $button-default-color: #fff;
     .registration-form {
       margin: 30px 3px 40px 3px;
     }
-
   }
 }
 
