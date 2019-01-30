@@ -478,20 +478,34 @@ describe('filtering', () => {
       expect(filter_reasons).toEqual({ 4521474: ['Corporate'], 4521515: ['Corporate'], 4521559: [] });
     });
 
-    // TODO: partial match?
-    it('filters by keyword', () => {
+    it('filters by keyword by AND', () => {
       const settings = {
         include_corporate: true,
-        keywords: ['appointments'],
+        keywordsAnd: ['out', 'https'],
       };
       const {
         kept_posts,
         filtered_posts,
         filter_reasons,
       } = getFilteredPosts(POSTS.posts, settings);
-      expect(kept_posts.length).toBe(2);
-      expect(filtered_posts.length).toBe(1);
-      expect(filter_reasons).toEqual({ 4521474: [], 4521515: [], 4521559: ['Keyword'] });
+      expect(kept_posts.length).toBe(1);
+      expect(filtered_posts.length).toBe(2);
+      expect(filter_reasons).toEqual({ 4521474: ['Keyword'], 4521515: ['Keyword'], 4521559: [] });
+    });
+
+    it('filters by keyword by OR', () => {
+      const settings = {
+        include_corporate: true,
+        keywordsOr: ['appointments', 'Do-gooders'],
+      };
+      const {
+        kept_posts,
+        filtered_posts,
+        filter_reasons,
+      } = getFilteredPosts(POSTS.posts, settings);
+      expect(kept_posts.length).toBe(1);
+      expect(filtered_posts.length).toBe(2);
+      expect(filter_reasons).toEqual({ 4521474: ['Keyword'], 4521515: [], 4521559: ['Keyword'] });
     });
   });
 });
