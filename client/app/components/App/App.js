@@ -20,6 +20,7 @@ const TwitterCallback = () => <Async load={import('components/TwitterCallback/Tw
 const NoMatch = () => <Async load={import('components/NoMatch/NoMatch')} />;
 const ForgotPassword = () => <Async load={import('components/ForgotPassword/ForgotPassword')} />;
 const ResetPassword = () => <Async load={import('components/ResetPassword/ResetPassword')} />;
+const Rules = () => <Async load={import('components/Rules/Rules')} />;
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -56,6 +57,11 @@ class App extends Component {
             <Route path="/forgot_password" component={ForgotPassword} />
             <Route path="/reset_password%3Ftoken%3D:token" component={ResetPassword} />
             <Route path="/api/:function" />
+
+            {
+              // TODO: this should be behind a feature flag. Oh well!
+            }
+            <Route path="/rules" component={Rules} />
             <Route path="*/" component={NoMatch} />
           </Switch>
 
