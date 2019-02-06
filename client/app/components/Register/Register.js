@@ -53,11 +53,10 @@ class Register extends Component {
 
     return (
       <div className="registration-screen">
-        <h1>Registration</h1>
         <div className="registration-form">
           <div className="content">
+            <h1>Registration</h1>
             {element}
-
             <div className="next-back-buttons">
               {(this.state.step > 3 || this.state.step === 2) && <button onClick={this.prevStep} >Back</button>}
               {this.state.step > 2 && this.state.step < 4 && <button onClick={this.nextStep} >Next</button>}

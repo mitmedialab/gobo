@@ -15,7 +15,14 @@ class Rules extends Component {
 
   render() {
     return (
-      <div>{this.state.label}</div>
+      <div className="registration-screen">
+        <h1>Registration</h1>
+        <div className="registration-form">
+          <div className="content">
+            <div>{this.state.label}</div>'
+          </div>
+        </div>
+      </div>
     );
   }
 }
