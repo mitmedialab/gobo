@@ -132,30 +132,6 @@ $button-default-color: #fff;
         background: darken($button-default-bg, 20%);
       }
     }
-
-    .github_link {
-      @include display(relative);
-      margin: 50px 0 50px 0;
-      opacity: 0;
-      @include animation(fadeIn .4s .3s ease-in-out forwards);
-
-      svg {
-        @include size(26px, 26px);
-
-        path {
-          @include transition(all 0.2s ease-in-out);
-          fill: #545a6a;
-        }
-      }
-
-      &:hover {
-        svg {
-          path {
-            fill: $color2;
-          }
-        }
-      }
-    }
   }
 
   .content, form {
@@ -175,11 +151,17 @@ $button-default-color: #fff;
   }
 
   .couhes-text {
-    height: 500px ;
-    overflow: scroll;
     background: #fff;
-    text-align: center;
     padding:1em;
+
+    h2, h4 {
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    h3 {
+      text-align: center;
+    }
   }
 
   @media (max-width: 700px) {
