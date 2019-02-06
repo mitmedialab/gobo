@@ -131,7 +131,7 @@ class Settings extends Component {
           step={1}
           withBars
           value={this.state.settings.echo_range}
-          onChange={e => this.handleChange(e, 'echo_range')}
+          onAfterChange={e => this.handleChange(e, 'echo_range')}
           className="slider politics"
         />
         <div className="slider-labels">
@@ -157,7 +157,7 @@ class Settings extends Component {
           step={0.01}
           withBars
           value={[this.state.settings.seriousness_min, this.state.settings.seriousness_max]}
-          onChange={e => this.handleDualSliderChange(e, 'seriousness')}
+          onAfterChange={e => this.handleDualSliderChange(e, 'seriousness')}
         />
         <div className="slider-labels">
           <span className="pull-left"> not serious</span>
@@ -183,7 +183,7 @@ class Settings extends Component {
             step={0.01}
             withBars
             value={[this.state.settings.rudeness_min, this.state.settings.rudeness_max]}
-            onChange={e => this.handleDualSliderChange(e, 'rudeness')}
+            onAfterChange={e => this.handleDualSliderChange(e, 'rudeness')}
           />
           <div className="slider-labels">
             <span className="pull-left"> clean</span>
@@ -213,7 +213,7 @@ class Settings extends Component {
             max={100}
             withBars
             value={this.state.settings.gender_female_per}
-            onChange={e => this.handleChange(e, 'gender_female_per')}
+            onAfterChange={e => this.handleChange(e, 'gender_female_per')}
             className="slider bar-gender"
           />
           <div className="slider-labels">
@@ -251,7 +251,7 @@ class Settings extends Component {
             name="corporate"
             type="checkbox"
             checked={this.state.settings.include_corporate}
-            onChange={(e) => { this.handleCheckBoxChange(e, 'include_corporate'); }}
+            onClick={(e) => { this.handleCheckBoxChange(e, 'include_corporate'); }}
           />
           <label htmlFor="corporate" className="checkbox-label">
               Show content from brands
@@ -276,7 +276,7 @@ class Settings extends Component {
           step={0.01}
           withBars
           value={[this.state.settings.virality_min, this.state.settings.virality_max]}
-          onChange={e => this.handleDualSliderChange(e, 'virality')}
+          onAfterChange={e => this.handleDualSliderChange(e, 'virality')}
         />
         <div className="slider-labels">
           <span className="pull-left"> obscure </span>
