@@ -30,6 +30,20 @@ function get_nums_males_females(f, m, r) {
   return { f: Math.min((r / (1 - r) * m), f), m };
 }
 
+function getFullText(post) {
+  const content = post.content;
+  let fullText = '';
+  if (content.full_text) {
+    fullText = content.full_text;
+  } else if (content.message) {
+    fullText = content.message;
+    if (content.name) {
+      fullText += content.name;
+    }
+  }
+  return fullText.toLowerCase();
+}
+
 /**
  * Post is filtered if all keywords are found.
  */
@@ -37,7 +51,7 @@ function filterPostByKeywordAnd(post, settings) {
   let filtered = false;
   let keywords = settings.keywordsAnd;
   if (keywords && keywords.length > 0) {
-    const fullText = post.content.full_text.toLowerCase();
+    const fullText = getFullText(post);
     keywords = keywords.map(keyword => keyword.toLowerCase());
     const foundKeyword = {};
     keywords.forEach((keyword) => {
@@ -63,7 +77,7 @@ function filterPostByKeywordOr(post, settings) {
   let filtered = false;
   const keywords = settings.keywordsOr;
   if (keywords && keywords.length > 0) {
-    const fullText = post.content.full_text.toLowerCase();
+    const fullText = getFullText(post);
     keywords.forEach((keyword) => {
       if (fullText.indexOf(keyword.toLowerCase()) > -1) {
         filtered = true;
