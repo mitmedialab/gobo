@@ -8,7 +8,7 @@ const HeadFacebook = (props) => {
   const { post } = props;
   const { content } = post;
   const picSrc = (content.from && content.from.picture) ? content.from.picture.data.url : '';
-  let author = post.content.from.name;
+  let author = post.content.from ? post.content.from.name : '';
   if (content.post_user && content.post_user.name && content.post_user.name !== 'facebook') {
     author += ` ▶ ${content.post_user.name}`;
   }
