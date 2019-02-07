@@ -27,7 +27,9 @@ class Head extends Component {
             <i className={repost.icon} />{repost.label}
           </a>
         </div>}
-        <img className="img-circle" src={this.props.picSrc} alt="circle" />
+        {this.props.picSrc &&
+          <img className="img-circle" src={this.props.picSrc} alt="circle" />
+        }
         <div className="post-header-details">
           <div className="author">
             {this.props.author}
