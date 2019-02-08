@@ -2,6 +2,7 @@ import os
 import logging
 import csv
 from datetime import datetime, timedelta
+from urlparse import urljoin
 import requests
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -56,7 +57,7 @@ def queue_lastest_news_posts(db_session):
     MAX_POST = 3
     date_N_days_ago = datetime.now() - timedelta(days=N)
     since_date = date_N_days_ago.strftime('%Y-%m-%d')
-    facebook_payload = {
+    facebook_query = {
         'fields': ','.join(tasks.FACEBOOK_POSTS_FIELDS),
         'access_token': '{}|{}'.format(config.FACEBOOK_APP_ID, config.FACEBOOK_APP_SECRET),
         'since': since_date,
@@ -88,7 +89,8 @@ def queue_lastest_news_posts(db_session):
                     logger.info("  {}".format(row['Facebook Page']))
                     # get facebook feed
                     data = {'id': row['Facebook Page'].replace('https://www.facebook.com/', '')}
-                    r = requests.get(tasks.FACEBOOK_URL + data['id'] + 'feed', facebook_payload)
+                    url = urljoin(tasks.FACEBOOK_URL, data['id'], 'feed')
+                    r = requests.get(url, facebook_query)
                     result = r.json()
                     if 'error' in result:
                         logger.warn("  unable to fetch FB data - error {} - {}".format(
