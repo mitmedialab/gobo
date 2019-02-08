@@ -10,11 +10,10 @@ const HeadFacebook = (props) => {
   const picSrc = (content.from && content.from.picture) ? content.from.picture.data.url : '';
   let author = post.content.from ? post.content.from.name : '';
   if (content.post_user && content.post_user.name && content.post_user.name !== 'facebook') {
-    if (author) {
-      author += ` ▶ ${content.post_user.name}`;
-    } else {
-      author = content.post_user.name;
+    if (!author) {
+      author = 'Wall Post';
     }
+    author += ` ▶ ${content.post_user.name}`;
   }
   return (
     <Head post={props.post} author={author} picSrc={picSrc} link={content.permalink_url} />
