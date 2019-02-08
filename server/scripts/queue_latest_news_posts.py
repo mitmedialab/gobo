@@ -89,7 +89,7 @@ def queue_lastest_news_posts(db_session):
                     logger.info("  {}".format(row['Facebook Page']))
                     # get facebook feed
                     data = {'id': row['Facebook Page'].replace('https://www.facebook.com/', '')}
-                    url = urljoin(tasks.FACEBOOK_URL, data['id'], 'feed')
+                    url = urljoin(tasks.FACEBOOK_URL, data['id'].strip('/') + '/feed')
                     r = requests.get(url, facebook_query)
                     result = r.json()
                     if 'error' in result:
