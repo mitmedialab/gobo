@@ -50,8 +50,7 @@ def queue_one_news_post(post, source, quintile, db_session):
     return {'success': success, 'added_new': added_new}
 
 
-def queye_lastest_news_posts(db_session):
-    REALLY_QUEUE = True
+def queue_lastest_news_posts(db_session):
     # facebook requests payload
     N = 2
     MAX_POST = 3
@@ -83,27 +82,25 @@ def queye_lastest_news_posts(db_session):
                     except:
                         tweets = []
                     logger.info("  adding {} tweets".format(len(tweets)))
-                    if REALLY_QUEUE:
-                        for post in tweets:
-                            queue_one_news_post(post, 'twitter', quintile, db_session)
+                    for post in tweets:
+                        queue_one_news_post(post, 'twitter', quintile, db_session)
                 if row['Facebook Page']:
                     logger.info("  {}".format(row['Facebook Page']))
                     # get facebook feed
                     data = {'id': row['Facebook Page'].replace('https://www.facebook.com/', '')}
-                    r = requests.get(tasks.FACEBOOK_URL + data['id'] + '/feed', facebook_payload)
+                    r = requests.get(tasks.FACEBOOK_URL + data['id'] + 'feed', facebook_payload)
                     result = r.json()
                     if 'error' in result:
                         logger.warn("  unable to fetch FB data - error {} - {}".format(
                             result['error']['type'], result['error']['message']))
                     else:
                         logger.info("  adding {} facebook posts".format(len(result['data'])))
-                        if REALLY_QUEUE:
-                            if 'data' in result:
-                                for p in result["data"]:
-                                    post = dict(p, **{'post_user': data})
-                                    queue_one_news_post(post, 'facebook', quintile, db_session)
+                        if 'data' in result:
+                            for p in result["data"]:
+                                post = dict(p, **{'post_user': data})
+                                queue_one_news_post(post, 'facebook', quintile, db_session)
             row_num = row_num + 1
 
 
 if __name__ == '__main__':
-    queye_lastest_news_posts(session)
+    queue_lastest_news_posts(session)
