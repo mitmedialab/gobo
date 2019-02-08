@@ -9,11 +9,15 @@ const HeadFacebook = (props) => {
   const { content } = post;
   const picSrc = (content.from && content.from.picture) ? content.from.picture.data.url : '';
   let author = post.content.from ? post.content.from.name : '';
-  if (content.post_user && content.post_user.name && content.post_user.name !== 'facebook') {
+  if (content.post_user) {
     if (!author) {
       author = 'Wall Post';
     }
-    author += ` ▶ ${content.post_user.name}`;
+    if (content.post_user.name && content.post_user.name !== 'facebook') {
+      author += ` ▶ ${content.post_user.name}`;
+    } else if (content.post_user.id && typeof content.post_user.id === 'string') {
+      author += ` ▶ ${content.post_user.id}`;
+    }
   }
   return (
     <Head post={props.post} author={author} picSrc={picSrc} link={content.permalink_url} />
