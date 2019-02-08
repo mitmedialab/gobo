@@ -91,7 +91,10 @@ def queue_lastest_news_posts(db_session):
                     data = {'id': row['Facebook Page'].replace('https://www.facebook.com/', '')}
                     url = urljoin(tasks.FACEBOOK_URL, data['id'].strip('/') + '/feed')
                     r = requests.get(url, facebook_query)
-                    result = r.json()
+                    try:
+                        result = r.json()
+                    except ValueError:
+                        logger.warn("Unable to parse {}".format(url))
                     if 'error' in result:
                         logger.warn("  unable to fetch FB data - error {} - {}".format(
                             result['error']['type'], result['error']['message']))
