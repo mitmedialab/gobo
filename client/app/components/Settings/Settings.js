@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import ReactSlider from 'react-slider';
 import PropTypes from 'prop-types';
 
 import { updateSettings } from 'actions/feed';
 import Input from 'components/Input/Input';
 import SettingsItem from 'components/SettingsItem/SettingsItem';
-import isEnabled, { KEYWORD_FILTER } from 'utils/featureFlags';
+import isEnabled, { KEYWORD_FILTER, RULES_FILTER } from 'utils/featureFlags';
 import MuteAllMenWhy from './MuteAllMenWhy';
 
 
@@ -320,6 +321,19 @@ class Settings extends Component {
     ),
   })
 
+  ruleSetting = () => ({
+    title: 'Rules',
+    icon: 'icon-toxicity',
+    key: 'rules',
+    desc: 'PoC - Create a rule',
+    longDesc: 'TBD',
+    content: (
+      <div>
+        <Link to={`/rules?ft=${RULES_FILTER}`}> <span>Create Rule</span></Link>
+      </div>
+      ),
+  })
+
   render() {
     const settings = [
       this.politicsSetting(),
@@ -333,6 +347,10 @@ class Settings extends Component {
     if (isEnabled(KEYWORD_FILTER)) {
       settings.push(this.keywordOrSetting());
       settings.push(this.keywordAndSetting());
+    }
+
+    if (isEnabled(RULES_FILTER)) {
+      settings.push(this.ruleSetting());
     }
 
     const arrowIcon = this.props.minimized ? 'left-open' : 'right-open';

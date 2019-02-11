@@ -1,8 +1,5 @@
 $button-default-color: #fff;
 .registration-screen {
-  @include display(absolute);
-  @include topLeft(0, 0);
-  @include bottomRight(0, 0);
   min-height: 520px;
   @include animation(fadeIn .4s ease-in-out forwards);
 
@@ -18,19 +15,9 @@ $button-default-color: #fff;
     @include flex-direction(column);
     @include justify-content(center);
     @include align-items(center);
-    position: relative;
-    margin: 80px 0 200px 0;
+    margin: $padding-large-vertical 0 200px 0;
     min-height: 400px;
     max-width: 100%;
-
-    > h1 {
-      @include display(relative);
-      font-size: 34px;
-      letter-spacing: .8px;
-      font-weight: 200;
-      line-height: 34px;
-      margin: 0 0 40px 0;
-    }
 
     p {
       @include display(relative);
@@ -131,6 +118,12 @@ $button-default-color: #fff;
         @include box-shadow(none);
         background: darken($button-default-bg, 20%);
       }
+    }
+  }
+
+  .content  {
+    h1 {
+      text-align: center;
     }
   }
 
