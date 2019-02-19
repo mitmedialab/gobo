@@ -19,7 +19,7 @@ NEWS_POSTS_COUNT = 150  # how many news posts to grab. this number should divide
 def get_posts():
     personal_posts = current_user.posts.order_by(Post.created_at.desc())[:PERSONAL_POSTS_MAX]
     posts_from_quintile = NEWS_POSTS_COUNT / 5
-    ignore_ids = [item.id for item in current_user.posts.all()]
+    ignore_ids = [item.id for item in personal_posts]
     for quintile in PoliticsEnum:
         posts = Post.query.filter((
             Post.id.notin_(ignore_ids)) & (Post.political_quintile == quintile)).order_by(
