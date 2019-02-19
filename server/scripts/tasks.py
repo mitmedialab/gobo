@@ -69,6 +69,9 @@ def get_tweets_per_user(self, user_id): # pylint: disable=unused-argument
     except:
         logger.error('There was an error fetching  twitter timeline from user {}'.format(user_id))
 
+    # filter out protected posts
+    tweets = [tweet for tweet in tweets if not tweet['user']['protected']]
+
     posts_added = 0
     commits_failed = 0
     commits_succeeded = 0
