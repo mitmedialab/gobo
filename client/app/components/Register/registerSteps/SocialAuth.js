@@ -10,9 +10,7 @@ const propTypes = {
 const SocialAuth = props => (
   <div>
     <p className="registration-description">
-      Please Authenticate to your Facebook and Twitter
-      <br />
-      accounts so we can show you your feed
+      To show your feed, authenticate your social media accounts.
     </p>
     <SocialMediaButtons onFinish={props.onFinish} />
   </div>
@@ -20,4 +18,4 @@ const SocialAuth = props => (
 
 SocialAuth.propTypes = propTypes;
 
-export default connect(state => ({ twitter_data: state.twitterLogin }))(SocialAuth);
+export default connect(state => ({ socialMediaData: state.socialMediaLogin }))(SocialAuth);

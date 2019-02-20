@@ -6,18 +6,21 @@ import { getTwitterAuthURl, waitTwitterCallback, postTwitterCallback, getFaceboo
 // All action types are defined as constants. Do not manually pass action
 // types as strings in action creators
 /*--------*/
-export const GET_AUTH_URL_LOAD = 'twitterLogin/GET_AUTH_URL_LOAD';
-export const GET_AUTH_URL_SUCCESS = 'twitterLogin/GET_AUTH_URL_SUCCESS';
-export const GET_AUTH_URL_FAIL = 'twitterLogin/GET_AUTH_URL_FAIL';
-export const FETCH_TWITTER_STATUS_LOAD = 'twitterLogin/FETCH_TWITTER_STATUS_LOAD';
-export const FETCH_TWITTER_STATUS_SUCCESS = 'twitterLogin/FETCH_TWITTER_STATUS_SUCCESS';
-export const FETCH_TWITTER_STATUS_FAIL = 'twitterLogin/FETCH_TWITTER_STATUS_FAIL';
-export const POST_CALLBACK_LOAD = 'twitterLogin/POST_CALLBACK_LOAD';
-export const POST_CALLBACK_SUCCESS = 'twitterLogin/POST_CALLBACK_SUCCESS';
-export const POST_CALLBACK_FAIL = 'twitterLogin/POST_CALLBACK_FAIL';
-export const GET_FACEBOOK_APP_ID_LOAD = 'twitterLogin/GET_FACEBOOK_APP_ID_LOAD';
-export const GET_FACEBOOK_APP_ID_FAIL = 'twitterLogin/GET_FACEBOOK_APP_ID_FAIL';
-export const GET_FACEBOOK_APP_ID_SUCCESS = 'twitterLogin/GET_FACEBOOK_APP_ID_SUCCESS';
+export const GET_TWITTER_AUTH_URL_LOAD = 'smLogin/GET_TWITTER_AUTH_URL_LOAD';
+export const GET_TWITTER_AUTH_URL_SUCCESS = 'smLogin/GET_TWITTER_AUTH_URL_SUCCESS';
+export const GET_TWITTER_AUTH_URL_FAIL = 'smLogin/GET_TWITTER_AUTH_URL_FAIL';
+
+export const FETCH_TWITTER_STATUS_LOAD = 'smLogin/FETCH_TWITTER_STATUS_LOAD';
+export const FETCH_TWITTER_STATUS_SUCCESS = 'smLogin/FETCH_TWITTER_STATUS_SUCCESS';
+export const FETCH_TWITTER_STATUS_FAIL = 'smLogin/FETCH_TWITTER_STATUS_FAIL';
+
+export const POST_CALLBACK_LOAD = 'smLogin/POST_CALLBACK_LOAD';
+export const POST_CALLBACK_SUCCESS = 'smLogin/POST_CALLBACK_SUCCESS';
+export const POST_CALLBACK_FAIL = 'smLogin/POST_CALLBACK_FAIL';
+
+export const GET_FACEBOOK_APP_ID_LOAD = 'smLogin/GET_FACEBOOK_APP_ID_LOAD';
+export const GET_FACEBOOK_APP_ID_FAIL = 'smLogin/GET_FACEBOOK_APP_ID_FAIL';
+export const GET_FACEBOOK_APP_ID_SUCCESS = 'smLogin/GET_FACEBOOK_APP_ID_SUCCESS';
 
 
 /*--------*/
@@ -27,15 +30,15 @@ export const GET_FACEBOOK_APP_ID_SUCCESS = 'twitterLogin/GET_FACEBOOK_APP_ID_SUC
 // action objects (e.g. {type:example, payload:data} ) within dispatch()
 // function calls
 /*--------*/
-export function getAuthUrl() {
+export function getTwitterAuthUrl() {
   return (dispatch) => {
-    dispatch({ type: GET_AUTH_URL_LOAD });
+    dispatch({ type: GET_TWITTER_AUTH_URL_LOAD });
     return getTwitterAuthURl()
     .then((result) => {
-      dispatch({ type: GET_AUTH_URL_SUCCESS, result });
+      dispatch({ type: GET_TWITTER_AUTH_URL_SUCCESS, result });
     })
     .catch((error) => {
-      dispatch({ type: GET_AUTH_URL_FAIL, error });
+      dispatch({ type: GET_TWITTER_AUTH_URL_FAIL, error });
     });
   };
 }

@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 import auth from './auth';
-import twitterLogin from './twitterLogin';
+import socialMediaLogin from './socialMediaLogin';
 import feed from './feed';
 import passwordLock from './passwordLock';
 import resetPassword from './resetPassword';
 
 export default combineReducers({
   auth,
-  twitterLogin,
+  socialMediaLogin,
   feed,
   passwordLock,
   resetPassword,

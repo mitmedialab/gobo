@@ -2,9 +2,9 @@
 // Load Actions
 /* ---------- */
 import {
-  GET_AUTH_URL_LOAD,
-  GET_AUTH_URL_SUCCESS,
-  GET_AUTH_URL_FAIL,
+  GET_TWITTER_AUTH_URL_LOAD,
+  GET_TWITTER_AUTH_URL_SUCCESS,
+  GET_TWITTER_AUTH_URL_FAIL,
   FETCH_TWITTER_STATUS_LOAD,
   FETCH_TWITTER_STATUS_SUCCESS,
   FETCH_TWITTER_STATUS_FAIL,
@@ -12,7 +12,7 @@ import {
   POST_CALLBACK_SUCCESS,
   POST_CALLBACK_FAIL,
   GET_FACEBOOK_APP_ID_SUCCESS,
-} from 'actions/twitterLogin';
+} from 'actions/socialMediaLogin';
 
 /* ------------------- */
 // Define Default State
@@ -33,19 +33,19 @@ const defaultState = {
 /* ----------------------------------------- */
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
-    case GET_AUTH_URL_LOAD:
+    case GET_TWITTER_AUTH_URL_LOAD:
       return {
         ...state,
         loading_oauth_url: true,
         oauth_url: null,
       };
-    case GET_AUTH_URL_SUCCESS:
+    case GET_TWITTER_AUTH_URL_SUCCESS:
       return {
         ...state,
         oauth_url: action.result.data.url,
         loading_oauth_url: false,
       };
-    case GET_AUTH_URL_FAIL:
+    case GET_TWITTER_AUTH_URL_FAIL:
       return {
         ...state,
         loading_oauth_url_error: true,
@@ -87,7 +87,6 @@ export default function reducer(state = defaultState, action) {
     case GET_FACEBOOK_APP_ID_SUCCESS:
       return {
         ...state,
-        // facebookAppId: action.result.data,
         ...action.result.data,
       };
     default:
