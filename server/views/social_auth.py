@@ -15,8 +15,8 @@ logger = logging.getLogger(__name__)
 
 
 @api.route('/get_facebook_app_id', methods=['GET'])
+@login_required
 def get_facebook_app_id():
-    # return str(app.config['FACEBOOK_APP_ID'])
     return jsonify({
         'facebookAppId': str(app.config['FACEBOOK_APP_ID']),
         'isFacebookEnabled': app.config['ENABLE_FACEBOOK'],
