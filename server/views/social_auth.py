@@ -32,6 +32,15 @@ def handle_facebook_response():
     return 'success', 200
 
 
+@api.route('/verify_mastodon', methods=['GET'])
+@login_required
+def verify_mastodon():
+    return jsonify({
+        'mastodonClientId': str(app.config['MASTODON_CLIENT_ID']),
+        'isMastodonEnabled': app.config['ENABLE_MASTODON'],
+    })
+
+
 @api.route('/get_twitter_oauth_token', methods=['GET'])
 @login_required
 def get_twitter_oauth_token():

@@ -3,7 +3,10 @@ import FacebookLogin from 'react-facebook-login';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getTwitterAuthUrl, waitForTwitterCallback, fetchFacebookAppId } from '../../actions/socialMediaLogin';
+import isEnabled, { MASTODON } from 'utils/featureFlags';
+
+import { getTwitterAuthUrl, waitForTwitterCallback, fetchFacebookAppId,
+  fetchMastodonVerification } from '../../actions/socialMediaLogin';
 import { postFacebookResponseToServer } from '../../utils/apiRequests';
 
 
@@ -16,6 +19,7 @@ class SocialMediaButtons extends Component {
     this.state = {
       facebookSuccess: this.props.facebookConnected || this.props.auth.user.facebook_authorized || false,
       twitterSuccess: this.props.twitterConnected || this.props.auth.user.twitter_authorized || false,
+      mastodonSuccess: this.props.mastodonConnected || this.props.auth.user.mastodon_authorized || false,
       twitterError: false,
       polling: false,
       pollCount: 0,
@@ -24,6 +28,7 @@ class SocialMediaButtons extends Component {
 
   componentWillMount() {
     this.props.dispatch(fetchFacebookAppId());
+    this.props.dispatch(fetchMastodonVerification());
   }
 
   componentWillReceiveProps(nextProps) {
@@ -107,6 +112,22 @@ class SocialMediaButtons extends Component {
     );
   }
 
+  // TODO: actually implement something here
+  getMastodonButton = () => {
+    const buttonProps = this.getButtonDefaults(this.state.mastodonSuccess, 'Mastodon');
+    if (this.state.twitterError) {
+      buttonProps.buttonText = 'Error authenticating twitter. Please try again ';
+    }
+    return (
+      <div>
+        <button onClick={() => {}} className={buttonProps.buttonClass} >
+          {buttonProps.buttonText} <i className={`button-icon ${buttonProps.buttonIcon}`} />
+        </button>
+        <p><small>MASTODON DETAILS</small></p>
+      </div>
+    );
+  }
+
   responseFacebook = (response) => {
     if ('name' in response) {
       this.setState({ facebookSuccess: true });
@@ -126,10 +147,12 @@ class SocialMediaButtons extends Component {
 
   render() {
     const isFacebookEnabled = this.props.socialMediaData.isFacebookEnabled && this.props.socialMediaData.facebookAppId;
+    const isMastodonEnabled = this.props.socialMediaData.isMastodonEnabled;
     return (
       <div className="facebook_twitter_buttons">
         {this.getTwitterButton()}
         {isFacebookEnabled && this.getFacebookButton()}
+        {isEnabled(MASTODON) && isMastodonEnabled && this.getMastodonButton()}
       </div>
     );
   }
@@ -138,6 +161,7 @@ class SocialMediaButtons extends Component {
 SocialMediaButtons.defaultProps = {
   facebookConnected: false,
   twitterConnected: false,
+  mastodonConnected: false,
 };
 
 SocialMediaButtons.propTypes = {
@@ -145,6 +169,7 @@ SocialMediaButtons.propTypes = {
   socialMediaData: PropTypes.object.isRequired,
   facebookConnected: PropTypes.bool,
   twitterConnected: PropTypes.bool,
+  mastodonConnected: PropTypes.bool,
   auth: PropTypes.object.isRequired,
 };
 

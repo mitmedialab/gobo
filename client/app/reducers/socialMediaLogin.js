@@ -12,6 +12,7 @@ import {
   POST_CALLBACK_SUCCESS,
   POST_CALLBACK_FAIL,
   GET_FACEBOOK_APP_ID_SUCCESS,
+  GET_MASTODON_VERIFICATION_SUCCESS,
 } from 'actions/socialMediaLogin';
 
 /* ------------------- */
@@ -85,6 +86,11 @@ export default function reducer(state = defaultState, action) {
         callbackLoading: false,
       };
     case GET_FACEBOOK_APP_ID_SUCCESS:
+      return {
+        ...state,
+        ...action.result.data,
+      };
+    case GET_MASTODON_VERIFICATION_SUCCESS:
       return {
         ...state,
         ...action.result.data,

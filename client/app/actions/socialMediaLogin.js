@@ -1,4 +1,10 @@
-import { getTwitterAuthURl, waitTwitterCallback, postTwitterCallback, getFacebookAppId } from '../utils/apiRequests';
+import {
+  getTwitterAuthURl,
+  waitTwitterCallback,
+  postTwitterCallback,
+  getFacebookAppId,
+  getMastodonVerification,
+} from '../utils/apiRequests';
 
 /*--------*/
 // Define Action types
@@ -22,6 +28,9 @@ export const GET_FACEBOOK_APP_ID_LOAD = 'smLogin/GET_FACEBOOK_APP_ID_LOAD';
 export const GET_FACEBOOK_APP_ID_FAIL = 'smLogin/GET_FACEBOOK_APP_ID_FAIL';
 export const GET_FACEBOOK_APP_ID_SUCCESS = 'smLogin/GET_FACEBOOK_APP_ID_SUCCESS';
 
+export const GET_MASTODON_VERIFICATION_LOAD = 'smLogin/GET_MASTODON_VERIFICATION_LOAD';
+export const GET_MASTODON_VERIFICATION_FAIL = 'smLogin/GET_MASTODON_VERIFICATION_FAIL';
+export const GET_MASTODON_VERIFICATION_SUCCESS = 'smLogin/GET_MASTODON_VERIFICATION_SUCCESS';
 
 /*--------*/
 // Define Action creators
@@ -52,6 +61,19 @@ export function fetchFacebookAppId() {
       })
       .catch((error) => {
         dispatch({ type: GET_FACEBOOK_APP_ID_FAIL, error });
+      });
+  };
+}
+
+export function fetchMastodonVerification() {
+  return (dispatch) => {
+    dispatch({ type: GET_MASTODON_VERIFICATION_LOAD });
+    return getMastodonVerification()
+      .then((result) => {
+        dispatch({ type: GET_MASTODON_VERIFICATION_SUCCESS, result });
+      })
+      .catch((error) => {
+        dispatch({ type: GET_MASTODON_VERIFICATION_FAIL, error });
       });
   };
 }
