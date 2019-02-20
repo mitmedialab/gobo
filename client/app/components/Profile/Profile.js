@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
-import FacebookTwitterButtons from 'components/FacebookTwitterButtons/FacebookTwitterButtons';
+import SocialMediaButtons from 'components/SocialMediaButtons/SocialMediaButtons';
 import DeleteAccountButton from 'components/DeleteAccountButton/DeleteAccountButton';
 
 const propTypes = {
@@ -90,7 +90,7 @@ const Profile = (props) => {
                 </div>
               */}
               <div>
-                <FacebookTwitterButtons
+                <SocialMediaButtons
                   onFinish={() => {}}
                   facebookConnected={user.facebook_authorized}
                   twitterConnected={user.twitter_authorized}

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import FacebookTwitterButtons from 'components/FacebookTwitterButtons/FacebookTwitterButtons';
+import SocialMediaButtons from 'components/SocialMediaButtons/SocialMediaButtons';
 
 const propTypes = {
   onFinish: PropTypes.func.isRequired,
@@ -14,7 +14,7 @@ const SocialAuth = props => (
       <br />
       accounts so we can show you your feed
     </p>
-    <FacebookTwitterButtons onFinish={props.onFinish} />
+    <SocialMediaButtons onFinish={props.onFinish} />
   </div>
 );
 

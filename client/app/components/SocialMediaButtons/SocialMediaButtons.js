@@ -9,7 +9,7 @@ import { postFacebookResponseToServer } from '../../utils/apiRequests';
 
 const MAX_POLLS = 120;
 
-class FacebookTwitterButtons extends Component {
+class SocialMediaButtons extends Component {
 
   constructor(props) {
     super(props);
@@ -41,7 +41,6 @@ class FacebookTwitterButtons extends Component {
       this.setState({
         twitterSuccess: true,
       });
-      this.isDone();
     } else if (this.state.polling && (!nextProps.twitter_data.isTwitterAuthorized && !nextProps.twitter_data.isFetching)) {
       this.startPoll();
     }
@@ -56,7 +55,6 @@ class FacebookTwitterButtons extends Component {
     this.startPoll();
     this.setState({ polling: true });
   }
-
 
   getConnectButtonClass = (success) => {
     let buttonClass = 'button button_wide ';
@@ -109,19 +107,12 @@ class FacebookTwitterButtons extends Component {
     );
   }
 
-  isDone() {
-    if (this.state.facebookSuccess && this.state.twitterSuccess) {
-      // this.props.onFinish()
-    }
-  }
-
   responseFacebook = (response) => {
     if ('name' in response) {
       this.setState({ facebookSuccess: true });
       // dispatch response to server
       postFacebookResponseToServer(response);
     }
-    this.isDone();
   }
 
   startPoll() {
@@ -144,12 +135,12 @@ class FacebookTwitterButtons extends Component {
   }
 }
 
-FacebookTwitterButtons.defaultProps = {
+SocialMediaButtons.defaultProps = {
   facebookConnected: false,
   twitterConnected: false,
 };
 
-FacebookTwitterButtons.propTypes = {
+SocialMediaButtons.propTypes = {
   dispatch: PropTypes.func.isRequired,
   twitter_data: PropTypes.object.isRequired,
   facebookConnected: PropTypes.bool,
@@ -157,4 +148,4 @@ FacebookTwitterButtons.propTypes = {
   auth: PropTypes.object.isRequired,
 };
 
-export default connect(state => ({ twitter_data: state.twitterLogin, auth: state.auth }))(FacebookTwitterButtons);
+export default connect(state => ({ twitter_data: state.twitterLogin, auth: state.auth }))(SocialMediaButtons);
