@@ -3,12 +3,12 @@ import FacebookLogin from 'react-facebook-login';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { getTwitterAuthUrl, waitForTwitterCallback, fetchFacebookAppId,
+  fetchMastodonVerification } from 'actions/socialMediaLogin';
+import { postFacebookResponseToServer } from 'utils/apiRequests';
 import isEnabled, { MASTODON } from 'utils/featureFlags';
 
-import { getTwitterAuthUrl, waitForTwitterCallback, fetchFacebookAppId,
-  fetchMastodonVerification } from '../../actions/socialMediaLogin';
-import { postFacebookResponseToServer } from '../../utils/apiRequests';
-
+import Input from 'components/Input/Input';
 
 const MAX_POLLS = 120;
 
@@ -112,14 +112,23 @@ class SocialMediaButtons extends Component {
     );
   }
 
-  // TODO: actually implement something here
+  // WIP TODO: actually implement something here
+  // - error checking
+  // - disable or remove input entirely if success
   getMastodonButton = () => {
     const buttonProps = this.getButtonDefaults(this.state.mastodonSuccess, 'Mastodon');
-    if (this.state.twitterError) {
-      buttonProps.buttonText = 'Error authenticating twitter. Please try again ';
-    }
+    // if (this.state.twitterError) {
+    //   buttonProps.buttonText = 'Error authenticating twitter. Please try again ';
+    // }
     return (
       <div>
+        <Input
+          text="Enter your Mastodon username@domain"
+          minCharacters="3"
+          requireCapitals="0"
+          requireNumbers="0"
+          emptyMessage="Username and domain cannot be empty"
+        />
         <button onClick={() => {}} className={buttonProps.buttonClass} >
           {buttonProps.buttonText} <i className={`button-icon ${buttonProps.buttonIcon}`} />
         </button>
