@@ -61,6 +61,10 @@ export function getFacebookAppId() {
   return axios.get(`${API_URL}api/get_facebook_app_id`);
 }
 
+export function getMastodonVerification() {
+  return axios.get(`${API_URL}api/verify_mastodon`);
+}
+
 export function getLockStatusFromServer() {
   return axios.get(`${API_URL}api/is_locked_with_password`);
 }

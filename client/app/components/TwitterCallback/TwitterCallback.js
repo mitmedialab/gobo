@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
-import { startPostTwitterCallback } from 'actions/twitterLogin';
+import { startPostTwitterCallback } from 'actions/socialMediaLogin';
 import Loader from 'components/Loader/Loader';
 
 const propTypes = {
@@ -49,4 +49,4 @@ class TwitterCallback extends Component {
 
 TwitterCallback.propTypes = propTypes;
 
-export default withRouter(connect(state => ({ callbackLoading: state.twitterLogin.callbackLoading, auth: state.auth }))(TwitterCallback));
+export default withRouter(connect(state => ({ callbackLoading: state.socialMediaLogin.callbackLoading, auth: state.auth }))(TwitterCallback));

@@ -17,6 +17,11 @@ class BaseConfig(object):
     TWITTER_API_KEY = 'XXXXX'
     TWITTER_API_SECRET = 'XXXXX'
 
+    # Get a client ID and secret following instructions at https://docs.joinmastodon.org/api/rest/apps/#post-api-v1-apps
+    ENABLE_MASTODON = False
+    MASTODON_CLIENT_ID = 'XXXXX'
+    MASTODON_CLIENT_SECRET = 'XXXXX'
+
     # Set to the URI for a database to store everythign in. We use Postgres in development and production.
     SQLALCHEMY_DATABASE_URI = 'postgresql:///db_name'
     SQLALCHEMY_TRACK_MODIFICATIONS = False

@@ -3,19 +3,23 @@ import FacebookLogin from 'react-facebook-login';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getAuthUrl, waitForTwitterCallback, fetchFacebookAppId } from '../../actions/twitterLogin';
-import { postFacebookResponseToServer } from '../../utils/apiRequests';
+import { getTwitterAuthUrl, waitForTwitterCallback, fetchFacebookAppId,
+  fetchMastodonVerification } from 'actions/socialMediaLogin';
+import { postFacebookResponseToServer } from 'utils/apiRequests';
+import isEnabled, { MASTODON } from 'utils/featureFlags';
 
+import Input from 'components/Input/Input';
 
 const MAX_POLLS = 120;
 
-class FacebookTwitterButtons extends Component {
+class SocialMediaButtons extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       facebookSuccess: this.props.facebookConnected || this.props.auth.user.facebook_authorized || false,
       twitterSuccess: this.props.twitterConnected || this.props.auth.user.twitter_authorized || false,
+      mastodonSuccess: this.props.mastodonConnected || this.props.auth.user.mastodon_authorized || false,
       twitterError: false,
       polling: false,
       pollCount: 0,
@@ -24,25 +28,25 @@ class FacebookTwitterButtons extends Component {
 
   componentWillMount() {
     this.props.dispatch(fetchFacebookAppId());
+    this.props.dispatch(fetchMastodonVerification());
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.twitter_data.loading_oauth_url && !nextProps.twitter_data.loading_oauth_url &&
-      nextProps.twitter_data.oauth_url != null) {
+    if (this.props.socialMediaData.loading_oauth_url && !nextProps.socialMediaData.loading_oauth_url &&
+      nextProps.socialMediaData.oauth_url != null) {
       if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         // redirect to twitter auth
-        window.location.replace(nextProps.twitter_data.oauth_url);
+        window.location.replace(nextProps.socialMediaData.oauth_url);
       } else {
-        window.open(nextProps.twitter_data.oauth_url, '_blank', 'width=500,height=500');
+        window.open(nextProps.socialMediaData.oauth_url, '_blank', 'width=500,height=500');
       }
       this.props.dispatch(waitForTwitterCallback());
-    } else if (!this.props.twitter_data.isTwitterAuthorized && nextProps.twitter_data.isTwitterAuthorized) {
+    } else if (!this.props.socialMediaData.isTwitterAuthorized && nextProps.socialMediaData.isTwitterAuthorized) {
       clearTimeout(this.timeout);
       this.setState({
         twitterSuccess: true,
       });
-      this.isDone();
-    } else if (this.state.polling && (!nextProps.twitter_data.isTwitterAuthorized && !nextProps.twitter_data.isFetching)) {
+    } else if (this.state.polling && (!nextProps.socialMediaData.isTwitterAuthorized && !nextProps.socialMediaData.isFetching)) {
       this.startPoll();
     }
   }
@@ -52,11 +56,10 @@ class FacebookTwitterButtons extends Component {
   }
 
   onTwitterButtonClick = () => {
-    this.props.dispatch(getAuthUrl());
+    this.props.dispatch(getTwitterAuthUrl());
     this.startPoll();
     this.setState({ polling: true });
   }
-
 
   getConnectButtonClass = (success) => {
     let buttonClass = 'button button_wide ';
@@ -77,7 +80,7 @@ class FacebookTwitterButtons extends Component {
     return (
       <div>
         <FacebookLogin
-          appId={this.props.twitter_data.facebookAppId}
+          appId={this.props.socialMediaData.facebookAppId}
           autoLoad={false}
           fields="name,email,picture"
           scope="public_profile,user_friends,email,user_posts,user_likes"
@@ -109,10 +112,29 @@ class FacebookTwitterButtons extends Component {
     );
   }
 
-  isDone() {
-    if (this.state.facebookSuccess && this.state.twitterSuccess) {
-      // this.props.onFinish()
-    }
+  // WIP TODO: actually implement something here
+  // - error checking
+  // - disable or remove input entirely if success
+  getMastodonButton = () => {
+    const buttonProps = this.getButtonDefaults(this.state.mastodonSuccess, 'Mastodon');
+    // if (this.state.twitterError) {
+    //   buttonProps.buttonText = 'Error authenticating twitter. Please try again ';
+    // }
+    return (
+      <div>
+        <Input
+          text="Enter your Mastodon username@domain"
+          minCharacters="3"
+          requireCapitals="0"
+          requireNumbers="0"
+          emptyMessage="Username and domain cannot be empty"
+        />
+        <button onClick={() => {}} className={buttonProps.buttonClass} >
+          {buttonProps.buttonText} <i className={`button-icon ${buttonProps.buttonIcon}`} />
+        </button>
+        <p><small>MASTODON DETAILS</small></p>
+      </div>
+    );
   }
 
   responseFacebook = (response) => {
@@ -121,7 +143,6 @@ class FacebookTwitterButtons extends Component {
       // dispatch response to server
       postFacebookResponseToServer(response);
     }
-    this.isDone();
   }
 
   startPoll() {
@@ -134,27 +155,31 @@ class FacebookTwitterButtons extends Component {
   }
 
   render() {
-    const isFacebookEnabled = this.props.twitter_data.isFacebookEnabled && this.props.twitter_data.facebookAppId;
+    const isFacebookEnabled = this.props.socialMediaData.isFacebookEnabled && this.props.socialMediaData.facebookAppId;
+    const isMastodonEnabled = this.props.socialMediaData.isMastodonEnabled;
     return (
       <div className="facebook_twitter_buttons">
         {this.getTwitterButton()}
         {isFacebookEnabled && this.getFacebookButton()}
+        {isEnabled(MASTODON) && isMastodonEnabled && this.getMastodonButton()}
       </div>
     );
   }
 }
 
-FacebookTwitterButtons.defaultProps = {
+SocialMediaButtons.defaultProps = {
   facebookConnected: false,
   twitterConnected: false,
+  mastodonConnected: false,
 };
 
-FacebookTwitterButtons.propTypes = {
+SocialMediaButtons.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  twitter_data: PropTypes.object.isRequired,
+  socialMediaData: PropTypes.object.isRequired,
   facebookConnected: PropTypes.bool,
   twitterConnected: PropTypes.bool,
+  mastodonConnected: PropTypes.bool,
   auth: PropTypes.object.isRequired,
 };
 
-export default connect(state => ({ twitter_data: state.twitterLogin, auth: state.auth }))(FacebookTwitterButtons);
+export default connect(state => ({ socialMediaData: state.socialMediaLogin, auth: state.auth }))(SocialMediaButtons);

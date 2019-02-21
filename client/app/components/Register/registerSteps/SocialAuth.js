@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import FacebookTwitterButtons from 'components/FacebookTwitterButtons/FacebookTwitterButtons';
+import SocialMediaButtons from 'components/SocialMediaButtons/SocialMediaButtons';
 
 const propTypes = {
   onFinish: PropTypes.func.isRequired,
@@ -10,14 +10,12 @@ const propTypes = {
 const SocialAuth = props => (
   <div>
     <p className="registration-description">
-      Please Authenticate to your Facebook and Twitter
-      <br />
-      accounts so we can show you your feed
+      To show your feed, authenticate your social media accounts.
     </p>
-    <FacebookTwitterButtons onFinish={props.onFinish} />
+    <SocialMediaButtons onFinish={props.onFinish} />
   </div>
 );
 
 SocialAuth.propTypes = propTypes;
 
-export default connect(state => ({ twitter_data: state.twitterLogin }))(SocialAuth);
+export default connect(state => ({ socialMediaData: state.socialMediaLogin }))(SocialAuth);
