@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { getTwitterAuthUrl, waitForTwitterCallback, fetchFacebookAppId,
-  fetchMastodonVerification } from 'actions/socialMediaLogin';
+  fetchMastodonVerification, mastodonToken } from 'actions/socialMediaLogin';
 import { postFacebookResponseToServer } from 'utils/apiRequests';
 import isEnabled, { MASTODON } from 'utils/featureFlags';
+import { getQueryParam, encodeData } from 'utils/url';
 
 import Input from 'components/Input/Input';
 
@@ -32,6 +33,7 @@ class SocialMediaButtons extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // TODO: I think oauth_url is not be used?
     if (this.props.socialMediaData.loading_oauth_url && !nextProps.socialMediaData.loading_oauth_url &&
       nextProps.socialMediaData.oauth_url != null) {
       if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -48,6 +50,15 @@ class SocialMediaButtons extends Component {
       });
     } else if (this.state.polling && (!nextProps.socialMediaData.isTwitterAuthorized && !nextProps.socialMediaData.isFetching)) {
       this.startPoll();
+    }
+
+    // TODO: is this the right place for it? Maybe in componentWillMount() instead or
+    // maybe I'll need to do something like the above oauth waiting stuff w/ "replace"
+    const mastodonAuthCode = getQueryParam('code');
+    if (mastodonAuthCode) {
+      this.props.dispatch(mastodonToken(mastodonAuthCode));
+      // TODO: close or redirect
+      window.close();
     }
   }
 
@@ -116,7 +127,7 @@ class SocialMediaButtons extends Component {
   // - error checking
   // - disable or remove input entirely if success
   getMastodonButton = () => {
-    const buttonProps = this.getButtonDefaults(this.state.mastodonSuccess, 'Mastodon');
+    const buttonProps = this.getButtonDefaults(this.state.mastodonAuthorized, 'Mastodon');
     // if (this.state.twitterError) {
     //   buttonProps.buttonText = 'Error authenticating twitter. Please try again ';
     // }
@@ -129,12 +140,32 @@ class SocialMediaButtons extends Component {
           requireNumbers="0"
           emptyMessage="Username and domain cannot be empty"
         />
-        <button onClick={() => {}} className={buttonProps.buttonClass} >
+        <button onClick={this.handleMastodonClick} className={buttonProps.buttonClass} >
           {buttonProps.buttonText} <i className={`button-icon ${buttonProps.buttonIcon}`} />
         </button>
         <p><small>MASTODON DETAILS</small></p>
       </div>
     );
+  }
+
+  // TODO: more to do here
+  handleMastodonClick = () => {
+    // this.props.dispatch(getMastodonAuthorizationCode());
+    // this.startPoll();
+    // this.setState({ polling: true });
+
+    // TODO: get this from the input and clean it if needed
+    const baseURL = 'https://vis.social';
+    const api = `${baseURL}/oauth/authorize`;
+    // eslint-disable-next-line class-methods-use-this
+    const queryString = encodeData({
+      client_id: this.props.socialMediaData.mastodonClientId,
+      redirect_uri: 'http://localhost:5000/profile',
+      scopes: 'read',
+      response_type: 'code',
+    });
+    const url = `${api}?${queryString}`;
+    window.open(url);
   }
 
   responseFacebook = (response) => {

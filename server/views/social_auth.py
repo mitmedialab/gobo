@@ -1,13 +1,14 @@
 import logging
 
-from flask import request, jsonify, session
+from flask import abort, request, jsonify, session
 from flask import current_app as app
 from flask_login import login_required, current_user
 import requests
 from twython import Twython
+from mastodon import Mastodon
 
 from server.core import db
-from server.models import FacebookAuth, TwitterAuth
+from server.models import FacebookAuth, MastodonAuth, TwitterAuth
 from server.scripts import tasks
 from server.blueprints import api
 
@@ -38,7 +39,41 @@ def verify_mastodon():
     return jsonify({
         'mastodonClientId': str(app.config['MASTODON_CLIENT_ID']),
         'isMastodonEnabled': app.config['ENABLE_MASTODON'],
+        'isMastodonAuthorized': current_user.mastodon_authorized,
     })
+
+
+@api.route('/mastodon_token', methods=['POST'])
+@login_required
+def mastodon_token():
+    if not app.config['ENABLE_MASTODON']:
+        return abort(requests.codes.not_found)
+
+    # TODO: do we want to just pass through if the user already has mastodon access?
+    mastodon = Mastodon(
+        client_id=app.config['MASTODON_CLIENT_ID'],
+        client_secret=app.config['MASTODON_CLIENT_SECRET'],
+        api_base_url='https://vis.social',  # TODO: this need to be passed in too?
+    )
+
+    # MastodonIllegalArgumentError, MastodonAPIError
+    access_token = mastodon.log_in(
+        code=request.json['authorization_code'],
+        redirect_uri='http://localhost:5000/profile',  # TODO: this needs to be passed in?
+        scopes=['read'],
+    )
+
+    print access_token
+    # db.session.add(MastodonAuth(current_user.get_id(), access_token))
+    # db.session.commit()
+
+    return 'success', 200
+
+    # TODO: get the mastodon domain from the request
+    # r = requests.post('https://vis.social/oauth/token', payload)
+    # if r.status_code == requests.codes.ok:
+    #     return 200
+    # return abort(r.status_code)
 
 
 @api.route('/get_twitter_oauth_token', methods=['GET'])

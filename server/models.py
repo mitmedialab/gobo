@@ -37,9 +37,12 @@ class User(db.Model):
                                     cascade="delete, delete-orphan")
     twitter_auth = db.relationship("TwitterAuth", uselist=False, back_populates="user",
                                    cascade="delete, delete-orphan")
+    mastodon_auth = db.relationship("MastodonAuth", uselist=False, back_populates="user",
+                                    cascade="delete, delete-orphan")
 
     twitter_authorized = db.Column(db.Boolean, nullable=False, default=False)
     facebook_authorized = db.Column(db.Boolean, nullable=False, default=False)
+    mastodon_authorized = db.Column(db.Boolean, nullable=False, default=False, server_default='f')
 
     twitter_data = db.Column(db.JSON)
     facebook_data = db.Column(db.JSON)
@@ -165,6 +168,19 @@ class TwitterAuth(db.Model):
         self.generated_on = datetime.datetime.now()
         self.oauth_token = oauth_token
         self.oauth_token_secret = oauth_token_secret
+
+
+class MastodonAuth(db.Model):
+    __tablename__ = "mastodon_auths"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship("User", back_populates="mastodon_auth")
+    generated_on = db.Column(db.DateTime, nullable=False)
+    access_token = db.Column(db.String(255), nullable=False)
+    def __init__(self, user_id, access_token):
+        self.user_id = user_id
+        self.generated_on = datetime.datetime.now()
+        self.access_token = access_token
 
 
 class Settings(db.Model):
