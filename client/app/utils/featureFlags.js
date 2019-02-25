@@ -1,4 +1,4 @@
-import queryString from 'query-string';
+import { getQueryParam } from './url';
 
 export const KEYWORD_FILTER = 'kwfilter';
 export const MASTODON = 'mastodon';
@@ -9,8 +9,7 @@ export const MASTODON = 'mastodon';
  * Returns true if the feature is found (e.g. if "experiment" is found).
  */
 export default function isEnabled(feature) {
-  const values = queryString.parse(window.location.search);
-  const features = values.ft;
+  const features = getQueryParam('ft');
   if (features) {
     return features.split(',').indexOf(feature) > -1;
   }

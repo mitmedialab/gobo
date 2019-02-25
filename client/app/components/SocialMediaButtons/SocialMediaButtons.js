@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { getTwitterAuthUrl, waitForTwitterCallback, fetchFacebookAppId,
-  fetchMastodonVerification } from 'actions/socialMediaLogin';
+  fetchMastodonVerification, mastodonToken, mastodonDomain } from 'actions/socialMediaLogin';
 import { postFacebookResponseToServer } from 'utils/apiRequests';
 import isEnabled, { MASTODON } from 'utils/featureFlags';
+import { getQueryParam, encodeData } from 'utils/url';
 
 import Input from 'components/Input/Input';
 
@@ -23,6 +24,7 @@ class SocialMediaButtons extends Component {
       twitterError: false,
       polling: false,
       pollCount: 0,
+      mastodonNameDomain: '',
     };
   }
 
@@ -32,6 +34,7 @@ class SocialMediaButtons extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // TODO: oauth_url is not being used?
     if (this.props.socialMediaData.loading_oauth_url && !nextProps.socialMediaData.loading_oauth_url &&
       nextProps.socialMediaData.oauth_url != null) {
       if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -48,6 +51,18 @@ class SocialMediaButtons extends Component {
       });
     } else if (this.state.polling && (!nextProps.socialMediaData.isTwitterAuthorized && !nextProps.socialMediaData.isFetching)) {
       this.startPoll();
+    }
+
+    if (this.props.socialMediaData.mastodon_auth_url !== nextProps.socialMediaData.mastodon_auth_url) {
+      this.openMastodonAuth(nextProps.socialMediaData.mastodon_auth_url);
+    }
+
+    // TODO: this will eventually go into its own callback/redirect view
+    const mastodonAuthCode = getQueryParam('code');
+    if (mastodonAuthCode) {
+      this.props.dispatch(mastodonToken(mastodonAuthCode));
+      // TODO: this will be made mobile friendly
+      window.close();
     }
   }
 
@@ -112,29 +127,50 @@ class SocialMediaButtons extends Component {
     );
   }
 
-  // WIP TODO: actually implement something here
-  // - error checking
-  // - disable or remove input entirely if success
   getMastodonButton = () => {
-    const buttonProps = this.getButtonDefaults(this.state.mastodonSuccess, 'Mastodon');
-    // if (this.state.twitterError) {
-    //   buttonProps.buttonText = 'Error authenticating twitter. Please try again ';
-    // }
+    const buttonProps = this.getButtonDefaults(this.state.mastodonAuthorized, 'Mastodon');
     return (
       <div>
         <Input
           text="Enter your Mastodon username@domain"
+          ref={(c) => { this.mastodonInputRef = c; }}
+          validate={text => text.indexOf('@') > 0}
           minCharacters="3"
           requireCapitals="0"
           requireNumbers="0"
           emptyMessage="Username and domain cannot be empty"
+          onChange={this.handleMastodonInputChange}
         />
-        <button onClick={() => {}} className={buttonProps.buttonClass} >
+        <button onClick={this.handleMastodonClick} className={buttonProps.buttonClass} >
           {buttonProps.buttonText} <i className={`button-icon ${buttonProps.buttonIcon}`} />
         </button>
         <p><small>MASTODON DETAILS</small></p>
       </div>
     );
+  }
+
+  handleMastodonInputChange = (e) => {
+    this.setState({ mastodonNameDomain: e.target.value });
+  }
+
+  handleMastodonClick = (e) => {
+    // TODO: polling will be done
+    e.preventDefault();
+    if (this.mastodonInputRef.isValid()) {
+      const domain = this.state.mastodonNameDomain.split('@')[1];
+      this.props.dispatch(mastodonDomain(domain));
+    }
+  }
+
+  openMastodonAuth = (authUrl) => {
+    // eslint-disable-next-line class-methods-use-this
+    const queryString = encodeData({
+      client_id: this.props.socialMediaData.mastodonClientId,
+      redirect_uri: 'http://localhost:5000/profile',
+      scopes: 'read',
+      response_type: 'code',
+    });
+    window.open(`${authUrl}?${queryString}`);
   }
 
   responseFacebook = (response) => {

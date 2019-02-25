@@ -6,7 +6,8 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import BadRequest, InternalServerError, NotImplemented as NotImplementedEndpoint
 
 from server.core import db, mail
-from server.models import FacebookAuth, Post, post_associations_table, Settings, SettingsUpdate, TwitterAuth, User
+from server.models import FacebookAuth, Post, post_associations_table, MastodonAuth, Settings, SettingsUpdate, \
+    TwitterAuth, User
 from server.blueprints import api
 
 from server.templates.email.forgot_password import FORGOT_PASSWORD
@@ -121,6 +122,9 @@ def delete_user_by_id(user_id, db_session):
          .delete())
         (db_session.query(TwitterAuth)
          .filter(TwitterAuth.user_id == user_id)
+         .delete())
+        (db_session.query(MastodonAuth)
+         .filter(MastodonAuth.user_id == user_id)
          .delete())
         (db_session.query(SettingsUpdate)
          .filter(SettingsUpdate.user_id == user_id)

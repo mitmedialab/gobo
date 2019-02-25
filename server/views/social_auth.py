@@ -1,13 +1,14 @@
 import logging
 
-from flask import request, jsonify, session
+from flask import abort, request, jsonify, session
 from flask import current_app as app
 from flask_login import login_required, current_user
 import requests
 from twython import Twython
+from mastodon import Mastodon, MastodonAPIError
 
 from server.core import db
-from server.models import FacebookAuth, TwitterAuth
+from server.models import FacebookAuth, MastodonAuth, TwitterAuth
 from server.scripts import tasks
 from server.blueprints import api
 
@@ -38,7 +39,55 @@ def verify_mastodon():
     return jsonify({
         'mastodonClientId': str(app.config['MASTODON_CLIENT_ID']),
         'isMastodonEnabled': app.config['ENABLE_MASTODON'],
+        'isMastodonAuthorized': current_user.mastodon_authorized,
     })
+
+
+@api.route('/mastodon_domain', methods=['POST'])
+@login_required
+def mastodon_domain():
+    if not app.config['ENABLE_MASTODON']:
+        return abort(requests.codes.not_found)
+
+    domain = request.json['domain']
+    current_auth = db.session.query(MastodonAuth).filter(MastodonAuth.user_id == current_user.get_id()).first()
+    if current_auth:
+        current_auth.domain = domain
+    else:
+        db.session.add(MastodonAuth(current_user.get_id(), domain))
+    db.session.commit()
+
+    return jsonify({'mastodon_auth_url': 'https://{domain}/oauth/authorize'.format(domain=domain)})
+
+
+@api.route('/mastodon_token', methods=['POST'])
+@login_required
+def mastodon_token():
+    if not app.config['ENABLE_MASTODON']:
+        return abort(requests.codes.not_found)
+
+    current_auth = db.session.query(MastodonAuth).filter(MastodonAuth.user_id == current_user.get_id()).first()
+    mastodon = Mastodon(
+        client_id=app.config['MASTODON_CLIENT_ID'],
+        client_secret=app.config['MASTODON_CLIENT_SECRET'],
+        api_base_url='https://{domain}'.format(domain=current_auth.domain),
+    )
+
+    try:
+        access_token = mastodon.log_in(
+            code=request.json['authorization_code'],
+            redirect_uri='http://localhost:5000/profile',  # TODO: this needs to be passed in?
+            scopes=['read'],
+        )
+        account = mastodon.account_verify_credentials()
+    except MastodonAPIError:
+        return abort(requests.codes.server_error)
+
+    current_auth.update_account(access_token, account['id'], account['username'])
+    current_user.mastodon_authorized = True
+    db.session.commit()
+
+    return 'success', 200
 
 
 @api.route('/get_twitter_oauth_token', methods=['GET'])
