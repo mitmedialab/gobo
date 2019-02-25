@@ -5,7 +5,7 @@ from flask import current_app as app
 from flask_login import login_required, current_user
 import requests
 from twython import Twython
-from mastodon import Mastodon
+from mastodon import Mastodon, MastodonAPIError
 
 from server.core import db
 from server.models import FacebookAuth, MastodonAuth, TwitterAuth
@@ -43,7 +43,6 @@ def verify_mastodon():
     })
 
 
-# TODO: API for setting the mastodon domain
 @api.route('/mastodon_domain', methods=['POST'])
 @login_required
 def mastodon_domain():
@@ -67,8 +66,6 @@ def mastodon_token():
     if not app.config['ENABLE_MASTODON']:
         return abort(requests.codes.not_found)
 
-    # TODO: do we want to just pass through if the user already has mastodon access?
-
     current_auth = db.session.query(MastodonAuth).filter(MastodonAuth.user_id == current_user.get_id()).first()
     mastodon = Mastodon(
         client_id=app.config['MASTODON_CLIENT_ID'],
@@ -76,15 +73,18 @@ def mastodon_token():
         api_base_url='https://{domain}'.format(domain=current_auth.domain),
     )
 
-    # MastodonIllegalArgumentError, MastodonAPIError
-    access_token = mastodon.log_in(
-        code=request.json['authorization_code'],
-        redirect_uri='http://localhost:5000/profile',  # TODO: this needs to be passed in?
-        scopes=['read'],
-    )
+    try:
+        access_token = mastodon.log_in(
+            code=request.json['authorization_code'],
+            redirect_uri='http://localhost:5000/profile',  # TODO: this needs to be passed in?
+            scopes=['read'],
+        )
+        account = mastodon.account_verify_credentials()
+    except MastodonAPIError:
+        return abort(requests.codes.server_error)
 
-    account = mastodon.account_verify_credentials()
     current_auth.update_account(access_token, account['id'], account['username'])
+    current_user.mastodon_authorized = True
     db.session.commit()
 
     return 'success', 200
