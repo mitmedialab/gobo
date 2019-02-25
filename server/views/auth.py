@@ -6,7 +6,8 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import BadRequest, InternalServerError, NotImplemented as NotImplementedEndpoint
 
 from server.core import db, mail
-from server.models import FacebookAuth, Post, post_associations_table, MastodonAuth, Settings, SettingsUpdate, TwitterAuth, User
+from server.models import FacebookAuth, Post, post_associations_table, MastodonAuth, Settings, SettingsUpdate, \
+    TwitterAuth, User
 from server.blueprints import api
 
 from server.templates.email.forgot_password import FORGOT_PASSWORD
