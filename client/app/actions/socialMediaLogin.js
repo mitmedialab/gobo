@@ -5,6 +5,7 @@ import {
   getFacebookAppId,
   getMastodonVerification,
   postMastodonToken,
+  postMastodonDomain,
 } from '../utils/apiRequests';
 
 /*--------*/
@@ -32,6 +33,10 @@ export const GET_FACEBOOK_APP_ID_SUCCESS = 'smLogin/GET_FACEBOOK_APP_ID_SUCCESS'
 export const GET_MASTODON_VERIFICATION_LOAD = 'smLogin/GET_MASTODON_VERIFICATION_LOAD';
 export const GET_MASTODON_VERIFICATION_FAIL = 'smLogin/GET_MASTODON_VERIFICATION_FAIL';
 export const GET_MASTODON_VERIFICATION_SUCCESS = 'smLogin/GET_MASTODON_VERIFICATION_SUCCESS';
+
+export const POST_MASTODON_DOMAIN_LOAD = 'smLogin/POST_MASTODON_DOMAIN_LOAD';
+export const POST_MASTODON_DOMAIN_FAIL = 'smLogin/POST_MASTODON_DOMAIN_FAIL';
+export const POST_MASTODON_DOMAIN_SUCCESS = 'smLogin/POST_MASTODON_DOMAIN_SUCCESS';
 
 export const POST_MASTODON_AUTH_LOAD = 'smLogin/POST_MASTODON_AUTH_LOAD';
 export const POST_MASTODON_AUTH_FAIL = 'smLogin/POST_MASTODON_AUTH_FAIL';
@@ -92,6 +97,19 @@ export function mastodonToken(authCode) {
       })
       .catch((error) => {
         dispatch({ type: POST_MASTODON_AUTH_FAIL, error });
+      });
+  };
+}
+
+export function mastodonDomain(domain) {
+  return (dispatch) => {
+    dispatch({ type: POST_MASTODON_DOMAIN_LOAD });
+    return postMastodonDomain(domain)
+      .then((result) => {
+        dispatch({ type: POST_MASTODON_DOMAIN_SUCCESS, result });
+      })
+      .catch((error) => {
+        dispatch({ type: POST_MASTODON_DOMAIN_FAIL, error });
       });
   };
 }

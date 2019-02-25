@@ -175,12 +175,23 @@ class MastodonAuth(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship("User", back_populates="mastodon_auth")
-    generated_on = db.Column(db.DateTime, nullable=False)
-    access_token = db.Column(db.String(255), nullable=False)
-    def __init__(self, user_id, access_token):
+    created_at = db.Column(db.DateTime, nullable=False)
+    domain = db.Column(db.String(255), nullable=False)
+    generated_on = db.Column(db.DateTime, nullable=True)
+    access_token = db.Column(db.String(255), nullable=True)
+    mastodon_id = db.Column(db.Integer, nullable=True)
+    username = db.Column(db.String(255), nullable=True)
+
+    def __init__(self, user_id, domain):
         self.user_id = user_id
-        self.generated_on = datetime.datetime.now()
+        self.domain = domain
+        self.created_at = datetime.datetime.now()
+
+    def update_account(self, access_token, mastodon_id, username):
         self.access_token = access_token
+        self.generated_on = datetime.datetime.now()
+        self.mastodon_id = mastodon_id
+        self.username = username
 
 
 class Settings(db.Model):

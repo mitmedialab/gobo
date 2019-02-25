@@ -43,6 +43,24 @@ def verify_mastodon():
     })
 
 
+# TODO: API for setting the mastodon domain
+@api.route('/mastodon_domain', methods=['POST'])
+@login_required
+def mastodon_domain():
+    if not app.config['ENABLE_MASTODON']:
+        return abort(requests.codes.not_found)
+
+    domain = request.json['domain']
+    current_auth = db.session.query(MastodonAuth).filter(MastodonAuth.user_id == current_user.get_id()).first()
+    if current_auth:
+        current_auth.domain = domain
+    else:
+        db.session.add(MastodonAuth(current_user.get_id(), domain))
+    db.session.commit()
+
+    return jsonify({'mastodon_auth_url': 'https://{domain}/oauth/authorize'.format(domain=domain)})
+
+
 @api.route('/mastodon_token', methods=['POST'])
 @login_required
 def mastodon_token():
@@ -50,10 +68,12 @@ def mastodon_token():
         return abort(requests.codes.not_found)
 
     # TODO: do we want to just pass through if the user already has mastodon access?
+
+    current_auth = db.session.query(MastodonAuth).filter(MastodonAuth.user_id == current_user.get_id()).first()
     mastodon = Mastodon(
         client_id=app.config['MASTODON_CLIENT_ID'],
         client_secret=app.config['MASTODON_CLIENT_SECRET'],
-        api_base_url='https://vis.social',  # TODO: this need to be passed in too?
+        api_base_url='https://{domain}'.format(domain=current_auth.domain),
     )
 
     # MastodonIllegalArgumentError, MastodonAPIError
@@ -63,17 +83,11 @@ def mastodon_token():
         scopes=['read'],
     )
 
-    print access_token
-    # db.session.add(MastodonAuth(current_user.get_id(), access_token))
-    # db.session.commit()
+    account = mastodon.account_verify_credentials()
+    current_auth.update_account(access_token, account['id'], account['username'])
+    db.session.commit()
 
     return 'success', 200
-
-    # TODO: get the mastodon domain from the request
-    # r = requests.post('https://vis.social/oauth/token', payload)
-    # if r.status_code == requests.codes.ok:
-    #     return 200
-    # return abort(r.status_code)
 
 
 @api.route('/get_twitter_oauth_token', methods=['GET'])

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { getTwitterAuthUrl, waitForTwitterCallback, fetchFacebookAppId,
-  fetchMastodonVerification, mastodonToken } from 'actions/socialMediaLogin';
+  fetchMastodonVerification, mastodonToken, mastodonDomain } from 'actions/socialMediaLogin';
 import { postFacebookResponseToServer } from 'utils/apiRequests';
 import isEnabled, { MASTODON } from 'utils/featureFlags';
 import { getQueryParam, encodeData } from 'utils/url';
@@ -34,7 +34,7 @@ class SocialMediaButtons extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // TODO: oauth_url is not be used
+    // TODO: oauth_url is not being used?
     if (this.props.socialMediaData.loading_oauth_url && !nextProps.socialMediaData.loading_oauth_url &&
       nextProps.socialMediaData.oauth_url != null) {
       if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -51,6 +51,10 @@ class SocialMediaButtons extends Component {
       });
     } else if (this.state.polling && (!nextProps.socialMediaData.isTwitterAuthorized && !nextProps.socialMediaData.isFetching)) {
       this.startPoll();
+    }
+
+    if (this.props.socialMediaData.mastodon_auth_url !== nextProps.socialMediaData.mastodon_auth_url) {
+      this.openMastodonAuth(nextProps.socialMediaData.mastodon_auth_url);
     }
 
     // TODO: this will eventually go into its own callback/redirect view
@@ -154,16 +158,19 @@ class SocialMediaButtons extends Component {
     e.preventDefault();
     if (this.mastodonInputRef.isValid()) {
       const domain = this.state.mastodonNameDomain.split('@')[1];
-      const api = `https://${domain}/oauth/authorize`;
-      // eslint-disable-next-line class-methods-use-this
-      const queryString = encodeData({
-        client_id: this.props.socialMediaData.mastodonClientId,
-        redirect_uri: 'http://localhost:5000/profile',
-        scopes: 'read',
-        response_type: 'code',
-      });
-      window.open(`${api}?${queryString}`);
+      this.props.dispatch(mastodonDomain(domain));
     }
+  }
+
+  openMastodonAuth = (authUrl) => {
+    // eslint-disable-next-line class-methods-use-this
+    const queryString = encodeData({
+      client_id: this.props.socialMediaData.mastodonClientId,
+      redirect_uri: 'http://localhost:5000/profile',
+      scopes: 'read',
+      response_type: 'code',
+    });
+    window.open(`${authUrl}?${queryString}`);
   }
 
   responseFacebook = (response) => {

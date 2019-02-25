@@ -65,6 +65,10 @@ export function getMastodonVerification() {
   return axios.get(`${API_URL}api/verify_mastodon`);
 }
 
+export function postMastodonDomain(domain) {
+  return axios.post(`${API_URL}api/mastodon_domain`, { domain });
+}
+
 export function postMastodonToken(query) {
   return axios.post(`${API_URL}api/mastodon_token`, query);
 }
