@@ -93,6 +93,11 @@ class User(db.Model):
     def get_names(self):
         d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name not in [
             'password', 'id', 'political_affiliation', 'posts', 'settings', 'facebook_data']}
+        d['mastodon_name'] = ''
+        d['mastodon_domain'] = ''
+        if self.mastodon_auth:
+            d['mastodon_name'] = self.mastodon_auth.username
+            d['mastodon_domain'] = self.mastodon_auth.domain
         d['political_affiliation'] = self.political_affiliation.value
         d['avatar'] = self.twitter_data['profile_image_url_https'] if self.twitter_data else self.facebook_picture_url
         return d

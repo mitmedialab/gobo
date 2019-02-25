@@ -71,8 +71,8 @@ const Profile = (props) => {
     mastodonContent = (
       <PlatformConnected
         platformName="Mastodon"
-        platformUrl={`https://mastodon.com/@${user.facebook_name}`}
-        userName={user.mastodon_name}
+        platformUrl={`https://${user.mastodon_domain}/@${user.mastodon_name}`}
+        userName={`${user.mastodon_name}@${user.mastodon_domain}`}
       />
     );
   } else {
