@@ -24,7 +24,7 @@ class SocialMediaButtons extends Component {
       twitterError: false,
       polling: false,
       pollCount: 0,
-      mastodonNameDomain: '',
+      mastodonDomain: '',
     };
   }
 
@@ -133,9 +133,9 @@ class SocialMediaButtons extends Component {
     return (
       <div>
         <Input
-          text="Enter your Mastodon username@domain"
+          text="Enter your Mastodon instance (e.g. mastodon.social)"
           ref={(c) => { this.mastodonInputRef = c; }}
-          validate={text => text.indexOf('@') > 0}
+          validate={text => text.indexOf('.') > 0}
           minCharacters="3"
           requireCapitals="0"
           requireNumbers="0"
@@ -151,20 +151,19 @@ class SocialMediaButtons extends Component {
   }
 
   handleMastodonInputChange = (e) => {
-    this.setState({ mastodonNameDomain: e.target.value });
+    this.setState({ mastodonDomain: e.target.value });
   }
 
   handleMastodonClick = (e) => {
     // TODO: polling will be done
     e.preventDefault();
     if (this.mastodonInputRef.isValid()) {
-      const domain = this.state.mastodonNameDomain.split('@')[1];
-      this.props.dispatch(mastodonDomain(domain));
+      this.props.dispatch(mastodonDomain(this.state.mastodonDomain));
     }
   }
 
   openMastodonAuth = (authUrl, clientId) => {
-    // eslint-disable-next-line class-methods-use-this
+    // eslint-disable-next-line
     const queryString = encodeData({
       client_id: clientId,
       redirect_uri: 'http://localhost:5000/profile',

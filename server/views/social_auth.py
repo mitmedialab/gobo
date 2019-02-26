@@ -55,7 +55,7 @@ def mastodon_domain():
             'gobo',
             api_base_url='https://{domain}'.format(domain=domain),
             scopes=['read'],
-            redirect_uris='http://localhost:5000/profile',  # TODO: update the redirect URL
+            redirect_uris='http://localhost:5000/profile',  # TODO: update the redirect URL - maybe make it a config?
         )
         mastodon_app = MastodonApp(domain, client_id, client_secret)
         db.session.add(mastodon_app)
@@ -90,7 +90,6 @@ def mastodon_token():
     try:
         access_token = mastodon.log_in(
             code=request.json['authorization_code'],
-            redirect_uri='http://localhost:5000/profile',  # TODO: this needs to be passed in?
             scopes=['read'],
         )
         account = mastodon.account_verify_credentials()
