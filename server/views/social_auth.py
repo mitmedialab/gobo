@@ -53,7 +53,7 @@ def mastodon_domain():
     if mastodon_app is None:
         client_id, client_secret = Mastodon.create_app(
             'gobo',
-            api_base_url='https://{domain}'.format(domain=domain),
+            api_base_url=mastodon_app.base_url(),
             scopes=['read'],
             redirect_uris='http://localhost:5000/profile',  # TODO: update the redirect URL - maybe make it a config?
         )
@@ -68,7 +68,7 @@ def mastodon_domain():
     db.session.commit()
 
     return jsonify({
-        'mastodon_auth_url': 'https://{domain}/oauth/authorize'.format(domain=domain),
+        'mastodon_auth_url': mastodon_app.base_url() + '/oauth/authorize'.format(domain=domain),
         'mastodon_client_id': mastodon_app.client_id,
     })
 
@@ -84,7 +84,7 @@ def mastodon_token():
     mastodon = Mastodon(
         client_id=mastodon_app.client_id,
         client_secret=mastodon_app.client_secret,
-        api_base_url='https://{domain}'.format(domain=mastodon_app.domain),
+        api_base_url=mastodon_app.base_url(),
     )
 
     try:

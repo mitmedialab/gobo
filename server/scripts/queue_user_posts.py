@@ -40,6 +40,10 @@ def queue_user_posts(db_session, user_id):
             tasks.get_facebook_posts_per_user.delay(user.id)
             tasks_queued = tasks_queued + 1
             task_queued = True
+        if user.mastodon_authorized:
+            tasks.get_mastodon_posts_per_user.delay(user.id)
+            tasks_queued = tasks_queued + 1
+            task_queued = True
         # and mark that we tried to update them so they move to bottom of the priority list
         if task_queued:
             db_session.query(User).filter(User.id == user.id).\
