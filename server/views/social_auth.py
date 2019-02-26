@@ -8,7 +8,7 @@ from twython import Twython
 from mastodon import Mastodon, MastodonAPIError
 
 from server.core import db
-from server.models import FacebookAuth, MastodonAuth, TwitterAuth
+from server.models import FacebookAuth, MastodonApp, MastodonAuth, TwitterAuth
 from server.scripts import tasks
 from server.blueprints import api
 
@@ -37,7 +37,6 @@ def handle_facebook_response():
 @login_required
 def verify_mastodon():
     return jsonify({
-        'mastodonClientId': str(app.config['MASTODON_CLIENT_ID']),
         'isMastodonEnabled': app.config['ENABLE_MASTODON'],
         'isMastodonAuthorized': current_user.mastodon_authorized,
     })
@@ -49,15 +48,29 @@ def mastodon_domain():
     if not app.config['ENABLE_MASTODON']:
         return abort(requests.codes.not_found)
 
-    domain = request.json['domain']
+    domain = request.json['domain'].lower()
+    mastodon_app = db.session.query(MastodonApp).filter(MastodonApp.domain == domain).first()
+    if mastodon_app is None:
+        client_id, client_secret = Mastodon.create_app(
+            'gobo',
+            api_base_url='https://{domain}'.format(domain=domain),
+            scopes=['read'],
+            redirect_uris='http://localhost:5000/profile',  # TODO: update the redirect URL
+        )
+        mastodon_app = MastodonApp(domain, client_id, client_secret)
+        db.session.add(mastodon_app)
+
     current_auth = db.session.query(MastodonAuth).filter(MastodonAuth.user_id == current_user.get_id()).first()
     if current_auth:
-        current_auth.domain = domain
+        current_auth.app_id = mastodon_app.id
     else:
-        db.session.add(MastodonAuth(current_user.get_id(), domain))
+        db.session.add(MastodonAuth(current_user.get_id(), mastodon_app.id))
     db.session.commit()
 
-    return jsonify({'mastodon_auth_url': 'https://{domain}/oauth/authorize'.format(domain=domain)})
+    return jsonify({
+        'mastodon_auth_url': 'https://{domain}/oauth/authorize'.format(domain=domain),
+        'mastodon_client_id': mastodon_app.client_id,
+    })
 
 
 @api.route('/mastodon_token', methods=['POST'])
@@ -67,10 +80,11 @@ def mastodon_token():
         return abort(requests.codes.not_found)
 
     current_auth = db.session.query(MastodonAuth).filter(MastodonAuth.user_id == current_user.get_id()).first()
+    mastodon_app = current_auth.app
     mastodon = Mastodon(
-        client_id=app.config['MASTODON_CLIENT_ID'],
-        client_secret=app.config['MASTODON_CLIENT_SECRET'],
-        api_base_url='https://{domain}'.format(domain=current_auth.domain),
+        client_id=mastodon_app.client_id,
+        client_secret=mastodon_app.client_secret,
+        api_base_url='https://{domain}'.format(domain=mastodon_app.domain),
     )
 
     try:

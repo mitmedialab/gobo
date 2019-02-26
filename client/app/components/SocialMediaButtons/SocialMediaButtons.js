@@ -54,7 +54,8 @@ class SocialMediaButtons extends Component {
     }
 
     if (this.props.socialMediaData.mastodon_auth_url !== nextProps.socialMediaData.mastodon_auth_url) {
-      this.openMastodonAuth(nextProps.socialMediaData.mastodon_auth_url);
+      const data = nextProps.socialMediaData;
+      this.openMastodonAuth(data.mastodon_auth_url, data.mastodon_client_id);
     }
 
     // TODO: this will eventually go into its own callback/redirect view
@@ -162,10 +163,10 @@ class SocialMediaButtons extends Component {
     }
   }
 
-  openMastodonAuth = (authUrl) => {
+  openMastodonAuth = (authUrl, clientId) => {
     // eslint-disable-next-line class-methods-use-this
     const queryString = encodeData({
-      client_id: this.props.socialMediaData.mastodonClientId,
+      client_id: clientId,
       redirect_uri: 'http://localhost:5000/profile',
       scopes: 'read',
       response_type: 'code',

@@ -97,7 +97,7 @@ class User(db.Model):
         d['mastodon_domain'] = ''
         if self.mastodon_auth:
             d['mastodon_name'] = self.mastodon_auth.username
-            d['mastodon_domain'] = self.mastodon_auth.domain
+            d['mastodon_domain'] = self.mastodon_auth.app.domain
         d['political_affiliation'] = self.political_affiliation.value
         d['avatar'] = self.twitter_data['profile_image_url_https'] if self.twitter_data else self.facebook_picture_url
         return d
@@ -181,15 +181,16 @@ class MastodonAuth(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship("User", back_populates="mastodon_auth")
     created_at = db.Column(db.DateTime, nullable=False)
-    domain = db.Column(db.String(255), nullable=False)
+    app_id = db.Column(db.Integer, db.ForeignKey('mastodon_apps.id'), nullable=False)
+    app = db.relationship("MastodonApp", back_populates="auths")
     generated_on = db.Column(db.DateTime, nullable=True)
     access_token = db.Column(db.String(255), nullable=True)
     mastodon_id = db.Column(db.Integer, nullable=True)
     username = db.Column(db.String(255), nullable=True)
 
-    def __init__(self, user_id, domain):
+    def __init__(self, user_id, app_id):
         self.user_id = user_id
-        self.domain = domain
+        self.app_id = app_id
         self.created_at = datetime.datetime.now()
 
     def update_account(self, access_token, mastodon_id, username):
@@ -197,6 +198,23 @@ class MastodonAuth(db.Model):
         self.generated_on = datetime.datetime.now()
         self.mastodon_id = mastodon_id
         self.username = username
+
+
+class MastodonApp(db.Model):
+    __tablename__ = "mastodon_apps"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    domain = db.Column(db.String(255), nullable=False)
+    client_id = db.Column(db.String(255), nullable=False)
+    client_secret = db.Column(db.String(255), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False)
+
+    auths = db.relationship("MastodonAuth", back_populates="app")
+
+    def __init__(self, domain, client_id, client_secret):
+        self.domain = domain
+        self.client_id = client_id
+        self.client_secret = client_secret
+        self.created_at = datetime.datetime.now()
 
 
 class Settings(db.Model):
