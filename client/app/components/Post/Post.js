@@ -5,8 +5,10 @@ import PostFooter from './PostFooter';
 import LikesCommentsLine from './LikesCommentsLine';
 import ContentTwitter from './ContentTwitter';
 import ContentFacebook from './ContentFacebook';
+import ContentMastodon from './ContentMastodon';
 import HeadTwitter from './HeadTwitter';
 import HeadFacebook from './HeadFacebook';
+import HeadMastodon from './HeadMastodon';
 
 
 class Post extends Component {
@@ -27,6 +29,8 @@ class Post extends Component {
         return (<ContentTwitter post={post} />);
       case 'facebook':
         return (<ContentFacebook post={post} />);
+      case 'mastodon':
+        return (<ContentMastodon post={post} />);
       default:
         return (<div />);
     }
@@ -47,6 +51,8 @@ class Post extends Component {
         return (<HeadTwitter post={post} />);
       case 'facebook':
         return (<HeadFacebook post={post} />);
+      case 'mastodon':
+        return (<HeadMastodon post={post} />);
       default:
         return (<div />);
     }

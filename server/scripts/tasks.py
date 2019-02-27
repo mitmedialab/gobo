@@ -1,16 +1,19 @@
 from datetime import datetime, timedelta
 from logging import getLogger
 
+import json
 import requests
 
 from twython import Twython
 from flask import current_app
 from raven import Client
+from mastodon import Mastodon, MastodonAPIError
+
 import analyze_modules
 
 # pylint: disable=no-name-in-module,import-error
 from server.config.config import config_map
-from ..models import User, TwitterAuth, Post
+from ..models import User, TwitterAuth, Post, MastodonAuth
 from .celery import celery
 from ..core import db
 
@@ -45,12 +48,39 @@ name_classifier = NameClassifier()
 
 
 @celery.task(serializer='json', bind=True)
-def get_posts_data_for_all_users(self): # pylint: disable=unused-argument
+def get_posts_data_for_all_users(self):  # pylint: disable=unused-argument
     for user in User.query.all():
         if user.twitter_authorized:
             get_tweets_per_user.delay(user.id)
         if user.facebook_authorized:
             get_facebook_posts_per_user.delay(user.id)
+        if user.mastodon_authorized:
+            get_mastodon_posts_per_user.delay(user.id)
+
+
+@celery.task(serializer='json', bind=True)
+def get_mastodon_posts_per_user(self, user_id): # pylint: disable=unused-argument
+    current_auth = db.session.query(MastodonAuth).filter(MastodonAuth.user_id == user_id).first()
+    mastodon_app = current_auth.app
+    posts = []
+    try:
+        mastodon = Mastodon(
+            access_token=current_auth.access_token,
+            api_base_url=mastodon_app.base_url(),
+        )
+        max_limit = 40  # mastodon default limit is 40
+        posts = mastodon.timeline_home(limit=max_limit)
+    except MastodonAPIError:
+        logger.error('Error fetching Mastodon timeline from user {}'.format(user_id))
+
+
+    # TODO: should we keep "unlisted" posts too? These are sort of public, but not discoverable
+    posts = [post for post in posts if post['visibility'] == 'public']
+
+    # the mastodon posts contain serialized datetime objects (which can't be saved as JSON)
+    posts = [json.loads(json.dumps(post, default=str)) for post in posts]
+
+    _add_posts(user_id, posts, 'mastodon')
 
 
 @celery.task(serializer='json', bind=True)
@@ -71,21 +101,7 @@ def get_tweets_per_user(self, user_id): # pylint: disable=unused-argument
 
     # filter out protected posts
     tweets = [tweet for tweet in tweets if not tweet['user']['protected']]
-
-    posts_added = 0
-    commits_failed = 0
-    commits_succeeded = 0
-    for tweet in tweets:
-        result = _add_post(user, tweet, 'twitter')
-        posts_added += result['added_new']
-        commits_succeeded += result['success']
-        commits_failed += not result['success']
-
-    if posts_added:
-        user.update_last_post_fetch()
-
-    logger.info('Done getting tweets for user {}, total {} tweets added to db. {} commits succeeded. '
-                '{} commits failed.'.format(user_id, posts_added, commits_succeeded, commits_failed))
+    _add_posts(user_id, tweets, 'twitter')
 
 
 @celery.task(serializer='json', bind=True)
@@ -96,20 +112,7 @@ def get_facebook_posts_per_user(self, user_id): # pylint: disable=unused-argumen
         logger.info('User number {} did not authorize facebook (or does not exist) not fetching any posts'.format(user_id))
         return
     posts = _get_facebook_posts(user)
-    posts_added = 0
-    commits_failed = 0
-    commits_succeeded = 0
-    for post in posts:
-        result = _add_post(user, post, 'facebook')
-        posts_added += result['added_new']
-        commits_succeeded += result['success']
-        commits_failed += not result['success']
-
-    if posts_added:
-        user.update_last_post_fetch()
-
-    logger.info('Done getting facebook posts for user {}, total {} posts added to db. {} commits succeeded. '
-                '{} commits failed.'.format(user_id, posts_added, commits_succeeded, commits_failed))
+    _add_posts(user_id, posts, 'facebook')
 
 
 def _get_facebook_posts(user):
@@ -162,30 +165,49 @@ def _get_facebook_friends_and_likes(user):
     return friends_likes
 
 
+def _add_posts(user_id, posts, source):
+    user = User.query.get(user_id)
+    posts_added = 0
+    commits_failed = 0
+    commits_succeeded = 0
+    for post in posts:
+        result = _add_post(user, post, source)
+        posts_added += result['added_new']
+        commits_succeeded += result['success']
+        commits_failed += not result['success']
+
+    if posts_added:
+        user.update_last_post_fetch()
+
+    logger.info('Done getting {} posts for user {}, total {} posts added to db. {} commits succeeded. '
+                '{} commits failed.'.format(source, user_id, posts_added, commits_succeeded, commits_failed))
+
+
 def _add_post(user, post, source):
     added_new = False
+    success = False
+
     try:
         post_id = post['id_str'] if 'id_str' in post else str(post['id'])
         post_item = Post.query.filter_by(original_id=post_id, source=source).first()
-        if not post_item:
+        if post_item:
+            post_item.update_content(post)
+        else:
             post_item = Post(post_id, source, post, False)
             db.session.add(post_item)
             added_new = True
-        else:
-            post_item.update_content(post)
 
-        if not post_item in user.posts:
+        if post_item not in user.posts:
             user.posts.append(post_item)
         db.session.commit()
         success = True
-        if not post_item.has_already_been_analyzed():
-            analyze_post.delay(post_item.id)
-        else:
+        if post_item.has_already_been_analyzed():
             logger.warning("post {} already has all analysis, skipping that step".format(post_id))
+        else:
+            analyze_post.delay(post_item.id)
     except Exception as e:
-        logger.error('An error adding post {} from twitter to user {} - {}'.format(post['id'], user.id, str(e)))
+        logger.error('An error adding post {} from posts to user {} - {}'.format(post['id'], user.id, str(e)))
 
-        success = False
     return {'success': success, 'added_new': added_new}
 
 

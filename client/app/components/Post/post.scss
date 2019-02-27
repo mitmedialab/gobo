@@ -195,7 +195,7 @@ $post-padding: 30px;
   .post {
     margin:0;
   }
-  
+
 }
 
 .post-content-text {
@@ -203,6 +203,11 @@ $post-padding: 30px;
   overflow-wrap: break-word;
   p {
     margin-bottom: 0px;
+  }
+
+  // mastodon adds this class to hide parts URIs 
+  .invisible {
+    display: none;
   }
 }
 

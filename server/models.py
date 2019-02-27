@@ -216,6 +216,9 @@ class MastodonApp(db.Model):
         self.client_secret = client_secret
         self.created_at = datetime.datetime.now()
 
+    def base_url(self):
+        return 'https://{domain}'.format(domain=self.domain)
+
 
 class Settings(db.Model):
     __tablename__ = "user_settings"
@@ -290,6 +293,10 @@ class Post(db.Model):
 
     db.UniqueConstraint('source_id', 'source', name='post_id')
 
+    __mapper_args__ = {
+        'polymorphic_on': source,
+    }
+
     def __init__(self, original_id, source, content, is_news):
         self.original_id = original_id
         self.source = source
@@ -301,9 +308,13 @@ class Post(db.Model):
             # TODO: fix this eventually
             # pylint: disable=len-as-condition
             self.has_link = len(content['entities']['urls']) > 0  # 'possibly_sensitive' in content
-        else:
+        elif source == 'facebook':
             self.created_at = datetime.datetime.strptime(content['created_time'], '%Y-%m-%dT%H:%M:%S+0000')
             self.has_link = content['type'] == 'link'
+        elif source == 'mastodon':
+            self.created_at = content['created_at']
+            # TODO: I think this is only for news?
+            self.has_link = False
 
     def as_dict(self):
         d = {c.name: getattr(self, c.name) for c in self.__table__.columns
@@ -313,13 +324,7 @@ class Post(db.Model):
         return d
 
     def get_text(self):
-        # TODO: logic fore getting text - should we get text from link shared, etc?
-        text = ""
-        if self.source == "twitter":
-            text = self.content['full_text'] if 'full_text' in self.content else self.content['text']
-        if self.source == "facebook":
-            text = self.content['message'] if 'message' in self.content else ""
-        return text
+        raise NotImplementedError
 
     def has_toxicity_rate(self):
         return self.toxicity is not None
@@ -358,9 +363,42 @@ class Post(db.Model):
             and self.has_toxicity_rate()
 
     def get_author_name(self):
-        if self.source == 'facebook':
-            return self.content['from']['name']
-        else:
-            if 'retweeted_status' in self.content:
-                return self.content['retweeted_status']['user']['name']
-            return self.content['user']['name']
+        raise NotImplementedError
+
+
+class TwitterPost(Post):
+    __mapper_args__ = {
+        'polymorphic_identity': 'twitter'
+    }
+
+    def get_author_name(self):
+        if 'retweeted_status' in self.content:
+            return self.content['retweeted_status']['user']['name']
+        return self.content['user']['name']
+
+    def get_text(self):
+        return self.content['full_text'] if 'full_text' in self.content else self.content['text']
+
+
+class FacebookPost(Post):
+    __mapper_args__ = {
+        'polymorphic_identity': 'facebook'
+    }
+
+    def get_author_name(self):
+        return self.content['from']['name']
+
+    def get_text(self):
+        return self.content['message'] if 'message' in self.content else ""
+
+
+class MastodonPost(Post):
+    __mapper_args__ = {
+        'polymorphic_identity': 'mastodon'
+    }
+
+    def get_author_name(self):
+        return self.content['account']['display_name'] or self.content['account']['username']
+
+    def get_text(self):
+        return self.content['content']
