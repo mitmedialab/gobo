@@ -7,9 +7,9 @@ import requests
 from twython import Twython
 from flask import current_app
 from raven import Client
-import analyze_modules
-
 from mastodon import Mastodon, MastodonAPIError
+
+import analyze_modules
 
 # pylint: disable=no-name-in-module,import-error
 from server.config.config import config_map
