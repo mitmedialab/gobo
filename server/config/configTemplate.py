@@ -18,6 +18,7 @@ class BaseConfig(object):
     TWITTER_API_SECRET = 'XXXXX'
 
     ENABLE_MASTODON = False
+    MASTODON_REDIRECT_BASE_URL = 'XXXXX'
 
     # Set to the URI for a database to store everythign in. We use Postgres in development and production.
     SQLALCHEMY_DATABASE_URI = 'postgresql:///db_name'

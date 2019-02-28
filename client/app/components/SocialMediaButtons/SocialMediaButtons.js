@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { getTwitterAuthUrl, waitForTwitterCallback, fetchFacebookAppId,
-  fetchMastodonVerification, mastodonToken, mastodonDomain } from 'actions/socialMediaLogin';
+  fetchMastodonVerification, mastodonDomain } from 'actions/socialMediaLogin';
 import { postFacebookResponseToServer } from 'utils/apiRequests';
 import isEnabled, { MASTODON } from 'utils/featureFlags';
-import { getQueryParam, encodeData } from 'utils/url';
+import { encodeData } from 'utils/url';
 
 import Input from 'components/Input/Input';
 
@@ -34,7 +34,6 @@ class SocialMediaButtons extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // TODO: oauth_url is not being used?
     if (this.props.socialMediaData.loading_oauth_url && !nextProps.socialMediaData.loading_oauth_url &&
       nextProps.socialMediaData.oauth_url != null) {
       if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -56,14 +55,6 @@ class SocialMediaButtons extends Component {
     if (this.props.socialMediaData.mastodon_auth_url !== nextProps.socialMediaData.mastodon_auth_url) {
       const data = nextProps.socialMediaData;
       this.openMastodonAuth(data.mastodon_auth_url, data.mastodon_client_id);
-    }
-
-    // TODO: this will eventually go into its own callback/redirect view
-    const mastodonAuthCode = getQueryParam('code');
-    if (mastodonAuthCode) {
-      this.props.dispatch(mastodonToken(mastodonAuthCode));
-      // TODO: this will be made mobile friendly
-      window.close();
     }
   }
 
@@ -163,10 +154,11 @@ class SocialMediaButtons extends Component {
   }
 
   openMastodonAuth = (authUrl, clientId) => {
+    const baseRedirectUri = window.location.origin;
     // eslint-disable-next-line
     const queryString = encodeData({
       client_id: clientId,
-      redirect_uri: 'http://localhost:5000/profile',
+      redirect_uri: `${baseRedirectUri}/mastodon_auth_complete`,
       scopes: 'read',
       response_type: 'code',
     });

@@ -1,4 +1,5 @@
 from flask import render_template
+from flask_login import login_required
 from server.blueprints import home
 
 
@@ -35,7 +36,14 @@ def profile():
 
 
 @home.route('/twitter_callback', methods=['GET'])
+@login_required
 def twitter_callback():
+    return render_template('index.html')
+
+
+@home.route('/mastodon_auth_complete', methods=['GET'])
+@login_required
+def mastodon_auth_complete():
     return render_template('index.html')
 
 

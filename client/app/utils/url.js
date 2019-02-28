@@ -6,5 +6,5 @@ export function getQueryParam(param) {
 }
 
 export function encodeData(data) {
-  return Object.keys(data).map(key => [key, data[key]].map(encodeURIComponent).join('=')).join('&');
+  return Object.keys(data).map(key => [key, data[key]].join('=')).join('&');
 }
