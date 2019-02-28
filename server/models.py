@@ -348,12 +348,6 @@ class Post(db.Model):
     def has_gender_corporate(self):
         return (self.gender is not None) and (self.is_corporate is not None)
 
-    def update_replies_count(self, count):
-        new_content = self.content.copy()
-        prev_count = self.content['replies_count'] if 'replies_count' in self.content else 0
-        new_content['replies_count'] = max(count, prev_count)
-        self.content = new_content
-
     def has_virality(self):
         return self.virality_count is not None
 
@@ -364,10 +358,19 @@ class Post(db.Model):
         return self.has_virality() and self.has_news_score() and self.has_gender_corporate()\
             and self.has_toxicity_rate()
 
+    def get_urls(self):
+        raise NotImplementedError
+
     def get_author_name(self):
         raise NotImplementedError
 
-    def get_urls(self):
+    def get_likes_count(self):
+        raise NotImplementedError
+
+    def get_comments_count(self):
+        raise NotImplementedError
+
+    def get_shares_count(self):
         raise NotImplementedError
 
 
@@ -387,6 +390,16 @@ class TwitterPost(Post):
     def get_urls(self):
         return [x['expanded_url'] for x in self.content['entities']['urls']]
 
+    def get_likes_count(self):
+        return self.content['favorite_count']
+
+    def get_comments_count(self):
+        # getting comments count via API bumps up against rate limit very quickly
+        return 0
+
+    def get_shares_count(self):
+        return self.content['retweet_count']
+
 
 class FacebookPost(Post):
     __mapper_args__ = {
@@ -402,6 +415,17 @@ class FacebookPost(Post):
     def get_urls(self):
         return [self.content['link']]
 
+    def get_likes_count(self):
+        return self.content['reactions']['summary']['total_count']
+
+    def get_comments_count(self):
+        return self.content['comments']['summary']['total_count']
+
+    def get_shares_count(self):
+        if 'shares' in self.content:
+            return self.content['shares']['count']
+        return 0
+
 
 class MastodonPost(Post):
     __mapper_args__ = {
@@ -416,3 +440,12 @@ class MastodonPost(Post):
 
     def get_urls(self):
         return [self.content['card']['url']]
+
+    def get_likes_count(self):
+        return self.content['favourites_count']
+
+    def get_comments_count(self):
+        raise self.content['replies_count']
+
+    def get_shares_count(self):
+        raise self.content['reblogs_count']
