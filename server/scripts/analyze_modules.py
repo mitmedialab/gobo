@@ -78,21 +78,10 @@ def analyze_virality(post_id):
     if not post or post.has_virality():
         logger.warning("post {} doesn't exist or already has virality".format(post_id))
         return
-    is_facebook = post.source == 'facebook'
 
-    likes = post.content['reactions']['summary']['total_count'] if is_facebook else post.content['favorite_count']
-    if is_facebook:
-        comments = post.content['comments']['summary']['total_count']
-    else:
-        comments = count_tweet_replies(post.content)
-        post.update_replies_count(comments)
-    shares = 0
-    if is_facebook:
-        if 'shares' in post.content:
-            shares = post.content['shares']['count']
-    else:
-        shares = post.content['retweet_count']
-
+    likes = post.get_likes_count()
+    comments = post.get_comments_count()
+    shares = post.get_shares_count()
     total_reaction = likes+shares+comments
     post.virality_count = max(post.virality_count, total_reaction)
     db.session.commit()
@@ -135,20 +124,3 @@ def analyze_news_score(post_id):
         score = min(1.0, score+0.6)
     post.news_score = score
     db.session.commit()
-
-
-def count_tweet_replies(tweet): # pylint: disable=unused-argument
-    # todo: this is getting to the API rate limit very quickly, find a better way to get replies count
-    # twitter_auth = TwitterAuth.query.filter_by(user_id=user_id).first()
-    # twitter = Twython(current_app.config['TWITTER_API_KEY'], current_app.config['TWITTER_API_SECRET'],
-    #                   twitter_auth.oauth_token, twitter_auth.oauth_token_secret)
-    # tweet_user_name = tweet['user']['screen_name']
-    # tweet_id = tweet['id_str']
-    # try:
-    #     results = twitter.cursor(twitter.search, q='to:{}'.format(tweet_user_name), sinceId=tweet_id)
-    #     count = len([1 for result in results if result['in_reply_to_status_id_str']==tweet_id])
-    # except:
-    #     print 'error while counting tweet {} replies'.format(tweet_id)
-    #     count = 0
-    count = 0
-    return count
