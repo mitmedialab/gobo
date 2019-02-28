@@ -313,7 +313,10 @@ class Post(db.Model):
             self.has_link = content['type'] == 'link'
         elif source == 'mastodon':
             self.created_at = content['created_at']
-            self.has_link = content.get('card', {}).get('type', '').lower() == 'link'
+            if content['card'] and content['card']['type']:
+                self.has_link = content['card']['type'].lower() == 'link'
+            else:
+                self.has_link = False
 
     def as_dict(self):
         d = {c.name: getattr(self, c.name) for c in self.__table__.columns
@@ -412,4 +415,4 @@ class MastodonPost(Post):
         return self.content['content']
 
     def get_urls(self):
-        return [self.content.get('card', {}).get('url', '')]
+        return [self.content['card']['url']]

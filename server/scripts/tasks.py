@@ -73,9 +73,8 @@ def get_mastodon_posts_per_user(self, user_id): # pylint: disable=unused-argumen
     except MastodonAPIError:
         logger.error('Error fetching Mastodon timeline from user {}'.format(user_id))
 
-
-    # TODO: should we keep "unlisted" posts too? These are sort of public, but not discoverable
-    posts = [post for post in posts if post['visibility'] == 'public']
+    # only bring in publicly accessible posts
+    posts = [post for post in posts if post['visibility'] in ['public', 'unlisted']]
 
     # the mastodon posts contain serialized datetime objects (which can't be saved as JSON)
     posts = [json.loads(json.dumps(post, default=str)) for post in posts]
