@@ -313,8 +313,7 @@ class Post(db.Model):
             self.has_link = content['type'] == 'link'
         elif source == 'mastodon':
             self.created_at = content['created_at']
-            # TODO: I think this is only for news?
-            self.has_link = False
+            self.has_link = content.get('card', {}).get('type', '').lower() == 'link'
 
     def as_dict(self):
         d = {c.name: getattr(self, c.name) for c in self.__table__.columns
@@ -365,6 +364,9 @@ class Post(db.Model):
     def get_author_name(self):
         raise NotImplementedError
 
+    def get_urls(self):
+        raise NotImplementedError
+
 
 class TwitterPost(Post):
     __mapper_args__ = {
@@ -379,6 +381,9 @@ class TwitterPost(Post):
     def get_text(self):
         return self.content['full_text'] if 'full_text' in self.content else self.content['text']
 
+    def get_urls(self):
+        return [x['expanded_url'] for x in self.content['entities']['urls']]
+
 
 class FacebookPost(Post):
     __mapper_args__ = {
@@ -391,6 +396,9 @@ class FacebookPost(Post):
     def get_text(self):
         return self.content['message'] if 'message' in self.content else ""
 
+    def get_urls(self):
+        return [self.content['link']]
+
 
 class MastodonPost(Post):
     __mapper_args__ = {
@@ -402,3 +410,6 @@ class MastodonPost(Post):
 
     def get_text(self):
         return self.content['content']
+
+    def get_urls(self):
+        return [self.content.get('card', {}).get('url', '')]

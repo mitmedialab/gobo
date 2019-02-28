@@ -50,10 +50,10 @@ name_classifier = NameClassifier()
 @celery.task(serializer='json', bind=True)
 def get_posts_data_for_all_users(self):  # pylint: disable=unused-argument
     for user in User.query.all():
-        if user.twitter_authorized:
-            get_tweets_per_user.delay(user.id)
-        if user.facebook_authorized:
-            get_facebook_posts_per_user.delay(user.id)
+        # if user.twitter_authorized:
+        #     get_tweets_per_user.delay(user.id)
+        # if user.facebook_authorized:
+        #     get_facebook_posts_per_user.delay(user.id)
         if user.mastodon_authorized:
             get_mastodon_posts_per_user.delay(user.id)
 
