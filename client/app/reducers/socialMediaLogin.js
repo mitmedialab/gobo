@@ -14,6 +14,9 @@ import {
   GET_FACEBOOK_APP_ID_SUCCESS,
   GET_MASTODON_VERIFICATION_SUCCESS,
   POST_MASTODON_DOMAIN_SUCCESS,
+  POST_MASTODON_AUTH_LOAD,
+  POST_MASTODON_AUTH_FAIL,
+  POST_MASTODON_AUTH_SUCCESS,
 } from 'actions/socialMediaLogin';
 
 /* ------------------- */
@@ -100,6 +103,24 @@ export default function reducer(state = defaultState, action) {
       return {
         ...state,
         ...action.result.data,
+      };
+    case POST_MASTODON_AUTH_LOAD:
+      return {
+        ...state,
+        mastodonAuthLoading: true,
+        mastodonAuthSuccess: false,
+      };
+    case POST_MASTODON_AUTH_FAIL:
+      return {
+        ...state,
+        mastodonAuthLoading: false,
+        mastodonAuthSuccess: false,
+      };
+    case POST_MASTODON_AUTH_SUCCESS:
+      return {
+        ...state,
+        mastodonAuthLoading: false,
+        mastodonAuthSuccess: true,
       };
     default:
       return state;

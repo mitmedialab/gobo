@@ -17,6 +17,7 @@ const Profile = () => <Async load={import('components/Profile/Profile')} />;
 const Privacy = () => <Async load={import('components/Privacy/Privacy')} />;
 const Settings = () => <Async load={import('components/Settings/Settings')} />;
 const TwitterCallback = () => <Async load={import('components/TwitterCallback/TwitterCallback')} />;
+const MastodonAuthComplete = () => <Async load={import('components/MastodonAuthComplete/MastodonAuthComplete')} />;
 const NoMatch = () => <Async load={import('components/NoMatch/NoMatch')} />;
 const ForgotPassword = () => <Async load={import('components/ForgotPassword/ForgotPassword')} />;
 const ResetPassword = () => <Async load={import('components/ResetPassword/ResetPassword')} />;
@@ -51,6 +52,7 @@ class App extends Component {
             <Route path="/profile" component={Profile} />
             <Route path="/settings" component={Settings} />
             <Route path="/twitter_callback" component={TwitterCallback} />
+            <Route path="/mastodon_auth_complete" component={MastodonAuthComplete} />
             <Route path="/about" component={Landing} />
             <Route path="/privacy" component={Privacy} />
             <Route path="/forgot_password" component={ForgotPassword} />

@@ -1,4 +1,5 @@
 import logging
+from urlparse import urljoin
 
 from flask import abort, request, jsonify, session
 from flask import current_app as app
@@ -53,9 +54,9 @@ def mastodon_domain():
     if mastodon_app is None:
         client_id, client_secret = Mastodon.create_app(
             'gobo',
-            api_base_url=mastodon_app.base_url(),
+            api_base_url='https://{domain}'.format(domain=domain),
             scopes=['read'],
-            redirect_uris='http://localhost:5000/profile',  # TODO: update the redirect URL - maybe make it a config?
+            redirect_uris=urljoin(app.config['MASTODON_REDIRECT_BASE_URL'], 'mastodon_auth_complete'),
         )
         mastodon_app = MastodonApp(domain, client_id, client_secret)
         db.session.add(mastodon_app)
@@ -91,6 +92,7 @@ def mastodon_token():
         access_token = mastodon.log_in(
             code=request.json['authorization_code'],
             scopes=['read'],
+            redirect_uri=urljoin(app.config['MASTODON_REDIRECT_BASE_URL'], 'mastodon_auth_complete'),
         )
         account = mastodon.account_verify_credentials()
     except MastodonAPIError:
