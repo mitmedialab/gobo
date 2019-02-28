@@ -104,10 +104,9 @@ def analyze_news_score(post_id):
         logger.warning("post {} doesn't exist or already has news score".format(post_id))
         return
 
-    is_facebook = post.source == 'facebook'
-    score = 0
+    score = 0.0
     if post.has_link:
-        urls = [post.content['link']] if is_facebook else [x['expanded_url'] for x in post.content['entities']['urls']]
+        urls = post.get_urls()
         for url in urls:
             try:
                 html = urllib.urlopen(url).read()
@@ -131,11 +130,9 @@ def analyze_news_score(post_id):
         result = r.json()
         if 'taxonomies' in result:
             scores = [float(x['score'])for x in result['taxonomies'] if '/news' in x['label'].lower()]
-            # TODO: fix this eventually
-            # pylint: disable=len-as-condition
-            score = max(scores) if len(scores) > 0 else 0
+            score = max(scores) if scores else 0.0
     if post.is_news:
-        score = min(1, score+0.6)
+        score = min(1.0, score+0.6)
     post.news_score = score
     db.session.commit()
 
