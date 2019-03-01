@@ -10,10 +10,11 @@ const HeadMastodon = (props) => {
   let repost = {};
 
   if (content.reblog) {
+    const account = content.account;
     repost = {
       url: `${content.uri}`,
       icon: 'icon-twitter_retweet',  // TODO: update this icon to "boosted"
-      label: ` ${content.account.display_name || content.account.username} Boosted`,  // indicate domain
+      label: ` ${account.display_name || account.username} (${account.acct}) Boosted`,  // indicate domain
     };
     content = content.reblog;
   }
@@ -23,6 +24,7 @@ const HeadMastodon = (props) => {
     <Head
       post={props.post}
       author={content.account.display_name || content.account.username}
+      account={content.account.acct}
       picSrc={content.account.avatar_static}
       link={content.uri}
       repost={repost}

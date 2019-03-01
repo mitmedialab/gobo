@@ -32,7 +32,7 @@ class Head extends Component {
         }
         <div className="post-header-details">
           <div className="author">
-            {this.props.author}
+            {this.props.author} {this.props.account && <span className="account">{ this.props.account}</span>}
           </div>
           <div className="date">
             <a href={this.props.link}>{this.getDateString()}</a>
@@ -49,10 +49,12 @@ Head.propTypes = {
   link: PropTypes.string.isRequired,
   picSrc: PropTypes.string.isRequired,
   repost: PropTypes.object,
+  account: PropTypes.string,
 };
 
 Head.defaultProps = {
   repost: {},
+  account: '',
 };
 
 export default Head;
