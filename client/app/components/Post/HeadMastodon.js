@@ -12,7 +12,7 @@ const HeadMastodon = (props) => {
   if (content.reblog) {
     repost = {
       url: `${content.uri}`,
-      icon: 'icon-twitter_retweet',  // TODO: update this icont to "boosted"
+      icon: 'icon-twitter_retweet',  // TODO: update this icon to "boosted"
       label: ` ${content.account.display_name || content.account.username} Boosted`,  // indicate domain
     };
     content = content.reblog;
