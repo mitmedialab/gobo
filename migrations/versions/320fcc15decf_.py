@@ -7,6 +7,7 @@ Create Date: 2019-02-21 15:23:41.442824
 """
 from alembic import op
 import sqlalchemy as sa
+import logging
 
 
 # revision identifiers, used by Alembic.
@@ -14,6 +15,8 @@ revision = '320fcc15decf'
 down_revision = 'e1c458791003'
 branch_labels = None
 depends_on = None
+
+logger = logging.getLogger(__name__)
 
 
 def upgrade():
@@ -44,6 +47,9 @@ def upgrade():
 
 
 def downgrade():
-    op.drop_column('users', 'mastodon_authorized')
+    try:
+        op.drop_column('users', 'mastodon_authorized')
+    except Exception as e:
+        logger.warn("Unable to drop add column: users.mastodon_authorized - {}".format(e))
     op.drop_table('mastodon_auths')
     op.drop_table('mastodon_apps')
