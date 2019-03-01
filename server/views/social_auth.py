@@ -102,6 +102,8 @@ def mastodon_token():
     current_user.mastodon_authorized = True
     db.session.commit()
 
+    tasks.get_mastodon_posts_per_user.delay(current_user.get_id())
+
     return 'success', 200
 
 
