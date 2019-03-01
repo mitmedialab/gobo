@@ -6,19 +6,27 @@ import Head from './Head';
 
 const HeadMastodon = (props) => {
   const { post } = props;
-  const { content } = post;
-  const repost = {};
-  // if (content.retweeted_status) {
-  //   content = post.content.retweeted_status;
-  //   repost = {
-  //     url: `https://twitter.com/statuses/${post.content.id_str}`,
-  //     icon: 'icon-twitter_retweet',
-  //     label: ` ${post.content.user.name} Retweeted`,
-  //   };
-  // }
-  const author = content.account.display_name || content.account.username;
+  let { content } = post;
+  let repost = {};
+
+  if (content.reblog) {
+    repost = {
+      url: `${content.uri}`,
+      icon: 'icon-twitter_retweet',  // TODO: update this icont to "boosted"
+      label: ` ${content.account.display_name || content.account.username} Boosted`,  // indicate domain
+    };
+    content = content.reblog;
+  }
+
+  // TODO: indicate which domain author is on
   return (
-    <Head post={props.post} author={author} picSrc={content.account.avatar_static} link={content.uri} repost={repost} />
+    <Head
+      post={props.post}
+      author={content.account.display_name || content.account.username}
+      picSrc={content.account.avatar_static}
+      link={content.uri}
+      repost={repost}
+    />
   );
 };
 
