@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BackOfPost from './BackOfPost';
 import PostFooter from './PostFooter';
-import LikesCommentsLine from './LikesCommentsLine';
+import ActionListFacebook from './ActionListFacebook';
+import ActionListTwitter from './ActionListTwitter';
+import ActionListMastodon from './ActionListMastodon';
 import ContentTwitter from './ContentTwitter';
 import ContentFacebook from './ContentFacebook';
 import ContentMastodon from './ContentMastodon';
@@ -31,6 +33,20 @@ class Post extends Component {
         return (<ContentFacebook post={post} />);
       case 'mastodon':
         return (<ContentMastodon post={post} />);
+      default:
+        return (<div />);
+    }
+  }
+
+  makeActionList() {
+    const post = this.props.post;
+    switch (post.source) {
+      case 'twitter':
+        return (<ActionListTwitter post={post} />);
+      case 'facebook':
+        return (<ActionListFacebook post={post} />);
+      case 'mastodon':
+        return (<ActionListMastodon post={post} />);
       default:
         return (<div />);
     }
@@ -81,7 +97,7 @@ class Post extends Component {
                 </div>}
                 {this.makePostHead()}
                 {this.makePostContent()}
-                <LikesCommentsLine post={post} />
+                {this.makeActionList()}
               </div>
               <PostFooter flipped={false} source={source} onFlipClick={this.flip} />
             </div>

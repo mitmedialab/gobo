@@ -8,6 +8,11 @@ $post-footer-height:40px;
     font-size: 20px;
   }
 
+  .account {
+    font-size: 12px;
+    color: #8e8e8e;
+  }
+
   .img-circle {
     height:40px;
   }
@@ -81,9 +86,7 @@ $post-padding: 30px;
     height:$post-footer-height;
     vertical-align: middle;
   }
-
 }
-
 
 .flip-container {
   @include transform(perspective(900px));
@@ -98,17 +101,13 @@ $post-padding: 30px;
 }
 
 .flipper {
-
   @include transition(0.8s);
   @include transform-style(preserve-3d);
-
-
   position: relative;
 }
 
 .front, .back {
   @include backface-visibility(hidden);
-
   position: absolute;
   top: 0;
   left: 0;
@@ -205,7 +204,7 @@ $post-padding: 30px;
     margin-bottom: 0px;
   }
 
-  // mastodon adds this class to hide parts URIs 
+  // mastodon adds this class to hide parts URIs
   .invisible {
     display: none;
   }
