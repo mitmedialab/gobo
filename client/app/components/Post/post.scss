@@ -69,7 +69,8 @@ $post-footer-height:40px;
   .front {
     position:relative;
   }
-$post-padding: 30px;
+
+  $post-padding: 30px;
   .post-content {
     padding:$post-padding;
     padding-bottom: $post-padding + $post-footer-height;
@@ -134,7 +135,7 @@ $post-padding: 30px;
   transform: translateY(-50%);
   color: $color1;
 
-  .icon{
+  .icon {
     font-size:2em;
     margin-right: -4px;
     vertical-align: middle;
@@ -151,12 +152,22 @@ $post-padding: 30px;
   max-width: 100%;
 }
 
-.source-icon, .source-icon:hover{
-   float: left;
-   font-size: 20px;
-   color: #fff;
-   text-decoration: none;
- }
+.source-icon, .source-icon:hover {
+  float: left;
+  font-size: 20px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.icon-mastodon {
+  background: url(/icons/mastodon-logo.svg);
+  background-repeat: no-repeat;
+
+  $size: 20px;
+  background-size: $size $size;
+  width: $size;
+  height: $size;
+}
 
 .footer-content {
   line-height:$post-footer-height / 2;
@@ -222,7 +233,6 @@ $post-padding: 30px;
   display: none !important;
 }
 
-// post action:
 .post-actions-list {
   padding-top: 20px;
   .action {
