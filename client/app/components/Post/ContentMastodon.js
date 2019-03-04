@@ -10,7 +10,7 @@ const ContentMastodon = (props) => {
   const content = props.post.content;
   const text = content.content;
 
-  // TODO: support for multiple images and other media types (defer this?)
+  // we only support one image attachment currently
   let postContent;
   if (content.media_attachments) {
     const pictures = content.media_attachments.filter(media => media.type === 'image');
