@@ -24,7 +24,7 @@ const PostFooter = (props) => {
     // TODO: this needs a new icon
     icon = {
       url: 'https://joinmastodon.org/',
-      iconClass: 'source-icon icon-plus',
+      iconClass: 'source-icon icon-mastodon',
     };
   }
 

@@ -25,7 +25,7 @@ const ActionListFacebook = (props) => {
     icon: 'icon-forward-outline',
   };
   return (
-    <ActionList likes={likes} comments={comments} shares={shares} />
+    <ActionList postId={post.id} likes={likes} comments={comments} shares={shares} />
   );
 };
 
