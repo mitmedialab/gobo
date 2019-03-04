@@ -445,7 +445,7 @@ class MastodonPost(Post):
         return self.content['favourites_count']
 
     def get_comments_count(self):
-        raise self.content['replies_count']
+        return self.content['replies_count']
 
     def get_shares_count(self):
-        raise self.content['reblogs_count']
+        return self.content['reblogs_count']

@@ -22,8 +22,11 @@ class SocialMediaButtons extends Component {
       twitterSuccess: this.props.twitterConnected || this.props.auth.user.twitter_authorized || false,
       mastodonSuccess: this.props.mastodonConnected || this.props.auth.user.mastodon_authorized || false,
       twitterError: false,
-      polling: false,
-      pollCount: 0,
+      twitterPolling: false,
+      twitterPollCount: 0,
+      mastodonError: false,
+      mastodonPolling: false,
+      mastodonPollCount: 0,
       mastodonDomain: '',
     };
   }
@@ -44,28 +47,38 @@ class SocialMediaButtons extends Component {
       }
       this.props.dispatch(waitForTwitterCallback());
     } else if (!this.props.socialMediaData.isTwitterAuthorized && nextProps.socialMediaData.isTwitterAuthorized) {
-      clearTimeout(this.timeout);
+      clearTimeout(this.twitterTimer);
       this.setState({
         twitterSuccess: true,
       });
-    } else if (this.state.polling && (!nextProps.socialMediaData.isTwitterAuthorized && !nextProps.socialMediaData.isFetching)) {
-      this.startPoll();
+    } else if (this.state.twitterPolling && (!nextProps.socialMediaData.isTwitterAuthorized && !nextProps.socialMediaData.isFetching)) {
+      this.startTwitterPoll();
     }
 
     if (this.props.socialMediaData.mastodon_auth_url !== nextProps.socialMediaData.mastodon_auth_url) {
       const data = nextProps.socialMediaData;
       this.openMastodonAuth(data.mastodon_auth_url, data.mastodon_client_id);
     }
+
+    if (!this.props.socialMediaData.isMastodonAuthorized && nextProps.socialMediaData.isMastodonAuthorized) {
+      clearTimeout(this.mastodonTimer);
+      this.setState({
+        mastodonSuccess: true,
+      });
+    } else if (this.state.mastodonPolling && (!nextProps.socialMediaData.isMastodonAuthorized)) {
+      this.startMastodonPoll();
+    }
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timeout);
+    clearTimeout(this.twitterTimer);
+    clearTimeout(this.mastodonTimer);
   }
 
   onTwitterButtonClick = () => {
     this.props.dispatch(getTwitterAuthUrl());
-    this.startPoll();
-    this.setState({ polling: true });
+    this.startTwitterPoll();
+    this.setState({ twitterPolling: true });
   }
 
   getConnectButtonClass = (success) => {
@@ -107,7 +120,7 @@ class SocialMediaButtons extends Component {
   getTwitterButton = () => {
     const buttonProps = this.getButtonDefaults(this.state.twitterSuccess, 'Twitter');
     if (this.state.twitterError) {
-      buttonProps.buttonText = 'Error authenticating twitter. Please try again ';
+      buttonProps.buttonText = 'Error authenticating twitter. Please try again.';
     }
     return (
       <div>
@@ -120,19 +133,24 @@ class SocialMediaButtons extends Component {
   }
 
   getMastodonButton = () => {
-    const buttonProps = this.getButtonDefaults(this.state.mastodonAuthorized, 'Mastodon');
+    const buttonProps = this.getButtonDefaults(this.state.mastodonSuccess, 'Mastodon');
+    if (this.state.mastodonError) {
+      buttonProps.buttonText = 'Error authenticating Mastodon. Please try again.';
+    }
     return (
       <div>
+        {!this.state.mastodonSuccess &&
         <Input
-          text="Enter your Mastodon instance (e.g. mastodon.social)"
+          text="Mastodon instance (e.g. mastodon.social)"
           ref={(c) => { this.mastodonInputRef = c; }}
           validate={text => text.indexOf('.') > 0}
           minCharacters="3"
           requireCapitals="0"
           requireNumbers="0"
-          emptyMessage="Username and domain cannot be empty"
+          emptyMessage="Instance cannot be empty"
           onChange={this.handleMastodonInputChange}
         />
+        }
         <button onClick={this.handleMastodonClick} className={buttonProps.buttonClass} >
           {buttonProps.buttonText} <i className={`button-icon ${buttonProps.buttonIcon}`} />
         </button>
@@ -150,6 +168,17 @@ class SocialMediaButtons extends Component {
     e.preventDefault();
     if (this.mastodonInputRef.isValid()) {
       this.props.dispatch(mastodonDomain(this.state.mastodonDomain));
+      this.startMastodonPoll();
+      this.setState({ mastodonPolling: true });
+    }
+  }
+
+  startMastodonPoll = () => {
+    if (this.state.mastodonPollCount > MAX_POLLS) {
+      this.setState({ mastodonError: true });
+    } else {
+      this.mastodonTimer = setTimeout(() => this.props.dispatch(fetchMastodonVerification()), 2000);
+      this.setState({ mastodonPollCount: this.state.mastodonPollCount + 1 });
     }
   }
 
@@ -173,12 +202,12 @@ class SocialMediaButtons extends Component {
     }
   }
 
-  startPoll() {
-    if (this.state.pollCount > MAX_POLLS) {
+  startTwitterPoll() {
+    if (this.state.twitterPollCount > MAX_POLLS) {
       this.setState({ twitterError: true });
     } else {
-      this.timeout = setTimeout(() => this.props.dispatch(waitForTwitterCallback()), 1000);
-      this.setState({ pollCount: this.state.pollCount + 1 });
+      this.twitterTimer = setTimeout(() => this.props.dispatch(waitForTwitterCallback()), 2000);
+      this.setState({ twitterPollCount: this.state.twitterPollCount + 1 });
     }
   }
 

@@ -67,7 +67,6 @@ const Profile = (props) => {
 
   let mastodonContent;
   if (user.mastodon_authorized) {
-    // TODO: need to update the URL based on user information here
     mastodonContent = (
       <PlatformConnected
         platformName="Mastodon"
