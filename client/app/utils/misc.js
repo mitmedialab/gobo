@@ -59,3 +59,10 @@ export function cloneDeep(obj) {
   }
   throw new Error("Unable to copy obj! Its type isn't supported.");
 }
+
+export function formatNumber(num) {
+  if (num === 0) {
+    return '';
+  }
+  return num > 999 ? `${(num / 1000).toFixed(1)}k` : num;
+}

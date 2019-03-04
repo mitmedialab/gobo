@@ -19,7 +19,6 @@ const HeadMastodon = (props) => {
     content = content.reblog;
   }
 
-  // TODO: indicate which domain author is on
   return (
     <Head
       post={props.post}
