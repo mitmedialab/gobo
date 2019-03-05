@@ -53,7 +53,7 @@ const Privacy = () => (
       We have in place physical, electronic and managerial procedures to protect the information we collect online. However, as effective as these measures are, no security system is impenetrable. We cannot completely guarantee the security of our database, nor can we guarantee that the information you supply will not be intercepted while being transmitted to us over the Internet. The Site only keeps track of the most recent 1000 posts from your feeds, periodically deleting older posts.<br />
 
       <h2>Notification of Changes to the Privacy Policy</h2>
-      We will review our security measures and Privacy Policy on a periodic basis, and we may modify our policies as appropriate. We may also change or update our Privacy Policy if we add new services or features. If any changes are made, we will make appropriate amendments to this policy and post them at the Site. We encourage you to review our Privacy Policy on a regular basis.
+      We will review our security measures and Privacy Policy on a periodic basis, and we may modify our policies as appropriate. We may also change or update our Privacy Policy if we add new services or features. If any changes are made, we will make appropriate amendments to this policy, post them at the Site, and notify you. If changes are major, such that they affect your rights, safety or welfare, you will need re-consent. We encourage you to review our Privacy Policy on a regular basis.
       If you have any questions about this Privacy Policy, the practices of this Site, or your dealings with this Site, you can contact the Gobo team at gobo@media.mit.edu.
 
       <h2>Effective Date</h2>
