@@ -164,7 +164,6 @@ class SocialMediaButtons extends Component {
   }
 
   handleMastodonClick = (e) => {
-    // TODO: polling will be done
     e.preventDefault();
     if (this.mastodonInputRef.isValid()) {
       this.props.dispatch(mastodonDomain(this.state.mastodonDomain));
@@ -191,7 +190,7 @@ class SocialMediaButtons extends Component {
       scopes: 'read',
       response_type: 'code',
     });
-    window.open(`${authUrl}?${queryString}`);
+    window.open(`${authUrl}?${queryString}`, '_blank', 'width=500,height=500');
   }
 
   responseFacebook = (response) => {
