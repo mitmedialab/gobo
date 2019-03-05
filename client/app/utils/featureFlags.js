@@ -2,6 +2,7 @@ import { getQueryParam } from './url';
 
 export const KEYWORD_FILTER = 'kwfilter';
 export const MASTODON = 'mastodon';
+export const KEYWORD_RULE = 'kwrule';
 
 /**
  * QueryParams are the location.search part of the url (e.g. ft=experiment,toggle).

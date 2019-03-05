@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { updateSettings } from 'actions/feed';
 import Input from 'components/Input/Input';
 import SettingsItem from 'components/SettingsItem/SettingsItem';
-import isEnabled, { KEYWORD_FILTER } from 'utils/featureFlags';
+import isEnabled, { KEYWORD_FILTER, KEYWORD_RULE } from 'utils/featureFlags';
 import MuteAllMenWhy from './MuteAllMenWhy';
 
 
@@ -320,6 +320,17 @@ class Settings extends Component {
     ),
   })
 
+  keywordRule = () => ({
+    title: 'Keyword Rule',
+    icon: 'icon-seriousness',
+    desc: 'TBD',
+    key: 'keyword-rule',
+    longDesc: 'TBD',
+    content: (
+      <p>TBD</p>
+    ),
+  })
+
   render() {
     const settings = [
       this.politicsSetting(),
@@ -333,6 +344,10 @@ class Settings extends Component {
     if (isEnabled(KEYWORD_FILTER)) {
       settings.push(this.keywordOrSetting());
       settings.push(this.keywordAndSetting());
+    }
+
+    if (isEnabled(KEYWORD_RULE)) {
+      settings.push(this.keywordRule());
     }
 
     const arrowIcon = this.props.minimized ? 'left-open' : 'right-open';
