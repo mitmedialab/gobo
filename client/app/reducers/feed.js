@@ -6,10 +6,13 @@ import {
     GET_SETTINGS_SUCCESS,
     GET_SETTINGS_FAIL,
     UPDATE_SETTINGS,
-    SORT_BY,
     FILTER_POSTS_LOAD,
     FILTER_POSTS_SUCCESS,
     FILTER_POSTS_FAIL,
+    GET_RULES_LOAD,
+    GET_RULES_SUCCESS,
+    GET_RULES_FAIL,
+    UPDATE_RULES,
 } from 'actions/feed';
 
 /* ------------------- */
@@ -21,6 +24,7 @@ const defaultState = {
   get_posts_error: false,
   posts: [],
   loading_settings: false,
+  get_settings_success: false,
   get_settings_error: false,
   settings: {
     include_corporate: false,
@@ -34,16 +38,16 @@ const defaultState = {
     seriousness_max: 1,
     echo_range: 1,
   },
-  get_settings_success: false,
-  sort_by: null,
-  sort_reverse: false,
+  rules: [],
+  loadingRules: false,
+  getRulesSuccess: false,
+  getRulesError: false,
   filtered_posts: {
     kept: [],
     filtered: [],
     fb: 0,
     reasons: {},
   },
-
 };
 
 /* ----------------------------------------- */
@@ -93,12 +97,6 @@ export default function reducer(state = defaultState, action) {
         settings: action.settings,
         filtering_posts: true,
       };
-    case SORT_BY:
-      return {
-        ...state,
-        sort_reverse: state.sort_by === action.sort_by ? !state.sort_reverse : state.sort_reverse,
-        sort_by: action.sort_by,
-      };
     case FILTER_POSTS_LOAD:
       return {
         ...state,
@@ -114,6 +112,31 @@ export default function reducer(state = defaultState, action) {
       return {
         ...state,
         filtering_posts: false,
+      };
+    case GET_RULES_LOAD:
+      return {
+        ...state,
+        loadingRules: true,
+      };
+    case GET_RULES_SUCCESS:
+      return {
+        ...state,
+        rules: action.result.data,
+        loadingRules: false,
+        getRulesSuccess: true,
+      };
+    case GET_RULES_FAIL:
+      return {
+        ...state,
+        loadingRules: false,
+        getRulesError: true,
+        getRulesSuccess: false,
+      };
+    case UPDATE_RULES:
+      return {
+        ...state,
+        rules: action.rules,
+        filtering_posts: true,
       };
     default:
       return state;

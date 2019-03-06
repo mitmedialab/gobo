@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ReactSlider from 'react-slider';
 import PropTypes from 'prop-types';
 
-import { updateSettings } from 'actions/feed';
+import { updateRules, updateSettings } from 'actions/feed';
 import Input from 'components/Input/Input';
 import SettingsItem from 'components/SettingsItem/SettingsItem';
 import isEnabled, { KEYWORD_FILTER, KEYWORD_RULE } from 'utils/featureFlags';
@@ -16,6 +16,7 @@ class Settings extends Component {
     super(props);
     this.state = {
       settings: { ...this.props.feed.settings },
+      rules: [...this.props.feed.rules],
       openFilter: -1,
     };
   }
@@ -24,11 +25,41 @@ class Settings extends Component {
     if (!this.props.feed.get_settings_success && nextProps.feed.get_settings_success) {
       this.setState({ settings: { ...nextProps.feed.settings } });
     }
+
+    if (isEnabled(KEYWORD_RULE)) {
+      if (!this.props.feed.getRulesSuccess && nextProps.feed.getRulesSuccess) {
+        this.setState({ rules: [...nextProps.feed.rules] });
+      }
+    }
   }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.areSettingsChanged(prevState.settings, this.state.settings)) {
       this.props.dispatch(updateSettings(this.state.settings));
     }
+
+    if (isEnabled(KEYWORD_RULE)) {
+      if (this.areRulesChanged(prevState.rules, this.state.rules)) {
+        this.props.dispatch(updateRules(this.state.rules));
+      }
+    }
+  }
+
+  areRulesChanged = (prevRules, currRules) => {
+    let isChanged = false;
+
+    if (prevRules.length === currRules.length) {
+      prevRules.forEach((prev, i) => {
+        const curr = currRules[i];
+        if (curr.enabled !== prev.enabled) {
+          isChanged = true;
+        }
+      });
+    } else {
+      isChanged = true;
+    }
+
+    return isChanged;
   }
 
   areSettingsChanged = (prevSettings, currSettings) => {
@@ -320,14 +351,35 @@ class Settings extends Component {
     ),
   })
 
-  keywordRule = () => ({
-    title: 'Keyword Rule',
+  handleRuleChange = (e) => {
+    const rules = this.state.rules.map(rule => ({ ...rule }));
+    const ruleId = parseInt(e.target.name.split('-')[0], 10);
+    const currentRule = rules.filter(rule => rule.id === ruleId)[0];
+    currentRule.enabled = e.target.checked;
+    this.setState({ rules });
+  }
+
+  keywordRule = rule => ({
+    title: rule.title,
     icon: 'icon-seriousness',
-    desc: 'TBD',
-    key: 'keyword-rule',
-    longDesc: 'TBD',
+    desc: rule.description,
+    key: `${rule.id}-${rule.title}`,
+    longDesc: `Excluding posts that contain the words: ${rule.excluded_terms.join(', ')}`,
     content: (
-      <p>TBD</p>
+      <div className="slider-labels">
+        <span>
+          <input
+            className="checkbox"
+            name={`${rule.id}-${rule.title}`}
+            type="checkbox"
+            checked={rule.enabled}
+            onChange={(e) => { this.handleRuleChange(e); }}
+          />
+          <label htmlFor={`${rule.id}-${rule.title}`} className="checkbox-label">
+              Enable rule
+          </label>
+        </span>
+      </div>
     ),
   })
 
@@ -347,7 +399,9 @@ class Settings extends Component {
     }
 
     if (isEnabled(KEYWORD_RULE)) {
-      settings.push(this.keywordRule());
+      this.state.rules.forEach((rule) => {
+        settings.push(this.keywordRule(rule));
+      });
     }
 
     const arrowIcon = this.props.minimized ? 'left-open' : 'right-open';
@@ -362,7 +416,7 @@ class Settings extends Component {
           {settings.map((feature, index) => {
             const isOpen = ((this.state.openFilter !== -1) && (this.state.openFilter === index));
             return (
-              <li className="setting-item filter" key={feature.title}>
+              <li className="setting-item filter" key={feature.key}>
                 <SettingsItem
                   feature={feature}
                   isOpen={isOpen}

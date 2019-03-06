@@ -80,9 +80,6 @@ class SettingsItem extends Component {
         <div className={`filter-inner ${openClass}`} tabIndex="0" onBlur={this.close} ref={(el) => { this.filterElement = el; }}>
           <div className="filter-title">
             <span className="filter-title-text">{this.props.feature.title}</span>
-            {/*
-            <i className="icon-sort" onClick={()=>this.props.dispatch(sortBy(this.props.feature.key))}></i>
-          */}
           </div>
           <div className="filter-description">
             {this.props.feature.desc}. <a onClick={this.openModal} role="link">Learn more</a>

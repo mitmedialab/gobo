@@ -116,7 +116,7 @@ class BackOfPost extends Component {
       <div className="back-content">
         {descriptions}
         {noContent &&
-        <div> We are still analyzing this post. You will see information about it shortly</div>}
+        <div> We are still analyzing this post. You will see information about it shortly.</div>}
       </div>
     );
   }

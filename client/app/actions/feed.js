@@ -8,11 +8,13 @@ export const GET_SETTINGS_LOAD = 'feed/GET_SETTINGS_LOAD';
 export const GET_SETTINGS_SUCCESS = 'feed/GET_SETTINGS_SUCCESS';
 export const GET_SETTINGS_FAIL = 'feed/GET_SETTINGS_FAIL';
 export const UPDATE_SETTINGS = 'feed/UPDATE_SETTINGS';
-export const SORT_BY = 'feed/SORT_BY';
 export const FILTER_POSTS_LOAD = 'feed/FILTER_POSTS_LOAD';
 export const FILTER_POSTS_SUCCESS = 'feed/FILTER_POSTS_SUCCESS';
 export const FILTER_POSTS_FAIL = 'feed/FILTER_POSTS_FAIL';
-export const CHANGE_SETTINGS_CLICKED = 'feed/CHANGE_SETTINGS_CLICKED';
+export const GET_RULES_LOAD = 'feed/GET_RULES_LOAD';
+export const GET_RULES_SUCCESS = 'feed/GET_RULES_SUCCESS';
+export const GET_RULES_FAIL = 'feed/GET_RULES_FAIL';
+export const UPDATE_RULES = 'feed/UPDATE_RULES';
 
 /*--------*/
 // Define Action creators
@@ -22,10 +24,10 @@ export const CHANGE_SETTINGS_CLICKED = 'feed/CHANGE_SETTINGS_CLICKED';
 // function calls
 /*--------*/
 
-export function filterPosts(settings) {
+function filterPosts({ settings, rules } = {}) {
   return (dispatch, getState) => {
     dispatch({ type: FILTER_POSTS_LOAD });
-    return calculateFilteredPosts(getState().feed.posts, settings || getState().feed.settings)
+    return calculateFilteredPosts(getState().feed.posts, settings || getState().feed.settings, rules || getState().feed.rules)
       .then((result) => {
         dispatch({ type: FILTER_POSTS_SUCCESS, result });
       })
@@ -41,7 +43,7 @@ export function getPosts() {
     return getUserPosts()
       .then((result) => {
         dispatch({ type: GET_POSTS_SUCCESS, result });
-        dispatch(filterPosts(null));
+        dispatch(filterPosts());
       })
       .catch((error) => {
         dispatch({ type: GET_POSTS_FAIL, error });
@@ -55,7 +57,7 @@ export function getSettings() {
     return getUserSettings()
       .then((result) => {
         dispatch({ type: GET_SETTINGS_SUCCESS, result });
-        dispatch(filterPosts(null));
+        dispatch(filterPosts());
       })
       .catch((error) => {
         dispatch({ type: GET_SETTINGS_FAIL, error });
@@ -67,18 +69,50 @@ export function updateSettings(settings) {
   return (dispatch) => {
     dispatch({ type: UPDATE_SETTINGS, settings });
     updateUserSettings(settings);
-    return dispatch(filterPosts(settings));
+    return dispatch(filterPosts({ settings }));
   };
 }
 
-export function sortBy(sort) {
+export function getRules() {
   return (dispatch) => {
-    dispatch({ type: SORT_BY, sort_by: sort });
+    dispatch({ type: GET_RULES_LOAD });
+    // TODO: eventually fetch rules from API
+    // return getUserRules()
+    //   .then((result) => {
+    dispatch({
+      type: GET_RULES_SUCCESS,
+      result: {
+        data: [
+          {
+            id: 1,
+            title: 'Exclude Politics',
+            description: 'Remove political posts from my feed.',
+            excluded_terms: ['White House', 'Pompeo'],
+            enabled: false,
+          },
+          {
+            id: 2,
+            title: 'No Tech',
+            description: 'Remove techology and software development topics from my feed.',
+            excluded_terms: ['javascript', 'computing', 'algorithm', 'datascience'],
+            enabled: false,
+          },
+        ],
+      },
+    });
+    dispatch(filterPosts());
+      // })
+      // .catch((error) => {
+      //   dispatch({ type: GET_RULES_FAIL, error });
+      // });
   };
 }
 
-export function changeSettingsClicked() {
+export function updateRules(rules) {
   return (dispatch) => {
-    dispatch({ type: CHANGE_SETTINGS_CLICKED });
+    dispatch({ type: UPDATE_RULES, rules });
+    // TODO: eventually persist in the DB
+    // updateUserRules(settings);
+    return dispatch(filterPosts({ rules }));
   };
 }
