@@ -75,7 +75,7 @@ function filterPostByKeywordAnd(post, settings) {
 /**
  * Post is filtered if any word is included.
  */
-function filterPostByKeywordOr(post, keywords) {
+export function filterPostByKeywordOr(post, keywords) {
   let filtered = false;
   if (keywords && keywords.length > 0) {
     const fullText = getFullText(post);

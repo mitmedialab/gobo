@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const propTypes = {
-  virality_avg: PropTypes.number,
-  virality_max: PropTypes.number,
-  feed: PropTypes.object,
-  post: PropTypes.object,
-};
+import isEnabled, { KEYWORD_RULE } from 'utils/featureFlags';
+import { filterPostByKeywordOr } from 'utils/filtering';
+
 
 const genderStrings = {
   male: ' man',
@@ -35,6 +32,14 @@ function seriousnessScoreToString(score) {
     return 'pretty serious';
   }
   return 'very serious';
+}
+
+function rulesText(post, rules) {
+  const filtered = rules.reduce((accumulator, rule) => accumulator || filterPostByKeywordOr(post, rule.excluded_terms), false);
+  if (filtered) {
+    return ' contains words found in a rule';
+  }
+  return ' does not contain words found in a rule';
 }
 
 class BackOfPost extends Component {
@@ -70,6 +75,7 @@ class BackOfPost extends Component {
     const post = this.props.post;
     const noContent = (post.gender === 'None') && (!post.political_quintile) && (post.toxicity === null || post.toxicity === -1) &&
                       (post.is_corporate === null) && (post.news_score === null) && (post.virality_count === null);
+    const areRulesEnabled = isEnabled(KEYWORD_RULE) ? this.props.feed.rules.length > 0 : false;
     const descriptions = (
       <div>
 
@@ -109,7 +115,11 @@ class BackOfPost extends Component {
           <span> <i className="icon icon-virality" /> This post is {this.viralityScoreToString(post.virality_count)}</span>
         </div>)
         }
-
+        {areRulesEnabled &&
+        (<div className="explanation">
+          <span> <i className="icon icon-seriousness" /> This post {rulesText(post, this.props.feed.rules)}</span>
+        </div>)
+        }
       </div>
     );
     return (
@@ -129,6 +139,11 @@ function mapStateToProps(state) {
   };
 }
 
-BackOfPost.propTypes = propTypes;
+BackOfPost.propTypes = {
+  virality_avg: PropTypes.number.isRequired,
+  virality_max: PropTypes.number.isRequired,
+  feed: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired,
+};
 
 export default connect(mapStateToProps)(BackOfPost);
