@@ -1,6 +1,6 @@
-/* eslint camelcase: 0, no-mixed-operators: 0, no-param-reassign: 0, no-return-assign: 0 */
+/* eslint no-mixed-operators: 0, no-param-reassign: 0, no-return-assign: 0 */
 
-function get_nums_males_females(f, m, r) {
+function getGenderCounts(f, m, r) {
   if (m === 0) {
     if (f === 0) {
             // m = 0, f = 0
@@ -40,6 +40,8 @@ function getFullText(post) {
     if (content.name) {
       fullText += content.name;
     }
+  } else if (content.content) {
+    fullText = content.content;
   }
   return fullText.toLowerCase();
 }
@@ -73,9 +75,8 @@ function filterPostByKeywordAnd(post, settings) {
 /**
  * Post is filtered if any word is included.
  */
-function filterPostByKeywordOr(post, settings) {
+export function filterPostByKeywordOr(post, keywords) {
   let filtered = false;
-  const keywords = settings.keywordsOr;
   if (keywords && keywords.length > 0) {
     const fullText = getFullText(post);
     keywords.forEach((keyword) => {
@@ -84,8 +85,12 @@ function filterPostByKeywordOr(post, settings) {
       }
     });
   }
+  return filtered;
+}
+
+function filterPostKeywordOrBySettings(post, settings) {
   return {
-    filtered,
+    filtered: filterPostByKeywordOr(post, settings.keywordsOr),
     reason: 'Keyword',
   };
 }
@@ -97,104 +102,105 @@ function filterPostByCorporate(post, settings) {
   };
 }
 
-export function getFilteredPosts(posts, settings) {
-  const filtered_posts = [];
-  let kept_posts = [];
-  const filter_reasons = {};
-  const virality_scores = posts.map(post => Math.log(post.virality_count + 1));
-  const max_virality = virality_scores.reduce((a, b) => Math.max(a, b), 0);
-  const sum = virality_scores.reduce((previous, current) => current += previous);
-  const virality_avg = sum / virality_scores.length;
+export function getFilteredPosts(posts, settings, rules) {
+  const filteredPosts = [];
+  let keptPosts = [];
+  const filterReasons = {};
+  const viralityScores = posts.map(post => Math.log(post.virality_count + 1));
+  const maxVirality = viralityScores.reduce((a, b) => Math.max(a, b), 0);
+  const sum = viralityScores.reduce((previous, current) => current += previous);
+  const viralityAvg = sum / viralityScores.length;
 
   // TODO: continue refactoring filters to this pattern
-  const filters = [filterPostByCorporate, filterPostByKeywordOr, filterPostByKeywordAnd];
+  const filters = [filterPostByCorporate, filterPostKeywordOrBySettings, filterPostByKeywordAnd];
 
   posts.forEach((post) => {
     let keep = true;
-    filter_reasons[post.id] = [];
+    filterReasons[post.id] = [];
 
     filters.forEach((filter) => {
       const { filtered, reason } = filter(post, settings);
       if (filtered) {
         keep = false;
-        filter_reasons[post.id].push(reason);
+        filterReasons[post.id].push(reason);
+      }
+    });
+
+    rules.forEach((rule) => {
+      if (rule.enabled) {
+        const filtered = filterPostByKeywordOr(post, rule.excluded_terms);
+        if (filtered) {
+          keep = false;
+          filterReasons[post.id].push('Rule');
+        }
       }
     });
 
     if ((post.toxicity !== null && post.toxicity !== -1 && (post.toxicity > settings.rudeness_max || post.toxicity < settings.rudeness_min)) ||
               (post.toxicity === -1 && settings.rudeness_min > 0.1)) {
       keep = false;
-      filter_reasons[post.id].push('Rudeness');
+      filterReasons[post.id].push('Rudeness');
     }
     if ((settings.seriousness_max < 0.98 || settings.seriousness_min > 0.02) && (!post.news_score || post.news_score > settings.seriousness_max || post.news_score < settings.seriousness_min)) {
       keep = false;
-      filter_reasons[post.id].push('Seriousness');
+      filterReasons[post.id].push('Seriousness');
     }
-    const virality_score = Math.log(post.virality_count + 1) / max_virality;
-    if (virality_score > settings.virality_max || virality_score < settings.virality_min) {
+    const viralityScore = Math.log(post.virality_count + 1) / maxVirality;
+    if (viralityScore > settings.virality_max || viralityScore < settings.virality_min) {
       keep = false;
-      filter_reasons[post.id].push('Virality');
+      filterReasons[post.id].push('Virality');
     }
     if (post.is_news && (
               post.political_quintile > (settings.political_affiliation + settings.echo_range) ||
               post.political_quintile < (settings.political_affiliation - settings.echo_range))) {
       keep = false;
-      filter_reasons[post.id].push('News Echo');
+      filterReasons[post.id].push('News Echo');
     }
     if (keep) {
-      kept_posts.push(post);
+      keptPosts.push(post);
     } else {
-      filtered_posts.push(post);
+      filteredPosts.push(post);
     }
   });
-  const kept_female_posts = kept_posts.filter(post => post.gender === 'GenderEnum.female');
-  const kept_male_posts = kept_posts.filter(post => post.gender === 'GenderEnum.male');
-  const num_posts_to_keep = get_nums_males_females(kept_female_posts.length, kept_male_posts.length, settings.gender_female_per / 100.0);
-  const neutral_fb = Math.min(1, kept_female_posts.length / (kept_female_posts.length + kept_male_posts.length));
-      // remove female posts
-  if (num_posts_to_keep.f < kept_female_posts.length) {
-          // remove kept_female_posts.length - num_posts_to_keep['f'] from kept to filtered
-    const f_posts_to_remove = kept_female_posts.slice(0, kept_female_posts.length - num_posts_to_keep.f);
-    kept_posts = kept_posts.filter((post) => {
-      if (f_posts_to_remove.indexOf(post) === -1) {
-        return true;
-      }
-      filter_reasons[post.id].push('Gender');
-      return false;
-    });
-    filtered_posts.push(...f_posts_to_remove);
-  }
-      // remove male posts
-  if (num_posts_to_keep.m < kept_male_posts.length) {
-          // remove kept_male_posts.length - num_posts_to_keep['m'] from kept to filtered
-    const m_posts_to_remove = kept_male_posts.slice(0, kept_male_posts.length - num_posts_to_keep.m);
-    kept_posts = kept_posts.filter((post) => {
-      if (m_posts_to_remove.indexOf(post) === -1) {
-        return true;
-      }
-      filter_reasons[post.id].push('Gender');
-      return false;
-    });
-    filtered_posts.push(...m_posts_to_remove);
-  }
+  const keptFemalePosts = keptPosts.filter(post => post.gender === 'GenderEnum.female');
+  const keptMalePosts = keptPosts.filter(post => post.gender === 'GenderEnum.male');
+  const numPostsToKeep = getGenderCounts(keptFemalePosts.length, keptMalePosts.length, settings.gender_female_per / 100.0);
+  const neutralFb = Math.min(1, keptFemalePosts.length / (keptFemalePosts.length + keptMalePosts.length));
+
+  ['f', 'm'].forEach((gender) => {
+    const keptPostsGender = gender === 'f' ? keptFemalePosts : keptMalePosts;
+    if (numPostsToKeep[gender] < keptPostsGender.length) {
+      const postsToRemove = keptPostsGender.slice(0, keptPostsGender.length - numPostsToKeep[gender]);
+      keptPosts = keptPosts.filter((post) => {
+        if (postsToRemove.indexOf(post) === -1) {
+          return true;
+        }
+        filterReasons[post.id].push('Gender');
+        return false;
+      });
+      filteredPosts.push(...postsToRemove);
+    }
+  });
   return {
-    kept_posts,
-    filtered_posts,
-    neutral_fb,
-    filter_reasons,
-    max_virality,
-    virality_avg,
+    keptPosts,
+    filteredPosts,
+    neutralFb,
+    filterReasons,
+    maxVirality,
+    viralityAvg,
   };
 }
 
-export default function calculateFilteredPosts(posts, settings) {
+export default function calculateFilteredPosts(posts, settings, rules) {
   return new Promise((resolve) => {
-    const { kept_posts, filtered_posts, neutral_fb, filter_reasons, max_virality, virality_avg } = getFilteredPosts(posts, settings);
-    resolve({ kept: kept_posts,
-      filtered: filtered_posts,
-      fb: neutral_fb,
-      reasons: filter_reasons,
-      virality_max: max_virality,
-      virality_avg });
+    const { keptPosts, filteredPosts, neutralFb, filterReasons, maxVirality, viralityAvg } = getFilteredPosts(posts, settings, rules);
+    resolve({
+      kept: keptPosts,
+      filtered: filteredPosts,
+      fb: neutralFb,
+      reasons: filterReasons,
+      virality_max: maxVirality,
+      virality_avg: viralityAvg,
+    });
   });
 }

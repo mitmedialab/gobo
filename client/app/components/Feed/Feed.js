@@ -2,17 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import { getPosts, getSettings } from 'actions/feed';
+import { getPosts, getRules, getSettings } from 'actions/feed';
 
 import Post from 'components/Post/Post';
 import Settings from 'components/Settings/Settings';
 import Loader from 'components/Loader/Loader';
 
-const propTypes = {
-  auth: PropTypes.object.isRequired,
-  dispatch: PropTypes.func,
-  feed: PropTypes.object,
-};
+import isEnabled, { KEYWORD_RULE } from 'utils/featureFlags';
 
 function mapStateToProps(state) {
   return {
@@ -37,8 +33,10 @@ class Feed extends Component {
   componentWillMount() {
     this.props.dispatch(getPosts());
     this.props.dispatch(getSettings());
+    if (isEnabled(KEYWORD_RULE)) {
+      this.props.dispatch(getRules());
+    }
   }
-
 
   toggleShowFiltered() {
     this.setState({
@@ -63,12 +61,6 @@ class Feed extends Component {
     const filteredText = this.state.showFiltered ? 'Showing filtered posts.' : `${filteredPosts.filtered.length} posts filtered out of your feed.`;
     const filteredLinkText = this.state.showFiltered ? '  Back to my feed.' : '  Show me what was taken out.';
 
-    // if (this.props.feed.sort_by) {
-    //   filteredPosts[showing].sortOn(this.props.feed.sort_by);
-    //   if (this.props.feed.sort_reverse) {
-    //     filteredPosts[showing].reverse()
-    //   }
-    // }
     const noPostsText = this.state.showFiltered ? 'None of your posts were filtered out. Try changing the filters to see them in action. ' : 'None of the posts in your feed match the filters you\'ve set. Try changing the filters.';
 
     const postsHtml = filteredPosts[showing].map(post => (
@@ -91,15 +83,13 @@ class Feed extends Component {
               (<div>
                 <p>We couldn't find any posts for your feed.</p>
                 <p>Did you authenticate your social media accounts?</p>
-                <p>Visit your <Link to="/profile">
-                  profile
-                </Link> page to add Facebook or Twitter.</p>
-                <p>If you did authenticate - try refreshing this page.</p>
+                <p>Visit your <Link to="/profile">profile</Link> page to add your accounts.</p>
+                <p>If you did authenticate, try refreshing this page.</p>
               </div>)}
 
               {(this.props.feed.loading_posts || this.props.feed.filtering_posts) &&
               <div>
-                <div className="filtered-text">Hold on while we are fetching your feed</div>
+                <div className="filtered-text">Hold on while we fetch your feed</div>
                 <Loader />
               </div>}
 
@@ -135,18 +125,10 @@ class Feed extends Component {
   }
 }
 
-Feed.propTypes = propTypes;
-export default connect(mapStateToProps)(Feed);
+Feed.propTypes = {
+  auth: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  feed: PropTypes.object.isRequired,
+};
 
-/*
-Array.prototype.sortOn = function(key){
-  this.sort(function(a, b) {
-  if(b[key] < a[key]){
-    return -1;
-  } else if(b[key] > a[key]) {
-    return 1;
-  }
-  return 0;
-});
-}
-*/
+export default connect(mapStateToProps)(Feed);

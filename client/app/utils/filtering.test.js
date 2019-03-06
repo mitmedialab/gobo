@@ -469,13 +469,13 @@ describe('filtering', () => {
         include_corporate: false,
       };
       const {
-        kept_posts,
-        filtered_posts,
-        filter_reasons,
-      } = getFilteredPosts(POSTS.posts, settings);
-      expect(kept_posts.length).toBe(1);
-      expect(filtered_posts.length).toBe(2);
-      expect(filter_reasons).toEqual({ 4521474: ['Corporate'], 4521515: ['Corporate'], 4521559: [] });
+        keptPosts,
+        filteredPosts,
+        filterReasons,
+      } = getFilteredPosts(POSTS.posts, settings, []);
+      expect(keptPosts.length).toBe(1);
+      expect(filteredPosts.length).toBe(2);
+      expect(filterReasons).toEqual({ 4521474: ['Corporate'], 4521515: ['Corporate'], 4521559: [] });
     });
 
     it('filters by keyword by AND', () => {
@@ -484,13 +484,13 @@ describe('filtering', () => {
         keywordsAnd: ['out', 'https'],
       };
       const {
-        kept_posts,
-        filtered_posts,
-        filter_reasons,
-      } = getFilteredPosts(POSTS.posts, settings);
-      expect(kept_posts.length).toBe(1);
-      expect(filtered_posts.length).toBe(2);
-      expect(filter_reasons).toEqual({ 4521474: ['Keyword'], 4521515: ['Keyword'], 4521559: [] });
+        keptPosts,
+        filteredPosts,
+        filterReasons,
+      } = getFilteredPosts(POSTS.posts, settings, []);
+      expect(keptPosts.length).toBe(1);
+      expect(filteredPosts.length).toBe(2);
+      expect(filterReasons).toEqual({ 4521474: ['Keyword'], 4521515: ['Keyword'], 4521559: [] });
     });
 
     it('filters by keyword by OR', () => {
@@ -499,13 +499,13 @@ describe('filtering', () => {
         keywordsOr: ['appointments', 'Do-gooders'],
       };
       const {
-        kept_posts,
-        filtered_posts,
-        filter_reasons,
-      } = getFilteredPosts(POSTS.posts, settings);
-      expect(kept_posts.length).toBe(1);
-      expect(filtered_posts.length).toBe(2);
-      expect(filter_reasons).toEqual({ 4521474: ['Keyword'], 4521515: [], 4521559: ['Keyword'] });
+        keptPosts,
+        filteredPosts,
+        filterReasons,
+      } = getFilteredPosts(POSTS.posts, settings, []);
+      expect(keptPosts.length).toBe(1);
+      expect(filteredPosts.length).toBe(2);
+      expect(filterReasons).toEqual({ 4521474: ['Keyword'], 4521515: [], 4521559: ['Keyword'] });
     });
   });
 });
