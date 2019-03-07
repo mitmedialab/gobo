@@ -1,4 +1,4 @@
-import { getUserPosts, getUserSettings, updateUserSettings } from '../utils/apiRequests';
+import { getUserRules, getUserPosts, getUserSettings, updateUserSettings } from '../utils/apiRequests';
 import calculateFilteredPosts from '../utils/filtering';
 
 export const GET_POSTS_LOAD = 'feed/GET_POSTS_LOAD';
@@ -76,35 +76,14 @@ export function updateSettings(settings) {
 export function getRules() {
   return (dispatch) => {
     dispatch({ type: GET_RULES_LOAD });
-    // TODO: eventually fetch rules from API
-    // return getUserRules()
-    //   .then((result) => {
-    dispatch({
-      type: GET_RULES_SUCCESS,
-      result: {
-        data: [
-          {
-            id: 1,
-            title: 'Exclude Politics',
-            description: 'Remove political posts from my feed.',
-            excluded_terms: ['White House', 'Pompeo'],
-            enabled: false,
-          },
-          {
-            id: 2,
-            title: 'No Tech',
-            description: 'Remove techology and software development topics from my feed.',
-            excluded_terms: ['javascript', 'computing', 'algorithm', 'datascience'],
-            enabled: false,
-          },
-        ],
-      },
-    });
-    dispatch(filterPosts());
-      // })
-      // .catch((error) => {
-      //   dispatch({ type: GET_RULES_FAIL, error });
-      // });
+    return getUserRules()
+      .then((result) => {
+        dispatch({ type: GET_RULES_SUCCESS, result });
+        dispatch(filterPosts());
+      })
+      .catch((error) => {
+        dispatch({ type: GET_RULES_FAIL, error });
+      });
   };
 }
 

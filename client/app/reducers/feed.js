@@ -121,7 +121,7 @@ export default function reducer(state = defaultState, action) {
     case GET_RULES_SUCCESS:
       return {
         ...state,
-        rules: action.result.data,
+        rules: action.result.data.rules,
         loadingRules: false,
         getRulesSuccess: true,
       };

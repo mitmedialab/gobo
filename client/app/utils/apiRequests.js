@@ -20,6 +20,10 @@ export function getUser() {
   return axios.get(`${API_URL}api/confirm_auth`);
 }
 
+export function getUserRules() {
+  return axios.get(`${API_URL}api/get_rules`);
+}
+
 export function apiLogout() {
   return axios.get(`${API_URL}api/logout`);
 }

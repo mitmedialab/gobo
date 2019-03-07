@@ -54,3 +54,27 @@ def update_settings():
     #     print "error logging new settings for user {} to db".format(current_user.id)
     #     success = False
     return jsonify({'update_success': success})
+
+
+@api.route('/get_rules', methods=['GET'])
+@login_required
+def get_rules():
+    rules = []
+    no_politics_rule = {
+        'id': 1,
+        'title': 'Exclude Politics',
+        'description': 'Remove political posts from my feed.',
+        'excluded_terms': ['White House', 'Pompeo'],
+        'enabled': False,
+    }
+    rules.append(no_politics_rule)
+
+    no_tech_rule = {
+        'id': 2,
+        'title': 'No Tech',
+        'description': 'Remove techology and software development topics from my feed.',
+        'excluded_terms': ['javascript', 'computing', 'algorithm', 'datascience'],
+        'enabled': False,
+    }
+    rules.append(no_tech_rule)
+    return jsonify({'rules': rules})
