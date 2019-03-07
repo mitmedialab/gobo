@@ -56,6 +56,7 @@ def update_settings():
     return jsonify({'update_success': success})
 
 
+# TODO: this is a stub
 @api.route('/get_rules', methods=['GET'])
 @login_required
 def get_rules():
@@ -78,3 +79,10 @@ def get_rules():
     }
     rules.append(no_tech_rule)
     return jsonify({'rules': rules})
+
+
+# TODO: this is a stub
+@api.route('/toggle_rules', methods=['POST'])
+@login_required
+def toggle_rules():
+    return 'success', 200

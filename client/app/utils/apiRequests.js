@@ -24,6 +24,12 @@ export function getUserRules() {
   return axios.get(`${API_URL}api/get_rules`);
 }
 
+export function updateUserRules(rules) {
+  return axios.post(`${API_URL}api/toggle_rules`, {
+    rules,
+  });
+}
+
 export function apiLogout() {
   return axios.get(`${API_URL}api/logout`);
 }

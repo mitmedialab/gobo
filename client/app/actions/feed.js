@@ -1,4 +1,4 @@
-import { getUserRules, getUserPosts, getUserSettings, updateUserSettings } from '../utils/apiRequests';
+import { getUserRules, getUserPosts, getUserSettings, updateUserRules, updateUserSettings } from '../utils/apiRequests';
 import calculateFilteredPosts from '../utils/filtering';
 
 export const GET_POSTS_LOAD = 'feed/GET_POSTS_LOAD';
@@ -90,8 +90,7 @@ export function getRules() {
 export function updateRules(rules) {
   return (dispatch) => {
     dispatch({ type: UPDATE_RULES, rules });
-    // TODO: eventually persist in the DB
-    // updateUserRules(settings);
+    updateUserRules(rules);
     return dispatch(filterPosts({ rules }));
   };
 }
