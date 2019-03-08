@@ -167,7 +167,10 @@ class SocialMediaButtons extends Component {
         <button onClick={this.handleMastodonClick} className={buttonProps.buttonClass} >
           {buttonProps.buttonText} <i className={`button-icon ${buttonProps.buttonIcon}`} />
         </button>
-        <p><small>MASTODON DETAILS</small></p>
+        <p><small>
+          Connect to Mastodon to allow Gobo to read toots from your timeline.
+          Gobo displays recent posts from your feed for you to filter.
+        </small></p>
       </div>
     );
   }
