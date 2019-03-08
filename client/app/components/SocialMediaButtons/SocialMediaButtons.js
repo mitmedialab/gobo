@@ -3,13 +3,16 @@ import FacebookLogin from 'react-facebook-login';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import Creatable from 'react-select/lib/Creatable';
+
 import { getTwitterAuthUrl, waitForTwitterCallback, fetchFacebookAppId,
   fetchMastodonVerification, mastodonDomain } from 'actions/socialMediaLogin';
+import { DEFAULT_MASTODON_INSTANCES } from 'constants/index';
 import { postFacebookResponseToServer } from 'utils/apiRequests';
 import isEnabled, { MASTODON } from 'utils/featureFlags';
 import { encodeData } from 'utils/url';
 
-import Input from 'components/Input/Input';
+import InputError from 'components/Input/InputError';
 
 const MAX_POLLS = 120;
 
@@ -24,10 +27,11 @@ class SocialMediaButtons extends Component {
       twitterError: false,
       twitterPolling: false,
       twitterPollCount: 0,
-      mastodonError: false,
+      mastodonServerError: false,
       mastodonPolling: false,
       mastodonPollCount: 0,
       mastodonDomain: '',
+      mastodonDomainError: '',
     };
   }
 
@@ -134,22 +138,31 @@ class SocialMediaButtons extends Component {
 
   getMastodonButton = () => {
     const buttonProps = this.getButtonDefaults(this.state.mastodonSuccess, 'Mastodon');
-    if (this.state.mastodonError) {
+    if (this.state.mastodonDomain.length === 0) {
+      buttonProps.buttonClass += ' disabled';
+    }
+    if (this.state.mastodonServerError) {
       buttonProps.buttonText = 'Error authenticating Mastodon. Please try again.';
     }
+
+    const options = DEFAULT_MASTODON_INSTANCES.map(instance => ({ value: instance, label: instance }));
+
     return (
-      <div>
+      <div className="input_group">
         {!this.state.mastodonSuccess &&
-        <Input
-          text="Mastodon instance (e.g. mastodon.social)"
-          ref={(c) => { this.mastodonInputRef = c; }}
-          validate={text => text.indexOf('.') > 0}
-          minCharacters="3"
-          requireCapitals="0"
-          requireNumbers="0"
-          emptyMessage="Instance cannot be empty"
-          onChange={this.handleMastodonInputChange}
-        />
+          <div>
+            <Creatable
+              options={options}
+              onChange={this.handleMastodonInputChange}
+              placeholder="Select or enter your Mastodon instance"
+              formatCreateLabel={input => `Mastodon instance: ${input}`}
+              className="mastodonSelect"
+              styles={{ control: base => ({ ...base, minHeight: '70px' }) }}
+            />
+          </div>
+        }
+        {this.state.mastodonDomainError &&
+          <InputError visible errorMessage={this.state.mastodonDomainError} />
         }
         <button onClick={this.handleMastodonClick} className={buttonProps.buttonClass} >
           {buttonProps.buttonText} <i className={`button-icon ${buttonProps.buttonIcon}`} />
@@ -159,13 +172,36 @@ class SocialMediaButtons extends Component {
     );
   }
 
-  handleMastodonInputChange = (e) => {
-    this.setState({ mastodonDomain: e.target.value });
+  handleMastodonInputChange = (input) => {
+    const domain = input.value;
+    const isValidDomain = this.isValidMastodonDomain(domain);
+    if (isValidDomain) {
+      this.setState({
+        mastodonDomain: domain,
+        mastodonDomainError: '',
+      });
+    } else {
+      this.setState({
+        mastodonDomain: '',
+        mastodonDomainError: 'Invalid domain: Try again.',
+      });
+    }
+  }
+
+  isValidMastodonDomain = (domain) => {
+    let isValid = domain !== undefined && domain !== null;
+    if (isValid) {
+      isValid = domain.length > 2;
+    }
+    if (isValid) {
+      isValid = domain.indexOf('.') > 0;
+    }
+    return isValid;
   }
 
   handleMastodonClick = (e) => {
     e.preventDefault();
-    if (this.mastodonInputRef.isValid()) {
+    if (this.isValidMastodonDomain(this.state.mastodonDomain)) {
       this.props.dispatch(mastodonDomain(this.state.mastodonDomain));
       this.startMastodonPoll();
       this.setState({ mastodonPolling: true });
@@ -174,7 +210,7 @@ class SocialMediaButtons extends Component {
 
   startMastodonPoll = () => {
     if (this.state.mastodonPollCount > MAX_POLLS) {
-      this.setState({ mastodonError: true });
+      this.setState({ mastodonServerError: true });
     } else {
       this.mastodonTimer = setTimeout(() => this.props.dispatch(fetchMastodonVerification()), 2000);
       this.setState({ mastodonPollCount: this.state.mastodonPollCount + 1 });
