@@ -2,6 +2,8 @@
 
 import datetime
 
+from sqlalchemy import event
+from sqlalchemy.types import ARRAY
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from server.core import db, bcrypt
@@ -449,3 +451,53 @@ class MastodonPost(Post):
 
     def get_shares_count(self):
         return self.content['reblogs_count']
+
+
+class KeywordRule(db.Model):
+    __tablename__ = "keyword_rules"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    creator_user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    creator_display_name = db.Column(db.String(255), nullable=False)
+    link = db.Column(db.String(255))
+    title = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.String(255), nullable=False)
+    exclude_terms = db.Column(ARRAY(db.String(255)), nullable=False)
+    shareable = db.Column(db.Boolean, nullable=False)
+    source = db.Column(db.String(255), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False)
+    last_modified = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self, creator_user_id, creator_display_name, title, description, exclude_terms, shareable, source, link):
+        self.creator_user_id = creator_user_id
+        self.creator_display_name = creator_display_name
+        self.link = link
+        self.title = title
+        self.description = description
+        self.exclude_terms = exclude_terms
+        self.shareable = shareable
+        self.source = source
+        self.created_at = datetime.datetime.now()
+        self.last_modified = datetime.datetime.now()
+
+
+class UserKeywordRule(db.Model):
+    __tablename__ = "users_keyword_rules"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    keyword_rule_id = db.Column(db.Integer, db.ForeignKey('keyword_rules.id'), nullable=False)
+    enabled = db.Column(db.Boolean, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False)
+    last_modified = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self, user_id, keyword_rule_id, enabled):
+        self.user_id = user_id
+        self.keyword_rule_id = keyword_rule_id
+        self.enabled = enabled
+        self.created_at = datetime.datetime.now()
+        self.last_modified = datetime.datetime.now()
+
+
+@event.listens_for(UserKeywordRule, 'before_update')
+@event.listens_for(KeywordRule, 'before_update')
+def receive_after_update(_mapper, _connection, target):
+    target.last_modified = datetime.datetime.now()
