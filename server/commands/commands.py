@@ -1,6 +1,5 @@
 import click
 from flask.cli import with_appcontext
-from sqlalchemy import and_
 
 from server.core import db
 from server.models import KeywordRule, User, UserKeywordRule
@@ -54,7 +53,7 @@ def create_keyword_rule(creator_id, creator_display_name, title, description, ex
 @with_appcontext
 def share_rule_to_user(user_id, rule_id, enabled):
     """Share keyword rule with a specific user or modify enabled state"""
-    setting = UserKeywordRule.query.filter(and_(UserKeywordRule.user_id == user_id, UserKeywordRule.keyword_rule_id == rule_id)).first()
+    setting = UserKeywordRule.query.filter_by(user_id=user_id, keyword_rule_id=rule_id).first()
     if setting:
         setting.enabled = enabled
     else:
@@ -72,8 +71,7 @@ def share_rule_to_user(user_id, rule_id, enabled):
 def share_rule_all_users(rule_id, enabled):
     """Share keyword rule with all users and/or modify enabled state"""
     for user in User.query.all():
-        setting = UserKeywordRule.query.filter(
-            and_(UserKeywordRule.user_id == user.id, UserKeywordRule.keyword_rule_id == rule_id)).first()
+        setting = UserKeywordRule.query.filter_by(user_id=user.id, keyword_rule_id=rule_id).first()
         if setting:
             setting.enabled = enabled
         else:

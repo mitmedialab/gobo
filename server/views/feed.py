@@ -4,7 +4,7 @@ from flask import request, jsonify
 from flask_login import login_required, current_user
 
 from server.core import db
-from server.models import Post, SettingsUpdate
+from server.models import Post, SettingsUpdate, KeywordRule, UserKeywordRule
 from server.enums import PoliticsEnum
 from server.blueprints import api
 
@@ -56,33 +56,23 @@ def update_settings():
     return jsonify({'update_success': success})
 
 
-# TODO: this is a stub
 @api.route('/get_rules', methods=['GET'])
 @login_required
 def get_rules():
-    rules = []
-    no_politics_rule = {
-        'id': 1,
-        'title': 'Exclude Politics',
-        'description': 'Remove political posts from my feed.',
-        'excluded_terms': ['White House', 'Pompeo'],
-        'enabled': False,
-    }
-    rules.append(no_politics_rule)
-
-    no_tech_rule = {
-        'id': 2,
-        'title': 'No Tech',
-        'description': 'Remove techology and software development topics from my feed.',
-        'excluded_terms': ['javascript', 'computing', 'algorithm', 'datascience'],
-        'enabled': False,
-    }
-    rules.append(no_tech_rule)
+    rules = [association.keyword_rule.serialize() for association in current_user.keyword_rule_associations]
     return jsonify({'rules': rules})
 
 
-# TODO: this is a stub
 @api.route('/toggle_rules', methods=['POST'])
 @login_required
 def toggle_rules():
+    rules_to_update = request.json['rules']
+    updated = False
+    for association in current_user.keyword_rule_associations:
+        rule = filter(lambda r: r['id'] == association.keyword_rule_id, rules_to_update).pop()
+        if rule:
+            association.enabled = rule['enabled']
+            updated = True
+    if updated:
+        db.session.commit()
     return 'success', 200

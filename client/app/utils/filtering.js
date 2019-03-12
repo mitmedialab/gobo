@@ -128,7 +128,7 @@ export function getFilteredPosts(posts, settings, rules) {
 
     rules.forEach((rule) => {
       if (rule.enabled) {
-        const filtered = filterPostByKeywordOr(post, rule.excluded_terms);
+        const filtered = filterPostByKeywordOr(post, rule.exclude_terms);
         if (filtered) {
           keep = false;
           filterReasons[post.id].push('Rule');

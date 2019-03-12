@@ -52,8 +52,9 @@ class User(db.Model):
     political_affiliation = db.Column(db.Enum(PoliticsEnum), default=PoliticsEnum.center)
 
     posts = db.relationship("Post", secondary=post_associations_table, lazy='dynamic')
-
     settings = db.relationship("Settings", uselist=False, back_populates="user")
+    keyword_rule_associations = db.relationship("UserKeywordRule", back_populates="user")
+
 
     def __init__(self, email, password):
         self.email = email
@@ -458,26 +459,37 @@ class KeywordRule(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     creator_user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     creator_display_name = db.Column(db.String(255), nullable=False)
-    link = db.Column(db.String(255))
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(255), nullable=False)
     exclude_terms = db.Column(ARRAY(db.String(255)), nullable=False)
     shareable = db.Column(db.Boolean, nullable=False)
     source = db.Column(db.String(255), nullable=False)
+    link = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, nullable=False)
     last_modified = db.Column(db.DateTime, nullable=False)
 
     def __init__(self, creator_user_id, creator_display_name, title, description, exclude_terms, shareable, source, link):
         self.creator_user_id = creator_user_id
         self.creator_display_name = creator_display_name
-        self.link = link
         self.title = title
         self.description = description
         self.exclude_terms = exclude_terms
         self.shareable = shareable
         self.source = source
+        self.link = link
         self.created_at = datetime.datetime.now()
         self.last_modified = datetime.datetime.now()
+
+    def serialize(self):
+        """Returns only what's needed by the UI"""
+        return {
+            'id': self.id,
+            'creator_display_name': self.creator_display_name,
+            'title': self.title,
+            'description': self.description,
+            'exclude_terms': self.exclude_terms,
+            'link': self.link,
+        }
 
 
 class UserKeywordRule(db.Model):
@@ -488,6 +500,11 @@ class UserKeywordRule(db.Model):
     enabled = db.Column(db.Boolean, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
     last_modified = db.Column(db.DateTime, nullable=False)
+
+    keyword_rule = db.relationship("KeywordRule")
+    user = db.relationship("User", back_populates="keyword_rule_associations")
+
+    db.UniqueConstraint('user_id', 'keyword_rule_id')
 
     def __init__(self, user_id, keyword_rule_id, enabled):
         self.user_id = user_id

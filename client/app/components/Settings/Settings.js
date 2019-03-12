@@ -364,7 +364,7 @@ class Settings extends Component {
     icon: 'icon-seriousness',
     desc: rule.description,
     key: `${rule.id}-${rule.title}`,
-    longDesc: `Excluding posts that contain the words: ${rule.excluded_terms.join(', ')}`,
+    longDesc: `Excluding posts that contain the words: ${rule.exclude_terms.join(', ')}`,
     content: (
       <div className="slider-labels">
         <span>
