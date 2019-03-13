@@ -43,7 +43,7 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
 
-    op.add_column('users', sa.Column('mastodon_authorized', sa.Boolean(), server_default='f'), nullable=False)
+    op.add_column('users', sa.Column('mastodon_authorized', sa.Boolean(), server_default='f', nullable=False))
 
 
 def downgrade():
