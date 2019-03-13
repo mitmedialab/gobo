@@ -53,7 +53,8 @@ class User(db.Model):
 
     posts = db.relationship("Post", secondary=post_associations_table, lazy='dynamic')
     settings = db.relationship("Settings", uselist=False, back_populates="user")
-    keyword_rule_associations = db.relationship("UserKeywordRule", back_populates="user")
+    keyword_rule_associations = db.relationship("UserKeywordRule", back_populates="user",
+                                                cascade="delete, delete-orphan")
 
 
     def __init__(self, email, password):
@@ -468,6 +469,9 @@ class KeywordRule(db.Model):
     created_at = db.Column(db.DateTime, nullable=False)
     last_modified = db.Column(db.DateTime, nullable=False)
 
+    user_associations = db.relationship("UserKeywordRule", back_populates="keyword_rule",
+                                        cascade="delete, delete-orphan")
+
     def __init__(self, creator_user_id, creator_display_name, title, description, exclude_terms, shareable,
                  source, link):
         self.creator_user_id = creator_user_id
@@ -502,7 +506,7 @@ class UserKeywordRule(db.Model):
     created_at = db.Column(db.DateTime, nullable=False)
     last_modified = db.Column(db.DateTime, nullable=False)
 
-    keyword_rule = db.relationship("KeywordRule")
+    keyword_rule = db.relationship("KeywordRule", back_populates="user_associations")
     user = db.relationship("User", back_populates="keyword_rule_associations")
 
     db.UniqueConstraint('user_id', 'keyword_rule_id')

@@ -5,7 +5,7 @@ from celery import Celery
 from flask import Flask
 from raven.contrib.flask import Sentry
 
-from commands import create_db, create_keyword_rule, drop_db, share_rule_to_user, share_rule_all_users
+from commands import create_db, create_keyword_rule, delete_keyword_rule, drop_db, share_rule_to_user, share_rule_all_users
 
 from .core import db, bcrypt, login_manager, mail, migrate
 # pylint: disable=no-name-in-module,import-error
@@ -44,6 +44,7 @@ def create_app(env=None):
     app.cli.add_command(create_keyword_rule)
     app.cli.add_command(share_rule_to_user)
     app.cli.add_command(share_rule_all_users)
+    app.cli.add_command(delete_keyword_rule)
 
     #
     # app.wsgi_app = HTTPMethodOverrideMiddleware(app.wsgi_app)

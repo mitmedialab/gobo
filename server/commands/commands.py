@@ -48,6 +48,16 @@ def create_keyword_rule(creator_id, creator_display_name, title, description, ex
 
 
 @click.command()
+@click.option('--rule-id', required=True, type=int, help='ID of user rule to delete')
+@with_appcontext
+def delete_keyword_rule(rule_id):
+    db.session.delete(KeywordRule.query.filter_by(id=rule_id).first())
+    db.session.commit()
+    print "Deleted rule ID: {}".format(rule_id)
+    db.session.close()
+
+
+@click.command()
 @click.option('--user-id', required=True, type=int, help='ID of user to share role to')
 @click.option('--rule-id', required=True, type=int, help='ID of user rule to share')
 @click.option('--enabled', required=False, type=bool, default=False, help='Whether rule is enabled initially')
@@ -81,5 +91,5 @@ def share_rule_all_users(rule_id, enabled):
             setting = UserKeywordRule(user.id, rule_id, enabled)
             db.session.add(setting)
     db.session.commit()
-    print "Successfully added '{}' settings".format(setting.id)
+    print "Successfully added settings"
     db.session.close()
