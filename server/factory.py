@@ -5,7 +5,8 @@ from celery import Celery
 from flask import Flask
 from raven.contrib.flask import Sentry
 
-from commands import create_db, create_keyword_rule, delete_keyword_rule, drop_db, share_rule_to_user, share_rule_all_users
+from commands import create_db, create_keyword_rule, delete_keyword_rule, drop_db, share_rule_to_user, \
+    share_rule_all_users
 
 from .core import db, bcrypt, login_manager, mail, migrate
 # pylint: disable=no-name-in-module,import-error
