@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactSlider from 'react-slider';
 import PropTypes from 'prop-types';
-
+import Toggle from 'react-toggle';
+import 'react-toggle/style.css';
 import { updateRules, updateSettings } from 'actions/feed';
 import Input from 'components/Input/Input';
 import SettingsItem from 'components/SettingsItem/SettingsItem';
@@ -251,17 +252,15 @@ class Settings extends Component {
             <span className="pull-left"> {100 - this.state.settings.gender_female_per || '0'}% men</span>
             <span className="pull-right"> {this.state.settings.gender_female_per || '0'}% women</span>
           </div>
-          <div className="mute-men-wrapper">
-            <span>
-              <input
-                className="checkbox"
+          <div className="mute-men-wrapper slider-labels">
+            <label htmlFor="mute-men">
+              <Toggle
                 name="mute-men"
-                type="checkbox"
                 checked={this.state.settings.gender_female_per === 100}
-                onClick={this.muteAllMen}
+                onChange={this.muteAllMen}
               />
-              <label htmlFor="mute-men" className="checkbox-label">Mute all men.<MuteAllMenWhy /></label>
-            </span>
+              <span className="toggle-label">Mute all men. <MuteAllMenWhy /></span>
+            </label>
           </div>
         </div>
       </div>
@@ -276,20 +275,16 @@ class Settings extends Component {
     longDesc: 'Want to limit your feed to the friends and family you actually care about? Brands are major players on social media platforms, often consuming large amounts of our feeds with either reposts or sponsored content that is featured. Gobo detects content from brands and lets you exclude them if you want to. At the moment, our algorithm doesn’t differentiate between corporations and non-profit organizations.',
     content: (
       <div className="slider-labels">
-        <span>
-          <input
-            className="checkbox"
+        <label htmlFor="corporate">
+          <Toggle
             name="corporate"
-            type="checkbox"
             checked={this.state.settings.include_corporate}
-            onClick={(e) => { this.handleCheckBoxChange(e, 'include_corporate'); }}
+            onChange={(e) => { this.handleCheckBoxChange(e, 'include_corporate'); }}
           />
-          <label htmlFor="corporate" className="checkbox-label">
-              Show content from brands
-          </label>
-        </span>
+          <span className="toggle-label">Show content from brands</span>
+        </label>
       </div>
-        ),
+    ),
   })
 
   obscuritySetting = () => ({
@@ -368,18 +363,14 @@ class Settings extends Component {
     subtitle: `Created by ${rule.creator_display_name}`,
     content: (
       <div className="slider-labels">
-        <span>
-          <input
-            className="checkbox"
-            name={`${rule.id}-${rule.title}`}
-            type="checkbox"
+        <label htmlFor={`${rule.id}-${rule.title}`}>
+          <Toggle
             checked={rule.enabled}
-            onChange={(e) => { this.handleRuleChange(e); }}
+            name={`${rule.id}-${rule.title}`}
+            onChange={this.handleRuleChange}
           />
-          <label htmlFor={`${rule.id}-${rule.title}`} className="checkbox-label">
-              Activate rule
-          </label>
-        </span>
+          <span className="toggle-label">Activate rule</span>
+        </label>
       </div>
     ),
   })

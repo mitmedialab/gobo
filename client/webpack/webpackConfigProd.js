@@ -40,11 +40,11 @@ module.exports = {
         use: 'babel-loader',
       },
       {
-        test: /\.scss$/,
+        test: /\.(scss|css)$/,
         use: extractSass.extract({
           use: [
-  { loader: 'css-loader', options: { minimize: true } },
-  { loader: 'sass-loader' },
+            { loader: 'css-loader', options: { minimize: true } },
+            { loader: 'sass-loader' },
           ],
         }),
       },
