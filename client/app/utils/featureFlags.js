@@ -1,7 +1,6 @@
 import { getQueryParam } from './url';
 
 export const KEYWORD_FILTER = 'kwfilter';
-export const MASTODON = 'mastodon';
 export const KEYWORD_RULE = 'kwrule';
 
 /**

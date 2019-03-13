@@ -9,7 +9,6 @@ import { getTwitterAuthUrl, waitForTwitterCallback, fetchFacebookAppId,
   fetchMastodonVerification, mastodonDomain } from 'actions/socialMediaLogin';
 import { DEFAULT_MASTODON_INSTANCES } from 'constants/index';
 import { postFacebookResponseToServer } from 'utils/apiRequests';
-import isEnabled, { MASTODON } from 'utils/featureFlags';
 import { encodeData } from 'utils/url';
 
 import InputError from 'components/Input/InputError';
@@ -270,7 +269,7 @@ class SocialMediaButtons extends Component {
       <div className="facebook_twitter_buttons">
         {this.getTwitterButton()}
         {isFacebookEnabled && this.getFacebookButton()}
-        {isEnabled(MASTODON) && isMastodonEnabled && this.getMastodonButton()}
+        {isMastodonEnabled && this.getMastodonButton()}
       </div>
     );
   }

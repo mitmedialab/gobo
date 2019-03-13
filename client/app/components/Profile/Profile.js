@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 
-import isEnabled, { MASTODON } from 'utils/featureFlags';
-
 import SocialMediaButtons from 'components/SocialMediaButtons/SocialMediaButtons';
 import DeleteAccountButton from 'components/DeleteAccountButton/DeleteAccountButton';
 
@@ -91,7 +89,7 @@ const Profile = (props) => {
                 <h3>{accountName}</h3>
                 {twitterContent}
                 {facebookContent}
-                {isEnabled(MASTODON) && mastodonContent}
+                {mastodonContent}
               </div>
               <div>
                 <SocialMediaButtons
