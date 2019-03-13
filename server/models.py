@@ -1,4 +1,4 @@
-# pylint: disable=too-many-instance-attributes,no-self-use
+# pylint: disable=too-many-instance-attributes,no-self-use,too-many-arguments
 
 import datetime
 
@@ -468,7 +468,8 @@ class KeywordRule(db.Model):
     created_at = db.Column(db.DateTime, nullable=False)
     last_modified = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, creator_user_id, creator_display_name, title, description, exclude_terms, shareable, source, link):
+    def __init__(self, creator_user_id, creator_display_name, title, description, exclude_terms, shareable,
+                 source, link):
         self.creator_user_id = creator_user_id
         self.creator_display_name = creator_display_name
         self.title = title

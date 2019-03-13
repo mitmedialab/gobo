@@ -36,6 +36,7 @@ def drop_db():
 @click.option('--source', required=False, type=str, default='gobo', help='Source for how this rule was generated')
 @click.option('--link', required=False, type=str, help='URL to include in the rule.')
 @with_appcontext
+# pylint: disable=too-many-arguments
 def create_keyword_rule(creator_id, creator_display_name, title, description, exclude_terms, shareable, source, link):
     """Creates a new keyword rule."""
     split_terms = [term.strip() for term in exclude_terms.split(',')]

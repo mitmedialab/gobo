@@ -4,7 +4,7 @@ from flask import request, jsonify
 from flask_login import login_required, current_user
 
 from server.core import db
-from server.models import Post, SettingsUpdate, KeywordRule, UserKeywordRule
+from server.models import Post, SettingsUpdate
 from server.enums import PoliticsEnum
 from server.blueprints import api
 
@@ -73,8 +73,8 @@ def toggle_rules():
     rules_to_update = request.json['rules']
     updated = False
     for association in current_user.keyword_rule_associations:
-        rule = filter(lambda r: r['id'] == association.keyword_rule_id, rules_to_update).pop()
-        if rule:
+        rule = [r for r in rules_to_update if r['id'] == association.keyword_rule_id].pop()
+        if rule and association.enabled is not rule['enabled']:
             association.enabled = rule['enabled']
             updated = True
     if updated:
