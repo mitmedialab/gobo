@@ -21,7 +21,6 @@ const PostFooter = (props) => {
       iconClass: 'source-icon icon-facebook-squared',
     };
   } else if (props.source === 'mastodon') {
-    // TODO: this needs a new icon
     icon = {
       url: 'https://joinmastodon.org/',
       iconClass: 'source-icon icon-mastodon',

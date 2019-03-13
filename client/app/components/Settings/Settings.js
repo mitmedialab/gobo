@@ -361,7 +361,7 @@ class Settings extends Component {
 
   keywordRule = rule => ({
     title: rule.title,
-    icon: 'icon-seriousness',
+    icon: 'icon-seriousness',  // TODO: this needs updating
     desc: rule.description,
     key: `${rule.id}-${rule.title}`,
     longDesc: `Excluding posts that contain the words: ${rule.exclude_terms.join(', ')}`,

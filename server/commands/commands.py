@@ -56,11 +56,13 @@ def share_rule_to_user(user_id, rule_id, enabled):
     setting = UserKeywordRule.query.filter_by(user_id=user_id, keyword_rule_id=rule_id).first()
     if setting:
         setting.enabled = enabled
+        action = "updated"
     else:
         setting = UserKeywordRule(user_id, rule_id, enabled)
         db.session.add(setting)
+        action = "added"
     db.session.commit()
-    print "Successfully added setting ID: {}".format(setting.id)
+    print "Successfully {} setting ID: {}".format(action, setting.id)
     db.session.close()
 
 
