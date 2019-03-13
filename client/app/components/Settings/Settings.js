@@ -192,8 +192,8 @@ class Settings extends Component {
           onAfterChange={e => this.handleDualSliderChange(e, 'seriousness')}
         />
         <div className="slider-labels">
-          <span className="pull-left"> not serious</span>
-          <span className="pull-right"> very serious</span>
+          <span className="pull-left"> Not serious</span>
+          <span className="pull-right"> Very serious</span>
         </div>
       </div>
       ),
@@ -218,8 +218,8 @@ class Settings extends Component {
             onAfterChange={e => this.handleDualSliderChange(e, 'rudeness')}
           />
           <div className="slider-labels">
-            <span className="pull-left"> clean</span>
-            <span className="pull-right"> very rude</span>
+            <span className="pull-left"> Clean</span>
+            <span className="pull-right"> Very rude</span>
           </div>
         </div>
       </div>
@@ -305,8 +305,8 @@ class Settings extends Component {
           onAfterChange={e => this.handleDualSliderChange(e, 'virality')}
         />
         <div className="slider-labels">
-          <span className="pull-left"> obscure </span>
-          <span className="pull-right"> viral</span>
+          <span className="pull-left"> Obscure </span>
+          <span className="pull-right"> Viral</span>
         </div>
       </div>
       ),
@@ -359,7 +359,7 @@ class Settings extends Component {
     icon: 'icon-seriousness',  // TODO: this needs updating
     desc: rule.description,
     key: `${rule.id}-${rule.title}`,
-    longDesc: `Excluding posts that contain the words: ${rule.exclude_terms.join(', ')}`,
+    longDesc: `Excluding posts that contain any of the words: ${rule.exclude_terms.join(', ')}`,
     subtitle: `Created by ${rule.creator_display_name}`,
     content: (
       <div className="slider-labels">
