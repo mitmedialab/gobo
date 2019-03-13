@@ -124,7 +124,7 @@ class SocialMediaButtons extends Component {
   getTwitterButton = () => {
     const buttonProps = this.getButtonDefaults(this.state.twitterSuccess, 'Twitter');
     if (this.state.twitterError) {
-      buttonProps.buttonText = 'Error authenticating twitter. Please try again.';
+      buttonProps.buttonText = 'Error authenticating twitter. Try again.';
     }
     return (
       <div>
@@ -137,12 +137,12 @@ class SocialMediaButtons extends Component {
   }
 
   getMastodonButton = () => {
-    const buttonProps = this.getButtonDefaults(this.state.mastodonSuccess, 'Mastodon');
+    const buttonProps = this.getButtonDefaults(this.state.mastodonSuccess, this.state.mastodonDomain ? this.state.mastodonDomain : 'Mastodon');
     if (this.state.mastodonDomain.length === 0) {
       buttonProps.buttonClass += ' disabled';
     }
     if (this.state.mastodonServerError) {
-      buttonProps.buttonText = 'Error authenticating Mastodon. Please try again.';
+      buttonProps.buttonText = 'Error authenticating Mastodon. Try again.';
     }
 
     const options = DEFAULT_MASTODON_INSTANCES.map(instance => ({ value: instance, label: instance }));
@@ -154,6 +154,11 @@ class SocialMediaButtons extends Component {
             <Creatable
               options={options}
               onChange={this.handleMastodonInputChange}
+              onBlur={this.handleMastodonInputBlur}
+              value={null}
+              onBlurResetsInput
+              onCloseResetsInput
+              onSelectResetsInput
               placeholder="Select or enter your Mastodon instance"
               formatCreateLabel={input => `Mastodon instance: ${input}`}
               className="mastodonSelect"
@@ -175,8 +180,7 @@ class SocialMediaButtons extends Component {
     );
   }
 
-  handleMastodonInputChange = (input) => {
-    const domain = input.value;
+  setMastodonDomain = (domain) => {
     const isValidDomain = this.isValidMastodonDomain(domain);
     if (isValidDomain) {
       this.setState({
@@ -189,6 +193,16 @@ class SocialMediaButtons extends Component {
         mastodonDomainError: 'Invalid domain: Try again.',
       });
     }
+  }
+
+  handleMastodonInputBlur = (e) => {
+    if (e.target.value) {
+      this.setMastodonDomain(e.target.value);
+    }
+  }
+
+  handleMastodonInputChange = (input) => {
+    this.setMastodonDomain(input.value);
   }
 
   isValidMastodonDomain = (domain) => {
