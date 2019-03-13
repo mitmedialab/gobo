@@ -365,6 +365,7 @@ class Settings extends Component {
     desc: rule.description,
     key: `${rule.id}-${rule.title}`,
     longDesc: `Excluding posts that contain the words: ${rule.exclude_terms.join(', ')}`,
+    subtitle: `Created by ${rule.creator_display_name}`,
     content: (
       <div className="slider-labels">
         <span>
@@ -376,7 +377,7 @@ class Settings extends Component {
             onChange={(e) => { this.handleRuleChange(e); }}
           />
           <label htmlFor={`${rule.id}-${rule.title}`} className="checkbox-label">
-              Enable rule
+              Activate rule
           </label>
         </span>
       </div>

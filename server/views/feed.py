@@ -59,7 +59,11 @@ def update_settings():
 @api.route('/get_rules', methods=['GET'])
 @login_required
 def get_rules():
-    rules = [association.keyword_rule.serialize() for association in current_user.keyword_rule_associations]
+    rules = []
+    for association in current_user.keyword_rule_associations:
+        serialized = association.keyword_rule.serialize()
+        serialized.update(enabled=association.enabled)
+        rules.append(serialized)
     return jsonify({'rules': rules})
 
 
@@ -75,4 +79,5 @@ def toggle_rules():
             updated = True
     if updated:
         db.session.commit()
+        db.session.close()
     return 'success', 200
