@@ -6,8 +6,8 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import BadRequest, InternalServerError, NotImplemented as NotImplementedEndpoint
 
 from server.core import db, mail
-from server.models import FacebookAuth, Post, post_associations_table, MastodonAuth, Settings, SettingsUpdate, \
-    TwitterAuth, User
+from server.models import FacebookAuth, KeywordRule, Post, post_associations_table, MastodonAuth, Settings, \
+    SettingsUpdate, TwitterAuth, User, UserKeywordRule
 from server.blueprints import api
 
 from server.templates.email.forgot_password import FORGOT_PASSWORD
@@ -33,6 +33,13 @@ def register():
     if user:
         try:
             db.session.add(user)
+
+            # temporary feature flag
+            if app.config['ENABLE_AUTO_SHARE_RULES']:
+                for rule in db.session.query(KeywordRule).filter_by(source='gobo', shareable=True).all():
+                    user_rule = UserKeywordRule(user.id, rule.id)
+                    db.session.add(user_rule)
+
             db.session.commit()
             status_text = 'success'
             code = 200
@@ -40,8 +47,7 @@ def register():
         except IntegrityError:
             status_text = 'A user with that e-mail already exist!'
         except Exception as e:
-            status_text = """Sorry, but something went wrong..Please reload
-                              the page and try again"""
+            status_text = "Something went wrong. Reload the page and try again."
             logger.exception(e)
         finally:
             db.session.close()
