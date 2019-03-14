@@ -511,7 +511,7 @@ class UserKeywordRule(db.Model):
 
     db.UniqueConstraint('user_id', 'keyword_rule_id')
 
-    def __init__(self, user_id, keyword_rule_id, enabled):
+    def __init__(self, user_id, keyword_rule_id, enabled=False):
         self.user_id = user_id
         self.keyword_rule_id = keyword_rule_id
         self.enabled = enabled

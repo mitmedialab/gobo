@@ -60,6 +60,9 @@ class BaseConfig(object):
     MAIL_USERNAME = ''
     MAIL_PASSWORD = ''
 
+    # Whether to automatically add gobo generated public rules to user accounts
+    ENABLE_AUTO_SHARE_RULES = False
+
 
 class DevConfig(BaseConfig):
     DEBUG = True
