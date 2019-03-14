@@ -63,6 +63,7 @@
     "react-router-dom": "^4.1.1",
     "react-select": "^2.4.1",
     "react-slider": "^0.9.0",
+    "react-toggle": "^4.0.2",
     "redux": "^3.5.2",
     "redux-thunk": "^2.2.0",
     "sass-loader": "^6.0.5",

@@ -31,27 +31,15 @@ const modalStyles = {
   },
 };
 
-const propTypes = {
-  isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
-  onOpen: PropTypes.func,
-  index: PropTypes.number,
-  feature: PropTypes.object,
-};
-
 class SettingsItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modalOpen: false,
     };
-    this.toggleOpen = this.toggleOpen.bind(this);
-    this.close = this.close.bind(this);
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
   }
 
-  toggleOpen() {
+  toggleOpen = () => {
     if (this.props.isOpen) {
       this.close();
     } else {
@@ -59,30 +47,36 @@ class SettingsItem extends Component {
     }
   }
 
-  openModal() {
+  openModal = () => {
     this.setState({ modalOpen: true });
   }
 
-  closeModal() {
+  closeModal = () => {
     this.setState({ modalOpen: false });
   }
 
-  close() {
+  close = () => {
     this.props.onClose();
   }
+
   render() {
     const openClass = this.props.isOpen ? 'open' : '';
     return (
       <div className="filter-content">
         <div className="filter-icon">
-          <span className={`filter-title-icon ${this.props.feature.icon}`} onClick={this.toggleOpen} />
+          <span className={`filter-title-icon ${this.props.feature.icon}`} tabIndex="0" role="button" onClick={this.toggleOpen} />
         </div>
         <div className={`filter-inner ${openClass}`} tabIndex="0" onBlur={this.close} ref={(el) => { this.filterElement = el; }}>
           <div className="filter-title">
             <span className="filter-title-text">{this.props.feature.title}</span>
           </div>
+          {this.props.feature.subtitle &&
+            <div className="filter-subtitle">
+              <span className="filter-subtitle-text">{this.props.feature.subtitle}</span>
+            </div>
+          }
           <div className="filter-description">
-            {this.props.feature.desc}. <a onClick={this.openModal} role="link">Learn more</a>
+            {this.props.feature.desc}. <a onClick={this.openModal} tabIndex="0" role="button">Learn more</a>
           </div>
           <div className="filter-controls" onFocus={this.toggleOpen}>
             {this.props.feature.content}
@@ -119,6 +113,12 @@ function mapStateToProps(state) {
   };
 }
 
-SettingsItem.propTypes = propTypes;
+SettingsItem.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onOpen: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
+  feature: PropTypes.object.isRequired,
+};
 
 export default connect(mapStateToProps)(SettingsItem);

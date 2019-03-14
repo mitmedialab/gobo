@@ -55,7 +55,7 @@ class MuteAllMenWhy extends Component {
   render() {
     return (
       <span>
-        <a onClick={this.openWhyModal} role="link">{'  Why?'}</a>
+        <a onClick={this.openWhyModal} role="button" tabIndex="0">{'  Why?'}</a>
 
         <ReactModal
           isOpen={this.state.openWhyModel}

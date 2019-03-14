@@ -1,3 +1,5 @@
+$handle-color: lighten($text-color, 10%);
+
 .sidebar {
   top: $navbar-height+20px;
   bottom: 0;
@@ -141,10 +143,6 @@
   }
 }
 
-.mute-men-wrapper {
-  margin-top: 40px;
-}
-
 // react-slider
 
 @mixin shadow($shadow-size, $shadow-blur, $shadow-color) {
@@ -165,8 +163,9 @@ $handle-height: 24px;
 .handle {
   font-size: 0.9em;
   text-align: center;
-  background-color: lighten($text-color, 10%);
+  background-color: $handle-color;
   color: white;
+  border-radius: 5px;
   cursor: pointer;
 }
 .handle.active {
@@ -220,7 +219,21 @@ $handle-height: 24px;
 }
 
 .slider-labels {
-  padding-top:10px;
+  padding-top: 10px;
+
+  .toggle-label {
+    vertical-align: super;
+    font-weight: normal;
+    padding-left: $padding-small-vertical;
+  }
+
+  .react-toggle-track {
+    background-color: $handle-color;
+  }
+
+  &.mute-men-wrapper {
+    padding-top: 40px;
+  }
 }
 
 .filter-content {

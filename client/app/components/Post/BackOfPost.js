@@ -35,7 +35,7 @@ function seriousnessScoreToString(score) {
 }
 
 function rulesText(post, rules) {
-  const filtered = rules.reduce((accumulator, rule) => accumulator || filterPostByKeywordOr(post, rule.excluded_terms), false);
+  const filtered = rules.reduce((accumulator, rule) => accumulator || filterPostByKeywordOr(post, rule.exclude_terms), false);
   if (filtered) {
     return ' contains words found in a rule';
   }
