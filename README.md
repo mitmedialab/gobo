@@ -142,6 +142,10 @@ To delete a specific user:
 $ python -m server.scripts.delete_user [user_id]
 ```
 
+Documentation and tasks for creating and sharing rules found via the flask CLI:
+```shell
+$ flask 
+```
 
 Configuration
 -------------
