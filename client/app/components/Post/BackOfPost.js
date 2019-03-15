@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import isEnabled, { KEYWORD_RULE } from 'utils/featureFlags';
 import { filterPostByKeywordOr } from 'utils/filtering';
 
 
@@ -75,7 +74,7 @@ class BackOfPost extends Component {
     const post = this.props.post;
     const noContent = (post.gender === 'None') && (!post.political_quintile) && (post.toxicity === null || post.toxicity === -1) &&
                       (post.is_corporate === null) && (post.news_score === null) && (post.virality_count === null);
-    const areRulesEnabled = isEnabled(KEYWORD_RULE) ? this.props.feed.rules.length > 0 : false;
+    const areRulesEnabled = this.props.feed.rules.length > 0;
     const descriptions = (
       <div>
 

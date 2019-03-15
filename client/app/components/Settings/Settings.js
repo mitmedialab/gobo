@@ -7,7 +7,7 @@ import 'react-toggle/style.css';
 import { updateRules, updateSettings } from 'actions/feed';
 import Input from 'components/Input/Input';
 import SettingsItem from 'components/SettingsItem/SettingsItem';
-import isEnabled, { KEYWORD_FILTER, KEYWORD_RULE } from 'utils/featureFlags';
+import isEnabled, { KEYWORD_FILTER } from 'utils/featureFlags';
 import MuteAllMenWhy from './MuteAllMenWhy';
 
 
@@ -27,10 +27,8 @@ class Settings extends Component {
       this.setState({ settings: { ...nextProps.feed.settings } });
     }
 
-    if (isEnabled(KEYWORD_RULE)) {
-      if (!this.props.feed.getRulesSuccess && nextProps.feed.getRulesSuccess) {
-        this.setState({ rules: [...nextProps.feed.rules] });
-      }
+    if (!this.props.feed.getRulesSuccess && nextProps.feed.getRulesSuccess) {
+      this.setState({ rules: [...nextProps.feed.rules] });
     }
   }
 
@@ -39,10 +37,8 @@ class Settings extends Component {
       this.props.dispatch(updateSettings(this.state.settings));
     }
 
-    if (isEnabled(KEYWORD_RULE)) {
-      if (this.areRulesChanged(prevState.rules, this.state.rules)) {
-        this.props.dispatch(updateRules(this.state.rules));
-      }
+    if (this.areRulesChanged(prevState.rules, this.state.rules)) {
+      this.props.dispatch(updateRules(this.state.rules));
     }
   }
 
@@ -393,11 +389,9 @@ class Settings extends Component {
       settings.push(this.keywordAndSetting());
     }
 
-    if (isEnabled(KEYWORD_RULE)) {
-      this.state.rules.forEach((rule) => {
-        settings.push(this.keywordRule(rule));
-      });
-    }
+    this.state.rules.forEach((rule) => {
+      settings.push(this.keywordRule(rule));
+    });
 
     const arrowIcon = this.props.minimized ? 'left-open' : 'right-open';
     return (
