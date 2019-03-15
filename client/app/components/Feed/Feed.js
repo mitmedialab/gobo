@@ -8,8 +8,6 @@ import Post from 'components/Post/Post';
 import Settings from 'components/Settings/Settings';
 import Loader from 'components/Loader/Loader';
 
-import isEnabled, { KEYWORD_RULE } from 'utils/featureFlags';
-
 function mapStateToProps(state) {
   return {
     auth: state.auth,
@@ -33,9 +31,7 @@ class Feed extends Component {
   componentWillMount() {
     this.props.dispatch(getPosts());
     this.props.dispatch(getSettings());
-    if (isEnabled(KEYWORD_RULE)) {
-      this.props.dispatch(getRules());
-    }
+    this.props.dispatch(getRules());
   }
 
   toggleShowFiltered() {
