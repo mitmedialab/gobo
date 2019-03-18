@@ -1,3 +1,4 @@
+import moment from 'moment';
 
 export function createReducer(initialState, reducerMap) {
   return (state = initialState, action) => {
@@ -65,4 +66,23 @@ export function formatNumber(num) {
     return '';
   }
   return num > 999 ? `${(num / 1000).toFixed(1)}k` : num;
+}
+
+export function getPostDateString(post) {
+  const date = post.created_at || post.content.created_at || post.content.created_time;
+  const dateMoment = moment(date);
+  const now = moment();
+  if (dateMoment.isAfter(now.subtract(24, 'hours'))) {
+    return dateMoment.fromNow();
+  }
+  return dateMoment.format('MMM D [at] H:mma');
+}
+
+export function getSourceIcon(platform) {
+  const icons = {
+    twitter: 'icon-twitter-squared',
+    facebook: 'icon-facebook-squared',
+    mastodon: 'icon-mastodon',
+  };
+  return icons[platform];
 }

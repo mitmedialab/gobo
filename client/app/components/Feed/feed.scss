@@ -1,20 +1,19 @@
 $settings-width: 420px;
-$settings-width-closed:56px;
+$settings-width-closed: 56px;
 
 @mixin wide-feed-mixin { margin-right:$settings-width-closed; }
 @mixin minimized-sidebar-mixin {  width:$settings-width-closed; }
 
-
-
 .feed {
-  margin-right:$settings-width;
-  //transition: 0.5s;
+  margin-right: $settings-width;
 }
+
 .sidebar {
   width: $settings-width;
 }
 
 .feed.wide {  @include wide-feed-mixin; }
+
 .sidebar.minimized {  @include minimized-sidebar-mixin; }
 
 @media (max-width: 800px) {
@@ -29,8 +28,6 @@ $settings-width-closed:56px;
     @extend %minimized;
   }
 }
-
-
 
 .posts {
   margin: 80px;
@@ -71,7 +68,7 @@ $settings-width-closed:56px;
 
   &:hover {
     color: darken($text-color, 20%);
-    text-decoration: none;    
+    text-decoration: none;
   }
 }
 

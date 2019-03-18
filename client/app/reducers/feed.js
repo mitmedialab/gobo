@@ -6,9 +6,7 @@ import {
     GET_SETTINGS_SUCCESS,
     GET_SETTINGS_FAIL,
     UPDATE_SETTINGS,
-    FILTER_POSTS_LOAD,
     FILTER_POSTS_SUCCESS,
-    FILTER_POSTS_FAIL,
     GET_RULES_LOAD,
     GET_RULES_SUCCESS,
     GET_RULES_FAIL,
@@ -59,6 +57,7 @@ export default function reducer(state = defaultState, action) {
       return {
         ...state,
         loading_posts: true,
+        filtering_posts: true,
       };
     case GET_POSTS_SUCCESS:
       return {
@@ -97,20 +96,10 @@ export default function reducer(state = defaultState, action) {
         settings: action.settings,
         filtering_posts: true,
       };
-    case FILTER_POSTS_LOAD:
-      return {
-        ...state,
-        filtering_posts: true,
-      };
     case FILTER_POSTS_SUCCESS:
       return {
         ...state,
         filtered_posts: action.result,
-        filtering_posts: false,
-      };
-    case FILTER_POSTS_FAIL:
-      return {
-        ...state,
         filtering_posts: false,
       };
     case GET_RULES_LOAD:

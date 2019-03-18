@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { getSourceIcon } from 'utils/misc';
+
 const propTypes = {
   flipped: PropTypes.bool,
   source: PropTypes.string,
@@ -9,22 +11,15 @@ const propTypes = {
 
 const PostFooter = (props) => {
   const text = props.flipped ? 'Back to post' : 'Why am I seeing this post?';
-  let icon = {};
+  const icon = {
+    iconClass: `source-icon ${getSourceIcon(props.source)}`,
+  };
   if (props.source === 'twitter') {
-    icon = {
-      url: 'https://twitter.com/',
-      iconClass: 'source-icon icon-twitter-squared',
-    };
+    icon.url = 'https://twitter.com/';
   } else if (props.source === 'facebook') {
-    icon = {
-      url: 'https://www.facebook.com/',
-      iconClass: 'source-icon icon-facebook-squared',
-    };
+    icon.url = 'https://www.facebook.com/';
   } else if (props.source === 'mastodon') {
-    icon = {
-      url: 'https://joinmastodon.org/',
-      iconClass: 'source-icon icon-mastodon',
-    };
+    icon.url = 'https://joinmastodon.org/';
   }
 
   return (

@@ -1,47 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import moment from 'moment';
+import { getPostDateString } from 'utils/misc';
 
 
-class Head extends Component {
-
-  getDateString = () => {
-    const post = this.props.post;
-    const date = post.created_at || post.content.created_at || post.content.created_time;
-    const dateMoment = moment(date);
-    const now = moment();
-    if (dateMoment.isAfter(now.subtract(24, 'hours'))) {
-      return dateMoment.fromNow();
+const Head = props => (
+  <div className="post-header">
+    {props.repost &&
+    <div className="rt-comment">
+      <a href={props.repost.url}>
+        <i className={props.repost.icon} />{props.repost.label}
+      </a>
+    </div>}
+    {props.picSrc &&
+      <img className="img-circle" src={props.picSrc} alt="circle" />
     }
-    return dateMoment.format('MMM D [at] H:mma');
-  }
-
-  render() {
-    const { repost } = this.props;
-    return (
-      <div className="post-header">
-        {repost &&
-        <div className="rt-comment">
-          <a href={repost.url}>
-            <i className={repost.icon} />{repost.label}
-          </a>
-        </div>}
-        {this.props.picSrc &&
-          <img className="img-circle" src={this.props.picSrc} alt="circle" />
-        }
-        <div className="post-header-details">
-          <div className="author">
-            {this.props.author} {this.props.account && <span className="account">{ this.props.account}</span>}
-          </div>
-          <div className="date">
-            <a href={this.props.link}>{this.getDateString()}</a>
-          </div>
-        </div>
+    <div className="post-header-details">
+      <div className="author">
+        {props.author} {props.account && <span className="account">{props.account}</span>}
       </div>
-    );
-  }
-}
+      <div className="date">
+        <a href={props.link}>{getPostDateString(props.post)}</a>
+      </div>
+    </div>
+  </div>
+);
 
 Head.propTypes = {
   post: PropTypes.object.isRequired,
