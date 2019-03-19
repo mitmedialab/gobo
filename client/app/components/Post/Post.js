@@ -76,8 +76,7 @@ class Post extends Component {
 
   render() {
     const { post } = this.props;
-    const source = this.props.post.source;
-    const content = this.props.post.content;
+    const { content, source } = this.props.post;
 
     if (!content) {
       return <div />;
@@ -93,7 +92,7 @@ class Post extends Component {
               <div className="post-content">
                 {this.props.filtered &&
                 <div className="toxicity">
-                  Filtered because: {this.props.filtered_by.toString()}
+                  Filtered because: {this.props.filtered_by.join(', ')}
                 </div>}
                 {this.makePostHead()}
                 {this.makePostContent()}
@@ -117,9 +116,13 @@ class Post extends Component {
 Post.propTypes = {
   post: PropTypes.object.isRequired,
   filtered: PropTypes.bool.isRequired,
+  virality_max: PropTypes.number.isRequired,
+  virality_avg: PropTypes.number.isRequired,
   filtered_by: PropTypes.array,
-  virality_max: PropTypes.number,
-  virality_avg: PropTypes.number,
+};
+
+Post.defaultProps = {
+  filtered_by: [],
 };
 
 export default Post;

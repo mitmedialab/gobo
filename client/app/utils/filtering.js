@@ -191,16 +191,27 @@ export function getFilteredPosts(posts, settings, rules) {
   };
 }
 
+export function getFilterReasonIcon(reason) {
+  const reasons = {
+    Corporate: 'icon-corporate',
+    Rule: 'icon-seriousness',
+    Rudeness: 'icon-toxicity',
+    Seriousness: 'icon-seriousness',
+    Virality: 'icon-virality',
+    'News Echo': 'icon-echo',
+    Gender: 'icon-gender',
+  };
+  return reasons[reason];
+}
+
 export default function calculateFilteredPosts(posts, settings, rules) {
-  return new Promise((resolve) => {
-    const { keptPosts, filteredPosts, neutralFb, filterReasons, maxVirality, viralityAvg } = getFilteredPosts(posts, settings, rules);
-    resolve({
-      kept: keptPosts,
-      filtered: filteredPosts,
-      fb: neutralFb,
-      reasons: filterReasons,
-      virality_max: maxVirality,
-      virality_avg: viralityAvg,
-    });
-  });
+  const { keptPosts, filteredPosts, neutralFb, filterReasons, maxVirality, viralityAvg } = getFilteredPosts(posts, settings, rules);
+  return {
+    kept: keptPosts,
+    filtered: filteredPosts,
+    fb: neutralFb,
+    reasons: filterReasons,
+    virality_max: maxVirality,
+    virality_avg: viralityAvg,
+  };
 }
