@@ -40,6 +40,9 @@ function getFullText(post) {
     if (content.name) {
       fullText += content.name;
     }
+    if (content.description) {
+      fullText += content.description;
+    }
   } else if (content.content) {
     fullText = content.content;
   }
