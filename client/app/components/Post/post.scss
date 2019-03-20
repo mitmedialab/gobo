@@ -1,5 +1,6 @@
 $post-footer-height:40px;
 $post-background-color: white;
+$icon-size: 20px;
 
 .post {
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.35);
@@ -149,7 +150,7 @@ $post-background-color: white;
 
 .source-icon, .source-icon:hover {
   float: left;
-  font-size: 20px;
+  font-size: $icon-size;
   color: #fff;
   text-decoration: none;
 }
@@ -158,10 +159,9 @@ $post-background-color: white;
   background: url(/icons/mastodon-logo.svg);
   background-repeat: no-repeat;
 
-  $size: 20px;
-  background-size: $size $size;
-  width: $size;
-  height: $size;
+  background-size: $icon-size $icon-size;
+  width: $icon-size;
+  height: $icon-size;
 
   margin-right: 4px;
 }
@@ -204,17 +204,40 @@ $post-background-color: white;
 }
 
 .post-container-hidden {
-  @extend .post-container;
-  padding-bottom: $padding-large-vertical;
+  $faded-background-color: darken($post-background-color, 10%);
+
+  padding-bottom: 0;
 
   .post {
     box-shadow: unset;
-    color: white;
-    background-color: $color2;
+    color: $color1;
+    background-color: $faded-background-color;
   }
 
   .front {
     padding: $padding-small-vertical;
+  }
+
+  .icon-squared {
+    // centers the icon
+    margin-top: -3px;
+  }
+
+  .icon-twitter-squared {
+    @extend .icon-squared;
+  }
+
+  .icon-facebook-squared {
+    @extend .icon-squared;
+  }
+
+  .mastodon-m {
+    fill: $faded-background-color;
+  }
+
+  .mastodon {
+    // centers the logo
+    padding-right: 5px;
   }
 }
 

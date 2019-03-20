@@ -6,7 +6,6 @@ import { getPosts, getRules, getSettings } from 'actions/feed';
 
 import isEnabled, { SHOW_FILTERED_POSTS } from 'utils/featureFlags';
 
-import HiddenPost from 'components/Post/HiddenPost';
 import Post from 'components/Post/Post';
 import Settings from 'components/Settings/Settings';
 import Loader from 'components/Loader/Loader';
@@ -24,7 +23,7 @@ class Feed extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showFiltered: false,
+      showFilteredOnly: false,
       processing: false,
       minimizedSettings: false,
     };
@@ -36,9 +35,9 @@ class Feed extends Component {
     this.props.dispatch(getRules());
   }
 
-  toggleShowFiltered = () => {
+  toggleshowFilteredOnly = () => {
     this.setState({
-      showFiltered: !this.state.showFiltered,
+      showFilteredOnly: !this.state.showFilteredOnly,
     });
   }
 
@@ -54,10 +53,10 @@ class Feed extends Component {
     }
     const posts = this.props.feed.posts;
     const filteredPosts = this.props.feed.filtered_posts;
-    const filteredText = this.state.showFiltered ? 'Showing filtered posts.' : `${filteredPosts.filtered.length} posts filtered out of your feed.`;
-    const filteredLinkText = this.state.showFiltered ? 'Back to my feed.' : 'Show me what was taken out.';
-    const noPostsText = this.state.showFiltered ? 'None of your posts were filtered out. Try changing the filters to see them in action. ' : 'None of the posts in your feed match the filters you\'ve set. Try changing the filters.';
-    const showing = this.state.showFiltered ? 'filtered' : 'kept';
+    const filteredText = this.state.showFilteredOnly ? 'Showing filtered posts.' : `${filteredPosts.filtered.length} posts filtered out of your feed.`;
+    const filteredLinkText = this.state.showFilteredOnly ? 'Back to my feed.' : 'Show me what was taken out.';
+    const noPostsText = this.state.showFilteredOnly ? 'None of your posts were filtered out. Try changing the filters to see them in action. ' : 'None of the posts in your feed match the filters you\'ve set. Try changing the filters.';
+    const showing = this.state.showFilteredOnly ? 'filtered' : 'kept';
 
     let postsHtml;
     if (!this.props.feed.loading_posts &&
@@ -66,7 +65,7 @@ class Feed extends Component {
       !this.props.feed.loading_settings
     ) {
       let postsToDisplay;
-      if (this.state.showFiltered) {
+      if (this.state.showFilteredOnly) {
         postsToDisplay = filteredPosts.filtered;
       } else if (isEnabled(SHOW_FILTERED_POSTS)) {
         postsToDisplay = posts;
@@ -75,19 +74,15 @@ class Feed extends Component {
       }
       postsHtml = postsToDisplay.map((post) => {
         const filterReasons = filteredPosts.reasons[post.id];
-        if (filterReasons && filterReasons.length > 0 && !this.state.showFiltered) {
-          return (
-            <HiddenPost key={post.id} post={post} filteredBy={filterReasons} />
-          );
-        }
+        const isCollapsed = filterReasons && filterReasons.length > 0 && !this.state.showFilteredOnly;
         return (
           <Post
             key={post.id}
             post={post}
-            filtered={this.state.showFiltered}
             filtered_by={filterReasons}
             virality_max={filteredPosts.virality_max}
             virality_avg={filteredPosts.virality_avg}
+            isCollapsed={isCollapsed}
           />
         );
       });
@@ -115,7 +110,7 @@ class Feed extends Component {
               {posts.length > 0 &&
               <div className="filtered-text">
                 <span className="filtered-count">{filteredText}</span>
-                <a onClick={this.toggleShowFiltered} className="filtered-link" role="button" tabIndex="0"> {filteredLinkText}</a>
+                <a onClick={this.toggleshowFilteredOnly} className="filtered-link" role="button" tabIndex="0"> {filteredLinkText}</a>
               </div>}
 
               {!this.props.feed.loading_posts && this.props.feed.posts.length > 0 && filteredPosts[showing].length === 0 &&
