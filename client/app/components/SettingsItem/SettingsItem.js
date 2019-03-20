@@ -76,7 +76,7 @@ class SettingsItem extends Component {
             </div>
           }
           <div className="filter-description">
-            {this.props.feature.desc}. <a onClick={this.openModal} tabIndex="0" role="button">Learn more</a>
+            {this.props.feature.desc} <a onClick={this.openModal} tabIndex="0" role="button">Learn more</a>
           </div>
           <div className="filter-controls" onFocus={this.toggleOpen}>
             {this.props.feature.content}
