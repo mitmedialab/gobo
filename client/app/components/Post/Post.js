@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
+import HiddenPost from 'components/Post/HiddenPost';
 import BackOfPost from './BackOfPost';
 import PostFooter from './PostFooter';
 import ActionListFacebook from './ActionListFacebook';
@@ -12,7 +14,6 @@ import HeadTwitter from './HeadTwitter';
 import HeadFacebook from './HeadFacebook';
 import HeadMastodon from './HeadMastodon';
 
-
 class Post extends Component {
 
   // Facebook post object reference https://developers.facebook.com/docs/graph-api/reference/v2.10/post
@@ -21,7 +22,16 @@ class Post extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { flipped: false };
+    this.state = {
+      flipped: false,
+      expandClicked: false,
+    };
+  }
+
+  onExpandClicked = () => {
+    this.setState({
+      expandClicked: true,
+    });
   }
 
   makePostContent() {
@@ -83,31 +93,35 @@ class Post extends Component {
     }
 
     const flippedClass = this.state.flipped ? 'flipped' : '';
+    const showCollapsed = !this.state.expandClicked && this.props.isCollapsed;
 
     return (
       <div className="post-container">
-        <div className="flip-container ">
-          <div className={`post flipper ${flippedClass}`}>
-            <div className="front">
-              <div className="post-content">
-                {this.props.filtered &&
-                <div className="toxicity">
-                  Filtered because: {this.props.filtered_by.join(', ')}
-                </div>}
-                {this.makePostHead()}
-                {this.makePostContent()}
-                {this.makeActionList()}
+        { showCollapsed &&
+          <HiddenPost post={post} filteredBy={this.props.filtered_by} onClick={this.onExpandClicked} />
+        }
+        { !showCollapsed &&
+          <div className="flip-container">
+            <div className={`post flipper ${flippedClass}`}>
+              <div className="front">
+                <div className="post-content">
+                  {this.props.filtered_by.length > 0 &&
+                  <div className="toxicity">
+                    Filtered because: {this.props.filtered_by.join(', ')}
+                  </div>}
+                  {this.makePostHead()}
+                  {this.makePostContent()}
+                  {this.makeActionList()}
+                </div>
+                <PostFooter flipped={false} source={source} onFlipClick={this.flip} />
               </div>
-              <PostFooter flipped={false} source={source} onFlipClick={this.flip} />
+              <div className="back">
+                <BackOfPost post={post} virality_max={this.props.virality_max} virality_avg={this.props.virality_avg} />
+                <PostFooter flipped source={source} onFlipClick={this.unFlip} />
+              </div>
             </div>
-
-            <div className="back">
-              <BackOfPost post={post} virality_max={this.props.virality_max} virality_avg={this.props.virality_avg} />
-              <PostFooter flipped source={source} onFlipClick={this.unFlip} />
-            </div>
-
           </div>
-        </div>
+        }
       </div>
     );
   }
@@ -115,9 +129,9 @@ class Post extends Component {
 
 Post.propTypes = {
   post: PropTypes.object.isRequired,
-  filtered: PropTypes.bool.isRequired,
   virality_max: PropTypes.number.isRequired,
   virality_avg: PropTypes.number.isRequired,
+  isCollapsed: PropTypes.bool.isRequired,
   filtered_by: PropTypes.array,
 };
 
