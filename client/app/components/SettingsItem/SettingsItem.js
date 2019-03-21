@@ -98,7 +98,7 @@ class SettingsItem extends Component {
           <div>
             {this.props.feature.longDesc}
           </div>
-          { this.props.feature.longDescList > 0 &&
+          { this.props.feature.longDescList &&
             <ul>
               { this.props.feature.longDescList.map(item => <li key={`${item}`}>{item}</li>) }
             </ul>
