@@ -358,7 +358,8 @@ class Settings extends Component {
     icon: getFilterReasonIcon('Rule'),
     desc: rule.description,
     key: `${rule.id}-${rule.title}`,
-    longDesc: `Excluding posts that contain any of the words: ${rule.exclude_terms.join(', ')}`,
+    longDesc: 'Excluding posts that contain any of the words:',
+    longDescList: rule.exclude_terms,
     subtitle: `Created by ${rule.creator_display_name}`,
     content: (
       <div className="slider-labels">

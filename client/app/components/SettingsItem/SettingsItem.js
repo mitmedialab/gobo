@@ -92,12 +92,17 @@ class SettingsItem extends Component {
             <span className={`filter-title-icon ${this.props.feature.icon}`} />
             <span className="filter-title-text">{this.props.feature.title}</span>
           </div>
-          <div>
+          <div className="filter-modal-description">
             <i>{this.props.feature.desc}</i>
           </div>
           <div>
             {this.props.feature.longDesc}
           </div>
+          { this.props.feature.longDescList > 0 &&
+            <ul>
+              { this.props.feature.longDescList.map(item => <li key={`${item}`}>{item}</li>) }
+            </ul>
+          }
           <div className="modal-close-button">
             <button onClick={this.closeModal}>X</button>
           </div>
