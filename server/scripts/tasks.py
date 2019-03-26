@@ -96,7 +96,7 @@ def get_tweets_per_user(self, user_id): # pylint: disable=unused-argument
                           twitter_auth.oauth_token, twitter_auth.oauth_token_secret)
         tweets = twitter.get_home_timeline(count=200, tweet_mode='extended')
     except:
-        logger.error('There was an error fetching  twitter timeline from user {}'.format(user_id))
+        logger.error('There was an error fetching twitter timeline from user {}'.format(user_id))
 
     # filter out protected posts
     tweets = [tweet for tweet in tweets if not tweet['user']['protected']]
@@ -125,7 +125,7 @@ def _get_facebook_posts(user):
         'fields': ','.join(FACEBOOK_POSTS_FIELDS),
         'access_token': user.facebook_auth.access_token,
         'since': since_date,
-        'limit': MAX_POST
+        'limit': MAX_POST,
     }
     # pylint: disable=consider-iterating-dictionary
     for key in friends_likes.keys():

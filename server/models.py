@@ -352,6 +352,12 @@ class Post(db.Model):
     def has_gender_corporate(self):
         return (self.gender is not None) and (self.is_corporate is not None)
 
+    def get_precomputed_gender(self):
+        return None
+
+    def has_precomputed_corporate(self):
+        return None
+
     def has_virality(self):
         return self.virality_count is not None
 
@@ -411,7 +417,10 @@ class FacebookPost(Post):
     }
 
     def get_author_name(self):
-        return self.content['from']['name']
+        author = ''
+        if 'from' in self.content and 'name' in self.content['from']:
+            author = self.content['from']['name']
+        return author
 
     def get_text(self):
         return self.content['message'] if 'message' in self.content else ""
@@ -429,6 +438,16 @@ class FacebookPost(Post):
         if 'shares' in self.content:
             return self.content['shares']['count']
         return 0
+
+    def get_precomputed_gender(self):
+        if 'from' in self.content and 'gender' in self.content['from']:
+            return self.content['from']['gender']
+        return None
+
+    def has_precomputed_corporate(self):
+        if 'from' in self.content and 'category' in self.content['from']:
+            return True
+        return False
 
 
 class MastodonPost(Post):
