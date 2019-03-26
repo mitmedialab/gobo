@@ -105,6 +105,22 @@ function filterPostByCorporate(post, settings) {
   };
 }
 
+/**
+ * Filter post by level
+ */
+export function filterPostByRuleLevel(post, rule) {
+  let filtered = false;
+
+  if (post.rules) {
+    const postRule = post.rules.find(r => r.id === rule.id);
+    if (postRule) {
+      // TODO: this may need to change to be cumulative (e.g. this level or less)
+      filtered = postRule.level === rule.level;
+    }
+  }
+  return filtered;
+}
+
 export function getFilteredPosts(posts, settings, rules) {
   const filteredPosts = [];
   let keptPosts = [];
@@ -131,10 +147,18 @@ export function getFilteredPosts(posts, settings, rules) {
 
     rules.forEach((rule) => {
       if (rule.enabled) {
-        const filtered = filterPostByKeywordOr(post, rule.exclude_terms);
-        if (filtered) {
-          keep = false;
-          filterReasons[post.id].push('Rule');
+        if (rule.exclude_terms) {
+          const filtered = filterPostByKeywordOr(post, rule.exclude_terms);
+          if (filtered) {
+            keep = false;
+            filterReasons[post.id].push('Rule');
+          }
+        } else {
+          const filtered = filterPostByRuleLevel(post, rule);
+          if (filtered) {
+            keep = false;
+            filterReasons[post.id].push('Additive');
+          }
         }
       }
     });

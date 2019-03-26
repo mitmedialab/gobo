@@ -7,7 +7,7 @@ import 'react-toggle/style.css';
 import { updateRules, updateSettings } from 'actions/feed';
 import Input from 'components/Input/Input';
 import SettingsItem from 'components/SettingsItem/SettingsItem';
-import isEnabled, { KEYWORD_FILTER } from 'utils/featureFlags';
+import isEnabled, { KEYWORD_FILTER, ADDITIVE_RULE } from 'utils/featureFlags';
 import { getFilterReasonIcon } from 'utils/filtering';
 import MuteAllMenWhy from './MuteAllMenWhy';
 
@@ -50,6 +50,8 @@ class Settings extends Component {
       prevRules.forEach((prev, i) => {
         const curr = currRules[i];
         if (curr.enabled !== prev.enabled) {
+          isChanged = true;
+        } else if (curr.level !== prev.level) {
           isChanged = true;
         }
       });
@@ -345,7 +347,7 @@ class Settings extends Component {
     ),
   })
 
-  handleRuleChange = (e) => {
+  handleRuleToggleChange = (e) => {
     const rules = this.state.rules.map(rule => ({ ...rule }));
     const ruleId = parseInt(e.target.name.split('-')[0], 10);
     const currentRule = rules.filter(rule => rule.id === ruleId)[0];
@@ -367,11 +369,57 @@ class Settings extends Component {
           <Toggle
             checked={rule.enabled}
             name={`${rule.id}-${rule.title}`}
-            onChange={this.handleRuleChange}
+            onChange={this.handleRuleToggleChange}
             icons={false}
           />
           <span className="toggle-label">Activate rule</span>
         </label>
+      </div>
+    ),
+  })
+
+  handleRuleSlideChange = (level, ruleId) => {
+    const rules = this.state.rules.map(rule => ({ ...rule }));
+    const currentRule = rules.filter(rule => rule.id === ruleId)[0];
+    currentRule.level = level;
+    this.setState({ rules });
+  }
+
+  // TODO: need to enable or disable the slider based on the rule
+  additiveRule = rule => ({
+    title: rule.title,
+    icon: getFilterReasonIcon('Rule'),
+    desc: rule.description,
+    key: `${rule.id}-${rule.title}`,
+    longDesc: 'TBD',
+    subtitle: `Created by ${rule.creator_display_name}`,
+    content: (
+      <div>
+        <div className="slider-labels">
+          <label htmlFor={`${rule.id}-${rule.title}`}>
+            <Toggle
+              checked={rule.enabled}
+              name={`${rule.id}-${rule.title}`}
+              onChange={this.handleRuleToggleChange}
+              icons={false}
+            />
+            <span className="toggle-label">Activate rule</span>
+          </label>
+        </div>
+        <ReactSlider
+          defaultValue={0}
+          min={0}
+          max={rule.level_max}
+          step={1}
+          withBars
+          value={rule.level}
+          onAfterChange={e => this.handleRuleSlideChange(e, rule.id)}
+          className="slider politics"
+        />
+        <div className="slider-labels">
+          <span className="pull-left">{rule.level_display_names[0]}</span>
+          <span className="pull-right">{rule.level_display_names[2]}</span>
+        </div>
       </div>
     ),
   })
@@ -392,7 +440,11 @@ class Settings extends Component {
     }
 
     this.state.rules.forEach((rule) => {
-      settings.push(this.keywordRule(rule));
+      if (rule.exclude_terms) {
+        settings.push(this.keywordRule(rule));
+      } else if (isEnabled(ADDITIVE_RULE)) {
+        settings.push(this.additiveRule(rule));
+      }
     });
 
     const arrowIcon = this.props.minimized ? 'left-open' : 'right-open';

@@ -1,6 +1,11 @@
 import { getQueryParam } from './url';
 
 export const KEYWORD_FILTER = 'kwfilter';
+<<<<<<< HEAD
+=======
+export const SHOW_FILTERED_POSTS = 'showfiltered';
+export const ADDITIVE_RULE = 'additive';
+>>>>>>> WIP: adding additive filter mostly on client
 
 /**
  * QueryParams are the location.search part of the url (e.g. ft=experiment,toggle).

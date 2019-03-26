@@ -17,18 +17,33 @@ NEWS_POSTS_COUNT = 150  # how many news posts to grab. this number should divide
 @api.route('/get_posts', methods=['GET'])
 @login_required
 def get_posts():
-    personal_posts = current_user.posts.order_by(Post.created_at.desc())[:PERSONAL_POSTS_MAX]
+    personalized_posts = current_user.posts.order_by(Post.created_at.desc())[:PERSONAL_POSTS_MAX]
     posts_from_quintile = NEWS_POSTS_COUNT / 5
-    ignore_ids = [item.id for item in personal_posts]
+    ignore_ids = [item.id for item in personalized_posts]
     for quintile in PoliticsEnum:
         posts = Post.query.filter((
             Post.id.notin_(ignore_ids)) & (Post.political_quintile == quintile)).order_by(
                 Post.created_at.desc())[:posts_from_quintile]
-        personal_posts.extend(posts)
+        personalized_posts.extend(posts)
 
-    personal_posts = sorted(personal_posts, key=lambda p: p.created_at, reverse=True)
+    # TODO: iterate through the rules to find any that have links
+    # 1. Iterate through users_additive_rules to get rules associated with this user
+    # 2. Get array of post_additive_rules
+    # 3. Get posts associated with post_additive_rules
+    # 4. Decorate post with rules (could have multiple rules) metadata: rules: [ {rule_id, level}]
 
-    return jsonify({'posts': [post.as_dict() for post in personal_posts]})
+    personalized_posts = sorted(personalized_posts, key=lambda p: p.created_at, reverse=True)
+    posts_dicts = [post.as_dict() for post in personalized_posts]
+
+    for i in range(15):
+        posts_dicts[i].update({
+            'rules': [{
+                'id': 100,
+                'level': i % 3,
+            }]
+        })
+
+    return jsonify({'posts': posts_dicts})
 
 
 @api.route('/get_settings', methods=['GET'])
@@ -64,6 +79,24 @@ def get_rules():
         serialized = association.keyword_rule.serialize()
         serialized.update(enabled=association.enabled)
         rules.append(serialized)
+
+    # TODO: just for testing
+    rules.append({
+        'id': 100,
+        'creator_user_id': 1,
+        'creator_display_name': 'Cats',
+        'link': None,
+        'title': 'Turn up your cats!',
+        'description': 'Why not add some cats to your days?',
+        'shareable': True,
+        'source': 'gobo',
+        'level_min': 0,
+        'level_max': 2,
+        'level_display_names': ['Kittens', 'Kitties', 'Cats'],
+        'level': 0,
+        'enabled': False,
+    })
+
     return jsonify({'rules': rules})
 
 
@@ -74,9 +107,12 @@ def toggle_rules():
     updated = False
     for association in current_user.keyword_rule_associations:
         rule = [r for r in rules_to_update if r['id'] == association.keyword_rule_id].pop()
-        if rule and association.enabled is not rule['enabled']:
-            association.enabled = rule['enabled']
-            updated = True
+        if rule:
+            if association.enabled is not rule['enabled']:
+                association.enabled = rule['enabled']
+                updated = True
+            # TODO: toggle rule and set level here
+
     if updated:
         db.session.commit()
         db.session.close()
