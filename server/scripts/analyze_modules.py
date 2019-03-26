@@ -62,20 +62,19 @@ def analyze_toxicity(post_id):
 def analyze_gender_corporate(post_id):
     post = Post.query.get(post_id)
     if not post or post.has_gender_corporate():
-        logger.warning("post {} doesn't exist or already has gender/corporate".format(post_id))
+        logger.warning("post {} doesn't exist or already has gender and corporate".format(post_id))
         return
-    is_facebook = post.source == 'facebook'
-    gender = GenderEnum.unknown
+
     corporate = False
-    if is_facebook and 'gender' in post.content['from']:
-        gender = GenderEnum.fromString(post.content['from']['gender'])
+    if post.get_precomputed_gender():
+        gender = GenderEnum.fromString(post.get_precomputed_gender())
     else:
         result, _conf = name_classifier.predictGenderbyName(post.get_author_name())
         #score = name_gender_analyzer.process(post.get_author_name())
         gender = GenderEnum.fromString(result)
     if post.is_news:
         gender = GenderEnum.unknown
-    if gender == GenderEnum.unknown or (is_facebook and 'category' in post.content['from']):
+    if gender == GenderEnum.unknown or post.has_precomputed_corporate():
         corporate = True
     post.update_gender_corporate(gender, corporate)
 
