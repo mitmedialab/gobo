@@ -5,6 +5,7 @@
 
     All methods update and commit to db directly and do not return anything
 """
+import os
 from logging import getLogger
 import urllib
 
@@ -13,6 +14,8 @@ from googleapiclient import discovery
 from flask import current_app
 import requests
 
+# pylint: disable=no-name-in-module,import-error
+from server.config.config import config_map
 from server.core import db
 from server.enums import GenderEnum
 
@@ -22,6 +25,10 @@ from ..models import Post
 
 logger = getLogger(__name__)
 name_classifier = NameClassifier()
+
+env = os.getenv('FLASK_ENV', 'dev')
+config_type = env.lower()
+config = config_map[config_type]
 
 
 def analyze_toxicity(post_id):
@@ -107,7 +114,8 @@ def analyze_news_score(post_id):
                 script.extract()  # rip it out
             # get text
             text = soup.get_text()
-            r = requests.post(current_app.config['NEWS_LABELLER_URL']+'/predict.json', json={'text': text})
+            r = requests.post(current_app.config['NEWS_LABELLER_URL']+'/predict.json',
+                              json={'text': text}, timeout=config.DEFAULT_REQUEST_TIMEOUT)
             result = r.json()
             if 'taxonomies' in result:
                 scores = [float(x['score']) for x in result['taxonomies'] if '/news' in x['label'].lower()]
@@ -115,7 +123,8 @@ def analyze_news_score(post_id):
                 score = max(scores)
     else:
         text = post.get_text()
-        r = requests.post(current_app.config['NEWS_LABELLER_URL']+'/predict.json', json={'text': text})
+        r = requests.post(current_app.config['NEWS_LABELLER_URL']+'/predict.json',
+                          json={'text': text}, timeout=config.DEFAULT_REQUEST_TIMEOUT)
         result = r.json()
         if 'taxonomies' in result:
             scores = [float(x['score'])for x in result['taxonomies'] if '/news' in x['label'].lower()]

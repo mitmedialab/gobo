@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from logging import getLogger
+import os
 
 import json
 import requests
@@ -24,6 +25,10 @@ logger = getLogger(__name__)
 
 if config_map['prod'].SENTRY_DSN_WORKER:
     client = Client(config_map['prod'].SENTRY_DSN_WORKER)
+
+env = os.getenv('FLASK_ENV', 'dev')
+config_type = env.lower()
+config = config_map[config_type]
 
 
 FACEBOOK_POSTS_FIELDS = ['id', 'caption', 'created_time', 'description',
@@ -130,7 +135,7 @@ def _get_facebook_posts(user):
     # pylint: disable=consider-iterating-dictionary
     for key in friends_likes.keys():
         for obj in friends_likes[key]:
-            r = requests.get(FACEBOOK_URL + obj['id'] + '/feed', payload)
+            r = requests.get(FACEBOOK_URL + obj['id'] + '/feed', payload, timeout=config.DEFAULT_REQUEST_TIMEOUT)
             result = r.json()
             if 'data' in result:
                 posts.extend([dict(p, **{'post_user': obj}) for p in result["data"]])
@@ -147,7 +152,7 @@ def _get_facebook_friends_and_likes(user):
                'access_token': user.facebook_auth.access_token}
     friends_likes = {'friends': [], 'likes': []}
     try:
-        r = requests.get(FACEBOOK_URL+user.facebook_id, payload)
+        r = requests.get(FACEBOOK_URL+user.facebook_id, payload, timeout=config.DEFAULT_REQUEST_TIMEOUT)
         initial_result = r.json()
     except:
         logger.error('error getting friends and likes for user {}'.format(user.id))
@@ -158,7 +163,7 @@ def _get_facebook_friends_and_likes(user):
             friends_likes[key].extend(initial_result[key]['data'])
             result = initial_result[key]
             while 'paging' in result and 'next' in result['paging']:
-                r = requests.get(result['paging']['next'])
+                r = requests.get(result['paging']['next'], timeout=config.DEFAULT_REQUEST_TIMEOUT)
                 result = r.json()
                 friends_likes[key].extend(result['data'])
     return friends_likes

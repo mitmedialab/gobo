@@ -90,7 +90,7 @@ def queue_lastest_news_posts(db_session):
                     # get facebook feed
                     data = {'id': row['Facebook Page'].replace('https://www.facebook.com/', '')}
                     url = urljoin(tasks.FACEBOOK_URL, data['id'].strip('/') + '/feed')
-                    r = requests.get(url, facebook_query)
+                    r = requests.get(url, facebook_query, timeout=config.DEFAULT_REQUEST_TIMEOUT)
                     try:
                         result = r.json()
                     except ValueError:
