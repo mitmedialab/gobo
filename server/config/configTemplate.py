@@ -63,6 +63,9 @@ class BaseConfig(object):
     # Whether to automatically add gobo generated public rules to user accounts
     ENABLE_AUTO_SHARE_RULES = False
 
+    # in seconds
+    DEFAULT_REQUEST_TIMEOUT = 5
+
 
 class DevConfig(BaseConfig):
     DEBUG = True
