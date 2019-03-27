@@ -24,7 +24,7 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 
-def queue_user_posts(db_session, user_id):
+def queue_user_posts(db_session, user_id, platforms):
     logger.info("Queueing posts for user {}".format(user_id))
 
     users = db_session.query(User).filter(User.id == user_id)
@@ -32,15 +32,15 @@ def queue_user_posts(db_session, user_id):
     tasks_queued = 0
     for user in users:
         task_queued = False
-        if user.twitter_authorized:
+        if 'twitter' in platforms and user.twitter_authorized:
             tasks.get_tweets_per_user.delay(user.id)
             tasks_queued = tasks_queued + 1
             task_queued = True
-        if user.facebook_authorized:
+        if 'facebook' in platforms and user.facebook_authorized:
             tasks.get_facebook_posts_per_user.delay(user.id)
             tasks_queued = tasks_queued + 1
             task_queued = True
-        if user.mastodon_authorized:
+        if 'mastodon' in platforms and user.mastodon_authorized:
             tasks.get_mastodon_posts_per_user.delay(user.id)
             tasks_queued = tasks_queued + 1
             task_queued = True
@@ -56,8 +56,11 @@ def queue_user_posts(db_session, user_id):
 if __name__ == '__main__':
 
     if len(sys.argv) != 2:
-        logger.error("You have to provide a user_id to delete!")
+        logger.error("You have to provide a user_id to fetch posts for")
 
     user_id_arg = int(sys.argv[1])
+    platforms = ['twitter', 'facebook', 'mastodon']
+    if sys.argv[2]:
+        platform = [sys.argv[2]]
 
-    queue_user_posts(session, user_id_arg)
+    queue_user_posts(session, user_id_arg, platforms)
