@@ -576,7 +576,7 @@ class UserRule(db.Model):
 
     db.UniqueConstraint('user_id', 'rule_id')
 
-    def __init__(self, user_id, rule_id, level=None, enabled=False):
+    def __init__(self, user_id, rule_id, enabled=False, level=None):
         self.user_id = user_id
         self.rule_id = rule_id
         self.level = level

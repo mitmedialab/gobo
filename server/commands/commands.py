@@ -82,9 +82,9 @@ def share_rule_to_user(user_id, rule_id, enabled):
 @click.option('--enabled', required=False, type=bool, default=False, help='Whether rule is enabled initially')
 @with_appcontext
 def share_rule_all_users(rule_id, enabled):
-    """Share keyword rule with all users and/or modify enabled state"""
+    """Share rule with all users and/or modify enabled state"""
     for user in User.query.all():
-        setting = UserRule.query.filter_by(user_id=user.id, keyword_rule_id=rule_id).first()
+        setting = UserRule.query.filter_by(user_id=user.id, rule_id=rule_id).first()
         if setting:
             setting.enabled = enabled
         else:

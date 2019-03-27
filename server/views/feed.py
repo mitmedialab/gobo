@@ -75,27 +75,27 @@ def update_settings():
 @login_required
 def get_rules():
     rules = []
-    for association in current_user.keyword_rule_associations:
-        serialized = association.keyword_rule.serialize()
+    for association in current_user.rule_associations:
+        serialized = association.rule.serialize()
         serialized.update(enabled=association.enabled)
         rules.append(serialized)
 
     # TODO: just for testing
-    rules.append({
-        'id': 100,
-        'creator_user_id': 1,
-        'creator_display_name': 'Cats',
-        'link': None,
-        'title': 'Turn up your cats!',
-        'description': 'Why not add some cats to your days?',
-        'shareable': True,
-        'source': 'gobo',
-        'level_min': 0,
-        'level_max': 2,
-        'level_display_names': ['Kittens', 'Kitties', 'Cats'],
-        'level': 0,
-        'enabled': False,
-    })
+    # rules.append({
+    #     'id': 100,
+    #     'creator_user_id': 1,
+    #     'creator_display_name': 'Cats',
+    #     'link': None,
+    #     'title': 'Turn up your cats!',
+    #     'description': 'Why not add some cats to your days?',
+    #     'shareable': True,
+    #     'source': 'gobo',
+    #     'level_min': 0,
+    #     'level_max': 2,
+    #     'level_display_names': ['Kittens', 'Kitties', 'Cats'],
+    #     'level': 0,
+    #     'enabled': False,
+    # })
 
     return jsonify({'rules': rules})
 
@@ -105,8 +105,8 @@ def get_rules():
 def toggle_rules():
     rules_to_update = request.json['rules']
     updated = False
-    for association in current_user.keyword_rule_associations:
-        rule = [r for r in rules_to_update if r['id'] == association.keyword_rule_id].pop()
+    for association in current_user.rule_associations:
+        rule = [r for r in rules_to_update if r['id'] == association.rule_id].pop()
         if rule:
             if association.enabled is not rule['enabled']:
                 association.enabled = rule['enabled']
