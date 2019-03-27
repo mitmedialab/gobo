@@ -5,7 +5,7 @@ from celery import Celery
 from flask import Flask
 from raven.contrib.flask import Sentry
 
-from commands import create_db, create_keyword_rule, delete_rule, drop_db, share_rule_to_user, \
+from commands import create_additive_rule, create_db, create_keyword_rule, delete_rule, drop_db, share_rule_to_user, \
     share_rule_all_users
 
 from .core import db, bcrypt, login_manager, mail, migrate
@@ -42,6 +42,7 @@ def create_app(env=None):
     # register commands
     app.cli.add_command(create_db)
     app.cli.add_command(drop_db)
+    app.cli.add_command(create_additive_rule)
     app.cli.add_command(create_keyword_rule)
     app.cli.add_command(share_rule_to_user)
     app.cli.add_command(share_rule_all_users)

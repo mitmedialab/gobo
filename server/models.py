@@ -516,8 +516,8 @@ class Rule(db.Model):
             'creator_display_name': self.creator_display_name,
             'title': self.title,
             'description': self.description,
-            'exclude_terms': self.exclude_terms,
             'link': self.link,
+            'type': self.type,
         }
 
 
@@ -531,8 +531,8 @@ class AdditiveRule(Rule):
 
     def __init__(self, creator_user_id, creator_display_name, title, description, shareable, source, link,
                  level_min, level_min_name, level_max, level_max_name):
-        super(KeywordRule, self).__init__(creator_user_id, creator_display_name, title, description, shareable,
-                                          source, link, 'additive')
+        super(AdditiveRule, self).__init__(creator_user_id, creator_display_name, title, description, shareable, source, link,
+                                   'additive')
         self.level_min = level_min
         self.level_min_name = level_min_name
         self.level_max = level_max
@@ -559,6 +559,13 @@ class KeywordRule(Rule):
         super(KeywordRule, self).__init__(creator_user_id, creator_display_name, title, description, shareable,
                                           source, link, 'keyword')
         self.exclude_terms = exclude_terms
+
+    def serialize(self):
+        rule_dict = super(KeywordRule, self).serialize()
+        rule_dict.update({
+            'exclude_terms': self.exclude_terms,
+        })
+        return rule_dict
 
 
 class UserRule(db.Model):

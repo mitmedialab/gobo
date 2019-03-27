@@ -38,7 +38,7 @@ def get_posts():
     for i in range(15):
         posts_dicts[i].update({
             'rules': [{
-                'id': 100,
+                'id': 2,
                 'level': i % 3,
             }]
         })
@@ -75,28 +75,11 @@ def update_settings():
 @login_required
 def get_rules():
     rules = []
+    # TODO: sort by time?
     for association in current_user.rule_associations:
         serialized = association.rule.serialize()
-        serialized.update(enabled=association.enabled)
+        serialized.update(enabled=association.enabled, level=association.level)
         rules.append(serialized)
-
-    # TODO: just for testing
-    # rules.append({
-    #     'id': 100,
-    #     'creator_user_id': 1,
-    #     'creator_display_name': 'Cats',
-    #     'link': None,
-    #     'title': 'Turn up your cats!',
-    #     'description': 'Why not add some cats to your days?',
-    #     'shareable': True,
-    #     'source': 'gobo',
-    #     'level_min': 0,
-    #     'level_max': 2,
-    #     'level_display_names': ['Kittens', 'Kitties', 'Cats'],
-    #     'level': 0,
-    #     'enabled': False,
-    # })
-
     return jsonify({'rules': rules})
 
 
@@ -111,7 +94,9 @@ def toggle_rules():
             if association.enabled is not rule['enabled']:
                 association.enabled = rule['enabled']
                 updated = True
-            # TODO: toggle rule and set level here
+            if association.level is not rule['level']:
+                association.level = rule['level']
+                updated = True
 
     if updated:
         db.session.commit()

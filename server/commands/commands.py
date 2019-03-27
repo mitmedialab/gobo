@@ -2,7 +2,7 @@ import click
 from flask.cli import with_appcontext
 
 from server.core import db
-from server.models import KeywordRule, Rule, User, UserRule
+from server.models import AdditiveRule, KeywordRule, Rule, User, UserRule
 
 
 @click.command()
@@ -48,6 +48,31 @@ def create_keyword_rule(creator_id, creator_display_name, title, description, ex
 
 
 @click.command()
+@click.option('--creator-id', required=True, type=int, help='ID of user to attribute creation of this rule')
+@click.option('--creator-display-name', required=True, type=str, help='Name to display')
+@click.option('--title', required=True, type=str, help='Rule title (short)')
+@click.option('--description', required=True, type=str, help='Rule description (long)')
+@click.option('--level-min', required=True, type=str, help='Min value for this rule')
+@click.option('--level-min-name', required=True, type=str, help='Min value display name')
+@click.option('--level-max', required=True, type=str, help='Max value for this rule')
+@click.option('--level-max-name', required=True, type=str, help='Max value display name')
+@click.option('--shareable', required=False, type=bool, default=True, help='Whether to share the rule publicly.')
+@click.option('--source', required=False, type=str, default='gobo', help='Source for how this rule was generated')
+@click.option('--link', required=False, type=str, help='URL to include in the rule.')
+@with_appcontext
+# pylint: disable=too-many-arguments
+def create_additive_rule(creator_id, creator_display_name, title, description, level_min, level_min_name, level_max,
+                         level_max_name, shareable, source, link):
+    """Creates a new keyword rule."""
+    rule = AdditiveRule(creator_id, creator_display_name, title, description, shareable, source, link,
+                        level_min, level_min_name, level_max, level_max_name)
+    db.session.add(rule)
+    db.session.commit()
+    print "Successfully added rule ID: {}".format(rule.id)
+    db.session.close()
+
+
+@click.command()
 @click.option('--rule-id', required=True, type=int, help='ID of user rule to delete')
 @with_appcontext
 def delete_rule(rule_id):
@@ -80,15 +105,17 @@ def share_rule_to_user(user_id, rule_id, enabled):
 @click.command()
 @click.option('--rule-id', required=True, type=int, help='ID of user rule to share')
 @click.option('--enabled', required=False, type=bool, default=False, help='Whether rule is enabled initially')
+@click.option('--level', required=False, type=int, default=None, help='Default level for additive rules')
 @with_appcontext
-def share_rule_all_users(rule_id, enabled):
+def share_rule_all_users(rule_id, enabled, level):
     """Share rule with all users and/or modify enabled state"""
     for user in User.query.all():
         setting = UserRule.query.filter_by(user_id=user.id, rule_id=rule_id).first()
         if setting:
             setting.enabled = enabled
+            setting.level = level
         else:
-            setting = UserRule(user.id, rule_id, enabled)
+            setting = UserRule(user.id, rule_id, enabled, level)
             db.session.add(setting)
     db.session.commit()
     print "Successfully added settings"

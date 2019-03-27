@@ -391,7 +391,7 @@ class Settings extends Component {
     icon: getFilterReasonIcon('Rule'),
     desc: rule.description,
     key: `${rule.id}-${rule.title}`,
-    longDesc: 'TBD',
+    longDesc: rule.description,
     subtitle: `Created by ${rule.creator_display_name}`,
     content: (
       <div>
@@ -408,7 +408,7 @@ class Settings extends Component {
         </div>
         <ReactSlider
           defaultValue={0}
-          min={0}
+          min={rule.level_min}
           max={rule.level_max}
           step={1}
           withBars
@@ -417,8 +417,8 @@ class Settings extends Component {
           className="slider politics"
         />
         <div className="slider-labels">
-          <span className="pull-left">{rule.level_display_names[0]}</span>
-          <span className="pull-right">{rule.level_display_names[2]}</span>
+          <span className="pull-left">{rule.level_min_name}</span>
+          <span className="pull-right">{rule.level_max_name}</span>
         </div>
       </div>
     ),
