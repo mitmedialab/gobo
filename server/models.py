@@ -53,8 +53,7 @@ class User(db.Model):
 
     posts = db.relationship("Post", secondary=post_associations_table, lazy='dynamic')
     settings = db.relationship("Settings", uselist=False, back_populates="user")
-    keyword_rule_associations = db.relationship("UserKeywordRule", back_populates="user",
-                                                cascade="delete, delete-orphan")
+    rule_associations = db.relationship("UserRule", back_populates="user", cascade="delete, delete-orphan")
 
 
     def __init__(self, email, password):
@@ -296,6 +295,7 @@ class Post(db.Model):
     political_quintile = db.Column(db.Enum(PoliticsEnum))
 
     db.UniqueConstraint('source_id', 'source', name='post_id')
+    rule_association = db.relationship("PostAdditiveRule", back_populates="post", cascade="delete, delete-orphan")
 
     __mapper_args__ = {
         'polymorphic_on': source,
@@ -474,30 +474,36 @@ class MastodonPost(Post):
         return self.content['reblogs_count']
 
 
-class KeywordRule(db.Model):
-    __tablename__ = "keyword_rules"
+class Rule(db.Model):
+    __tablename__ = "rules"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     creator_user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     creator_display_name = db.Column(db.String(255), nullable=False)
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(255), nullable=False)
-    exclude_terms = db.Column(ARRAY(db.String(255)), nullable=False)
     shareable = db.Column(db.Boolean, nullable=False)
     source = db.Column(db.String(255), nullable=False)
     link = db.Column(db.String(255))
+    exclude_terms = db.Column(ARRAY(db.String(255)))
+    level_min = db.Column(db.Integer)
+    level_min_name = db.Column(db.String(255))
+    level_max = db.Column(db.Integer)
+    level_max_name = db.Column(db.String(255))
+    type = db.Column(db.String(255), nullable=False)  # e.g. additive, keyword
     created_at = db.Column(db.DateTime, nullable=False)
     last_modified = db.Column(db.DateTime, nullable=False)
 
-    user_associations = db.relationship("UserKeywordRule", back_populates="keyword_rule",
-                                        cascade="delete, delete-orphan")
+    user_associations = db.relationship("UserRule", back_populates="rule", cascade="delete, delete-orphan")
 
-    def __init__(self, creator_user_id, creator_display_name, title, description, exclude_terms, shareable,
-                 source, link):
+    __mapper_args__ = {
+        'polymorphic_on': type,
+    }
+
+    def __init__(self, creator_user_id, creator_display_name, title, description, shareable, source, link, type):
         self.creator_user_id = creator_user_id
         self.creator_display_name = creator_display_name
         self.title = title
         self.description = description
-        self.exclude_terms = exclude_terms
         self.shareable = shareable
         self.source = source
         self.link = link
@@ -505,7 +511,6 @@ class KeywordRule(db.Model):
         self.last_modified = datetime.datetime.now()
 
     def serialize(self):
-        """Returns only what's needed by the UI"""
         return {
             'id': self.id,
             'creator_display_name': self.creator_display_name,
@@ -516,29 +521,117 @@ class KeywordRule(db.Model):
         }
 
 
-class UserKeywordRule(db.Model):
-    __tablename__ = "users_keyword_rules"
+class AdditiveRule(Rule):
+    __mapper_args__ = {
+        'polymorphic_identity': 'additive'
+    }
+
+    additive_links = db.relationship("AdditiveRuleLink", back_populates="rule", cascade="delete, delete-orphan")
+    post_associations = db.relationship("PostAdditiveRule", back_populates="rule", cascade="delete, delete-orphan")
+
+    def __init__(self, creator_user_id, creator_display_name, title, description, shareable, source, link,
+                 level_min, level_min_name, level_max, level_max_name):
+        super(KeywordRule, self).__init__(creator_user_id, creator_display_name, title, description, shareable,
+                                          source, link, 'additive')
+        self.level_min = level_min
+        self.level_min_name = level_min_name
+        self.level_max = level_max
+        self.level_max_name = level_max_name
+
+    def serialize(self):
+        rule_dict = super(AdditiveRule, self).serialize()
+        rule_dict.update({
+            'level_min': self.level_min,
+            'level_min_name': self.level_min_name,
+            'level_max': self.level_max,
+            'level_max_name': self.level_max_name,
+        })
+        return rule_dict
+
+
+class KeywordRule(Rule):
+    __mapper_args__ = {
+        'polymorphic_identity': 'keyword'
+    }
+
+    def __init__(self, creator_user_id, creator_display_name, title, description, shareable, source, link,
+                 exclude_terms):
+        super(KeywordRule, self).__init__(creator_user_id, creator_display_name, title, description, shareable,
+                                          source, link, 'keyword')
+        self.exclude_terms = exclude_terms
+
+
+class UserRule(db.Model):
+    __tablename__ = "users_rules"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    keyword_rule_id = db.Column(db.Integer, db.ForeignKey('keyword_rules.id'), nullable=False)
+    rule_id = db.Column(db.Integer, db.ForeignKey('rules.id'), nullable=False)
     enabled = db.Column(db.Boolean, nullable=False)
+    level = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, nullable=False)
     last_modified = db.Column(db.DateTime, nullable=False)
 
-    keyword_rule = db.relationship("KeywordRule", back_populates="user_associations")
-    user = db.relationship("User", back_populates="keyword_rule_associations")
+    rule = db.relationship("Rule", back_populates="user_associations")
+    user = db.relationship("User", back_populates="rule_associations")
 
-    db.UniqueConstraint('user_id', 'keyword_rule_id')
+    db.UniqueConstraint('user_id', 'rule_id')
 
-    def __init__(self, user_id, keyword_rule_id, enabled=False):
+    def __init__(self, user_id, rule_id, level=None, enabled=False):
         self.user_id = user_id
-        self.keyword_rule_id = keyword_rule_id
+        self.rule_id = rule_id
+        self.level = level
         self.enabled = enabled
         self.created_at = datetime.datetime.now()
         self.last_modified = datetime.datetime.now()
 
 
-@event.listens_for(UserKeywordRule, 'before_update')
-@event.listens_for(KeywordRule, 'before_update')
+# TODO: need to delete these too when we clean up old posts
+class PostAdditiveRule(db.Model):
+    __tablename__ = "posts_additive_rules"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    rule_id = db.Column(db.Integer, db.ForeignKey('rules.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
+    level = db.Column(db.Integer, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False)
+    last_modified = db.Column(db.DateTime, nullable=False)
+
+    db.PrimaryKeyConstraint('rule_id', 'post_id')
+
+    post = db.relationship("Post", back_populates="rule_association")
+    rule = db.relationship("AdditiveRule", back_populates="post_associations")
+
+    def __init__(self, rule_id, post_id, level):
+        self.rule_id = rule_id
+        self.post_id = post_id
+        self.level = level
+        self.created_at = datetime.datetime.now()
+        self.last_modified = datetime.datetime.now()
+
+
+class AdditiveRuleLink(db.Model):
+    __tablename__ = "additive_rule_links"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    rule_id = db.Column(db.Integer, db.ForeignKey('rules.id'), nullable=False)
+    source = db.Column(db.String(255), nullable=False)  # TODO: I'm not sure I need this? Maybe it's good for Mastodon?
+    uri = db.Column(db.String(255), nullable=False)
+    level = db.Column(db.Integer, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False)
+    last_modified = db.Column(db.DateTime, nullable=False)
+
+    rule = db.relationship("AdditiveRule", back_populates="additive_links")
+    db.PrimaryKeyConstraint('rule_id', 'uri')
+
+    def __init__(self, source, uri, level):
+        self.source = source
+        self.uri = uri
+        self.level = level
+        self.created_at = datetime.datetime.now()
+        self.last_modified = datetime.datetime.now()
+
+
+@event.listens_for(UserRule, 'before_update')
+@event.listens_for(Rule, 'before_update')
+@event.listens_for(PostAdditiveRule, 'before_update')
+@event.listens_for(AdditiveRuleLink, 'before_update')
 def receive_after_update(_mapper, _connection, target):
     target.last_modified = datetime.datetime.now()

@@ -2,7 +2,7 @@ import click
 from flask.cli import with_appcontext
 
 from server.core import db
-from server.models import KeywordRule, User, UserKeywordRule
+from server.models import KeywordRule, Rule, User, UserRule
 
 
 @click.command()
@@ -40,7 +40,7 @@ def drop_db():
 def create_keyword_rule(creator_id, creator_display_name, title, description, exclude_terms, shareable, source, link):
     """Creates a new keyword rule."""
     split_terms = [term.strip() for term in exclude_terms.split(',')]
-    rule = KeywordRule(creator_id, creator_display_name, title, description, split_terms, shareable, source, link)
+    rule = KeywordRule(creator_id, creator_display_name, title, description, shareable, source, link, split_terms)
     db.session.add(rule)
     db.session.commit()
     print "Successfully added rule ID: {}".format(rule.id)
@@ -50,8 +50,8 @@ def create_keyword_rule(creator_id, creator_display_name, title, description, ex
 @click.command()
 @click.option('--rule-id', required=True, type=int, help='ID of user rule to delete')
 @with_appcontext
-def delete_keyword_rule(rule_id):
-    db.session.delete(KeywordRule.query.filter_by(id=rule_id).first())
+def delete_rule(rule_id):
+    db.session.delete(Rule.query.filter_by(id=rule_id).first())
     db.session.commit()
     print "Deleted rule ID: {}".format(rule_id)
     db.session.close()
@@ -64,12 +64,12 @@ def delete_keyword_rule(rule_id):
 @with_appcontext
 def share_rule_to_user(user_id, rule_id, enabled):
     """Share keyword rule with a specific user or modify enabled state"""
-    setting = UserKeywordRule.query.filter_by(user_id=user_id, keyword_rule_id=rule_id).first()
+    setting = UserRule.query.filter_by(user_id=user_id, keyword_rule_id=rule_id).first()
     if setting:
         setting.enabled = enabled
         action = "updated"
     else:
-        setting = UserKeywordRule(user_id, rule_id, enabled)
+        setting = UserRule(user_id, rule_id, enabled)
         db.session.add(setting)
         action = "added"
     db.session.commit()
@@ -84,11 +84,11 @@ def share_rule_to_user(user_id, rule_id, enabled):
 def share_rule_all_users(rule_id, enabled):
     """Share keyword rule with all users and/or modify enabled state"""
     for user in User.query.all():
-        setting = UserKeywordRule.query.filter_by(user_id=user.id, keyword_rule_id=rule_id).first()
+        setting = UserRule.query.filter_by(user_id=user.id, keyword_rule_id=rule_id).first()
         if setting:
             setting.enabled = enabled
         else:
-            setting = UserKeywordRule(user.id, rule_id, enabled)
+            setting = UserRule(user.id, rule_id, enabled)
             db.session.add(setting)
     db.session.commit()
     print "Successfully added settings"
