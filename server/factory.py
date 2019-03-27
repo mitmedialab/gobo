@@ -5,8 +5,8 @@ from celery import Celery
 from flask import Flask
 from raven.contrib.flask import Sentry
 
-from commands import create_additive_rule, create_db, create_keyword_rule, delete_rule, drop_db, share_rule_to_user, \
-    share_rule_all_users
+from commands import add_additive_rule_link, create_additive_rule, create_db, create_keyword_rule, delete_rule, drop_db,\
+    share_rule_to_user, share_rule_all_users, queue_additive_rule
 
 from .core import db, bcrypt, login_manager, mail, migrate
 # pylint: disable=no-name-in-module,import-error
@@ -42,13 +42,14 @@ def create_app(env=None):
     # register commands
     app.cli.add_command(create_db)
     app.cli.add_command(drop_db)
+    app.cli.add_command(add_additive_rule_link)
     app.cli.add_command(create_additive_rule)
     app.cli.add_command(create_keyword_rule)
     app.cli.add_command(share_rule_to_user)
     app.cli.add_command(share_rule_all_users)
     app.cli.add_command(delete_rule)
+    app.cli.add_command(queue_additive_rule)
 
-    #
     # app.wsgi_app = HTTPMethodOverrideMiddleware(app.wsgi_app)
     return app
 

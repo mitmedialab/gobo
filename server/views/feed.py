@@ -4,7 +4,7 @@ from flask import request, jsonify
 from flask_login import login_required, current_user
 
 from server.core import db
-from server.models import Post, SettingsUpdate
+from server.models import Post, PostAdditiveRule, SettingsUpdate
 from server.enums import PoliticsEnum
 from server.blueprints import api
 
@@ -31,17 +31,22 @@ def get_posts():
     # 2. Get array of post_additive_rules
     # 3. Get posts associated with post_additive_rules
     # 4. Decorate post with rules (could have multiple rules) metadata: rules: [ {rule_id, level}]
+    for rule_association in current_user.rule_associations:
+        if rule_association.rule.type == 'additive':
+            posts = [pa.post for pa in rule_association.rule.post_associations]
+            personalized_posts.extend(posts)
 
     personalized_posts = sorted(personalized_posts, key=lambda p: p.created_at, reverse=True)
     posts_dicts = [post.as_dict() for post in personalized_posts]
 
-    for i in range(15):
-        posts_dicts[i].update({
-            'rules': [{
-                'id': 2,
-                'level': i % 3,
-            }]
-        })
+    # for i in range(15):
+    #     posts_dicts[i].update({
+    #         'rules': [{
+    #             'id': 2,
+    #             'level': i % 3,
+    #         }]
+    #     })
+
 
     return jsonify({'posts': posts_dicts})
 

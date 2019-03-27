@@ -115,7 +115,7 @@ export function filterPostByRuleLevel(post, rule) {
     const postRule = post.rules.find(r => r.id === rule.id);
     if (postRule) {
       // TODO: this may need to change to be cumulative (e.g. this level or less)
-      filtered = postRule.level === rule.level;
+      filtered = postRule.level !== rule.level;
     }
   }
   return filtered;

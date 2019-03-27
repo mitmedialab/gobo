@@ -295,7 +295,7 @@ class Post(db.Model):
     political_quintile = db.Column(db.Enum(PoliticsEnum))
 
     db.UniqueConstraint('source_id', 'source', name='post_id')
-    rule_association = db.relationship("PostAdditiveRule", back_populates="post", cascade="delete, delete-orphan")
+    rule_associations = db.relationship("PostAdditiveRule", back_populates="post", cascade="delete, delete-orphan")
 
     __mapper_args__ = {
         'polymorphic_on': source,
@@ -327,6 +327,15 @@ class Post(db.Model):
              if c.name not in ['gender', 'political_quintile']}
         d['gender'] = str(self.gender)
         d['political_quintile'] = self.political_quintile.value if self.political_quintile else None
+
+        if self.rule_associations:
+            d['rules'] = []
+            for rule_association in self.rule_associations:
+                d['rules'].append({
+                    'id': rule_association.rule_id,
+                    'level': rule_association.level,
+                })
+
         return d
 
     def get_text(self):
@@ -604,7 +613,7 @@ class PostAdditiveRule(db.Model):
 
     db.PrimaryKeyConstraint('rule_id', 'post_id')
 
-    post = db.relationship("Post", back_populates="rule_association")
+    post = db.relationship("Post", back_populates="rule_associations")
     rule = db.relationship("AdditiveRule", back_populates="post_associations")
 
     def __init__(self, rule_id, post_id, level):
@@ -628,7 +637,8 @@ class AdditiveRuleLink(db.Model):
     rule = db.relationship("AdditiveRule", back_populates="additive_links")
     db.PrimaryKeyConstraint('rule_id', 'uri')
 
-    def __init__(self, source, uri, level):
+    def __init__(self, rule_id, source, uri, level):
+        self.rule_id = rule_id
         self.source = source
         self.uri = uri
         self.level = level
