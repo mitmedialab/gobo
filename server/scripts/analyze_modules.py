@@ -69,9 +69,13 @@ def analyze_gender_corporate(post_id):
     if post.get_precomputed_gender():
         gender = GenderEnum.fromString(post.get_precomputed_gender())
     else:
-        result, _conf = name_classifier.predictGenderbyName(post.get_author_name())
-        #score = name_gender_analyzer.process(post.get_author_name())
-        gender = GenderEnum.fromString(result)
+        author_name = post.get_author_name()
+        if author_name:
+            result, _conf = name_classifier.predictGenderbyName(author_name)
+            #score = name_gender_analyzer.process(post.get_author_name())
+            gender = GenderEnum.fromString(result)
+        else:
+            gender = GenderEnum.unknown
     if post.is_news:
         gender = GenderEnum.unknown
     if gender == GenderEnum.unknown or post.has_precomputed_corporate():

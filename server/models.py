@@ -426,7 +426,7 @@ class FacebookPost(Post):
         return self.content['message'] if 'message' in self.content else ""
 
     def get_urls(self):
-        return [self.content['link']]
+        return [self.content['link']] if 'link' in self.content else []
 
     def get_likes_count(self):
         return self.content['reactions']['summary']['total_count']
