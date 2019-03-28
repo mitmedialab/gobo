@@ -129,7 +129,7 @@ def share_rule_all_users(rule_id, enabled, level):
 @click.option('--link', required=True, type=str, help='URI to pull from')
 @with_appcontext
 def add_additive_rule_link(rule_id, level, source, link):
-    """TBD"""
+    """Add link for an additive rule"""
     if source != 'twitter':
         print "Only Twitter links are supported for now"
         return
@@ -143,46 +143,3 @@ def add_additive_rule_link(rule_id, level, source, link):
         db.session.close()
     else:
         print "No rule ID '{}' found".format(rule_id)
-
-
-# TODO: needs major refactoring!
-@click.command()
-@click.option('--rule-id', required=True, type=int, help='ID of user rule to share')
-@with_appcontext
-def queue_additive_rule(rule_id):
-    import os
-    from server.config.config import config_map
-    from twython import Twython
-    from server.models import Post, PostAdditiveRule
-    import server.scripts.tasks as tasks
-    env = os.getenv('FLASK_ENV', 'dev')
-    config_type = env.lower()
-    config = config_map[config_type]
-    MAX_POST = 1
-
-    for link in AdditiveRule.query.filter_by(id=rule_id).first().additive_links:
-        # https://twitter.com/nytimestech
-        # https://twitter.com/HuffPostTech
-        # https://twitter.com/BBCTech
-        if link.source == 'twitter':
-            obj = {'id': link.uri.replace('https://twitter.com/', '')}
-            try:
-                twitter = Twython(config.TWITTER_API_KEY, config.TWITTER_API_SECRET)
-                tweets = twitter.get_user_timeline(screen_name=obj['id'], count=MAX_POST, tweet_mode='extended')
-            except:
-                tweets = []
-
-            for post in tweets:
-                post_id = post['id_str'] if 'id_str' in post else str(post['id'])
-                post_item = db.session.query(Post).filter_by(original_id=post_id, source=link.source).first()
-                if not post_item:
-                    print post_id
-                    post_item = Post(post_id, link.source, post, False)
-                    db.session.add(post_item)
-                    db.session.commit()
-
-                    association = PostAdditiveRule(link.rule_id, post_item.id, link.level)
-                    db.session.add(association)
-                    db.session.commit()
-
-                    tasks.analyze_post.delay(post_item.id)
