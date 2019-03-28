@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { getFilterReasonIcon } from 'utils/filtering';
+
 import HiddenPost from 'components/Post/HiddenPost';
 import BackOfPost from './BackOfPost';
 import PostFooter from './PostFooter';
@@ -42,14 +44,18 @@ class Post extends Component {
 
   getFilteredByHeader = () => {
     const text = `Hidden because of: ${this.props.filtered_by.join(', ')}`;
+    const reasons = this.props.filtered_by.map(reason =>
+      <span className={getFilterReasonIcon(reason)} key={`${this.props.post.id}-${reason}`} />,
+    );
+
     let content;
     if (this.props.isCollapsable) {
       content = (
-        <button className="hidden-by" onClick={this.onCollapseClicked}>{text}</button>
+        <button className="hidden-by" onClick={this.onCollapseClicked}>{reasons} {text}</button>
       );
     } else {
       content = (
-        <div className="hidden-by">{text}</div>
+        <div className="hidden-by">{reasons} {text}</div>
       );
     }
     return content;
