@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { getPosts, getRules, getSettings } from 'actions/feed';
 
-import isEnabled, { SHOW_FILTERED_POSTS } from 'utils/featureFlags';
-
 import Post from 'components/Post/Post';
 import Settings from 'components/Settings/Settings';
 import Loader from 'components/Loader/Loader';
@@ -53,9 +51,9 @@ class Feed extends Component {
     }
     const posts = this.props.feed.posts;
     const filteredPosts = this.props.feed.filtered_posts;
-    const filteredText = this.state.showFilteredOnly ? 'Showing filtered posts.' : `${filteredPosts.filtered.length} posts filtered out of your feed.`;
-    const filteredLinkText = this.state.showFilteredOnly ? 'Back to my feed.' : 'Show me what was taken out.';
-    const noPostsText = this.state.showFilteredOnly ? 'None of your posts were filtered out. Try changing the filters to see them in action. ' : 'None of the posts in your feed match the filters you\'ve set. Try changing the filters.';
+    const filteredText = this.state.showFilteredOnly ? 'Showing hidden posts.' : `${filteredPosts.filtered.length} posts hidden from your feed.`;
+    const filteredLinkText = this.state.showFilteredOnly ? 'Back to my feed.' : 'Show me what was hidden.';
+    const noPostsText = this.state.showFilteredOnly ? 'None of your posts were hidden. Try changing the filters to see them in action. ' : 'None of the posts in your feed match the filters you\'ve set. Try changing the filters.';
     const showing = this.state.showFilteredOnly ? 'filtered' : 'kept';
 
     let postsHtml;
@@ -67,14 +65,12 @@ class Feed extends Component {
       let postsToDisplay;
       if (this.state.showFilteredOnly) {
         postsToDisplay = filteredPosts.filtered;
-      } else if (isEnabled(SHOW_FILTERED_POSTS)) {
-        postsToDisplay = posts;
       } else {
-        postsToDisplay = filteredPosts.kept;
+        postsToDisplay = posts;
       }
       postsHtml = postsToDisplay.map((post) => {
         const filterReasons = filteredPosts.reasons[post.id];
-        const isCollapsed = filterReasons && filterReasons.length > 0 && !this.state.showFilteredOnly;
+        const isCollapsable = filterReasons && filterReasons.length > 0 && !this.state.showFilteredOnly;
         return (
           <Post
             key={post.id}
@@ -82,7 +78,7 @@ class Feed extends Component {
             filtered_by={filterReasons}
             virality_max={filteredPosts.virality_max}
             virality_avg={filteredPosts.virality_avg}
-            isCollapsed={isCollapsed}
+            isCollapsable={isCollapsable}
           />
         );
       });
