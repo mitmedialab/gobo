@@ -39,15 +39,6 @@ def get_posts():
     personalized_posts = sorted(personalized_posts, key=lambda p: p.created_at, reverse=True)
     posts_dicts = [post.as_dict() for post in personalized_posts]
 
-    # for i in range(15):
-    #     posts_dicts[i].update({
-    #         'rules': [{
-    #             'id': 2,
-    #             'level': i % 3,
-    #         }]
-    #     })
-
-
     return jsonify({'posts': posts_dicts})
 
 

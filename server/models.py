@@ -328,6 +328,7 @@ class Post(db.Model):
         d['gender'] = str(self.gender)
         d['political_quintile'] = self.political_quintile.value if self.political_quintile else None
 
+        # TODO: this is slow
         if self.rule_associations:
             d['rules'] = []
             for rule_association in self.rule_associations:
