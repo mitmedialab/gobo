@@ -1,5 +1,6 @@
 $post-footer-height:40px;
 $post-background-color: white;
+$faded-background-color: darken($post-background-color, 10%);
 $icon-size: 20px;
 
 .post {
@@ -25,8 +26,17 @@ $icon-size: 20px;
     font-weight: 100;
   }
 
-  .toxicity {
-    color:red;
+  .hidden-by {
+    color: $red;
+    width: 100%;
+    text-align: left;
+    background-color: $faded-background-color;
+    border-radius: 0;
+    padding: $padding-small-horizontal * 0.5;
+    padding-left: $padding-small-vertical;
+    margin: 0;
+    min-height: 30px;  // same as what's used on a button
+    line-height: 30px;  // same as what's used on a button
   }
 
   .post-header{
@@ -204,8 +214,6 @@ $icon-size: 20px;
 }
 
 .post-container-hidden {
-  $faded-background-color: darken($post-background-color, 10%);
-
   padding-bottom: 0;
 
   .post {

@@ -1,7 +1,6 @@
 import { getQueryParam } from './url';
 
 export const KEYWORD_FILTER = 'kwfilter';
-export const SHOW_FILTERED_POSTS = 'showfiltered';
 
 /**
  * QueryParams are the location.search part of the url (e.g. ft=experiment,toggle).

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { getFilterReasonIcon } from 'utils/filtering';
+
 import HiddenPost from 'components/Post/HiddenPost';
 import BackOfPost from './BackOfPost';
 import PostFooter from './PostFooter';
@@ -32,6 +34,31 @@ class Post extends Component {
     this.setState({
       expandClicked: true,
     });
+  }
+
+  onCollapseClicked = () => {
+    this.setState({
+      expandClicked: false,
+    });
+  }
+
+  getFilteredByHeader = () => {
+    const text = `Hidden because of: ${this.props.filtered_by.join(', ')}`;
+    const reasons = this.props.filtered_by.map(reason =>
+      <span className={getFilterReasonIcon(reason)} key={`${this.props.post.id}-${reason}`} />,
+    );
+
+    let content;
+    if (this.props.isCollapsable) {
+      content = (
+        <button className="hidden-by" onClick={this.onCollapseClicked}>{reasons} {text}</button>
+      );
+    } else {
+      content = (
+        <div className="hidden-by">{reasons} {text}</div>
+      );
+    }
+    return content;
   }
 
   makePostContent() {
@@ -93,7 +120,7 @@ class Post extends Component {
     }
 
     const flippedClass = this.state.flipped ? 'flipped' : '';
-    const showCollapsed = !this.state.expandClicked && this.props.isCollapsed;
+    const showCollapsed = !this.state.expandClicked && this.props.isCollapsable;
 
     return (
       <div className="post-container">
@@ -104,11 +131,10 @@ class Post extends Component {
           <div className="flip-container">
             <div className={`post flipper ${flippedClass}`}>
               <div className="front">
+                {this.props.filtered_by.length > 0 &&
+                <div>{ this.getFilteredByHeader() }</div>
+                }
                 <div className="post-content">
-                  {this.props.filtered_by.length > 0 &&
-                  <div className="toxicity">
-                    Filtered because: {this.props.filtered_by.join(', ')}
-                  </div>}
                   {this.makePostHead()}
                   {this.makePostContent()}
                   {this.makeActionList()}
@@ -131,7 +157,7 @@ Post.propTypes = {
   post: PropTypes.object.isRequired,
   virality_max: PropTypes.number.isRequired,
   virality_avg: PropTypes.number.isRequired,
-  isCollapsed: PropTypes.bool.isRequired,
+  isCollapsable: PropTypes.bool.isRequired,
   filtered_by: PropTypes.array,
 };
 
