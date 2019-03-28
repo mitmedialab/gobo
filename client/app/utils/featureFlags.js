@@ -1,6 +1,7 @@
 import { getQueryParam } from './url';
 
 export const KEYWORD_FILTER = 'kwfilter';
+export const ADDITIVE_RULE = 'additive';
 
 /**
  * QueryParams are the location.search part of the url (e.g. ft=experiment,toggle).

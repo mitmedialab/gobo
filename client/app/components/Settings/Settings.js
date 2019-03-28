@@ -395,17 +395,6 @@ class Settings extends Component {
     subtitle: `Created by ${rule.creator_display_name}`,
     content: (
       <div>
-        <div className="slider-labels">
-          <label htmlFor={`${rule.id}-${rule.title}`}>
-            <Toggle
-              checked={rule.enabled}
-              name={`${rule.id}-${rule.title}`}
-              onChange={this.handleRuleToggleChange}
-              icons={false}
-            />
-            <span className="toggle-label">Activate rule</span>
-          </label>
-        </div>
         <ReactSlider
           defaultValue={0}
           min={rule.level_min}
@@ -416,9 +405,20 @@ class Settings extends Component {
           onAfterChange={e => this.handleRuleSlideChange(e, rule.id)}
           className="slider politics"
         />
-        <div className="slider-labels">
+        <div className="slider-labels additive-labels">
           <span className="pull-left">{rule.level_min_name}</span>
           <span className="pull-right">{rule.level_max_name}</span>
+        </div>
+        <div className="slider-labels">
+          <label htmlFor={`${rule.id}-${rule.title}`}>
+            <Toggle
+              checked={rule.enabled}
+              name={`${rule.id}-${rule.title}`}
+              onChange={this.handleRuleToggleChange}
+              icons={false}
+            />
+            <span className="toggle-label">Activate rule</span>
+          </label>
         </div>
       </div>
     ),

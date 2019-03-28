@@ -227,6 +227,7 @@ export function getFilterReasonIcon(reason) {
     Virality: 'icon-virality',
     'News Echo': 'icon-echo',
     Gender: 'icon-gender',
+    Additive: 'icon-seriousness',  // TODO: update this
   };
   return reasons[reason];
 }
