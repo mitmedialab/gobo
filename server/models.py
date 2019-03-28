@@ -307,6 +307,7 @@ class Post(db.Model):
         self.content = content
         self.is_news = is_news
         self.retrieved_at = datetime.datetime.now()
+        self.rules = None
         if source == 'twitter':
             self.created_at = datetime.datetime.strptime(content['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
             # TODO: fix this eventually
@@ -338,6 +339,10 @@ class Post(db.Model):
                 })
 
         return d
+
+    # TODO: rename this
+    def cache_rules(self, rules):
+        self.rules = rules
 
     def get_text(self):
         raise NotImplementedError
