@@ -392,7 +392,7 @@ class Settings extends Component {
     desc: rule.description,
     key: `${rule.id}-${rule.title}`,
     longDesc: rule.description,
-    subtitle: `Created by ${rule.creator_display_name}`,
+    subtitle: `Curated by ${rule.creator_display_name}`,
     content: (
       <div>
         <ReactSlider

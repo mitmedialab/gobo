@@ -297,6 +297,8 @@ class Post(db.Model):
     db.UniqueConstraint('source_id', 'source', name='post_id')
     rule_associations = db.relationship("PostAdditiveRule", back_populates="post", cascade="delete, delete-orphan")
 
+    rules = None
+
     __mapper_args__ = {
         'polymorphic_on': source,
     }
@@ -329,20 +331,16 @@ class Post(db.Model):
         d['gender'] = str(self.gender)
         d['political_quintile'] = self.political_quintile.value if self.political_quintile else None
 
-        # TODO: this is slow
-        if self.rule_associations:
-            d['rules'] = []
-            for rule_association in self.rule_associations:
-                d['rules'].append({
-                    'id': rule_association.rule_id,
-                    'level': rule_association.level,
-                })
-
+        # using the cache saves time over db lookups
+        if self.rules:
+            d['rules'] = self.rules
         return d
 
-    # TODO: rename this
-    def cache_rules(self, rules):
-        self.rules = rules
+    def cache_rule(self, rule):
+        """Cache a list of rule dicts that this post has associated with it for serializing later."""
+        if self.rules is None:
+            self.rules = []
+        self.rules.append(rule)
 
     def get_text(self):
         raise NotImplementedError

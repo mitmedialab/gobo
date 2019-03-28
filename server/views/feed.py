@@ -4,36 +4,38 @@ from flask import request, jsonify
 from flask_login import login_required, current_user
 
 from server.core import db
-from server.models import Post, PostAdditiveRule, SettingsUpdate
+from server.models import Post, SettingsUpdate
 from server.enums import PoliticsEnum
 from server.blueprints import api
 
 logger = logging.getLogger(__name__)
 
-PERSONAL_POSTS_MAX = 400  # how many personal posts to grab
-NEWS_POSTS_COUNT = 150  # how many news posts to grab. this number should divide by 5.
+PERSONAL_POSTS_MAX = 300  # how many personal posts to grab
+NEWS_POSTS__QUINTILE_COUNT = 20  # how many news posts to grab. this number should divide by 5.
 
 
 @api.route('/get_posts', methods=['GET'])
 @login_required
 def get_posts():
     personalized_posts = current_user.posts.order_by(Post.created_at.desc())[:PERSONAL_POSTS_MAX]
-    posts_from_quintile = NEWS_POSTS_COUNT / 5
     ignore_ids = [item.id for item in personalized_posts]
     for quintile in PoliticsEnum:
         posts = Post.query.filter((
             Post.id.notin_(ignore_ids)) & (Post.political_quintile == quintile)).order_by(
-                Post.created_at.desc())[:posts_from_quintile]
+                Post.created_at.desc())[:NEWS_POSTS__QUINTILE_COUNT]
         personalized_posts.extend(posts)
 
-    # TODO: iterate through the rules to find any that have links
-    # 1. Iterate through users_additive_rules to get rules associated with this user
-    # 2. Get array of post_additive_rules
-    # 3. Get posts associated with post_additive_rules
-    # 4. Decorate post with rules (could have multiple rules) metadata: rules: [ {rule_id, level}]
     for rule_association in current_user.rule_associations:
         if rule_association.rule.type == 'additive':
-            posts = [pa.post for pa in rule_association.rule.post_associations]
+            posts = []
+            for pa in rule_association.rule.post_associations:
+                post = pa.post
+                # save the rule metadata for returning later when serializing -- faster to cache it than DB join again
+                post.cache_rule({
+                    'id': pa.rule_id,
+                    'level': pa.level,
+                })
+                posts.append(post)
             personalized_posts.extend(posts)
 
     personalized_posts = sorted(personalized_posts, key=lambda p: p.created_at, reverse=True)
