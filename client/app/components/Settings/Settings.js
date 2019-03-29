@@ -404,6 +404,7 @@ class Settings extends Component {
           value={rule.level}
           onAfterChange={e => this.handleRuleSlideChange(e, rule.id)}
           className="slider politics"
+          disabled={!rule.enabled}
         />
         <div className="slider-labels additive-labels">
           <span className="pull-left">{rule.level_min_name}</span>
