@@ -633,7 +633,7 @@ class AdditiveRuleLink(db.Model):
     __tablename__ = "additive_rule_links"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     rule_id = db.Column(db.Integer, db.ForeignKey('rules.id'), nullable=False)
-    source = db.Column(db.String(255), nullable=False)  # TODO: I'm not sure I need this? Maybe it's good for Mastodon?
+    source = db.Column(db.String(255), nullable=False)
     uri = db.Column(db.String(255), nullable=False)
     level = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
