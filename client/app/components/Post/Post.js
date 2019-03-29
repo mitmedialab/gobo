@@ -140,7 +140,7 @@ class Post extends Component {
                 <PostFooter flipped={false} source={source} onFlipClick={this.flip} />
               </div>
               <div className="back">
-                <BackOfPost post={post} virality_max={this.props.virality_max} virality_avg={this.props.virality_avg} />
+                <BackOfPost post={post} filteredBy={this.props.filtered_by} virality_max={this.props.virality_max} virality_avg={this.props.virality_avg} />
                 <PostFooter flipped source={source} onFlipClick={this.unFlip} />
               </div>
             </div>
