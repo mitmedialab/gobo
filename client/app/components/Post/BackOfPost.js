@@ -86,8 +86,7 @@ class BackOfPost extends Component {
 
         {post.political_quintile &&
         (<div className="explanation">
-          <span> <i className="icon icon-echo" /> {this.politicalQuintileText(post.political_quintile)}</span>
-
+          <span> <i className="icon icon-additive" /> {this.politicalQuintileText(post.political_quintile)}</span>
         </div>)
         }
 

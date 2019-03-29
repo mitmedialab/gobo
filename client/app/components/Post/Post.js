@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { getFilterReasonIcon } from 'utils/filtering';
-
 import HiddenPost from 'components/Post/HiddenPost';
 import BackOfPost from './BackOfPost';
 import PostFooter from './PostFooter';
@@ -43,9 +41,9 @@ class Post extends Component {
   }
 
   getFilteredByHeader = () => {
-    const text = `Hidden because of: ${this.props.filtered_by.join(', ')}`;
+    const text = `Hidden because of: ${this.props.filtered_by.map(reason => reason.label).join(', ')}`;
     const reasons = this.props.filtered_by.map(reason =>
-      <span className={getFilterReasonIcon(reason)} key={`${this.props.post.id}-${reason}`} />,
+      <span className={reason.icon} key={`${this.props.post.id}-${reason.type}`} />,
     );
 
     let content;

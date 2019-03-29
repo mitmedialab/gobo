@@ -149,7 +149,7 @@ class Settings extends Component {
 
   politicsSetting = () => ({
     title: 'Politics',
-    icon: getFilterReasonIcon('News Echo'),
+    icon: getFilterReasonIcon('additive'),
     desc: 'See stories matching or challenging your political perspective.',
     key: 'echo_range',
     longDesc: 'Worried about your "echo chamber"? Gobo will let you choose to see posts from news sources similar to those that you already read, or if you want to see a "wider" set of news you can choose to include media sources that might challenge how you read about and see the world. Our algorithm curates these sources based on a left-right political spectrum in the U.S.',
@@ -175,7 +175,7 @@ class Settings extends Component {
 
   seriousnessSetting = () => ({
     title: 'Seriousness',
-    icon: getFilterReasonIcon('Seriousness'),
+    icon: getFilterReasonIcon('seriousness'),
     desc: 'Control the ratio of serious news to fun stuff in your feed.',
     key: 'news_score',
     longDesc: "Social media can be overwhelming, and sometimes it’s necessary to have a break from the news cycles. Gobo will run the text of each post, and any articles linked to, through an algorithm that detects topics it talks about. We've created this algorithm ourselves, teaching it the difference based on tags in a giant set of New York Times articles. It will mark each post with the topics it is about (sports, politics, pop culture, etc.) and then we'll include or exclude content based on the ratio that you set.",
@@ -200,7 +200,7 @@ class Settings extends Component {
 
   rudenessSetting = () => ({
     title: 'Rudeness',
-    icon: getFilterReasonIcon('Rudeness'),
+    icon: getFilterReasonIcon('rudeness'),
     key: 'toxicity',
     desc: 'Filter out the trolls, or see just how rude they are.',
     longDesc: 'Want to enforce good manners on your feed? Rude and obnoxious behaviour on social media has sadly become the norm. Gobo uses a Google algorithm to measure how "rude" a post is, and lets you filter it out. Beware - like most algorithms this one exhibits questionable behaviour when it comes to race, particularly in its failure to account for African-American Vernacular English.',
@@ -227,7 +227,7 @@ class Settings extends Component {
 
   genderSetting = () => ({
     title: 'Gender',
-    icon: getFilterReasonIcon('Gender'),
+    icon: getFilterReasonIcon('gender'),
     key: 'gender',
     desc: 'Change how much each gender is represented in your feed.',
     longDesc: 'Curious to see what your female or male friends are talking about? Want to try rebalancing your feed to 50/50 men and women? Gobo will use a variety of techniques to detect what gender the author of a post is. We recognize that the algorithms for detecting gender discriminate against non-binary folks, and we include it here to invite criticism of Gobo and other social media platforms.',
@@ -269,7 +269,7 @@ class Settings extends Component {
 
   brandsSetting = () => ({
     title: 'Brands',
-    icon: getFilterReasonIcon('Corporate'),
+    icon: getFilterReasonIcon('corporate'),
     key: 'is_corporate',
     desc: 'Filter out any brands from your feed to be commercial free.',
     longDesc: 'Want to limit your feed to the friends and family you actually care about? Brands are major players on social media platforms, often consuming large amounts of our feeds with either reposts or sponsored content that is featured. Gobo detects content from brands and lets you exclude them if you want to. At the moment, our algorithm doesn’t differentiate between corporations and non-profit organizations.',
@@ -290,7 +290,7 @@ class Settings extends Component {
 
   obscuritySetting = () => ({
     title: 'Obscurity',
-    icon: getFilterReasonIcon('Virality'),
+    icon: getFilterReasonIcon('virality'),
     key: 'virality_count',
     desc: 'See the posts that aren’t getting as much love.',
     longDesc: 'Social media sites prioritize the posts with the most shares and likes. So what are the posts that you might not being seeing? Gobo will look at the number of shares and likes each post in your feed has and include it or exclude it based on your settings.',
@@ -357,7 +357,7 @@ class Settings extends Component {
 
   keywordRule = rule => ({
     title: rule.title,
-    icon: getFilterReasonIcon('Rule'),
+    icon: getFilterReasonIcon('keyword'),
     desc: rule.description,
     key: `${rule.id}-${rule.title}`,
     longDesc: 'Excluding posts that contain any of the words:',
@@ -387,7 +387,7 @@ class Settings extends Component {
 
   additiveRule = rule => ({
     title: rule.title,
-    icon: getFilterReasonIcon('Additive'),
+    icon: getFilterReasonIcon('additive'),
     desc: rule.description,
     key: `${rule.id}-${rule.title}`,
     longDesc: rule.description,

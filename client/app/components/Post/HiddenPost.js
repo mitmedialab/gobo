@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getFilterReasonIcon } from 'utils/filtering';
 import { getSourceIcon } from 'utils/misc';
 
 const HiddenPost = (props) => {
   const { filteredBy, post } = props;
   const reasons = filteredBy.map(reason =>
-    <span className={getFilterReasonIcon(reason)} key={`${post.id}-${reason}`} />,
+    <span className={reason.icon} key={`${post.id}-${reason}`} />,
   );
   const isMastodon = post.source === 'mastodon';
   return (<div className="post-container-hidden" onClick={props.onClick} role="button" tabIndex="0">

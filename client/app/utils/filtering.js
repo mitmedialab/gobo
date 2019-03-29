@@ -1,4 +1,49 @@
 /* eslint no-mixed-operators: 0, no-param-reassign: 0, no-return-assign: 0 */
+export function getFilterReasonIcon(reasonType) {
+  const reasons = {
+    corporate: 'icon-corporate',
+    keyword: 'icon-seriousness',  // TODO: this needs a real logo
+    rudeness: 'icon-toxicity',
+    seriousness: 'icon-seriousness',
+    virality: 'icon-virality',
+    additive: 'icon-additive',
+    gender: 'icon-gender',
+  };
+  return reasons[reasonType];
+}
+
+const REASONS = {
+  virality: {
+    label: 'Virality',
+    type: 'virality',
+    icon: getFilterReasonIcon('virality'),
+  },
+  newsEcho: {
+    label: 'News Echo',
+    type: 'newsEcho',
+    icon: getFilterReasonIcon('additive'),
+  },
+  rudeness: {
+    label: 'Rudeness',
+    type: 'rudeness',
+    icon: getFilterReasonIcon('rudeness'),
+  },
+  seriousness: {
+    label: 'Seriousness',
+    type: 'seriousness',
+    icon: getFilterReasonIcon('seriousness'),
+  },
+  gender: {
+    label: 'Gender',
+    type: 'gender',
+    icon: getFilterReasonIcon('gender'),
+  },
+  corporate: {
+    label: 'Corporate',
+    type: 'corporate',
+    icon: getFilterReasonIcon('corporate'),
+  },
+};
 
 function getGenderCounts(f, m, r) {
   if (m === 0) {
@@ -6,8 +51,7 @@ function getGenderCounts(f, m, r) {
             // m = 0, f = 0
       return { f: 0, m: 0 };
     }
-
-            // m = 0 f > 0
+    // m = 0 f > 0
     return { f: r * f, m: 0 };
   } else if (f === 0) {
     return { f: 0, m: m * r };
@@ -20,8 +64,7 @@ function getGenderCounts(f, m, r) {
 
     return { f, m: Math.min(((1 - r) / r * f), m) };
   }
-
-        // m < f
+  // m < f
   if (r === 1) {
     return { f, m: 0 };
   } else if (r < m / f) {
@@ -71,7 +114,11 @@ function filterPostByKeywordAnd(post, settings) {
   }
   return {
     filtered,
-    reason: 'Keyword',
+    reason: {
+      label: 'Keyword',
+      type: 'keyword',
+      icon: getFilterReasonIcon('keyword'),
+    },
   };
 }
 
@@ -94,14 +141,18 @@ export function filterPostByKeywordOr(post, keywords) {
 function filterPostKeywordOrBySettings(post, settings) {
   return {
     filtered: filterPostByKeywordOr(post, settings.keywordsOr),
-    reason: 'Keyword',
+    reason: {
+      label: 'Keyword',
+      type: 'keyword',
+      icon: getFilterReasonIcon('keyword'),
+    },
   };
 }
 
 function filterPostByCorporate(post, settings) {
   return {
     filtered: post.is_corporate && !settings.include_corporate,
-    reason: 'Corporate',
+    reason: REASONS.corporate,
   };
 }
 
@@ -156,14 +207,22 @@ export function getFilteredPosts(posts, settings, rules) {
           const filtered = filterPostByKeywordOr(post, rule.exclude_terms);
           if (filtered) {
             keep = false;
-            filterReasons[post.id].push('Rule');
+            filterReasons[post.id].push({
+              label: rule.title,
+              type: 'keyword',
+              icon: getFilterReasonIcon('keyword'),
+            });
           }
         }
       } else if (rule.type === 'additive') {
         const filtered = filterPostByRuleLevel(post, rule);
         if (filtered) {
           keep = false;
-          filterReasons[post.id].push('Additive');
+          filterReasons[post.id].push({
+            label: rule.title,
+            type: 'additive',
+            icon: getFilterReasonIcon('additive'),
+          });
         }
       }
     });
@@ -171,22 +230,22 @@ export function getFilteredPosts(posts, settings, rules) {
     if ((post.toxicity !== null && post.toxicity !== -1 && (post.toxicity > settings.rudeness_max || post.toxicity < settings.rudeness_min)) ||
               (post.toxicity === -1 && settings.rudeness_min > 0.1)) {
       keep = false;
-      filterReasons[post.id].push('Rudeness');
+      filterReasons[post.id].push(REASONS.rudeness);
     }
     if ((settings.seriousness_max < 0.98 || settings.seriousness_min > 0.02) && (!post.news_score || post.news_score > settings.seriousness_max || post.news_score < settings.seriousness_min)) {
       keep = false;
-      filterReasons[post.id].push('Seriousness');
+      filterReasons[post.id].push(REASONS.seriousness);
     }
     const viralityScore = Math.log(post.virality_count + 1) / maxVirality;
     if (viralityScore > settings.virality_max || viralityScore < settings.virality_min) {
       keep = false;
-      filterReasons[post.id].push('Virality');
+      filterReasons[post.id].push(REASONS.virality);
     }
     if (post.is_news && (
               post.political_quintile > (settings.political_affiliation + settings.echo_range) ||
               post.political_quintile < (settings.political_affiliation - settings.echo_range))) {
       keep = false;
-      filterReasons[post.id].push('News Echo');
+      filterReasons[post.id].push(REASONS.newsEcho);
     }
     if (keep) {
       keptPosts.push(post);
@@ -207,7 +266,7 @@ export function getFilteredPosts(posts, settings, rules) {
         if (postsToRemove.indexOf(post) === -1) {
           return true;
         }
-        filterReasons[post.id].push('Gender');
+        filterReasons[post.id].push(REASONS.gender);
         return false;
       });
       filteredPosts.push(...postsToRemove);
@@ -221,20 +280,6 @@ export function getFilteredPosts(posts, settings, rules) {
     maxVirality,
     viralityAvg,
   };
-}
-
-export function getFilterReasonIcon(reason) {
-  const reasons = {
-    Corporate: 'icon-corporate',
-    Rule: 'icon-seriousness',
-    Rudeness: 'icon-toxicity',
-    Seriousness: 'icon-seriousness',
-    Virality: 'icon-virality',
-    'News Echo': 'icon-additive',
-    Gender: 'icon-gender',
-    Additive: 'icon-additive',  // TODO: update this
-  };
-  return reasons[reason];
 }
 
 export default function calculateFilteredPosts(posts, settings, rules) {
