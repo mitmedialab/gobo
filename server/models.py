@@ -512,7 +512,7 @@ class Rule(db.Model):
         'polymorphic_on': type,
     }
 
-    def __init__(self, creator_user_id, creator_display_name, title, description, shareable, source, link, type):
+    def __init__(self, creator_user_id, creator_display_name, title, description, shareable, source, link, ruleType):
         self.creator_user_id = creator_user_id
         self.creator_display_name = creator_display_name
         self.title = title
@@ -522,6 +522,7 @@ class Rule(db.Model):
         self.link = link
         self.created_at = datetime.datetime.now()
         self.last_modified = datetime.datetime.now()
+        self.type = ruleType
 
     def serialize(self):
         return {
@@ -544,8 +545,8 @@ class AdditiveRule(Rule):
 
     def __init__(self, creator_user_id, creator_display_name, title, description, shareable, source, link,
                  level_min, level_min_name, level_max, level_max_name):
-        super(AdditiveRule, self).__init__(creator_user_id, creator_display_name, title, description, shareable, source, link,
-                                   'additive')
+        super(AdditiveRule, self).__init__(creator_user_id, creator_display_name, title, description, shareable, source,
+                                           link, 'additive')
         self.level_min = level_min
         self.level_min_name = level_min_name
         self.level_max = level_max
