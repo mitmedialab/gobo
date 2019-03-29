@@ -114,8 +114,13 @@ export function filterPostByRuleLevel(post, rule) {
   if (post.rules) {
     const postRule = post.rules.find(r => r.id === rule.id);
     if (postRule) {
-      // TODO: this may need to change to be cumulative (e.g. this level or less)
-      filtered = postRule.level !== rule.level;
+      if (rule.enabled) {
+         // TODO: this may need to change to be cumulative (e.g. this level or less)
+        filtered = postRule.level !== rule.level;
+      } else {
+         // posts will hidden if the rule is disabled
+        filtered = true;
+      }
     }
   }
   return filtered;
@@ -146,19 +151,19 @@ export function getFilteredPosts(posts, settings, rules) {
     });
 
     rules.forEach((rule) => {
-      if (rule.enabled) {
-        if (rule.exclude_terms) {
+      if (rule.type === 'keyword') {
+        if (rule.enabled) {
           const filtered = filterPostByKeywordOr(post, rule.exclude_terms);
           if (filtered) {
             keep = false;
             filterReasons[post.id].push('Rule');
           }
-        } else {
-          const filtered = filterPostByRuleLevel(post, rule);
-          if (filtered) {
-            keep = false;
-            filterReasons[post.id].push('Additive');
-          }
+        }
+      } else if (rule.type === 'additive') {
+        const filtered = filterPostByRuleLevel(post, rule);
+        if (filtered) {
+          keep = false;
+          filterReasons[post.id].push('Additive');
         }
       }
     });
