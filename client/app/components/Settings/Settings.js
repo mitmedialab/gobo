@@ -385,10 +385,9 @@ class Settings extends Component {
     this.setState({ rules });
   }
 
-  // TODO: need to enable or disable the slider based on the rule
   additiveRule = rule => ({
     title: rule.title,
-    icon: getFilterReasonIcon('Rule'),
+    icon: getFilterReasonIcon('Additive'),
     desc: rule.description,
     key: `${rule.id}-${rule.title}`,
     longDesc: rule.description,

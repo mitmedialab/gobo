@@ -230,9 +230,9 @@ export function getFilterReasonIcon(reason) {
     Rudeness: 'icon-toxicity',
     Seriousness: 'icon-seriousness',
     Virality: 'icon-virality',
-    'News Echo': 'icon-echo',
+    'News Echo': 'icon-additive',
     Gender: 'icon-gender',
-    Additive: 'icon-seriousness',  // TODO: update this
+    Additive: 'icon-additive',  // TODO: update this
   };
   return reasons[reason];
 }
