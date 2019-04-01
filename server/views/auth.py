@@ -7,7 +7,7 @@ from werkzeug.exceptions import BadRequest, InternalServerError, NotImplemented 
 
 from server.core import db, mail
 from server.models import FacebookAuth, KeywordRule, Post, post_associations_table, MastodonAuth, Settings, \
-    SettingsUpdate, TwitterAuth, User, UserKeywordRule
+    SettingsUpdate, TwitterAuth, User, UserRule
 from server.blueprints import api
 
 from server.templates.email.forgot_password import FORGOT_PASSWORD
@@ -37,7 +37,7 @@ def register():
             # temporary feature flag
             if app.config['ENABLE_AUTO_SHARE_RULES']:
                 for rule in db.session.query(KeywordRule).filter_by(source='gobo', shareable=True).all():
-                    user_rule = UserKeywordRule(user.id, rule.id)
+                    user_rule = UserRule(user.id, rule.id)
                     db.session.add(user_rule)
 
             db.session.commit()

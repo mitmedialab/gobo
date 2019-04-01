@@ -475,7 +475,7 @@ describe('filtering', () => {
       } = getFilteredPosts(POSTS.posts, settings, []);
       expect(keptPosts.length).toBe(1);
       expect(filteredPosts.length).toBe(2);
-      expect(filterReasons).toEqual({ 4521474: ['Corporate'], 4521515: ['Corporate'], 4521559: [] });
+      expect(filterReasons).toEqual({ 4521474: [{ label: 'Corporate', type: 'corporate', icon: 'icon-corporate' }], 4521515: [{ label: 'Corporate', type: 'corporate', icon: 'icon-corporate' }], 4521559: [] });
     });
 
     it('filters by keyword by AND', () => {
@@ -490,7 +490,7 @@ describe('filtering', () => {
       } = getFilteredPosts(POSTS.posts, settings, []);
       expect(keptPosts.length).toBe(1);
       expect(filteredPosts.length).toBe(2);
-      expect(filterReasons).toEqual({ 4521474: ['Keyword'], 4521515: ['Keyword'], 4521559: [] });
+      expect(filterReasons).toEqual({ 4521474: [{ label: 'Keyword', type: 'keyword', icon: 'icon-seriousness' }], 4521515: [{ label: 'Keyword', type: 'keyword', icon: 'icon-seriousness' }], 4521559: [] });
     });
 
     it('filters by keyword by OR', () => {
@@ -505,7 +505,7 @@ describe('filtering', () => {
       } = getFilteredPosts(POSTS.posts, settings, []);
       expect(keptPosts.length).toBe(1);
       expect(filteredPosts.length).toBe(2);
-      expect(filterReasons).toEqual({ 4521474: ['Keyword'], 4521515: [], 4521559: ['Keyword'] });
+      expect(filterReasons).toEqual({ 4521474: [{ label: 'Keyword', type: 'keyword', icon: 'icon-seriousness' }], 4521515: [], 4521559: [{ label: 'Keyword', type: 'keyword', icon: 'icon-seriousness' }] });
     });
   });
 });
