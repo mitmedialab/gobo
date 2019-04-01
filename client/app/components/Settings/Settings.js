@@ -7,7 +7,7 @@ import 'react-toggle/style.css';
 import { updateRules, updateSettings } from 'actions/feed';
 import Input from 'components/Input/Input';
 import SettingsItem from 'components/SettingsItem/SettingsItem';
-import isEnabled, { KEYWORD_FILTER, ADDITIVE_RULE } from 'utils/featureFlags';
+import isEnabled, { KEYWORD_FILTER } from 'utils/featureFlags';
 import { getFilterReasonIcon } from 'utils/filtering';
 import MuteAllMenWhy from './MuteAllMenWhy';
 
@@ -440,9 +440,9 @@ class Settings extends Component {
     }
 
     this.state.rules.forEach((rule) => {
-      if (rule.exclude_terms) {
+      if (rule.type === 'keyword') {
         settings.push(this.keywordRule(rule));
-      } else if (isEnabled(ADDITIVE_RULE)) {
+      } else if (rule.type === 'additive') {
         settings.push(this.additiveRule(rule));
       }
     });

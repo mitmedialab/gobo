@@ -11,7 +11,7 @@ from server.blueprints import api
 logger = logging.getLogger(__name__)
 
 PERSONAL_POSTS_MAX = 300  # how many personal posts to grab
-NEWS_POSTS__QUINTILE_COUNT = 20  # how many news posts to grab. this number should divide by 5.
+NEWS_POSTS_QUINTILE_COUNT = 20  # how many news posts to grab. this number should divide by 5.
 
 
 @api.route('/get_posts', methods=['GET'])
@@ -22,7 +22,7 @@ def get_posts():
     for quintile in PoliticsEnum:
         posts = Post.query.filter((
             Post.id.notin_(ignore_ids)) & (Post.political_quintile == quintile)).order_by(
-                Post.created_at.desc())[:NEWS_POSTS__QUINTILE_COUNT]
+                Post.created_at.desc())[:NEWS_POSTS_QUINTILE_COUNT]
         personalized_posts.extend(posts)
 
     for rule_association in current_user.rule_associations:
@@ -73,7 +73,6 @@ def update_settings():
 @login_required
 def get_rules():
     rules = []
-    # TODO: sort by time?
     for association in current_user.rule_associations:
         serialized = association.rule.serialize()
         serialized.update(enabled=association.enabled, level=association.level)
