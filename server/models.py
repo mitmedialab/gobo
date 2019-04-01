@@ -26,7 +26,7 @@ class User(db.Model):
     completed_registration = db.Column(db.Boolean, default=False)
 
     last_login = db.Column(db.DateTime, nullable=True)
-    last_post_fetch = db.Column(db.DateTime, nullable=True)
+    last_post_fetch = db.Column(db.DateTime, nullable=Tr
 
     facebook_name = db.Column(db.String(255))
     facebook_picture_url = db.Column(db.String(255))
@@ -606,20 +606,19 @@ class UserRule(db.Model):
         self.last_modified = datetime.datetime.now()
 
 
-# TODO: need to delete these too when we clean up old posts
 class PostAdditiveRule(db.Model):
     __tablename__ = "posts_additive_rules"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    rule_id = db.Column(db.Integer, db.ForeignKey('rules.id'), nullable=False)
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
+    rule_id = db.Column(db.Integer, db.ForeignKey('rules.id', ondelete='CASCADE'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), nullable=False)
     level = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
     last_modified = db.Column(db.DateTime, nullable=False)
 
     db.PrimaryKeyConstraint('rule_id', 'post_id')
 
-    post = db.relationship("Post", back_populates="rule_associations")
-    rule = db.relationship("AdditiveRule", back_populates="post_associations")
+    post = db.relationship("Post", back_populates="rule_associations", passive_deletes=True)
+    rule = db.relationship("AdditiveRule", back_populates="post_associations", passive_deletes=True)
 
     def __init__(self, rule_id, post_id, level):
         self.rule_id = rule_id

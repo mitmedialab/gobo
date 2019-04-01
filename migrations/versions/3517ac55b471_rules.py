@@ -56,8 +56,8 @@ def upgrade():
     sa.Column('level', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('last_modified', sa.DateTime(), nullable=False),
-    sa.ForeignKeyConstraint(['post_id'], ['posts.id'], ),
-    sa.ForeignKeyConstraint(['rule_id'], ['rules.id'], ),
+    sa.ForeignKeyConstraint(['post_id'], ['posts.id'], ondelete='CASCADE'),
+    sa.ForeignKeyConstraint(['rule_id'], ['rules.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('users_rules',
