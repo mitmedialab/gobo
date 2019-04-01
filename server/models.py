@@ -494,8 +494,8 @@ class Rule(db.Model):
     creator_display_name = db.Column(db.String(255), nullable=False)
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(255), nullable=False)
+    long_description = db.Column(db.String(255), nullable=False)
     shareable = db.Column(db.Boolean, nullable=False)
-    source = db.Column(db.String(255), nullable=False)
     link = db.Column(db.String(255))
     exclude_terms = db.Column(ARRAY(db.String(255)))
     level_min = db.Column(db.Integer)
@@ -512,7 +512,7 @@ class Rule(db.Model):
         'polymorphic_on': type,
     }
 
-    def __init__(self, creator_user_id, creator_display_name, title, description, shareable, source, link, ruleType):
+    def __init__(self, creator_user_id, creator_display_name, title, description, shareable, source, link, rule_type):
         self.creator_user_id = creator_user_id
         self.creator_display_name = creator_display_name
         self.title = title
@@ -522,7 +522,7 @@ class Rule(db.Model):
         self.link = link
         self.created_at = datetime.datetime.now()
         self.last_modified = datetime.datetime.now()
-        self.type = ruleType
+        self.type = rule_type
 
     def serialize(self):
         return {
@@ -617,8 +617,8 @@ class PostAdditiveRule(db.Model):
 
     db.PrimaryKeyConstraint('rule_id', 'post_id')
 
-    post = db.relationship("Post", back_populates="rule_associations", passive_deletes=True)
-    rule = db.relationship("AdditiveRule", back_populates="post_associations", passive_deletes=True)
+    post = db.relationship("Post", back_populates="rule_associations")
+    rule = db.relationship("AdditiveRule", back_populates="post_associations")
 
     def __init__(self, rule_id, post_id, level):
         self.rule_id = rule_id
