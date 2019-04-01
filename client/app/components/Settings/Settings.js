@@ -390,7 +390,7 @@ class Settings extends Component {
     icon: getFilterReasonIcon('additive'),
     desc: rule.description,
     key: `${rule.id}-${rule.title}`,
-    longDesc: rule.description,
+    longDesc: rule.long_description,
     subtitle: `Curated by ${rule.creator_display_name}`,
     content: (
       <div>

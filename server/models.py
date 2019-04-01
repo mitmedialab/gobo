@@ -494,7 +494,8 @@ class Rule(db.Model):
     creator_display_name = db.Column(db.String(255), nullable=False)
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(255), nullable=False)
-    long_description = db.Column(db.String(255), nullable=False)
+    long_description = db.Column(db.String(255))
+    source = db.Column(db.String(255), nullable=False)
     shareable = db.Column(db.Boolean, nullable=False)
     link = db.Column(db.String(255))
     exclude_terms = db.Column(ARRAY(db.String(255)))
@@ -543,10 +544,11 @@ class AdditiveRule(Rule):
     additive_links = db.relationship("AdditiveRuleLink", back_populates="rule", cascade="delete, delete-orphan")
     post_associations = db.relationship("PostAdditiveRule", back_populates="rule", cascade="delete, delete-orphan")
 
-    def __init__(self, creator_user_id, creator_display_name, title, description, shareable, source, link,
-                 level_min, level_min_name, level_max, level_max_name):
+    def __init__(self, creator_user_id, creator_display_name, title, description, long_description, shareable, source,
+                 link, level_min, level_min_name, level_max, level_max_name):
         super(AdditiveRule, self).__init__(creator_user_id, creator_display_name, title, description, shareable, source,
                                            link, 'additive')
+        self.long_description = long_description
         self.level_min = level_min
         self.level_min_name = level_min_name
         self.level_max = level_max
@@ -559,6 +561,7 @@ class AdditiveRule(Rule):
             'level_min_name': self.level_min_name,
             'level_max': self.level_max,
             'level_max_name': self.level_max_name,
+            'long_description': self.long_description,
         })
         return rule_dict
 

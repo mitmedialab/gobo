@@ -51,7 +51,8 @@ def create_keyword_rule(creator_id, creator_display_name, title, description, ex
 @click.option('--creator-id', required=True, type=int, help='ID of user to attribute creation of this rule')
 @click.option('--creator-display-name', required=True, type=str, help='Name to display')
 @click.option('--title', required=True, type=str, help='Rule title (short)')
-@click.option('--description', required=True, type=str, help='Rule description (long)')
+@click.option('--description', required=True, type=str, help='Rule description (short for display under title)')
+@click.option('--long-description', required=True, type=str, help='Detailed rule description')
 @click.option('--level-min', required=True, type=str, help='Min value for this rule')
 @click.option('--level-min-name', required=True, type=str, help='Min value display name')
 @click.option('--level-max', required=True, type=str, help='Max value for this rule')
@@ -61,10 +62,10 @@ def create_keyword_rule(creator_id, creator_display_name, title, description, ex
 @click.option('--link', required=False, type=str, help='URL to include in the rule.')
 @with_appcontext
 # pylint: disable=too-many-arguments
-def create_additive_rule(creator_id, creator_display_name, title, description, level_min, level_min_name, level_max,
-                         level_max_name, shareable, source, link):
+def create_additive_rule(creator_id, creator_display_name, title, description, long_description, level_min,
+                         level_min_name, level_max, level_max_name, shareable, source, link):
     """Creates a new keyword rule."""
-    rule = AdditiveRule(creator_id, creator_display_name, title, description, shareable, source, link,
+    rule = AdditiveRule(creator_id, creator_display_name, title, description, long_description, shareable, source, link,
                         level_min, level_min_name, level_max, level_max_name)
     db.session.add(rule)
     db.session.commit()

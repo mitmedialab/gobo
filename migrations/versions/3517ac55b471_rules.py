@@ -24,6 +24,7 @@ def upgrade():
     sa.Column('creator_display_name', sa.String(length=255), nullable=False),
     sa.Column('title', sa.String(length=255), nullable=False),
     sa.Column('description', sa.String(length=255), nullable=False),
+    sa.Column('long_description', sa.String(length=255), nullable=True),
     sa.Column('shareable', sa.Boolean(), nullable=False),
     sa.Column('source', sa.String(length=255), nullable=False),
     sa.Column('link', sa.String(length=255), nullable=True),
