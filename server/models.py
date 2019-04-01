@@ -26,7 +26,7 @@ class User(db.Model):
     completed_registration = db.Column(db.Boolean, default=False)
 
     last_login = db.Column(db.DateTime, nullable=True)
-    last_post_fetch = db.Column(db.DateTime, nullable=Tr
+    last_post_fetch = db.Column(db.DateTime, nullable=True)
 
     facebook_name = db.Column(db.String(255))
     facebook_picture_url = db.Column(db.String(255))
