@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { getSourceIcon } from 'utils/misc';
 import Head from './Head';
 
 
@@ -19,7 +20,15 @@ const HeadTwitter = (props) => {
   const link = `https://twitter.com/statuses/${content.id_str}`;
   const author = content.user.name;
   return (
-    <Head post={props.post} author={author} picSrc={content.user.profile_image_url_https} link={link} repost={repost} />
+    <Head
+      post={props.post}
+      author={author}
+      picSrc={content.user.profile_image_url_https}
+      link={link}
+      repost={repost}
+      iconUrl="https://twitter.com/"
+      iconClass={getSourceIcon('twitter')}
+    />
   );
 };
 

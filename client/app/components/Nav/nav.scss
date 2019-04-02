@@ -210,20 +210,15 @@
   height: 40px;
 }
 
-
-
 .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
-  background-color: $color1;
-}
-.nav > li > a:hover, .nav > li > a:focus {
-  background-color: $color1;
+  background-color: $header-color;
 }
 
 .nav .open > a, .nav .open > a.dropdown-toggle:hover, .nav .open > a.dropdown-toggle:focus {
-  background-color: darken($color1, 20%);
+  background-color: lighten($header-color, 20%);
 }
 .nav > li > a.dropdown-toggle:hover, .nav > li > a.dropdown-toggle:focus {
-  background-color: darken($color1, 20%);
+  background-color: lighten($header-color, 20%);
 }
 
 

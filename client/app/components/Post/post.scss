@@ -2,6 +2,8 @@ $post-footer-height:40px;
 $post-background-color: white;
 $faded-background-color: darken($post-background-color, 10%);
 $icon-size: 20px;
+$post-padding: 30px;
+$post-hidden-padding: $padding-small-vertical;
 
 .post {
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.35);
@@ -27,7 +29,7 @@ $icon-size: 20px;
   }
 
   .hidden-by {
-    color: $red;
+    color: $primary-color;
     width: 100%;
     text-align: left;
     background-color: $faded-background-color;
@@ -42,6 +44,7 @@ $icon-size: 20px;
   .post-header{
     display: inline-block;
     padding-bottom: 1em;
+    width: 100%;
 
     .rt-comment {
       padding-bottom: 15px;
@@ -49,6 +52,11 @@ $icon-size: 20px;
         display: inline-block;
         width: 24px;
       }
+    }
+
+    .source-icon {
+      color: $light-gray;
+      margin-right: $post-hidden-padding - $post-padding;
     }
   }
 
@@ -76,18 +84,16 @@ $icon-size: 20px;
     position:relative;
   }
 
-  $post-padding: 30px;
   .post-content {
-    padding:$post-padding;
+    padding: $post-padding;
     padding-bottom: $post-padding + $post-footer-height;
   }
 
   .post-footer {
     //position: absolute;
     width: 100%;
-    background-color: $color2;
+    background-color: $primary-color;
     padding: 0.4em;
-    text-align: center;
     bottom:0px;
     position: absolute;
     height:$post-footer-height;
@@ -139,7 +145,7 @@ $icon-size: 20px;
   position: relative;
   top: 50%;
   transform: translateY(-50%);
-  color: $color1;
+  color: $primary-color;
 
   .icon {
     font-size:2em;
@@ -181,10 +187,10 @@ $icon-size: 20px;
   padding: $post-footer-height / 8;
 
   .footer-text {
-    color: $text-color;
+    color: $inverse-text-color;
     float: right;
     margin-right:1em;
-    border-bottom: 1px dotted $text-color;
+    border-bottom: 1px dotted $inverse-text-color;
     text-decoration: none;
     font-size: 12px;
     cursor: pointer;
@@ -192,7 +198,7 @@ $icon-size: 20px;
   }
 
   .footer-text:hover {
-    color: darken($text-color, 20%);
+    color: darken($inverse-text-color, 20%);
     text-decoration: none;
   }
 }
@@ -216,14 +222,18 @@ $icon-size: 20px;
 .post-container-hidden {
   padding-bottom: 0;
 
+  .icon-source {
+    color: $primary-color;
+  }
+
   .post {
     box-shadow: unset;
-    color: $color1;
+    color: $primary-color;
     background-color: $faded-background-color;
   }
 
   .front {
-    padding: $padding-small-vertical;
+    padding: $post-hidden-padding;
   }
 
   .icon-squared {
@@ -275,17 +285,27 @@ $icon-size: 20px;
 }
 
 .post-actions-list {
-  padding-top: 20px;
+  color: $inverse-text-color;
+
+  a {
+    color: $inverse-text-color;
+  }
+
   .action {
-    padding:0 40px 0 0;
+
+    padding:0 $padding-large-horizontal 0 0;
+
     .action-icon {
+
       display: inline-block;
+
       &.icon-twitter_retweet {
         min-width: 24px;
       }
     }
+
     .action-count {
-      padding-left:4px;
+      padding-left: 4px;
     }
   }
 }
@@ -294,7 +314,6 @@ $icon-size: 20px;
   text-align: left;
   margin-top: 10px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-
 
   img {
     height: auto;
@@ -309,18 +328,11 @@ $icon-size: 20px;
   .link-caption {
     font-weight: 700;
     font-size: 1.3em;
-    padding-botton: 0.3em;
-
-  }
-
-  .link-description {
-
   }
 
   .link-name {
     padding-top: 1em;
     font-size: 0.7em;
-
   }
 
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { getSourceIcon } from 'utils/misc';
 import Head from './Head';
 
 
@@ -20,7 +21,14 @@ const HeadFacebook = (props) => {
     }
   }
   return (
-    <Head post={props.post} author={author} picSrc={picSrc} link={content.permalink_url} />
+    <Head
+      post={props.post}
+      author={author}
+      picSrc={picSrc}
+      link={content.permalink_url}
+      iconUrl="https://www.facebook.com/"
+      iconClass={getSourceIcon('facebook')}
+    />
   );
 };
 

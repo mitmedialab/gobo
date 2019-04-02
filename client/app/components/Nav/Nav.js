@@ -7,7 +7,7 @@ import onClickOutside from 'react-onclickoutside';
 
 const propTypes = {
   auth: PropTypes.object.isRequired,
-  dispatch: PropTypes.func,
+  dispatch: PropTypes.func.isRequired,
 };
 
 class NavBar extends Component {
@@ -113,7 +113,7 @@ class NavBar extends Component {
             <li>
               <Link to={'/'}>
                 <img alt="Gobo" src="images/gobo_temp_logo.png" height="100%" width="auto" />
-                <span className="logo-title">GOBO</span>
+                <span className="logo-title">Gobo</span>
               </Link>
             </li>
           </ul>
