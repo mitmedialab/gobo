@@ -90,7 +90,7 @@ def delete_rule(rule_id):
 @with_appcontext
 def share_rule_to_user(user_id, rule_id, enabled):
     """Share keyword rule with a specific user or modify enabled state"""
-    setting = UserRule.query.filter_by(user_id=user_id, keyword_rule_id=rule_id).first()
+    setting = UserRule.query.filter_by(user_id=user_id, rule_id=rule_id).first()
     if setting:
         setting.enabled = enabled
         action = "updated"
