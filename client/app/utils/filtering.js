@@ -2,7 +2,7 @@
 export function getFilterReasonIcon(reasonType) {
   const reasons = {
     corporate: 'icon-corporate',
-    keyword: 'icon-seriousness',  // TODO: this needs a real logo
+    keyword: 'icon-keyword-rule',  // TODO: this needs a real logo
     rudeness: 'icon-toxicity',
     seriousness: 'icon-seriousness',
     virality: 'icon-virality',
