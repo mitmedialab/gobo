@@ -6,7 +6,7 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import BadRequest, InternalServerError, NotImplemented as NotImplementedEndpoint
 
 from server.core import db, mail
-from server.models import FacebookAuth, KeywordRule, Post, post_associations_table, MastodonAuth, Settings, \
+from server.models import FacebookAuth, Rule, Post, post_associations_table, MastodonAuth, Settings, \
     SettingsUpdate, TwitterAuth, User, UserRule
 from server.blueprints import api
 
@@ -36,7 +36,7 @@ def register():
 
             # temporary feature flag
             if app.config['ENABLE_AUTO_SHARE_RULES']:
-                for rule in db.session.query(KeywordRule).filter_by(source='gobo', shareable=True).all():
+                for rule in db.session.query(Rule).filter_by(source='gobo', shareable=True).all():
                     user_rule = UserRule(user.id, rule.id)
                     db.session.add(user_rule)
 
