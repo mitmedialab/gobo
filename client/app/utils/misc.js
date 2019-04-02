@@ -82,7 +82,7 @@ export function getSourceIcon(platform) {
   const icons = {
     twitter: 'icon-twitter-squared',
     facebook: 'icon-facebook-squared',
-    mastodon: 'icon-mastodon',
+    mastodon: 'icon-mastodon-logo',
   };
   return icons[platform];
 }
