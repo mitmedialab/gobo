@@ -16,7 +16,7 @@ $handle-color: lighten($text-color, 10%);
   min-height: 100%;
 
   .filter-toggle-btn {
-    background-color: $navColor;
+    background-color: $nav-color;
   }
 
   *:focus{
@@ -27,20 +27,22 @@ $handle-color: lighten($text-color, 10%);
 
 .settings-content {
   height: 100%;
-  //overflow-y: scroll;
   overflow-x: hidden;
+  border-style: solid;
+  border-width: 0 0 0 1px;
+  border-color: $nav-border-color;
 }
 
 .settings-header {
   height: 80px;
-  color: $color1;
+  background-color: $nav-color;
 
   h1 {
     margin: 0px;
     padding: 0px;
     padding-top: 25px;
     margin-left: 150px;
-    color: $color1;
+    color: white;
   }
 }
 
@@ -63,7 +65,7 @@ $handle-color: lighten($text-color, 10%);
 .arrow-icon {
   @extend .pull-left;
   font-size: 20px;
-  color: $color1;
+  color: white;
   padding-top: 27px;
   padding-left: 30px;
 }
@@ -98,21 +100,15 @@ $handle-color: lighten($text-color, 10%);
   }
 }
 
-.filter:nth-child(odd) {
-  background: #fff;
-}
-
-.filter:nth-child(even) {
-  background: $color2;
-}
-
 .filter {
   width: 100%;
-  //transition: 0.3s;
+  border-style: solid;
+  border-width: 1px 0 0;
+  border-color: $nav-border-color;
 }
 
 .filter-title {
-  color:$color1;
+  color: $color1;
 }
 
 .filter-title-text {
@@ -253,7 +249,7 @@ $handle-height: 24px;
     height: 56px;
   }
   .setting-item {
-    padding:0;
+    padding: 0;
   }
   .filter-inner {
     transform: translate(100px);
