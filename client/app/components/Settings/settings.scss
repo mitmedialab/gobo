@@ -253,6 +253,7 @@ $handle-height: 24px;
   width: 100%;
 }
 
+$control-width: 314px; // manually determind
 @mixin small-sidebar {
   .filter {
     height: 56px;
@@ -262,7 +263,7 @@ $handle-height: 24px;
   }
   .filter-inner {
     transform: translate(100px);
-    width: 314px;
+    width: $control-width;
   }
   .settings-menu {
     position: fixed;
@@ -270,7 +271,7 @@ $handle-height: 24px;
 
   .filter-inner.open{
     position: absolute;
-    width: 314px; // manually determind
+    width: $control-width; // manually determind
     right: 56px;  // width of sidebar
     transform: translate(-322px);
     background-color: $sidebar-color;
@@ -355,4 +356,16 @@ $handle-height: 24px;
   .filter-modal-description {
     padding-bottom: $padding-small-vertical;
   }
+}
+
+$rule-height: 30px;
+.rule-sparklines {
+  @extend .pull-left;
+  width: $control-width - 37px; // found manually
+  height: $rule-height;
+}
+
+.setting-with-sparklines {
+  position: relative;
+  top: $rule-height / 2;
 }
