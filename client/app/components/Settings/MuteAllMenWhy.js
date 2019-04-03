@@ -75,7 +75,7 @@ class MuteAllMenWhy extends Component {
               We hope you take it as an illustrative example rather than as sexism.
             </p>
             <p>
-              You're probably wondering why there is no \"mute women\" button? On many of our feeds that is sadly the default already.
+              You're probably wondering why there is no "mute women" button? On many of our feeds that is sadly the default already.
             </p>
           </div>
           <div className="modal-close-button">

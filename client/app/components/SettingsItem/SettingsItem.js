@@ -62,7 +62,7 @@ class SettingsItem extends Component {
   render() {
     const openClass = this.props.isOpen ? 'open' : '';
     return (
-      <div className="filter-content">
+      <div className={`filter-content ${this.props.feature.ruleCss}`}>
         <div className="filter-icon">
           <span className={`filter-title-icon ${this.props.feature.icon}`} tabIndex="0" role="button" onClick={this.toggleOpen} />
         </div>
