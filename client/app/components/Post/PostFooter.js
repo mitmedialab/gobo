@@ -36,8 +36,11 @@ class PostFooter extends Component {
       icon.url = 'https://joinmastodon.org/';
     }
 
+    const isAdditive = this.props.post.is_news || this.props.post.rules;
+    const additiveCSS = isAdditive ? 'additive-post' : '';
+
     return (
-      <div className="post-footer">
+      <div className={`post-footer ${additiveCSS}`}>
         <div className="footer-content">
           {!this.props.flipped && this.makeActionList()}
           <a className="footer-text" onClick={this.props.onFlipClick} role="button">{text}</a>

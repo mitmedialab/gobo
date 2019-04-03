@@ -108,20 +108,15 @@ $sidebar-color: #fff;
   border-color: $nav-border-color;
 }
 
-.filter-title {
-  color: $primary-color;
-}
-
 .filter-title-text {
   vertical-align: middle;
-  font-weight:600;
+  font-weight:800;
   font-size:1.1em;
 }
 
 .filter-title-icon {
   font-size:40px;
   vertical-align: top;
-  color: $primary-color;
   margin-right: 0.5em;
   :before {
     margin-left: 0px;
@@ -240,7 +235,20 @@ $handle-height: 24px;
 .filter-content {
   display:flex;
   padding: 30px 50px 30px 30px;
+
+  &.additive {
+    .filter-icon {
+      color: $additive-color;
+    }
+  }
+
+  &.filter {
+    .filter-icon {
+      color: $filter-color;
+    }
+  }
 }
+
 .filter-inner {
   width: 100%;
 }
