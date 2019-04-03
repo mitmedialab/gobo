@@ -39,7 +39,7 @@ $layer-top: $layer5;
       font-size: 18px;
       font-weight: 100;
       letter-spacing: .7px;
-      color: $button-color;
+      color: $btn-primary-bg-color;
       font-weight: 600;
 
     //  @media $mobile {
@@ -84,7 +84,7 @@ $layer-top: $layer5;
   @include transition(all 0.7s ease-in-out);
     z-index: $layer1;
     -webkit-appearance: none;
-    border: 1px solid $button-color;
+    border: 1px solid $btn-primary-bg-color;
     outline: none;
     padding: 18px 15px 0 15px;
     margin: 0 auto 13px auto;

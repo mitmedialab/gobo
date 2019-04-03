@@ -1,4 +1,3 @@
-$button-default-color: #fff;
 .registration-screen {
   @include display(absolute);
   @include topLeft(0, 0);
@@ -71,8 +70,8 @@ $button-default-color: #fff;
       position: relative;
       border: none;
       border-radius: 3px;
-      background: $button-default-bg;
-      color: $button-default-color;
+      background: $btn-primary-bg-color;
+      color: $btn-primary-text-color;
       font: normal normal 700 13px/40px 'Roboto', sans-serif;
       text-transform: uppercase;
       letter-spacing: 1.5px;
@@ -109,27 +108,27 @@ $button-default-color: #fff;
       &.disabled {
         background: #fff;
         cursor: not-allowed;
-        color: $button-default-bg;
-        border: 1px solid  $button-default-bg;
+        color: $btn-primary-bg-color;
+        border: 1px solid  $btn-primary-bg-color;
         &:hover,
         &:focus {
           background: #fff;
           cursor: not-allowed;
-          color: $button-default-bg;
-          border: 1px solid  $button-default-bg;
+          color: $btn-primary-bg-color;
+          border: 1px solid  $btn-primary-bg-color;
         }
       }
 
       &:hover,
       &:focus {
-        color: $button-default-color;
-        background: darken($button-default-bg, 10%);
+        color: $btn-primary-text-color;
+        background: darken($btn-primary-bg-color, 10%);
       }
 
       &:active,
       &.active {
         @include box-shadow(none);
-        background: darken($button-default-bg, 20%);
+        background: darken($btn-primary-bg-color, 20%);
       }
     }
   }

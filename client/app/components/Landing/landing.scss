@@ -27,12 +27,12 @@
 	}
 
 	a {
-		color: $button-color;
+		color: $btn-primary-bg-color;
 	}
 
 	Button {
-		background-color: $button-color;
-		color: #fff;
+		background-color: $btn-primary-bg-color;
+		color: $btn-primary-text-color;
 		width: 100%;
 		padding: 12px;
 		margin: 8px 0;
