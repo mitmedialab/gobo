@@ -86,3 +86,35 @@ export function getSourceIcon(platform) {
   };
   return icons[platform];
 }
+
+export function calculateBins(min, numBins, posts, setting) {
+  let max = 0;
+  posts.forEach((post) => {
+    if (max < post[setting]) {
+      max = post[setting];
+    }
+  });
+  const bins = [];
+  const thresholds = [];
+  const increment = (max - min) / numBins;
+  let total = 0;
+
+  for (let i = 0; i < numBins; i += 1) {
+    bins.push(0);
+    total += increment;
+    thresholds.push(total);
+  }
+
+  posts.forEach((post) => {
+    const value = post[setting];
+    thresholds.some((threshold, i) => {
+      if (value === undefined || value === null || value <= threshold) {
+        bins[i] += 1;
+        return true;
+      }
+      return false;
+    });
+  });
+
+  return bins;
+}

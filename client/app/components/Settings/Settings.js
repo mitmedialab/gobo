@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactSlider from 'react-slider';
+import { Sparklines, SparklinesBars } from 'react-sparklines';
 import PropTypes from 'prop-types';
 import Toggle from 'react-toggle';
 import 'react-toggle/style.css';
@@ -9,8 +10,12 @@ import Input from 'components/Input/Input';
 import SettingsItem from 'components/SettingsItem/SettingsItem';
 import isEnabled, { KEYWORD_FILTER } from 'utils/featureFlags';
 import { getFilterReasonIcon } from 'utils/filtering';
+import { calculateBins } from 'utils/misc';
 import MuteAllMenWhy from './MuteAllMenWhy';
 
+const SPARKLINE_HEIGHT = 30;
+const SPARKLINE_BINS = 30;
+const SPARKLINE_STYLES = { strokeWidth: '1', fill: '#929292' }; // same color as the slider
 
 class Settings extends Component {
 
@@ -183,18 +188,27 @@ class Settings extends Component {
     ruleCss: 'filter',
     content: (
       <div>
-        <ReactSlider
-          defaultValue={[0, 1]}
-          min={0}
-          max={1}
-          step={0.01}
-          withBars
-          value={[this.state.settings.seriousness_min, this.state.settings.seriousness_max]}
-          onAfterChange={e => this.handleDualSliderChange(e, 'seriousness')}
-        />
-        <div className="slider-labels">
-          <span className="pull-left"> Not serious</span>
-          <span className="pull-right"> Very serious</span>
+        {this.props.feed.posts.length > 0 &&
+          <div className="rule-sparklines">
+            <Sparklines data={calculateBins(0, SPARKLINE_BINS, this.props.feed.posts, 'news_score')} height={SPARKLINE_HEIGHT}>
+              <SparklinesBars style={SPARKLINE_STYLES} />
+            </Sparklines>
+          </div>
+        }
+        <div className="setting-with-sparklines">
+          <ReactSlider
+            defaultValue={[0, 1]}
+            min={0}
+            max={1}
+            step={0.01}
+            withBars
+            value={[this.state.settings.seriousness_min, this.state.settings.seriousness_max]}
+            onAfterChange={e => this.handleDualSliderChange(e, 'seriousness')}
+          />
+          <div className="slider-labels">
+            <span className="pull-left"> Not serious</span>
+            <span className="pull-right"> Very serious</span>
+          </div>
         </div>
       </div>
       ),
@@ -209,7 +223,14 @@ class Settings extends Component {
     ruleCss: 'filter',
     content: (
       <div>
-        <div>
+        {this.props.feed.posts.length > 0 &&
+          <div className="rule-sparklines">
+            <Sparklines data={calculateBins(this.state.settings.rudeness_min, SPARKLINE_BINS, this.props.feed.posts, 'rudeness')} height={SPARKLINE_HEIGHT}>
+              <SparklinesBars style={SPARKLINE_STYLES} />
+            </Sparklines>
+          </div>
+        }
+        <div className="setting-with-sparklines">
           <ReactSlider
             defaultValue={[0, 1]}
             min={0}
@@ -302,18 +323,27 @@ class Settings extends Component {
     ruleCss: 'filter',
     content: (
       <div>
-        <ReactSlider
-          defaultValue={[0, 1]}
-          min={0}
-          max={1}
-          step={0.01}
-          withBars
-          value={[this.state.settings.virality_min, this.state.settings.virality_max]}
-          onAfterChange={e => this.handleDualSliderChange(e, 'virality')}
-        />
-        <div className="slider-labels">
-          <span className="pull-left"> Obscure </span>
-          <span className="pull-right"> Viral</span>
+        {this.props.feed.posts.length > 0 &&
+          <div className="rule-sparklines">
+            <Sparklines data={calculateBins(0, SPARKLINE_BINS, this.props.feed.posts, 'virality_count')} height={SPARKLINE_HEIGHT}>
+              <SparklinesBars style={SPARKLINE_STYLES} />
+            </Sparklines>
+          </div>
+        }
+        <div className="setting-with-sparklines">
+          <ReactSlider
+            defaultValue={[0, 1]}
+            min={0}
+            max={1}
+            step={0.01}
+            withBars
+            value={[this.state.settings.virality_min, this.state.settings.virality_max]}
+            onAfterChange={e => this.handleDualSliderChange(e, 'virality')}
+          />
+          <div className="slider-labels">
+            <span className="pull-left"> Obscure </span>
+            <span className="pull-right"> Viral</span>
+          </div>
         </div>
       </div>
       ),
