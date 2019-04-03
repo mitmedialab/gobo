@@ -112,7 +112,7 @@ class NavBar extends Component {
           <ul className="nav navbar-nav navbar-left logo">
             <li>
               <Link to={'/'}>
-                <img alt="Gobo" src="images/gobo_temp_logo.png" height="100%" width="auto" />
+                <img alt="Gobo" src="images/gobo-logo.png" height="100%" width="auto" />
                 <span className="logo-title">Gobo</span>
               </Link>
             </li>
