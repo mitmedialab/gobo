@@ -6,7 +6,10 @@ import { getPostDateString } from 'utils/misc';
 
 const Head = props => (
   <div className="post-header">
-    {props.repost &&
+    <div className="pull-right">
+      <a href={props.iconUrl} target="_blank" rel="noopener noreferrer" className={`source-icon ${props.iconClass}`} />
+    </div>
+    {Object.keys(props.repost).length > 0 &&
     <div className="rt-comment">
       <a href={props.repost.url}>
         <i className={props.repost.icon} />{props.repost.label}
@@ -31,6 +34,8 @@ Head.propTypes = {
   author: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
   picSrc: PropTypes.string.isRequired,
+  iconClass: PropTypes.string.isRequired,
+  iconUrl: PropTypes.string.isRequired,
   repost: PropTypes.object,
   account: PropTypes.string,
 };

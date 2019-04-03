@@ -2,27 +2,34 @@
 
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:200,200i,300,300i,400,600,700,800,900,900i');
 
+$purple: rgb(61, 28, 89);
+$red: rgb(195, 45, 67);
+$orange: rgb(217, 133, 45);
+$teal: rgb(55, 141, 145);
+$light-gray: #dddddd;
 
-$color1: #ff3b3f;
-$color2: #caebf2;
+$primary-color: $purple;
+$secondary-color: $orange;
+$inverse-text-color: white;
+
+$btn-primary-bg-color: $primary-color;
+$btn-primary-text-color: $inverse-text-color;
+
+$additive-rule-color: $teal;
+$filtered-rule-color: $purple;
+
+$header-color: black;
+
+$nav-color: $primary-color;
+$nav-border-color: $light-gray;
+
 $background-color: #efefef;
 $text-color: #787878;
-$button-color: #8cd4de;
 
-$red: #ff1e21;
 $green: #00a000;
 $dark-blue: #080533;
 
-$navBackground: $color1;
-$navColor: white;
 $background: $background-color;
-
-$button-default-bg: $button-color;
-$button-default-color: $text-color;
-$button-disabled: #6f6f6f;
-
-$navbar-default-bg: $color1;
-$navbar-default-color: #fff;
 
 $font: 'Nunito Sans', sans-serif;
 

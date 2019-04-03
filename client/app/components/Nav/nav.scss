@@ -15,11 +15,15 @@
   border-radius: 0;
   border: 0;
   box-shadow: none;
-  background-color: $color1;
+  background-color: $header-color;
 }
 
 .navbar .logo {
   margin: 0 !important;
+
+  a:hover {
+    background-color: $header-color;
+  }
 }
 
 .navbar-nav.navbar-right, .navbar-nav.navbar-right:last-child {
@@ -56,12 +60,6 @@
 }
 
 @media (max-width: 900px) {
-  //.logged .navbar {
-  //  //margin-left: 45px;
-  //  padding: 10px 15px;
-  //  min-height: 45px;
-  //}
-
   .navbar .logo{
     float: left !important;
   }
@@ -85,12 +83,6 @@
   }
 }
 
-//@media (max-width: 900px) {
-//  .logo > li > a {
-//    padding: 0;
-//  }
-//}
-
 .nav > li > a .name {
   color: #fff;
   padding-left: 8px;
@@ -106,7 +98,6 @@
 .navbar .nav > li.dropdown .dropdown-menu {
   margin-top: 0;
   padding: 15px 12px;
-  //top: 60px;
   border-radius: 5px;
   background-color: #f9f9f9;
   overflow: hidden;
@@ -210,26 +201,9 @@
   height: 40px;
 }
 
-
-
-.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
-  background-color: $color1;
-}
-.nav > li > a:hover, .nav > li > a:focus {
-  background-color: $color1;
-}
-
 .nav .open > a, .nav .open > a.dropdown-toggle:hover, .nav .open > a.dropdown-toggle:focus {
-  background-color: darken($color1, 20%);
+  background-color: lighten($header-color, 20%);
 }
 .nav > li > a.dropdown-toggle:hover, .nav > li > a.dropdown-toggle:focus {
-  background-color: darken($color1, 20%);
+  background-color: lighten($header-color, 20%);
 }
-
-
-
-//@media (max-width: 599px) {
-//  .navbar > .navbar-right, .navbar .navbar-nav > li.dropdown, .navbar .navbar-nav > li.dropdown .navbar-btn {
-//    position: static !important;
-//  }
-//}

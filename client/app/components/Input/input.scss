@@ -39,27 +39,14 @@ $layer-top: $layer5;
       font-size: 18px;
       font-weight: 100;
       letter-spacing: .7px;
-      color: $button-color;
+      color: $btn-primary-bg-color;
       font-weight: 600;
-
-    //  @media $mobile {
-    //  font-size: 16px;
-    //  font-weight: 300;
-    //}
     }
-
-  //  @media $mobile {
-  //  height: $input-height-mobile;
-  //}
   }
 
   &.input_focused, &.input_hasValue {
     label.input_label {
       height: 46px;
-
-    //  @media $mobile {
-    //  height: 40px
-    //}
 
       .label_text {
         letter-spacing: .7px;
@@ -84,7 +71,7 @@ $layer-top: $layer5;
   @include transition(all 0.7s ease-in-out);
     z-index: $layer1;
     -webkit-appearance: none;
-    border: 1px solid $button-color;
+    border: 1px solid $btn-primary-bg-color;
     outline: none;
     padding: 18px 15px 0 15px;
     margin: 0 auto 13px auto;
@@ -93,13 +80,6 @@ $layer-top: $layer5;
     font-weight: 300;
     font-size: $input-font-size;
     height: $input-height;
-
-  //  @media $mobile {
-  //  font-size: 14px;
-  //  padding: 15px 15px 0 15px;
-  //  height: $input-height-mobile;
-  //}
-
     &:-webkit-autofill {
       -webkit-box-shadow: 0 0 0px 1000px white inset;
       color: #cacaca;
@@ -115,10 +95,6 @@ $layer-top: $layer5;
     z-index: $layer4;
     position: absolute;
     z-index: $layer3;
-
-  //  @media $mobile {
-  //  height: $input-height-mobile;
-  //}
 
     svg {
       opacity: 0;

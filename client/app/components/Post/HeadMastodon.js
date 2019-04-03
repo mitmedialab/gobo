@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { getSourceIcon } from 'utils/misc';
 import Head from './Head';
 
 
@@ -27,6 +28,8 @@ const HeadMastodon = (props) => {
       picSrc={content.account.avatar_static}
       link={content.uri}
       repost={repost}
+      iconUrl="https://joinmastodon.org/"
+      iconClass={getSourceIcon('mastodon')}
     />
   );
 };

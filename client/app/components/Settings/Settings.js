@@ -451,7 +451,7 @@ class Settings extends Component {
     return (
       <div className="settings-content">
         <ul className="settings-menu">
-          <li className="filter">
+          <li>
             <header className="settings-header">
               <span><button className="filter-toggle-btn" onClick={this.props.onMinimize}><span className={`arrow-icon icon-${arrowIcon}`} /><h1>Filters</h1></button></span>
             </header>

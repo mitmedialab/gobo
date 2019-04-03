@@ -4,9 +4,6 @@ import PropTypes from 'prop-types';
 import HiddenPost from 'components/Post/HiddenPost';
 import BackOfPost from './BackOfPost';
 import PostFooter from './PostFooter';
-import ActionListFacebook from './ActionListFacebook';
-import ActionListTwitter from './ActionListTwitter';
-import ActionListMastodon from './ActionListMastodon';
 import ContentTwitter from './ContentTwitter';
 import ContentFacebook from './ContentFacebook';
 import ContentMastodon from './ContentMastodon';
@@ -73,20 +70,6 @@ class Post extends Component {
     }
   }
 
-  makeActionList() {
-    const post = this.props.post;
-    switch (post.source) {
-      case 'twitter':
-        return (<ActionListTwitter post={post} />);
-      case 'facebook':
-        return (<ActionListFacebook post={post} />);
-      case 'mastodon':
-        return (<ActionListMastodon post={post} />);
-      default:
-        return (<div />);
-    }
-  }
-
   flip = () => {
     this.setState({ flipped: true });
   }
@@ -135,13 +118,12 @@ class Post extends Component {
                 <div className="post-content">
                   {this.makePostHead()}
                   {this.makePostContent()}
-                  {this.makeActionList()}
                 </div>
-                <PostFooter flipped={false} source={source} onFlipClick={this.flip} />
+                <PostFooter post={post} flipped={false} source={source} onFlipClick={this.flip} />
               </div>
               <div className="back">
                 <BackOfPost post={post} filteredBy={this.props.filtered_by} virality_max={this.props.virality_max} virality_avg={this.props.virality_avg} />
-                <PostFooter flipped source={source} onFlipClick={this.unFlip} />
+                <PostFooter post={post} flipped source={source} onFlipClick={this.unFlip} />
               </div>
             </div>
           </div>

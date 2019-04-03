@@ -6,7 +6,7 @@ import { formatNumber } from 'utils/misc';
 const ActionList = (props) => {
   const { comments, likes, shares } = props;
   return (
-    <div className="post-actions-list">
+    <span className="post-actions-list">
       {[comments, likes, shares].map(action => (
         <span className="action" key={`action-list-${props.postId}-${action.name}`}>
           { action.link &&
@@ -23,7 +23,7 @@ const ActionList = (props) => {
             }
         </span>
         ))}
-    </div>
+    </span>
   );
 };
 
