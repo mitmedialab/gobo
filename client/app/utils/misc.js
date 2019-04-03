@@ -94,8 +94,8 @@ export function calculateBins(min, numBins, posts, setting) {
       max = post[setting];
     }
   });
-  const bins = new Array(numBins);
-  const thresholds = new Array(numBins);
+  const bins = [];
+  const thresholds = [];
   const increment = (max - min) / numBins;
   let total = 0;
 
