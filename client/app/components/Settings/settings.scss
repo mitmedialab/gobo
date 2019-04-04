@@ -25,7 +25,6 @@ $sidebar-color: #fff;
   }
 }
 
-
 .settings-content {
   height: 100%;
   overflow-x: hidden;
@@ -230,6 +229,10 @@ $handle-height: 24px;
   &.additive-labels {
     height: 35px;
   }
+}
+
+.rule-toggle {
+  background-color: #199a27;
 }
 
 .filter-content {

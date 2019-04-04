@@ -283,6 +283,7 @@ class Settings extends Component {
                 checked={this.state.settings.gender_female_per === 100}
                 onChange={this.muteAllMen}
                 icons={false}
+                className="rule-toggle"
               />
               <span className="toggle-label">Mute all men. <MuteAllMenWhy /></span>
             </label>
@@ -307,6 +308,7 @@ class Settings extends Component {
             checked={this.state.settings.include_corporate}
             onChange={(e) => { this.handleCheckBoxChange(e, 'include_corporate'); }}
             icons={false}
+            className="rule-toggle"
           />
           <span className="toggle-label">Show content from brands</span>
         </label>
@@ -410,6 +412,7 @@ class Settings extends Component {
             name={`${rule.id}-${rule.title}`}
             onChange={this.handleRuleToggleChange}
             icons={false}
+            className="rule-toggle"
           />
           <span className="toggle-label">Activate rule</span>
         </label>
@@ -456,6 +459,7 @@ class Settings extends Component {
               name={`${rule.id}-${rule.title}`}
               onChange={this.handleRuleToggleChange}
               icons={false}
+              className="rule-toggle"
             />
             <span className="toggle-label">Activate rule</span>
           </label>
