@@ -88,47 +88,45 @@ class BackOfPost extends Component {
 
         {(post.gender !== 'None') &&
         (<div className="explanation">
-          <span> <i className="icon icon-gender" /> Posted by a{genderStrings[post.gender.split('.')[1]]}</span>
+          <span> <i className="icon icon-gender rule-filter" /> Posted by a{genderStrings[post.gender.split('.')[1]]}</span>
         </div>)
         }
 
         {post.political_quintile &&
         (<div className="explanation">
-          <span> <i className="icon icon-additive" /> {this.politicalQuintileText(post.political_quintile)}</span>
+          <span><span className="icon icon-additive rule-additive" /> {this.politicalQuintileText(post.political_quintile)}</span>
         </div>)
         }
 
         {(post.toxicity !== null) && (post.toxicity !== -1) &&
         (<div className="explanation">
-          <span> <i className="icon icon-toxicity" /> This post is {rudenessScoreToString(post.toxicity)}</span>
-
+          <span><span className="icon icon-toxicity rule-filter" /> This post is {rudenessScoreToString(post.toxicity)}</span>
         </div>)
         }
         {(post.is_corporate !== null) &&
         (<div className="explanation">
-          <span> <i className="icon icon-corporate" /> {(post.is_corporate) ? 'Posted' : 'Not Posted'} by a brand</span>
-
+          <span><span className="icon icon-corporate rule-filter" /> {(post.is_corporate) ? 'Posted' : 'Not Posted'} by a brand</span>
         </div>)
         }
         {(post.news_score !== null) &&
         (<div className="explanation">
-          <span> <i className="icon icon-seriousness" /> This post is {seriousnessScoreToString(post.news_score)}</span>
+          <span><span className="icon icon-seriousness rule-filter" /> This post is {seriousnessScoreToString(post.news_score)}</span>
 
         </div>)
         }
         {(post.virality_count !== null) &&
         (<div className="explanation">
-          <span> <i className="icon icon-virality" /> This post is {this.viralityScoreToString(post.virality_count)}</span>
+          <span><span className="icon icon-virality rule-filter" /> This post is {this.viralityScoreToString(post.virality_count)}</span>
         </div>)
         }
         {hasKeywordRule &&
         (<div className="explanation">
-          <span> <i className="icon icon-seriousness" /> This post {this.keywordRulesText()}</span>
+          <span><span className="icon icon-seriousness rule-filter" /> This post {this.keywordRulesText()}</span>
         </div>)
         }
         {hasAdditiveRule &&
         (<div className="explanation">
-          <span> <i className="icon icon-additive" /> This post {this.additiveRulesText()}</span>
+          <span><span className="icon icon-additive rule-additive" /> This post {this.additiveRulesText()}</span>
         </div>)
         }
       </div>

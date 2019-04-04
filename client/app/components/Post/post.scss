@@ -160,13 +160,21 @@ $post-hidden-padding: $padding-small-vertical;
   position: relative;
   top: 50%;
   transform: translateY(-50%);
-  color: $primary-color;
 
   .icon {
     font-size:2em;
     margin-right: -4px;
     vertical-align: middle;
+
+    &.rule-additive {
+      color: $additive-color;
+    }
+
+    &.rule-filter {
+      color: $filter-color;
+    }
   }
+
   .explanation {
     display: inline-block;
     padding-left: 1em;
