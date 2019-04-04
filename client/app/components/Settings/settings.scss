@@ -245,17 +245,23 @@ $handle-height: 24px;
 .filter-content {
   display:flex;
   padding: 30px 50px 30px 30px;
+}
 
-  &.additive {
-    .filter-icon {
-      color: $additive-color;
-    }
+.rule-additive {
+  .filter-icon {
+    color: $additive-color;
   }
+  &.filter-icon {
+    color: $additive-color;
+  }
+}
 
-  &.filter {
-    .filter-icon {
-      color: $filter-color;
-    }
+.rule-filter {
+  .filter-icon {
+    color: $filter-color;
+  }
+  &.filter-icon {
+    color: $filter-color;
   }
 }
 

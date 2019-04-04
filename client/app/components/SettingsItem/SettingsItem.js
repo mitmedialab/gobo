@@ -89,7 +89,7 @@ class SettingsItem extends Component {
           style={modalStyles}
         >
           <div className="filter-title">
-            <span className={`filter-title-icon ${this.props.feature.icon}`} />
+            <span className={`filter-title-icon filter-icon ${this.props.feature.ruleCss} ${this.props.feature.icon}`} />
             <span className="filter-title-text">{this.props.feature.title}</span>
           </div>
           <div className="filter-modal-description">
