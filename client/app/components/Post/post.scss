@@ -195,8 +195,6 @@ $post-hidden-padding: $padding-small-vertical;
     float: right;
     border-bottom: 1px dotted $inverse-text-color;
     text-decoration: none;
-    font-size: 12px;
-    cursor: pointer;
     line-height: 18px;
   }
 
@@ -280,7 +278,11 @@ $post-hidden-padding: $padding-small-vertical;
 
   .action {
 
-    padding:0 $padding-large-horizontal 0 0;
+    padding: 0 $padding-large-horizontal * 2 0 0;
+
+    @media (min-width: $screen-md-min) {
+      padding: 0 80px 0 0;
+    }
 
     .action-icon {
 

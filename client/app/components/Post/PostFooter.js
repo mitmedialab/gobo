@@ -24,7 +24,7 @@ class PostFooter extends Component {
   }
 
   render() {
-    const text = this.props.flipped ? 'Back to post' : 'Why am I seeing this post?';
+    const text = this.props.flipped ? 'Back to post' : (<span className="icon-question-circle-o" />);
     const icon = {
       iconClass: `source-icon ${getSourceIcon(this.props.source)}`,
     };
@@ -43,7 +43,7 @@ class PostFooter extends Component {
       <div className={`post-footer ${additiveCSS}`}>
         <div className="footer-content">
           {!this.props.flipped && this.makeActionList()}
-          <a className="footer-text" onClick={this.props.onFlipClick} role="button">{text}</a>
+          <a className="footer-text" onClick={this.props.onFlipClick} role="button" tabIndex="0">{text}</a>
         </div>
       </div>
     );
