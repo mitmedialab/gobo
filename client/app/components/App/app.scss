@@ -5,19 +5,19 @@
 $purple: rgb(61, 28, 89);
 $red: rgb(195, 45, 67);
 $orange: rgb(217, 133, 45);
-$teal: rgb(55, 141, 145);
+$green: rgb(62, 148, 114);
 $light-gray: #dddddd;
 
 $primary-color: $purple;
 $secondary-color: $orange;
-$additive-color: $teal;
+$additive-color: $green;
 $filter-color: $orange;
 $inverse-text-color: white;
 
 $btn-primary-bg-color: $primary-color;
 $btn-primary-text-color: $inverse-text-color;
 
-$additive-rule-color: $teal;
+$additive-rule-color: $green;
 $filtered-rule-color: $purple;
 
 $header-color: black;
@@ -28,7 +28,6 @@ $nav-border-color: $light-gray;
 $background-color: #efefef;
 $text-color: #787878;
 
-$green: #00a000;
 $dark-blue: #080533;
 
 $background: $background-color;
