@@ -15,7 +15,7 @@ import MuteAllMenWhy from './MuteAllMenWhy';
 
 const SPARKLINE_HEIGHT = 30;
 const SPARKLINE_BINS = 30;
-const SPARKLINE_STYLES = { strokeWidth: '1', fill: '#929292' }; // same color as the slider
+const SPARKLINE_STYLES = { strokeWidth: '1', fill: '#cccccc' }; // same color as the slider
 
 class Settings extends Component {
 
