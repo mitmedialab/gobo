@@ -169,7 +169,7 @@ class Settings extends Component {
           withBars
           value={this.state.settings.echo_range}
           onAfterChange={e => this.handleChange(e, 'echo_range')}
-          className="slider politics"
+          className="slider politics rule-additive"
         />
         <div className="slider-labels">
           <span className="pull-left">My perspective</span>
@@ -195,7 +195,7 @@ class Settings extends Component {
             </Sparklines>
           </div>
         }
-        <div className="setting-with-sparklines">
+        <div className="setting-with-sparklines rule-filter">
           <ReactSlider
             defaultValue={[0, 1]}
             min={0}
@@ -230,7 +230,7 @@ class Settings extends Component {
             </Sparklines>
           </div>
         }
-        <div className="setting-with-sparklines">
+        <div className="setting-with-sparklines rule-filter">
           <ReactSlider
             defaultValue={[0, 1]}
             min={0}
@@ -332,7 +332,7 @@ class Settings extends Component {
             </Sparklines>
           </div>
         }
-        <div className="setting-with-sparklines">
+        <div className="setting-with-sparklines rule-filter">
           <ReactSlider
             defaultValue={[0, 1]}
             min={0}

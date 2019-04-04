@@ -159,20 +159,26 @@ $handle-height: 24px;
   border-radius: 5px;
   cursor: pointer;
 }
+
 .handle.active {
   background-color: grey;
 }
+
 .bar {
   position: relative;
   background: lighten($text-color, 10%);
 }
 
-.bar.bar-1 {
-  background: darken($primary-color, 20%);
+.rule-filter .bar-1 {
+  background-color: $filter-color;
+}
+
+.additive-filter .bar-1 {
+  background-color: $additive-color;
 }
 
 .bar-gender .bar {
-  background: darken($primary-color, 20%);
+  background: $filter-color;
 }
 
 .bar-gender .bar.bar-1 {
@@ -180,13 +186,14 @@ $handle-height: 24px;
 }
 
 .politics .bar {
-  background: darken($primary-color, 20%);
+  background-color: $additive-color;
 }
 
 .slider .bar {
   top: 20px;
   height: 3px;
 }
+
 .slider .handle {
   top: 10px;
   width: 10px;
