@@ -28,12 +28,14 @@ const HeadTwitter = (props) => {
       repost={repost}
       iconUrl="https://twitter.com/"
       iconClass={getSourceIcon('twitter')}
+      showLogo={props.showLogo}
     />
   );
 };
 
 HeadTwitter.propTypes = {
   post: PropTypes.object.isRequired,
+  showLogo: PropTypes.bool.isRequired,
 };
 
 export default HeadTwitter;

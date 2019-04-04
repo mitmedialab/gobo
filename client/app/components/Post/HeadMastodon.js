@@ -30,12 +30,14 @@ const HeadMastodon = (props) => {
       repost={repost}
       iconUrl="https://joinmastodon.org/"
       iconClass={getSourceIcon('mastodon')}
+      showLogo={props.showLogo}
     />
   );
 };
 
 HeadMastodon.propTypes = {
   post: PropTypes.object.isRequired,
+  showLogo: PropTypes.bool.isRequired,
 };
 
 export default HeadMastodon;

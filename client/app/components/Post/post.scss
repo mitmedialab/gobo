@@ -62,7 +62,13 @@ $post-hidden-padding: $padding-small-vertical;
     .source-icon {
       color: $light-gray;
       margin-right: $post-hidden-padding - $post-padding;
+      margin-top: -15px;
     }
+  }
+
+  .rule-icon {
+    font-size: 24px;
+    vertical-align: middle;
   }
 
   .avatar {
@@ -221,10 +227,11 @@ $post-hidden-padding: $padding-small-vertical;
 
   .source-icon {
     // centers the icon
-    margin-top: -3px;
+    margin-top: 3px;
   }
 
   .post {
+    height: $post-footer-height;
     box-shadow: unset;
     background-color: $faded-background-color;
     color: $filter-color;

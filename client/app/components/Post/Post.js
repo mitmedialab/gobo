@@ -37,25 +37,6 @@ class Post extends Component {
     });
   }
 
-  getFilteredByHeader = () => {
-    const text = `Hidden because of: ${this.props.filtered_by.map(reason => reason.label).join(', ')}`;
-    const reasons = this.props.filtered_by.map(reason =>
-      <span className={reason.icon} key={`${this.props.post.id}-${reason.type}`} />,
-    );
-
-    let content;
-    if (this.props.isCollapsable) {
-      content = (
-        <button className="hidden-by" onClick={this.onCollapseClicked}>{reasons} {text}</button>
-      );
-    } else {
-      content = (
-        <div className="hidden-by">{reasons} {text}</div>
-      );
-    }
-    return content;
-  }
-
   makePostContent() {
     const post = this.props.post;
     switch (post.source) {
@@ -80,13 +61,14 @@ class Post extends Component {
 
   makePostHead = () => {
     const { post } = this.props;
+    const showLogo = this.props.filtered_by.length === 0;
     switch (post.source) {
       case 'twitter':
-        return (<HeadTwitter post={post} />);
+        return (<HeadTwitter post={post} showLogo={showLogo} />);
       case 'facebook':
-        return (<HeadFacebook post={post} />);
+        return (<HeadFacebook post={post} showLogo={showLogo} />);
       case 'mastodon':
-        return (<HeadMastodon post={post} />);
+        return (<HeadMastodon post={post} showLogo={showLogo} />);
       default:
         return (<div />);
     }
@@ -106,14 +88,19 @@ class Post extends Component {
     return (
       <div className="post-container">
         { showCollapsed &&
-          <HiddenPost post={post} filteredBy={this.props.filtered_by} onClick={this.onExpandClicked} />
+          <HiddenPost showText={false} post={post} filteredBy={this.props.filtered_by} onClick={this.onExpandClicked} />
         }
         { !showCollapsed &&
           <div className="flip-container">
             <div className={`post flipper ${flippedClass}`}>
               <div className="front">
                 {this.props.filtered_by.length > 0 &&
-                <div>{ this.getFilteredByHeader() }</div>
+                  <HiddenPost
+                    showText
+                    post={this.props.post}
+                    filteredBy={this.props.filtered_by}
+                    onClick={this.props.isCollapsable ? this.onCollapseClicked : undefined}
+                  />
                 }
                 <div className="post-content">
                   {this.makePostHead()}
