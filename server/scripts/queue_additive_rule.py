@@ -19,12 +19,20 @@ session = Session()
 
 
 @click.command()
-@click.option('--rule-id', required=True, type=int, help='ID of user rule to share')
-def queue_additive_rule(rule_id):
+@click.option('--rule-id', required=True, type=int, help='ID of rule to share')
+@click.option('--level', required=False, type=int, default=None,
+              help='Level of sources to queue (defaults to all if not set)')
+def queue_additive_rule(rule_id, level):
     """Fetches posts for this rule to be analyzed. Only Twitter is supported currently."""
-    max_posts = 1
+    max_posts = 3
 
-    for link in session.query(AdditiveRule).filter_by(id=rule_id).first().additive_links:
+    if level is None:
+        links = session.query(AdditiveRule).filter_by(id=rule_id).first().additive_links
+    else:
+        links = [link for link in session.query(AdditiveRule).filter_by(id=rule_id).first().additive_links
+                 if link.level == level]
+
+    for link in links:
         if link.source == 'twitter':
             obj = {'id': link.uri.replace('https://twitter.com/', '')}
             try:
@@ -48,6 +56,8 @@ def queue_additive_rule(rule_id):
                     association = PostAdditiveRule(link.rule_id, post_item.id, link.level)
                     session.add(association)
                     session.commit()
+        else:
+            logger.warn("Only twitter sources are supported")
 
 
 if __name__ == '__main__':
