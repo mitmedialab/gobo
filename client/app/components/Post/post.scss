@@ -213,18 +213,12 @@ $post-hidden-padding: $padding-small-vertical;
 }
 
 .post-container {
-  padding-bottom: $padding-large-vertical * 1.5;
+  padding-bottom: $padding-large-vertical;
   max-width: 900px;
   margin: 0 auto;
-}
 
-@media (max-width: 768px) {
-  .post-container {
-    padding-bottom: 0.3em;
-  }
-
-  .post {
-    margin: 0;
+  @media (min-width: $screen-md-min) {
+    padding-bottom: $padding-large-vertical * 1.5;
   }
 }
 
