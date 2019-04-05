@@ -11,7 +11,7 @@ from server.blueprints import api
 logger = logging.getLogger(__name__)
 
 PERSONAL_POSTS_MAX = 300  # how many personal posts to grab
-NEWS_POSTS_QUINTILE_COUNT = 20  # how many news posts to grab. this number should divide by 5.
+POSTS_QUINTILE_COUNT = 20  # how many news posts to grab. this number should divide by 5.
 
 
 @api.route('/get_posts', methods=['GET'])
@@ -22,21 +22,25 @@ def get_posts():
     for quintile in PoliticsEnum:
         posts = Post.query.filter((
             Post.id.notin_(ignore_ids)) & (Post.political_quintile == quintile)).order_by(
-                Post.created_at.desc())[:NEWS_POSTS_QUINTILE_COUNT]
+                Post.created_at.desc())[:POSTS_QUINTILE_COUNT]
         personalized_posts.extend(posts)
 
-    for rule_association in current_user.rule_associations:
-        if rule_association.rule.type == 'additive':
-            posts = []
-            for pa in rule_association.rule.post_associations:
+    rule_associations = [r for r in current_user.rule_associations if r.rule.type == 'additive']
+    for rule_association in rule_associations:
+        posts = []
+        for pa in rule_association.rule.post_associations:
+            if pa.post_id not in ignore_ids:
                 post = pa.post
-                # save the rule metadata for returning later when serializing -- faster to cache it than DB join again
+                # save the rule metadata for returning later when serializing -- faster to cache it than join
                 post.cache_rule({
                     'id': pa.rule_id,
                     'level': pa.level,
                 })
                 posts.append(post)
-            personalized_posts.extend(posts)
+
+        # Future work: you may want to limit posts per quintile one quintile is dominating the feed
+        posts = sorted(posts, key=lambda p: p.created_at, reverse=True)[:(POSTS_QUINTILE_COUNT*5)]
+        personalized_posts.extend(posts)
 
     personalized_posts = sorted(personalized_posts, key=lambda p: p.created_at, reverse=True)
     posts_dicts = [post.as_dict() for post in personalized_posts]
