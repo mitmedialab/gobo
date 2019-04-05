@@ -28,12 +28,14 @@ const HeadFacebook = (props) => {
       link={content.permalink_url}
       iconUrl="https://www.facebook.com/"
       iconClass={getSourceIcon('facebook')}
+      showLogo={props.showLogo}
     />
   );
 };
 
 HeadFacebook.propTypes = {
   post: PropTypes.object.isRequired,
+  showLogo: PropTypes.bool.isRequired,
 };
 
 export default HeadFacebook;
