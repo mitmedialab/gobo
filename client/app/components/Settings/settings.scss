@@ -218,6 +218,7 @@ $handle-height: 24px;
 
 .slider-labels {
   padding-top: 10px;
+  height: 30px;
 
   .toggle-label {
     vertical-align: super;
@@ -374,7 +375,7 @@ $control-width: 314px; // manually determind
   }
 }
 
-$rule-height: 30px;
+$rule-height: 40px;
 .rule-sparklines {
   @extend .pull-left;
   width: $control-width - 37px; // found manually
@@ -383,5 +384,5 @@ $rule-height: 30px;
 
 .setting-with-sparklines {
   position: relative;
-  top: $rule-height / 2;
+  top: $rule-height / 2 - 6px;
 }
