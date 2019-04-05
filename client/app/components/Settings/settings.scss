@@ -108,8 +108,8 @@ $sidebar-color: #fff;
 }
 
 .filter-title-text {
+  @extend .tk-futura-pt-bold;
   vertical-align: middle;
-  font-weight:800;
   font-size:1.1em;
 }
 

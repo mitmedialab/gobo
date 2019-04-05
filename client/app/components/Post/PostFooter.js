@@ -24,7 +24,7 @@ class PostFooter extends Component {
   }
 
   render() {
-    const text = this.props.flipped ? 'Back to post' : (<span className="icon-question-circle-o" />);
+    const text = this.props.flipped ? (<span className="footer-underline">Back to post</span>) : (<span className="icon-question-circle-o" />);
     const icon = {
       iconClass: `source-icon ${getSourceIcon(this.props.source)}`,
     };

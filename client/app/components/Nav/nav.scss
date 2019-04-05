@@ -190,10 +190,10 @@
 }
 
 .logo-title {
+  @extend .tk-futura-pt-bold;
   color: #fff;
-  font-weight: 800;
   font-size: 2em;
-  padding-left:10px;
+  padding-left: 10px;
   vertical-align: middle;
 }
 

@@ -157,6 +157,7 @@ $post-hidden-padding: $padding-small-vertical;
 }
 
 .back-content {
+  @extend .tk-futura-pt;
   position: relative;
   top: 50%;
   transform: translateY(-50%);
@@ -197,13 +198,17 @@ $post-hidden-padding: $padding-small-vertical;
 .footer-content {
   line-height:$post-footer-height / 2;
   padding: $post-footer-height / 8;
+  padding-left: $padding-large-horizontal;
 
   .footer-text {
     color: $inverse-text-color;
     float: right;
-    border-bottom: 1px dotted $inverse-text-color;
     text-decoration: none;
     line-height: 18px;
+
+    .footer-underline {
+      border-bottom: 1px dotted $inverse-text-color;      
+    }
   }
 
   .footer-text:hover {
@@ -247,7 +252,7 @@ $post-hidden-padding: $padding-small-vertical;
 }
 
 .post-content-text {
-  font-size:15px;
+  font-family: 'Nunito Sans', sans-serif;
   overflow-wrap: break-word;
   p {
     margin-bottom: 0px;
@@ -289,6 +294,7 @@ $post-hidden-padding: $padding-small-vertical;
     .action-icon {
 
       display: inline-block;
+      font-size: 12px;
 
       &.icon-twitter_retweet {
         min-width: 24px;
