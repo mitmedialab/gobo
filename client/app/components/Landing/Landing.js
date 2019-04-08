@@ -29,7 +29,7 @@ const Landing = (props) => {
     );
   }
   return (
-    <div id={'landing-page'}>
+    <div className="content-with-nav" id="landing-page">
       <div className="content">
 
         <h1>Take control of your social feed</h1>

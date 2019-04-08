@@ -85,7 +85,7 @@ class Feed extends Component {
     }
 
     return (
-      <div className="container-fluid">
+      <div className="content-with-nav container-fluid">
         <div className="row">
           <div className={this.state.minimizedSettings ? 'feed wide' : 'feed'}>
             <div className="posts">

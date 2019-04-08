@@ -183,7 +183,6 @@ body {
 	@extend .tk-futura-pt;
 	font-size: 16px;
 	margin: 0;
-	padding-top: $navbar-height + 20;
 	width: 100vw;
 	overflow-x: hidden;
 	background-color: $background;
@@ -191,18 +190,17 @@ body {
 	-webkit-font-smoothing: antialiased !important;
 	-moz-osx-font-smoothing: grayscale;
 }
-@media (max-width: 767px) {
-	body {
+
+.content-with-nav {
+	padding-top: $navbar-height;
+	@media (min-width: $screen-md-min) {
+		padding-top: $navbar-height + 20;
+	}
+
+	@media (max-width: $screen-sm-min) {
 		padding-top: $navbar-height+10px;
 	}
 }
-
-@media (max-width: 480px) {
-	body {
-		padding-top: $navbar-height;
-	}
-}
-
 
 .no-script {
 	display: block;

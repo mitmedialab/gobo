@@ -22,11 +22,6 @@ const NoMatch = () => <Async load={import('components/NoMatch/NoMatch')} />;
 const ForgotPassword = () => <Async load={import('components/ForgotPassword/ForgotPassword')} />;
 const ResetPassword = () => <Async load={import('components/ResetPassword/ResetPassword')} />;
 
-const propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-};
-
 class App extends Component {
 
   componentWillMount() {
@@ -43,7 +38,7 @@ class App extends Component {
         </Helmet>
 
         <Nav auth={this.props.auth} />
-        <div className="" role="main">
+        <div role="main">
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/login" component={Login} />
@@ -60,14 +55,15 @@ class App extends Component {
             <Route path="/api/:function" />
             <Route path="*/" component={NoMatch} />
           </Switch>
-
         </div>
-
       </div>
     );
   }
 }
 
-App.propTypes = propTypes;
+App.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+};
 
 export default withRouter(connect(state => ({ auth: state.auth }))(App));

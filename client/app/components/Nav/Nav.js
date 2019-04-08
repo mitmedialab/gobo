@@ -5,10 +5,6 @@ import { logout } from 'actions/auth';
 import { connect } from 'react-redux';
 import onClickOutside from 'react-onclickoutside';
 
-const propTypes = {
-  auth: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
 
 class NavBar extends Component {
 
@@ -112,7 +108,7 @@ class NavBar extends Component {
           <ul className="nav navbar-nav navbar-left logo">
             <li>
               <Link to={'/'}>
-                <img alt="Gobo" src="images/gobo-logo.png" height="100%" width="auto" />
+                <img alt="Gobo logo" src="images/gobo-logo.png" />
                 <span className="logo-title">Gobo</span>
               </Link>
             </li>
@@ -133,6 +129,9 @@ function mapStateToProps(state) {
   };
 }
 
-NavBar.propTypes = propTypes;
+NavBar.propTypes = {
+  auth: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
 
 export default connect(mapStateToProps)(onClickOutside(NavBar));
