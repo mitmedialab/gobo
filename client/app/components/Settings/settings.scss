@@ -2,7 +2,7 @@ $handle-color: lighten($text-color, 10%);
 $sidebar-color: #fff;
 
 .sidebar {
-  top: $navbar-height+20px;
+  top: $navbar-height;
   bottom: 0;
   right: 0;
   z-index: 1000;
@@ -346,17 +346,6 @@ $control-width: 314px; // manually determind
   }
 
   @include small-sidebar;
-}
-
-@media (max-width: 767px) {
-  .sidebar {
-    top: $navbar-height+10px;
-  }
-}
-@media (max-width: 480px) {
-  .sidebar {
-    top: $navbar-height;
-  }
 }
 
 .modal-close-button {

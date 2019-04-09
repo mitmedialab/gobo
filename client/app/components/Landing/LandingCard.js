@@ -6,6 +6,7 @@ const LandingCard = props => (
     <div className={'flip-card-inner'}>
       <div className={`flip-card-front ${props.colorClass}`}>
         <div className="card-title">{props.title}</div>
+        <p className="card-learn-more">Learn More</p>
       </div>
       <div className={`flip-card-back ${props.colorClass}`}>
         <div className="card-title">{props.title}</div>

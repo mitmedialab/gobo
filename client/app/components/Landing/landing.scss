@@ -16,14 +16,13 @@
   padding-bottom: $padding-large-horizontal * 1.5;
 
   .logo {
-    height: 80px;
+    height: 90px;
     margin-left: -15px;
   }
 
-  // TODO: get rid of this?
   .landing-title {
     display: inline-block;
-    font-size: 50px;
+    font-size: 60px;
     vertical-align: bottom;
   }
 
@@ -94,13 +93,21 @@
 
 .card-title {
   @extend .tk-futura-pt-bold;
-  text-align: center;
   font-size: 20px;
+  text-align: center;
+}
+
+.card-learn-more {
+  padding-top: $padding-large-vertical;
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: $inverse-text-color;
 }
 
 .flip-card-front {
   padding-left: $padding-large-vertical;
   padding-right: $padding-large-vertical;
+  text-align: center;
   .card-title {
     padding-top: 35%;
     font-size: 30px;
@@ -111,29 +118,32 @@
   background-color: $color;
 
   &.flip-card-back {
+    padding-left: $padding-large-horizontal;
+    padding-right: $padding-large-horizontal;
     background-color: lighten($color, 10%);
     .card-title {
-      padding-top: $padding-small-horizontal;
-      padding-bottom: $padding-small-horizontal;
-      background-color: $color;
+      padding-top: $padding-large-horizontal;
+      // padding-bottom: $padding-small-horizontal;
+      // background-color: $color;
     }
   }
 }
 
 .card-red {
-  @include card-style(lighten($red, 10%));
+  // @include card-style(lighten($red, 10%));
+  @include card-style($red);
 }
 
 .card-orange {
-  @include card-style(lighten($orange, 10%));
+  @include card-style($orange);
 }
 
 .card-green {
-  @include card-style(lighten($green, 10%));
+  @include card-style($green);
 }
 
 .card-purple {
-  @include card-style(lighten($purple, 35%));
+  @include card-style($purple);
 }
 
 /* Style the back side */

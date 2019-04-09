@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
+import { Button } from '@blueprintjs/core';
 import { getPosts, getRules, getSettings } from 'actions/feed';
 
 import Post from 'components/Post/Post';
@@ -51,8 +52,7 @@ class Feed extends Component {
     }
     const posts = this.props.feed.posts;
     const filteredPosts = this.props.feed.filtered_posts;
-    const filteredText = this.state.showFilteredOnly ? 'Showing hidden posts.' : `${filteredPosts.filtered.length} posts hidden from your feed.`;
-    const filteredLinkText = this.state.showFilteredOnly ? 'Back to my feed.' : 'Show me what was hidden.';
+    const filteredLinkText = this.state.showFilteredOnly ? 'Back to my feed' : `Show me ${filteredPosts.filtered.length} hidden posts`;
     const noPostsText = this.state.showFilteredOnly ? 'None of your posts were hidden. Try changing the filters to see them in action. ' : 'None of the posts in your feed match the filters you\'ve set. Try changing the filters.';
     const showing = this.state.showFilteredOnly ? 'filtered' : 'kept';
 
@@ -104,9 +104,8 @@ class Feed extends Component {
               </div>}
 
               {posts.length > 0 &&
-              <div className="filtered-text">
-                <span className="filtered-count">{filteredText}</span>
-                <a onClick={this.toggleshowFilteredOnly} className="filtered-link" role="button" tabIndex="0"> {filteredLinkText}</a>
+              <div className="filtered-text text-center">
+                <Button disabled={filteredPosts.filtered.length === 0} onClick={this.toggleshowFilteredOnly} text={filteredLinkText} />
               </div>}
 
               {!this.props.feed.loading_posts && this.props.feed.posts.length > 0 && filteredPosts[showing].length === 0 &&

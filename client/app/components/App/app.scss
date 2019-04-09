@@ -194,11 +194,11 @@ body {
 .content-with-nav {
 	padding-top: $navbar-height;
 	@media (min-width: $screen-md-min) {
-		padding-top: $navbar-height + 20;
+		padding-top: $navbar-height;
 	}
 
 	@media (max-width: $screen-sm-min) {
-		padding-top: $navbar-height+10px;
+		padding-top: $navbar-height;
 	}
 }
 
@@ -238,7 +238,7 @@ button {
 	display: inline-block;
 	position: relative;
 	border: none;
-	border-radius: 20px;
+	border-radius: 30px;
 	background: $btn-primary-bg-color;
 	color: $btn-primary-text-color;
 	letter-spacing: 1.5px;

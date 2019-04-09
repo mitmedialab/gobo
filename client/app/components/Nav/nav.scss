@@ -1,6 +1,14 @@
 .nav>li>a>img {
-  max-height: 40px;
+  max-height: 60px;
   height:auto;
+}
+
+.navbar-nav > li > a {
+  padding: 0;
+}
+
+.navbar-nav.navbar-right, .navbar-nav.navbar-right {
+  padding-top: $padding-small-vertical * 2;
 }
 
 .avatar {
@@ -195,10 +203,6 @@
   font-size: 2em;
   padding-left: 10px;
   vertical-align: middle;
-}
-
-.logo {
-  height: 40px;
 }
 
 .nav .open > a, .nav .open > a.dropdown-toggle:hover, .nav .open > a.dropdown-toggle:focus {
