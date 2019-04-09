@@ -24,7 +24,7 @@ const Landing = () => (
           </div>
         </div>
       </div>
-      <div className="col-md-8 col-md-pull-4">
+      <div className="col-lg-7 col-lg-pull-3 col-md-8 col-md-pull-4">
         <div className="row">
           <div className="landing-cards">
             <LandingCard
