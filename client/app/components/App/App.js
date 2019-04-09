@@ -10,6 +10,7 @@ import { tryGetUser } from 'actions/auth';
 require('./app.scss');
 
 const Landing = () => <Async load={import('components/Landing/Landing')} />;
+const About = () => <Async load={import('components/About/About')} />;
 const Login = () => <Async load={import('components/Login/Login')} />;
 const RegisterWrapper = () => <Async load={import('components/RegisterWrapper/RegisterWrapper')} />;
 const Feed = () => <Async load={import('components/Feed/Feed')} />;
@@ -48,7 +49,7 @@ class App extends Component {
             <Route path="/settings" component={Settings} />
             <Route path="/twitter_callback" component={TwitterCallback} />
             <Route path="/mastodon_auth_complete" component={MastodonAuthComplete} />
-            <Route path="/about" component={Landing} />
+            <Route path="/about" component={About} />
             <Route path="/privacy" component={Privacy} />
             <Route path="/forgot_password" component={ForgotPassword} />
             <Route path="/reset_password%3Ftoken%3D:token" component={ResetPassword} />

@@ -59,8 +59,7 @@ class NavBar extends Component {
     this.closeDropdown();
   }
 
-
-  render() {
+  renderNavBar = () => {
     const user = this.props.auth.isAuthenticated ? this.props.auth.user : null;
     const dropdownMenuClass = 'dropdown-menu list-group keep-dropdown w230';
 
@@ -119,6 +118,13 @@ class NavBar extends Component {
         </nav>
       </header>
     );
+  }
+
+  render() {
+    if (this.props.auth.isAuthenticated || window.location.pathname !== '/') {
+      return this.renderNavBar();
+    }
+    return (<div />);
   }
 
 }

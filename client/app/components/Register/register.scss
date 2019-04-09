@@ -53,7 +53,7 @@
       }
     }
 
-    .button-icon{
+    .button-icon {
       float:right;
       font-size: 1.6em;
     }
@@ -61,75 +61,6 @@
     .confirm-age {
       margin-top: $padding-large-vertical;
       margin-bottom: $padding-large-vertical;
-    }
-
-    .button {
-      @include transition(all 0.2s ease-in-out);
-      @include user-select(none);
-      display: inline-block;
-      position: relative;
-      border: none;
-      border-radius: 3px;
-      background: $btn-primary-bg-color;
-      color: $btn-primary-text-color;
-      font: normal normal 700 13px/40px 'Roboto', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      height: 40px;
-      padding: 0px 15px;
-      -webkit-font-smoothing: subpixel-antialiased;
-      cursor: pointer;
-      white-space: nowrap;
-
-      &.button_wide {
-        @include display(relative);
-        width: 100%;
-        margin: 20px 0 0 0;
-        height: 50px;
-        font-size: 13px;
-
-      }
-
-      &.button_delete {
-        background: $red;
-        &:hover,
-        &:focus {
-          background: darken($red, 10%);
-        }
-        &:active,
-        &.active {
-          @include box-shadow(none);
-          background: darken($red, 20%);
-        }
-      }
-
-      &:disabled,
-      &[disabled],
-      &.disabled {
-        background: #fff;
-        cursor: not-allowed;
-        color: $btn-primary-bg-color;
-        border: 1px solid  $btn-primary-bg-color;
-        &:hover,
-        &:focus {
-          background: #fff;
-          cursor: not-allowed;
-          color: $btn-primary-bg-color;
-          border: 1px solid  $btn-primary-bg-color;
-        }
-      }
-
-      &:hover,
-      &:focus {
-        color: $btn-primary-text-color;
-        background: darken($btn-primary-bg-color, 10%);
-      }
-
-      &:active,
-      &.active {
-        @include box-shadow(none);
-        background: darken($btn-primary-bg-color, 20%);
-      }
     }
   }
 
