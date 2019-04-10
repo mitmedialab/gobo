@@ -183,7 +183,6 @@ body {
 	@extend .tk-futura-pt;
 	font-size: 16px;
 	margin: 0;
-	padding-top: $navbar-height + 20;
 	width: 100vw;
 	overflow-x: hidden;
 	background-color: $background;
@@ -191,18 +190,17 @@ body {
 	-webkit-font-smoothing: antialiased !important;
 	-moz-osx-font-smoothing: grayscale;
 }
-@media (max-width: 767px) {
-	body {
-		padding-top: $navbar-height+10px;
-	}
-}
 
-@media (max-width: 480px) {
-	body {
+.content-with-nav {
+	padding-top: $navbar-height;
+	@media (min-width: $screen-md-min) {
+		padding-top: $navbar-height;
+	}
+
+	@media (max-width: $screen-sm-min) {
 		padding-top: $navbar-height;
 	}
 }
-
 
 .no-script {
 	display: block;
@@ -235,17 +233,69 @@ h1 {
 }
 
 button {
+	@include transition(all 0.2s ease-in-out);
+	@include user-select(none);
 	display: inline-block;
+	position: relative;
 	border: none;
-	border-radius: 3px;
+	border-radius: 30px;
+	background: $btn-primary-bg-color;
+	color: $btn-primary-text-color;
+	letter-spacing: 1.5px;
+	height: 40px;
+	padding: 0px 15px;
+	-webkit-font-smoothing: subpixel-antialiased;
 	cursor: pointer;
-	padding: 0 10px;
-	vertical-align: middle;
-	font-size: 14px;
-	min-width: 30px;
-	min-height: 30px;
+	white-space: nowrap;
 	line-height: 30px;
 	margin: 0.3em;
+
+	&.button_wide {
+		width: 100%;
+		margin: 20px 0 0 0;
+		height: 50px;
+	}
+
+	&.button_delete {
+		background: $red;
+		&:hover,
+		&:focus {
+			background: darken($red, 10%);
+		}
+		&:active,
+		&.active {
+			@include box-shadow(none);
+			background: darken($red, 20%);
+		}
+	}
+
+	&:disabled,
+	&[disabled],
+	&.disabled {
+		background: #fff;
+		cursor: not-allowed;
+		color: $btn-primary-bg-color;
+		border: 1px solid  $btn-primary-bg-color;
+		&:hover,
+		&:focus {
+			background: #fff;
+			cursor: not-allowed;
+			color: $btn-primary-bg-color;
+			border: 1px solid  $btn-primary-bg-color;
+		}
+	}
+
+	&:hover,
+	&:focus {
+		color: $btn-primary-text-color;
+		background: darken($btn-primary-bg-color, 10%);
+	}
+
+	&:active,
+	&.active {
+		@include box-shadow(none);
+		background: darken($btn-primary-bg-color, 20%);
+	}
 }
 
 .checkbox {
@@ -322,3 +372,4 @@ a, a:hover, a:focus, a:active a:visited{
 @import "../Post/post.scss";
 @import "../Feed/feed.scss";
 @import "../Settings/settings.scss";
+@import "../About/about.scss";

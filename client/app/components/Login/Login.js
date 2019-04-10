@@ -52,61 +52,54 @@ class Login extends Component {
       return <Redirect to="/feed" />;
     }
     return (
-      <div className="registration-screen" id="login-box" role="button" onKeyPress={e => this.handleKeyPress(e)}>
-        <div>
-          <h1>Registration</h1>
+      <div className="registration-screen content-with-nav" id="login-box" role="button" onKeyPress={e => this.handleKeyPress(e)}>
+        <div className="registration-form">
+          <h1>Login to Gobo</h1>
+          {this.props.isPasswordUpdated &&
+            <div className="status-text">Password updated. Please login.</div>
+          }
+          <form>
+            <EmailInput
+              onRef={(c) => { this.emailRef = c; }}
+              email={this.state.email}
+              onChange={this.handleChange}
+            />
+            <PasswordInput
+              useValidator={false}
+              forbiddenWords={[]}
+              onRef={(c) => { this.passwordRef = c; }}
+              password={this.state.password}
+              onChange={this.handleChange}
+            />
 
-          <div>
-            <div className="registration-form">
-              <h1>Login to Gobo</h1>
-              {this.props.isPasswordUpdated &&
-                <div className="status-text">Password updated. Please login.</div>
-              }
-              <form>
-                <EmailInput
-                  onRef={(c) => { this.emailRef = c; }}
-                  email={this.state.email}
-                  onChange={this.handleChange}
-                />
-                <PasswordInput
-                  useValidator={false}
-                  forbiddenWords={[]}
-                  onRef={(c) => { this.passwordRef = c; }}
-                  password={this.state.password}
-                  onChange={this.handleChange}
-                />
+            <Link className="forgot-password pull-right" to="/forgot_password">
+              Forgot your password?
+            </Link>
 
-                <Link className="forgot-password pull-right" to="/forgot_password">
-                  Forgot your password?
+            <button
+              className="button button_wide"
+              onClick={e => this.checkAndLogin(e)}
+            >
+              Login
+            </button>
+
+            <div className="status-text">{this.props.auth.statusText}</div>
+
+            {this.props.isAuthenticating && <Loader />}
+
+            <hr />
+
+            <div>
+              <p className="registration-description">Don&apos;t have an account yet?</p>
+              <p>
+                <Link to="/register">
+                  <button className="button button_wide"> Click here to Register</button>
                 </Link>
-
-                <button
-                  className="button button_wide"
-                  onClick={e => this.checkAndLogin(e)}
-                >
-                  Login
-                </button>
-
-                <div className="status-text">{this.props.auth.statusText}</div>
-
-                {this.props.isAuthenticating && <Loader />}
-
-                <hr />
-
-                <div>
-                  <p className="registration-description">Don&apos;t have an account yet?</p>
-                  <p>
-                    <Link to="/register">
-                      <button className="button button_wide"> Click here to Register</button>
-                    </Link>
-                  </p>
-                </div>
-
-              </form>
-
+              </p>
             </div>
 
-          </div>
+          </form>
+
         </div>
       </div>
     );

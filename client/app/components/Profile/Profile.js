@@ -79,7 +79,7 @@ const Profile = (props) => {
   }
 
   return (
-    <div className="page">
+    <div className="page content-with-nav">
       <div className="profile-content">
         <div className="registration-screen">
           <div className="registration-form">

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Privacy = () => (
-  <div id={'privacy'}>
+  <div className="content-with-nav" id="privacy">
     <div className="content">
 
       <h1>Privacy Policy</h1>

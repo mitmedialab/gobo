@@ -30,21 +30,17 @@ $settings-width-closed: 56px;
 }
 
 .posts {
-  margin: 80px;
-  margin-top:47px;
-}
+  margin: $padding-large-horizontal;
+  margin-left: $padding-large-horizontal * 2;
+  margin-right: $padding-large-horizontal * 2;
 
-@media (max-width: 768px) {
-  .posts {
+  @media (max-width: 768px) {
     margin: 10px;
   }
 }
 
 .filtered-text {
-  margin: 0 auto;
-  max-width: 900px;
-  color: $text-color;
-  padding-bottom: 1em;
+  padding-bottom: $padding-large-horizontal;
 }
 
 .no-posts-text {

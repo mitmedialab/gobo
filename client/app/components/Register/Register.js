@@ -52,8 +52,8 @@ class Register extends Component {
     const element = this.getCurrentElement();
 
     return (
-      <div className="registration-screen">
-        <h1>Registration</h1>
+      <div className="content-with-nav registration-screen">
+        <h1 className="sr-only">Registration</h1>
         <div className="registration-form">
           <div className="content">
             {element}
