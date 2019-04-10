@@ -66,6 +66,7 @@ def update_settings():
     db.session.add(update)
     current_user.settings.update(json_data['settings'])
     db.session.commit()
+    db.session.close()
     success = True
     # except:
     #     print "error logging new settings for user {} to db".format(current_user.id)
