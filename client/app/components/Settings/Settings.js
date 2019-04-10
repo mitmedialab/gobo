@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Toggle from 'react-toggle';
 import 'react-toggle/style.css';
 import { updateRules, updateSettings } from 'actions/feed';
+import { Button } from '@blueprintjs/core';
 import Input from 'components/Input/Input';
 import SettingsItem from 'components/SettingsItem/SettingsItem';
 import isEnabled, { KEYWORD_FILTER } from 'utils/featureFlags';
@@ -497,7 +498,7 @@ class Settings extends Component {
         <ul className="settings-menu">
           <li>
             <header className="settings-header">
-              <span><button className="filter-toggle-btn" onClick={this.props.onMinimize}><span className={`arrow-icon icon-${arrowIcon}`} /><h1>Filters</h1></button></span>
+              <Button className="filter-toggle-btn" onClick={this.props.onMinimize}><span className={`arrow-icon icon-${arrowIcon}`} /><h1><span className="sr-only">Collapse/Expand</span>Filters</h1></Button>
             </header>
           </li>
           {settings.map((feature, index) => {
