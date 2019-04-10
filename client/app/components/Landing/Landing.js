@@ -7,7 +7,7 @@ import LandingCard from 'components/Landing/LandingCard';
 
 const Landing = () => (
   <div className="fluid-container landing-container">
-    <div className="row">
+    <div className="row no-margins">
       <div className="col-md-4 col-md-push-8 login-register">
         <div>
           <img className="logo" alt="Gobo logo" src="images/gobo-logo.png" /><h1 className="landing-title">Gobo</h1>
