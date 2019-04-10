@@ -49,6 +49,14 @@ const Landing = () => (
             />
           </div>
         </div>
+        <div className="row text-center">
+          <div className="col-md-12 hidden-sm hidden-xs">
+            <a target="_blank" rel="noopener noreferrer" href="https://www.media.mit.edu/groups/civic-media/overview/"><img className="landing-civic-logo" alt="Civic Media Logo" src="images/civic-media-logo-black.png" /></a>
+          </div>
+          <div className="col-md-12 hidden-md hidden-lg">
+            <a target="_blank" rel="noopener noreferrer" href="https://www.media.mit.edu/groups/civic-media/overview/"><img className="landing-civic-logo" alt="Civic Media Logo" src="images/civic-media-logo-white.png" /></a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
