@@ -113,7 +113,7 @@ class SocialMediaButtons extends Component {
           textButton={buttonProps.buttonText}
           isDisabled={this.state.facebookSuccess}
           disableMobileRedirect={false}
-          icon={<i className={`button-icon ${buttonProps.buttonIcon}`} />}
+          icon={<span className={`button-icon ${buttonProps.buttonIcon}`} />}
         />
         <p><small>Connect to Facebook to allow Gobo to read Facebook pages that you like. Gobo displays public posts from liked pages for you to filter. Unfortunately we cannot display posts on your feed from your friends.</small></p>
       </div>
@@ -128,7 +128,7 @@ class SocialMediaButtons extends Component {
     return (
       <div>
         <button onClick={this.onTwitterButtonClick} className={buttonProps.buttonClass} >
-          {buttonProps.buttonText} <i className={`button-icon ${buttonProps.buttonIcon}`} />
+          {buttonProps.buttonText} <span className={`button-icon ${buttonProps.buttonIcon}`} />
         </button>
         <p><small>Connect to Twitter to allow Gobo to read tweets from your timeline. Gobo displays up to 500 of the most recent posts from your feed for you to filter.</small></p>
       </div>
@@ -169,7 +169,7 @@ class SocialMediaButtons extends Component {
           <InputError visible errorMessage={this.state.mastodonDomainError} />
         }
         <button onClick={this.handleMastodonClick} className={buttonProps.buttonClass} >
-          {buttonProps.buttonText} <i className={`button-icon ${buttonProps.buttonIcon}`} />
+          {buttonProps.buttonText} <span className={`button-icon ${buttonProps.buttonIcon}`} />
         </button>
         <p><small>
           Connect to Mastodon to allow Gobo to read toots from your timeline.
