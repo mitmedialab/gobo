@@ -8,6 +8,10 @@
 	}
 }
 
+.no-margins {
+  margin: 0;
+}
+
 .login-register {
   background-color: $header-color;
   color: $inverse-text-color;
@@ -85,6 +89,7 @@
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .card-description {
