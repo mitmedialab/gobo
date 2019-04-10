@@ -50,11 +50,11 @@ class Feed extends Component {
     if (!this.props.auth.isAuthenticated) {
       return <Redirect to="/" />;
     }
-    const posts = this.props.feed.posts;
     const filteredPosts = this.props.feed.filtered_posts;
+    const posts = this.props.feed.filtered_posts.inFeedPosts;
     const filteredLinkText = this.state.showFilteredOnly ? 'Back to my feed' : `Show me ${filteredPosts.filtered.length} hidden posts`;
     const noPostsText = this.state.showFilteredOnly ? 'None of your posts were hidden. Try changing the filters to see them in action. ' : 'None of the posts in your feed match the filters you\'ve set. Try changing the filters.';
-    const showing = this.state.showFilteredOnly ? 'filtered' : 'kept';
+    const showing = this.state.showFilteredOnly ? 'filtered' : 'inFeedPosts';
 
     let postsHtml;
     if (!this.props.feed.loading_posts &&
@@ -99,7 +99,7 @@ class Feed extends Component {
 
               {(this.props.feed.loading_posts || this.props.feed.filtering_posts) &&
               <div>
-                <div className="filtered-text">Hold on while we fetch your feed...</div>
+                <p className="filtered-text text-center">Hold on while we fetch your feed...</p>
                 <Loader />
               </div>}
 

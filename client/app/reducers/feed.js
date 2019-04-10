@@ -41,7 +41,7 @@ const defaultState = {
   getRulesSuccess: false,
   getRulesError: false,
   filtered_posts: {
-    kept: [],
+    inFeedPosts: [],
     filtered: [],
     fb: 0,
     reasons: {},
