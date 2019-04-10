@@ -5,7 +5,7 @@ import { getSourceIcon } from 'utils/misc';
 
 const HiddenPost = (props) => {
   const { filteredBy, post } = props;
-  const text = `Hidden because of: ${props.filteredBy.map(reason => reason.label).join(', ')}`;
+  const text = `Hidden by: ${props.filteredBy.map(reason => reason.label).join(', ')}`;
   const reasons = filteredBy.map(reason =>
     <span className={`rule-icon ${reason.icon}`} key={`${post.id}-${reason.type}`} />,
   );
