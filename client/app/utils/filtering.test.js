@@ -469,11 +469,11 @@ describe('filtering', () => {
         include_corporate: false,
       };
       const {
-        keptPosts,
+        inFeedPosts,
         filteredPosts,
         filterReasons,
       } = getFilteredPosts(POSTS.posts, settings, []);
-      expect(keptPosts.length).toBe(1);
+      expect(inFeedPosts.length).toBe(3);
       expect(filteredPosts.length).toBe(2);
       expect(filterReasons).toEqual({ 4521474: [{ label: 'Corporate', type: 'corporate', icon: 'icon-corporate' }], 4521515: [{ label: 'Corporate', type: 'corporate', icon: 'icon-corporate' }], 4521559: [] });
     });
@@ -484,11 +484,11 @@ describe('filtering', () => {
         keywordsAnd: ['out', 'https'],
       };
       const {
-        keptPosts,
+        inFeedPosts,
         filteredPosts,
         filterReasons,
       } = getFilteredPosts(POSTS.posts, settings, []);
-      expect(keptPosts.length).toBe(1);
+      expect(inFeedPosts.length).toBe(3);
       expect(filteredPosts.length).toBe(2);
       expect(filterReasons).toEqual({ 4521474: [{ label: 'Keyword', type: 'keyword', icon: 'icon-keyword-rule' }], 4521515: [{ label: 'Keyword', type: 'keyword', icon: 'icon-keyword-rule' }], 4521559: [] });
     });
@@ -499,11 +499,11 @@ describe('filtering', () => {
         keywordsOr: ['appointments', 'Do-gooders'],
       };
       const {
-        keptPosts,
+        inFeedPosts,
         filteredPosts,
         filterReasons,
       } = getFilteredPosts(POSTS.posts, settings, []);
-      expect(keptPosts.length).toBe(1);
+      expect(inFeedPosts.length).toBe(3);
       expect(filteredPosts.length).toBe(2);
       expect(filterReasons).toEqual({ 4521474: [{ label: 'Keyword', type: 'keyword', icon: 'icon-keyword-rule' }], 4521515: [], 4521559: [{ label: 'Keyword', type: 'keyword', icon: 'icon-keyword-rule' }] });
     });

@@ -180,6 +180,7 @@ export function filterPostByRuleLevel(post, rule) {
 export function getFilteredPosts(posts, settings, rules) {
   const filteredPosts = [];
   let keptPosts = [];
+  const inFeedPosts = [];
   const filterReasons = {};
   const viralityScores = posts.map(post => Math.log(post.virality_count + 1));
   const maxVirality = viralityScores.reduce((a, b) => Math.max(a, b), 0);
@@ -190,6 +191,7 @@ export function getFilteredPosts(posts, settings, rules) {
   const filters = [filterPostByCorporate, filterPostKeywordOrBySettings, filterPostByKeywordAnd];
 
   posts.forEach((post) => {
+    let inFeed = true; // most posts will be in the feed. Additive are only injected if unfiltered
     let keep = true;
     filterReasons[post.id] = [];
 
@@ -218,6 +220,7 @@ export function getFilteredPosts(posts, settings, rules) {
         const filtered = filterPostByRuleLevel(post, rule);
         if (filtered) {
           keep = false;
+          inFeed = false;
           filterReasons[post.id].push({
             label: rule.title,
             type: 'additive',
@@ -245,12 +248,16 @@ export function getFilteredPosts(posts, settings, rules) {
               post.political_quintile > (settings.political_affiliation + settings.echo_range) ||
               post.political_quintile < (settings.political_affiliation - settings.echo_range))) {
       keep = false;
+      inFeed = false;
       filterReasons[post.id].push(REASONS.newsEcho);
     }
-    if (keep) {
-      keptPosts.push(post);
-    } else {
-      filteredPosts.push(post);
+    if (inFeed) {
+      inFeedPosts.push(post);
+      if (keep) {
+        keptPosts.push(post);
+      } else {
+        filteredPosts.push(post);
+      }
     }
   });
   const keptFemalePosts = keptPosts.filter(post => post.gender === 'GenderEnum.female');
@@ -273,7 +280,7 @@ export function getFilteredPosts(posts, settings, rules) {
     }
   });
   return {
-    keptPosts,
+    inFeedPosts,
     filteredPosts,
     neutralFb,
     filterReasons,
@@ -283,9 +290,9 @@ export function getFilteredPosts(posts, settings, rules) {
 }
 
 export default function calculateFilteredPosts(posts, settings, rules) {
-  const { keptPosts, filteredPosts, neutralFb, filterReasons, maxVirality, viralityAvg } = getFilteredPosts(posts, settings, rules);
+  const { inFeedPosts, filteredPosts, neutralFb, filterReasons, maxVirality, viralityAvg } = getFilteredPosts(posts, settings, rules);
   return {
-    kept: keptPosts,
+    inFeedPosts,
     filtered: filteredPosts,
     fb: neutralFb,
     reasons: filterReasons,
