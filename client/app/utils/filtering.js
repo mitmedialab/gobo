@@ -177,7 +177,7 @@ export function filterPostByRuleLevel(post, rule) {
   return filtered;
 }
 
-export function getFilteredPosts(posts, settings, rules) {
+export function getFilteredPosts(posts, settings, rules, showPlatform) {
   const filteredPosts = [];
   let keptPosts = [];
   const inFeedPosts = [];
@@ -190,8 +190,13 @@ export function getFilteredPosts(posts, settings, rules) {
   // TODO: continue refactoring filters to this pattern
   const filters = [filterPostByCorporate, filterPostKeywordOrBySettings, filterPostByKeywordAnd];
 
-  posts.forEach((post) => {
-    let inFeed = true; // most posts will be in the feed. Additive are only injected if unfiltered
+  let platformPosts = [...posts];
+  if (showPlatform !== 'all') {
+    platformPosts = platformPosts.filter(post => post.source === showPlatform);
+  }
+
+  platformPosts.forEach((post) => {
+    let inFeed = true;
     let keep = true;
     filterReasons[post.id] = [];
 
@@ -289,8 +294,8 @@ export function getFilteredPosts(posts, settings, rules) {
   };
 }
 
-export default function calculateFilteredPosts(posts, settings, rules) {
-  const { inFeedPosts, filteredPosts, neutralFb, filterReasons, maxVirality, viralityAvg } = getFilteredPosts(posts, settings, rules);
+export default function calculateFilteredPosts(posts, settings, rules, showPlatform) {
+  const { inFeedPosts, filteredPosts, neutralFb, filterReasons, maxVirality, viralityAvg } = getFilteredPosts(posts, settings, rules, showPlatform);
   return {
     inFeedPosts,
     filtered: filteredPosts,

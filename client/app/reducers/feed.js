@@ -11,6 +11,7 @@ import {
     GET_RULES_SUCCESS,
     GET_RULES_FAIL,
     UPDATE_RULES,
+    UPDATE_SHOW_PLATFORM,
 } from 'actions/feed';
 
 /* ------------------- */
@@ -37,6 +38,7 @@ const defaultState = {
     echo_range: 1,
   },
   rules: [],
+  showPlatform: 'all',
   loadingRules: false,
   getRulesSuccess: false,
   getRulesError: false,
@@ -125,6 +127,12 @@ export default function reducer(state = defaultState, action) {
       return {
         ...state,
         rules: action.rules,
+        filtering_posts: true,
+      };
+    case UPDATE_SHOW_PLATFORM:
+      return {
+        ...state,
+        platformFilter: action.platformFilter,
         filtering_posts: true,
       };
     default:
