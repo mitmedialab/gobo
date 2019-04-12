@@ -8,9 +8,6 @@ import { connect } from 'react-redux';
 import onClickOutside from 'react-onclickoutside';
 
 
-// TODO:
-// * style drop down menu
-// * style drop down itself
 const DROP_DOWN_MENU_CLASSES = 'dropdown-menu list-group keep-dropdown w230';
 
 class NavBar extends Component {
