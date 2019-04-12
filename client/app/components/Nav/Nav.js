@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { logout } from 'actions/auth';
+import { updateShowPlatform } from 'actions/feed';
 import { connect } from 'react-redux';
 import onClickOutside from 'react-onclickoutside';
 
+
+const DROP_DOWN_MENU_CLASSES = 'dropdown-menu list-group keep-dropdown w230';
 
 class NavBar extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      dropdownOpen: false,
+      accountOpen: false,
+      platformsOpen: false,
     };
   }
 
@@ -22,36 +27,50 @@ class NavBar extends Component {
         userName = user.facebook_name.split(' ')[0];
       } else if (user.twitter_name) {
         userName = `@${user.twitter_name}`;
+      } else if (user.mastodon_name) {
+        userName = `${user.mastodon_name}@${user.mastodon_domain}`;
       }
     }
     return userName;
   }
 
-  getNavLinkItem = (glyphType, link, text) => (
-    <li className="list-group-item" role="menuitem" onClick={this.toggleDropdown}>
+  getNavLinkItem = (glyphType, link, text, toggleDropdown) => (
+    <li className="list-group-item" role="menuitem" onClick={toggleDropdown}>
       <span className={`glyphicon ${glyphType}`} />
       <Link to={`${link}`}> <span>{text}</span></Link>
     </li>
   );
 
-  toggleSlide = () => {
-    const elem = document.getElementsByClassName('nav-menu')[0];
-    if (elem.className === 'nav-menu') {
-      elem.className = 'nav-menu open';
-    } else {
-      elem.className = 'nav-menu';
-    }
+  getNavButtonItem = (iconClass, text, toggleDropdown, handleClick, enabled = true) => (
+    <li className="list-group-item" role="menuitem" onClick={toggleDropdown}>
+      <button className="nav-menu-button" disabled={!enabled} onClick={handleClick}><span className={`nav-menu-icon ${iconClass}`} /><span>{text}</span></button>
+    </li>
+  )
+
+  isFeed = () => {
+    const { location } = this.props;
+    const current = location.pathname.replace(/^\/+|\/+$/g, '');
+    return current === '' || current === 'feed';
   }
 
-  toggleDropdown = () => {
+  toggleAccountsDropdown = () => {
     this.setState({
-      dropdownOpen: !this.state.dropdownOpen,
+      accountOpen: !this.state.accountOpen,
+      platformsOpen: false,
+    });
+  }
+
+  togglePlatformsDropdown = () => {
+    this.setState({
+      platformsOpen: !this.state.platformsOpen,
+      accountOpen: false,
     });
   }
 
   closeDropdown() {
     this.setState({
-      dropdownOpen: false,
+      accountOpen: false,
+      platformsOpen: false,
     });
   }
 
@@ -59,40 +78,45 @@ class NavBar extends Component {
     this.closeDropdown();
   }
 
-  renderNavBar = () => {
+  handleLogout = () => {
+    this.props.dispatch(logout());
+  }
+
+  handlePlatformChanged = (e) => {
+    const platform = e.currentTarget.textContent.toLowerCase();
+    this.props.dispatch(updateShowPlatform(platform));
+  }
+
+  renderAccountsDropdown = () => {
     const user = this.props.auth.isAuthenticated ? this.props.auth.user : null;
-    const dropdownMenuClass = 'dropdown-menu list-group keep-dropdown w230';
 
     const dropdownActions = user ? (
-      <ul className={dropdownMenuClass} role="menu" tabIndex="0" onBlur={() => this.setState({ dropdownOpen: false })} >
-        {this.getNavLinkItem('glyphicon-user', '/profile', 'My Profile')}
-        {this.getNavLinkItem('glyphicon-align-center', '/feed', 'My Feed')}
-        {this.getNavLinkItem('glyphicon-info-sign', '/about', 'About Gobo')}
-        {this.getNavLinkItem('glyphicon-eye-open', '/privacy', 'Privacy Policy')}
-        <li className="list-group-item" role="menuitem" onClick={this.toggleDropdown}>
-          <span className="glyphicon glyphicon-log-out" />
-          <a role="button" tabIndex="0" onClick={() => this.props.dispatch(logout())}><span>Logout</span></a>
-        </li>
+      <ul className={DROP_DOWN_MENU_CLASSES} role="menu" tabIndex="0" onBlur={() => this.setState({ accountOpen: false })} >
+        {this.getNavLinkItem('glyphicon-user', '/profile', 'My Profile', this.toggleAccountsDropdown)}
+        {this.getNavLinkItem('glyphicon-align-center', '/feed', 'My Feed', this.toggleAccountsDropdown)}
+        {this.getNavLinkItem('glyphicon-info-sign', '/about', 'About Gobo', this.toggleAccountsDropdown)}
+        {this.getNavLinkItem('glyphicon-eye-open', '/privacy', 'Privacy Policy', this.toggleAccountsDropdown)}
+        {this.getNavButtonItem('glyphicon glyphicon-log-out', 'Logout', this.toggleAccountsDropdown, this.handleLogout)}
       </ul>
     ) :
-      (<ul className={dropdownMenuClass} role="menu" tabIndex="0" onBlur={() => this.setState({ dropdownOpen: false })} >
-        {this.getNavLinkItem('glyphicon-picture', '/register', 'Register')}
-        {this.getNavLinkItem('glyphicon-log-in', '/login', 'Login')}
-        {this.getNavLinkItem('glyphicon-eye-open', '/privacy', 'Privacy Policy')}
+      (<ul className={DROP_DOWN_MENU_CLASSES} role="menu" tabIndex="0" onBlur={() => this.setState({ accountOpen: false })} >
+        {this.getNavLinkItem('glyphicon-picture', '/register', 'Register', this.toggleAccountsDropdown)}
+        {this.getNavLinkItem('glyphicon-log-in', '/login', 'Login', this.toggleAccountsDropdown)}
+        {this.getNavLinkItem('glyphicon-eye-open', '/privacy', 'Privacy Policy', this.toggleAccountsDropdown)}
       </ul>);
 
     let dropdownClass = 'dropdown dropdown-fuse navbar-user';
-    if (this.state.dropdownOpen) {
+    if (this.state.accountOpen) {
       dropdownClass += ' open';
     }
 
     const defaultAvatar = 'images/avatar.png';
     const avatar = user ? user.avatar || defaultAvatar : defaultAvatar;
-    const dropDownArrowDir = this.state.dropdownOpen ? 'up' : 'down';
+    const dropDownArrowDir = this.state.accountOpen ? 'up' : 'down';
     const userName = this.getUserName(user);
-    const dropdown = (
+    return (
       <li className={dropdownClass}>
-        <a className="dropdown-toggle" onClick={this.toggleDropdown} aria-expanded={this.state.dropdownOpen} role="button">
+        <a className="dropdown-toggle" onClick={this.toggleAccountsDropdown} aria-expanded={this.state.accountOpen} role="button">
           <img src={avatar} className="img-circle avatar" alt="Avatar" />
           {user && <span className="hidden-xs"><span className="name">{userName}</span></span>}
           <span className={`glyphicon hidden-xs glyphicon-chevron-${dropDownArrowDir}`} />
@@ -100,25 +124,52 @@ class NavBar extends Component {
         {dropdownActions}
       </li>
     );
+  }
 
+  renderPlatformsDropdown = () => {
+    const { user } = this.props.auth;
+    let dropdownClass = 'dropdown dropdown-fuse';
+    dropdownClass += this.state.platformsOpen ? ' open' : '';
+    const dropDownArrowDir = this.state.platformsOpen ? 'up' : 'down';
     return (
-      <header className={this.props.auth.isAuthenticated ? 'logged' : ''}>
-        <nav className="navbar navbar-fixed-top">
-          <ul className="nav navbar-nav navbar-left logo">
-            <li>
-              <Link to={'/'}>
-                <img alt="Gobo logo" src="images/gobo-logo.png" />
-                <span className="logo-title">Gobo</span>
-              </Link>
-            </li>
-          </ul>
-          <ul className="nav navbar-nav navbar-right">
-            {dropdown}
-          </ul>
-        </nav>
-      </header>
+      <li className={dropdownClass}>
+        <button className="dropdown-toggle" onClick={this.togglePlatformsDropdown} aria-expanded={this.state.platformsOpen}>
+          <span className="name capitalize">{`${this.props.feed.showPlatform}`}</span>
+          <span className={`glyphicon hidden-xs glyphicon-chevron-${dropDownArrowDir}`} />
+        </button>
+        <ul className={DROP_DOWN_MENU_CLASSES} role="menu" tabIndex="0" onBlur={() => this.setState({ platformsOpen: false })} >
+          {this.getNavButtonItem('glyphicon glyphicon-globe', 'All', this.togglePlatformsDropdown, this.handlePlatformChanged)}
+          {this.getNavButtonItem('icon-twitter-squared', 'Twitter', this.togglePlatformsDropdown, this.handlePlatformChanged, user.twitter_authorized)}
+          {this.getNavButtonItem('icon-facebook-squared', 'Facebook', this.togglePlatformsDropdown, this.handlePlatformChanged, user.facebook_authorized)}
+          {this.getNavButtonItem('icon-mastodon-logo', 'Mastodon', this.togglePlatformsDropdown, this.handlePlatformChanged, user.mastodon_authorized)}
+          {this.getNavLinkItem('glyphicon glyphicon-plus-sign', '/profile', 'Add', this.togglePlatformsDropdown)}
+        </ul>
+      </li>
     );
   }
+
+  renderNavBar = () => (
+    <header className={this.props.auth.isAuthenticated ? 'logged' : ''}>
+      <nav className="navbar navbar-fixed-top">
+        <ul className="nav navbar-nav navbar-left header-background-hover logo">
+          <li>
+            <Link to={'/'}>
+              <img alt="Gobo logo" src="images/gobo-logo.png" />
+              <span className="hidden-xs hidden-sm logo-title">Gobo</span>
+            </Link>
+          </li>
+        </ul>
+        { this.isFeed() && this.props.auth.user &&
+          <ul className="nav navbar-nav navbar-left logo">
+            {this.renderPlatformsDropdown()}
+          </ul>
+        }
+        <ul className="nav navbar-nav navbar-right">
+          {this.renderAccountsDropdown()}
+        </ul>
+      </nav>
+    </header>
+    );
 
   render() {
     if (this.props.auth.isAuthenticated || window.location.pathname !== '/') {
@@ -132,12 +183,15 @@ class NavBar extends Component {
 function mapStateToProps(state) {
   return {
     auth: state.auth,
+    feed: state.feed,
   };
 }
 
 NavBar.propTypes = {
   auth: PropTypes.object.isRequired,
+  feed: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps)(onClickOutside(NavBar));
+export default withRouter(connect(mapStateToProps)(onClickOutside(NavBar)));

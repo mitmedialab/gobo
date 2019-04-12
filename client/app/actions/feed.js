@@ -13,6 +13,7 @@ export const GET_RULES_LOAD = 'feed/GET_RULES_LOAD';
 export const GET_RULES_SUCCESS = 'feed/GET_RULES_SUCCESS';
 export const GET_RULES_FAIL = 'feed/GET_RULES_FAIL';
 export const UPDATE_RULES = 'feed/UPDATE_RULES';
+export const UPDATE_SHOW_PLATFORM = 'feed/UPDATE_SHOW_PLATFORM';
 
 /*--------*/
 // Define Action creators
@@ -22,9 +23,14 @@ export const UPDATE_RULES = 'feed/UPDATE_RULES';
 // function calls
 /*--------*/
 
-function filterPosts({ settings, rules } = {}) {
+function filterPosts({ settings, rules, showPlatform } = {}) {
   return (dispatch, getState) => {
-    const result = calculateFilteredPosts(getState().feed.posts, settings || getState().feed.settings, rules || getState().feed.rules);
+    const result = calculateFilteredPosts(
+      getState().feed.posts,
+      settings || getState().feed.settings,
+      rules || getState().feed.rules,
+      showPlatform || getState().feed.showPlatform,
+    );
     dispatch({ type: FILTER_POSTS_SUCCESS, result });
   };
 }
@@ -84,5 +90,12 @@ export function updateRules(rules) {
     dispatch({ type: UPDATE_RULES, rules });
     updateUserRules(rules);
     return dispatch(filterPosts({ rules }));
+  };
+}
+
+export function updateShowPlatform(showPlatform) {
+  return (dispatch) => {
+    dispatch({ type: UPDATE_SHOW_PLATFORM, showPlatform });
+    return dispatch(filterPosts({ showPlatform }));
   };
 }

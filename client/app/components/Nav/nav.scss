@@ -1,3 +1,6 @@
+
+$glyphicon-menu-font-size: 17px;
+
 .nav>li>a>img {
   max-height: 60px;
   height:auto;
@@ -5,10 +8,6 @@
 
 .navbar-nav > li > a {
   padding: 0;
-}
-
-.navbar-nav.navbar-right, .navbar-nav.navbar-right {
-  padding-top: $padding-small-vertical * 2;
 }
 
 .avatar {
@@ -27,8 +26,10 @@
 }
 
 .navbar .logo {
-  margin: 0 !important;
+  margin: 0;
+}
 
+.header-background-hover {
   a:hover {
     background-color: $header-color;
   }
@@ -42,14 +43,12 @@
 @media (max-width: 599px) {
   body:not(.sb-top) .navbar .navbar-right:last-child {
     margin-right: 0;
-    padding-top: 10px;
     padding-bottom: 0;
   }
 }
 @media (max-width: 900px) {
   body:not(.sb-top) .navbar .navbar-right:last-child {
     margin-right: 0;
-    padding-top: 10px;
     padding-bottom: 0;
   }
 }
@@ -70,12 +69,6 @@
 @media (max-width: 900px) {
   .navbar .logo{
     float: left !important;
-  }
-}
-
-@media (max-width: 1467px) and (min-width: 1281px) {
-  .logged .navbar{
-    //margin-left: 280px;
   }
 }
 
@@ -136,7 +129,7 @@
 }
 
 .w230 {
-  width: 230px !important;
+  min-width: 230px;
 }
 
 .list-group {
@@ -145,6 +138,7 @@
 }
 
 .dropdown-menu {
+  @extend .tk-futura-pt;
   position: absolute;
   top: 100%;
   left: 0;
@@ -154,7 +148,6 @@
   padding: 14px 0;
   margin: 0;
   list-style: none;
-  font-size: 12px;
   text-align: left;
   background-color: #fff;
   border: 0;
@@ -191,8 +184,7 @@
 
 .navbar .nav .list-group > li.list-group-item > span {
   position: absolute;
-  top: 11px;
-  left: 13px;
+  top: 14px;
   font-size: 17px;
   color: #2a3342;
 }
@@ -205,9 +197,76 @@
   vertical-align: middle;
 }
 
-.nav .open > a, .nav .open > a.dropdown-toggle:hover, .nav .open > a.dropdown-toggle:focus {
-  background-color: lighten($header-color, 20%);
+.lighten-header {
+  background-color: unset;
 }
-.nav > li > a.dropdown-toggle:hover, .nav > li > a.dropdown-toggle:focus {
-  background-color: lighten($header-color, 20%);
+
+.nav > li > a:hover, .nav > li > a:focus {
+  @extend .lighten-header;
+}
+
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+  @extend .lighten-header;
+}
+
+.dropdown-menu > li > a {
+  &:focus, &:active, &:hover {
+    background-color: unset;
+  }
+}
+
+.dropdown {
+  .dropdown-toggle {
+    margin-top: $padding-small-vertical * 2;
+  }
+
+  button.dropdown-toggle {
+    padding-right: $padding-large-vertical * 2;
+    padding-left: $padding-large-vertical * 2;
+    margin-left: $padding-large-vertical;
+
+    @media (min-width: $screen-md-min) {
+  		margin-left: $padding-large-vertical * 3;
+  	}
+  }
+
+  .nav-menu-icon {
+    font-size: $glyphicon-menu-font-size;
+
+    &.glyphicon {
+      margin-left: $padding-small-vertical;
+      margin-right: $padding-small-vertical;
+    }
+  }
+
+  .nav-menu-button {
+    $menu-color: #333333; // same color as for other menu items
+    background-color: unset;
+    color: unset;
+    height: unset;
+    letter-spacing: unset;
+    line-height: unset;
+    padding: 0;
+    margin: 0;
+    margin-left: -4px;
+    color: $menu-color;
+
+    &:disabled,
+  	&[disabled],
+  	&.disabled {
+      $disable-color: lighten($menu-color, 50%);
+  		color: $disable-color;
+  		border: 0;
+  		&:hover,
+  		&:focus {
+        border: 0;
+        color: $disable-color;
+  		}
+  	}
+
+  }
+}
+
+.capitalize {
+  text-transform: capitalize;
 }
