@@ -135,7 +135,7 @@ class NavBar extends Component {
       <li className={dropdownClass}>
         <button className="dropdown-toggle" onClick={this.togglePlatformsDropdown} aria-expanded={this.state.platformsOpen}>
           <span className="name capitalize">{`${this.props.feed.showPlatform}`}</span>
-          <span className={`glyphicon hidden-xs glyphicon-chevron-${dropDownArrowDir}`} />
+          <span className={`dropdown-toggle-icon glyphicon hidden-xs glyphicon-chevron-${dropDownArrowDir}`} />
         </button>
         <ul className={DROP_DOWN_MENU_CLASSES} role="menu" tabIndex="0" onBlur={() => this.setState({ platformsOpen: false })} >
           {this.getNavButtonItem('glyphicon glyphicon-globe', 'All', this.togglePlatformsDropdown, this.handlePlatformChanged)}

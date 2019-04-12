@@ -30,6 +30,8 @@ const Profile = (props) => {
     accountName = user.facebook_name;
   } else if (user.twitter_data) {
     accountName = user.twitter_data.name;
+  } else if (user.mastodon_name) {
+    accountName = user.mastodon_name;
   }
 
   let twitterContent;
