@@ -132,7 +132,7 @@ export default function reducer(state = defaultState, action) {
     case UPDATE_SHOW_PLATFORM:
       return {
         ...state,
-        platformFilter: action.platformFilter,
+        showPlatform: action.showPlatform,
         filtering_posts: true,
       };
     default:

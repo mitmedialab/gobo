@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { logout } from 'actions/auth';
@@ -8,10 +9,8 @@ import onClickOutside from 'react-onclickoutside';
 
 
 // TODO:
-// remove "Gobo":" text on mobile
-// refactor drop down toggle
-//
-
+// * style drop down menu
+// * style drop down itself
 const DROP_DOWN_MENU_CLASSES = 'dropdown-menu list-group keep-dropdown w230';
 
 class NavBar extends Component {
@@ -31,6 +30,8 @@ class NavBar extends Component {
         userName = user.facebook_name.split(' ')[0];
       } else if (user.twitter_name) {
         userName = `@${user.twitter_name}`;
+      } else if (user.mastodon_name) {
+        userName = `${user.mastodon_name}@${user.mastodon_domain}`;
       }
     }
     return userName;
@@ -43,12 +44,17 @@ class NavBar extends Component {
     </li>
   );
 
-  getNavButtonItem = (iconClass, text, toggleDropdown, handleClick) => (
+  getNavButtonItem = (iconClass, text, toggleDropdown, handleClick, enabled = true) => (
     <li className="list-group-item" role="menuitem" onClick={toggleDropdown}>
-      <span className={`${iconClass}`} />
-      <a role="button" tabIndex="0" onClick={handleClick}><span>{text}</span></a>
+      <button className="nav-menu-button" disabled={!enabled} onClick={handleClick}><span className={`nav-menu-icon ${iconClass}`} /><span>{text}</span></button>
     </li>
   )
+
+  isFeed = () => {
+    const { location } = this.props;
+    const current = location.pathname.replace(/^\/+|\/+$/g, '');
+    return current === '' || current === 'feed';
+  }
 
   toggleAccountsDropdown = () => {
     this.setState({
@@ -124,21 +130,22 @@ class NavBar extends Component {
   }
 
   renderPlatformsDropdown = () => {
+    const { user } = this.props.auth;
     let dropdownClass = 'dropdown dropdown-fuse';
     dropdownClass += this.state.platformsOpen ? ' open' : '';
     const dropDownArrowDir = this.state.platformsOpen ? 'up' : 'down';
     return (
       <li className={dropdownClass}>
         <button className="dropdown-toggle" onClick={this.togglePlatformsDropdown} aria-expanded={this.state.platformsOpen}>
-          <span className="name">All</span>
+          <span className="name capitalize">{`${this.props.feed.showPlatform}`}</span>
           <span className={`glyphicon hidden-xs glyphicon-chevron-${dropDownArrowDir}`} />
         </button>
         <ul className={DROP_DOWN_MENU_CLASSES} role="menu" tabIndex="0" onBlur={() => this.setState({ platformsOpen: false })} >
-          {this.getNavButtonItem('glyphicon glyphicon-user', 'All', this.togglePlatformsDropdown, this.handlePlatformChanged)}
-          {this.getNavButtonItem('icon-twitter-squared', 'Twitter', this.togglePlatformsDropdown, this.handlePlatformChanged)}
-          {this.getNavButtonItem('icon-facebook-squared', 'Facebook', this.togglePlatformsDropdown, this.handlePlatformChanged)}
-          {this.getNavButtonItem('icon-mastodon-logo', 'Mastodon', this.togglePlatformsDropdown, this.handlePlatformChanged)}
-          {this.getNavLinkItem('glyphicon glyphicon-user', '/profile', 'Add', this.togglePlatformsDropdown)}
+          {this.getNavButtonItem('glyphicon glyphicon-globe', 'All', this.togglePlatformsDropdown, this.handlePlatformChanged)}
+          {this.getNavButtonItem('icon-twitter-squared', 'Twitter', this.togglePlatformsDropdown, this.handlePlatformChanged, user.twitter_authorized)}
+          {this.getNavButtonItem('icon-facebook-squared', 'Facebook', this.togglePlatformsDropdown, this.handlePlatformChanged, user.facebook_authorized)}
+          {this.getNavButtonItem('icon-mastodon-logo', 'Mastodon', this.togglePlatformsDropdown, this.handlePlatformChanged, user.mastodon_authorized)}
+          {this.getNavLinkItem('glyphicon glyphicon-plus-sign', '/profile', 'Add', this.togglePlatformsDropdown)}
         </ul>
       </li>
     );
@@ -147,7 +154,7 @@ class NavBar extends Component {
   renderNavBar = () => (
     <header className={this.props.auth.isAuthenticated ? 'logged' : ''}>
       <nav className="navbar navbar-fixed-top">
-        <ul className="nav navbar-nav navbar-left logo">
+        <ul className="nav navbar-nav navbar-left header-background-hover logo">
           <li>
             <Link to={'/'}>
               <img alt="Gobo logo" src="images/gobo-logo.png" />
@@ -155,15 +162,17 @@ class NavBar extends Component {
             </Link>
           </li>
         </ul>
-        <ul className="nav navbar-nav navbar-left">
-          {this.renderPlatformsDropdown()}
-        </ul>
+        { this.isFeed() && this.props.auth.user &&
+          <ul className="nav navbar-nav navbar-left logo">
+            {this.renderPlatformsDropdown()}
+          </ul>
+        }
         <ul className="nav navbar-nav navbar-right">
           {this.renderAccountsDropdown()}
         </ul>
       </nav>
     </header>
-    )
+    );
 
   render() {
     if (this.props.auth.isAuthenticated || window.location.pathname !== '/') {
@@ -177,12 +186,15 @@ class NavBar extends Component {
 function mapStateToProps(state) {
   return {
     auth: state.auth,
+    feed: state.feed,
   };
 }
 
 NavBar.propTypes = {
   auth: PropTypes.object.isRequired,
+  feed: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps)(onClickOutside(NavBar));
+export default withRouter(connect(mapStateToProps)(onClickOutside(NavBar)));
