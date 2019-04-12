@@ -218,6 +218,11 @@ $glyphicon-menu-font-size: 17px;
 .dropdown {
   .dropdown-toggle {
     margin-top: $padding-small-vertical * 2;
+
+    .dropdown-toggle-icon {
+      margin-left: $padding-large-vertical;
+      top: 4px;
+    }
   }
 
   button.dropdown-toggle {
