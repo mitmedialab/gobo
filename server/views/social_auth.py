@@ -152,15 +152,6 @@ def handle_twitter_callback():
     return jsonify({'success': success})
 
 
-@api.route('/set_political_affiliation', methods=['POST'])
-@login_required
-def set_political_affiliation():
-    json_data = request.json
-    current_user.set_political_affiliation(json_data['political_affiliation'])
-    current_user.complete_registration()
-    return 'success', 200
-
-
 def get_facebook_long_auth(token):
     payload = {'grant_type': 'fb_exchange_token',
                'client_id': app.config['FACEBOOK_APP_ID'],

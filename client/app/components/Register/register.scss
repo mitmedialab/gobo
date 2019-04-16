@@ -18,9 +18,7 @@
     @include justify-content(center);
     @include align-items(center);
     position: relative;
-    margin: 80px 0 200px 0;
-    min-height: 400px;
-    max-width: 100%;
+    margin-top: $padding-large-vertical * 2;
 
     > h1 {
       @include display(relative);
@@ -40,7 +38,7 @@
     }
 
     .registration-description {
-      margin: 0 0 30px 0;
+      margin: 0 0 $padding-large-vertical * 2 0;
       text-align: center;
     }
 

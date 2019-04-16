@@ -23,7 +23,7 @@ class User(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     _password = db.Column('password', db.String(255), nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
-    completed_registration = db.Column(db.Boolean, default=False)
+    completed_registration = db.Column(db.Boolean, default=True)
 
     last_login = db.Column(db.DateTime, nullable=True)
     last_post_fetch = db.Column(db.DateTime, nullable=True)
@@ -95,13 +95,12 @@ class User(db.Model):
 
     def get_names(self):
         d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name not in [
-            'password', 'id', 'political_affiliation', 'posts', 'settings', 'facebook_data']}
+            'password', 'id', 'posts', 'settings', 'facebook_data']}
         d['mastodon_name'] = ''
         d['mastodon_domain'] = ''
         if self.mastodon_auth:
             d['mastodon_name'] = self.mastodon_auth.username
             d['mastodon_domain'] = self.mastodon_auth.app.domain
-        d['political_affiliation'] = self.political_affiliation.value
         d['avatar'] = self.twitter_data['profile_image_url_https'] if self.twitter_data else self.facebook_picture_url
         return d
 
@@ -130,14 +129,6 @@ class User(db.Model):
         self.twitter_id = twitter_id
         self.twitter_data = data
         self.twitter_authorized = True
-        db.session.commit()
-
-    def set_political_affiliation(self, political_affiliation):
-        self.political_affiliation = PoliticsEnum(int(political_affiliation))
-        db.session.commit()
-
-    def complete_registration(self):
-        self.completed_registration = True
         db.session.commit()
 
     def __repr__(self):
