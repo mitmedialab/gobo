@@ -181,7 +181,7 @@ class Settings extends Component {
     longDesc: 'Worried about your "echo chamber"? Gobo will let you choose to see posts from news sources similar to those that you already read, or if you want to see a "wider" set of news you can choose to include media sources that might challenge how you read about and see the world. Our algorithm curates these sources based on a left-right political spectrum in the U.S.',
     ruleCss: 'rule-additive',
     content: (
-      <div className="slider-labels">
+      <div className="slider-labels additive-toggles">
         <label htmlFor="politics-1">
           <Toggle
             checked={this.state.settings.politics_levels ? this.state.settings.politics_levels.filter(level => level === 1).length === 1 : false}
@@ -494,7 +494,7 @@ class Settings extends Component {
     subtitle: `Curated by ${rule.creator_display_name}`,
     ruleCss: 'rule-additive',
     content: (
-      <div className="slider-labels">
+      <div className="slider-labels additive-toggles">
         <label htmlFor={`${rule.id}-0-${rule.title}`}>
           <Toggle
             checked={rule.levels ? rule.levels.filter(level => level === 0).length === 1 : false}

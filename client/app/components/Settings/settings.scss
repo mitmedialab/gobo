@@ -235,9 +235,17 @@ $handle-height: 24px;
     padding-top: 40px;
   }
 
+}
+
+.additive-toggles {
+
+  height: unset;
+  display: grid;
+
   &.additive-labels {
     height: 35px;
   }
+
 }
 
 .rule-toggle {
