@@ -157,21 +157,31 @@ function filterPostByCorporate(post, settings) {
 }
 
 /**
- * Filter post by level
+ * Filter post by rule levels
  */
-export function filterPostByRuleLevel(post, rule) {
+export function filterPostByRuleLevels(post, rule) {
   let filtered = false;
 
   if (post.rules) {
     const postRule = post.rules.find(r => r.id === rule.id);
     if (postRule) {
-      if (rule.enabled) {
-         // TODO: this may need to change to be cumulative (e.g. this level or less)
-        filtered = postRule.level !== rule.level;
+      if (rule.levels) {
+        filtered = rule.levels.filter(level => level === postRule.level).length === 0;
       } else {
-         // posts will hidden if the rule is disabled
         filtered = true;
       }
+    }
+  }
+  return filtered;
+}
+
+function filterPostByPoliticalLevels(post, settings) {
+  let filtered = false;
+  if (post.is_news) {
+    if (settings.politics_levels) {
+      filtered = settings.politics_levels.filter(level => level === post.political_quintile).length === 0;
+    } else {
+      filtered = true;
     }
   }
   return filtered;
@@ -222,7 +232,7 @@ export function getFilteredPosts(posts, settings, rules, showPlatform) {
           }
         }
       } else if (rule.type === 'additive') {
-        const filtered = filterPostByRuleLevel(post, rule);
+        const filtered = filterPostByRuleLevels(post, rule);
         if (filtered) {
           keep = false;
           inFeed = false;
@@ -249,13 +259,13 @@ export function getFilteredPosts(posts, settings, rules, showPlatform) {
       keep = false;
       filterReasons[post.id].push(REASONS.virality);
     }
-    if (post.is_news && (
-              post.political_quintile > (settings.political_affiliation + settings.echo_range) ||
-              post.political_quintile < (settings.political_affiliation - settings.echo_range))) {
+
+    if (filterPostByPoliticalLevels(post, settings)) {
       keep = false;
       inFeed = false;
       filterReasons[post.id].push(REASONS.newsEcho);
     }
+
     if (inFeed) {
       inFeedPosts.push(post);
       if (keep) {

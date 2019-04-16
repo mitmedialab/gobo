@@ -230,6 +230,7 @@ class Settings(db.Model):
     seriousness_min = db.Column(db.Float, db.CheckConstraint('seriousness_min>=0'), default=0)
     seriousness_max = db.Column(db.Float, db.CheckConstraint('seriousness_max<=1'), default=1)
     echo_range = db.Column(db.Enum(EchoRangeEnum), default=EchoRangeEnum.narrow)
+    politics_levels = db.Column(ARRAY(db.Integer))
 
     rudeness_ck = db.CheckConstraint('rudeness_max>rudeness_min')
     virality_ck = db.CheckConstraint('virality_max>virality_min')
@@ -237,7 +238,6 @@ class Settings(db.Model):
 
     def as_dict(self):
         d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name != 'echo_range'}
-        d['echo_range'] = self.echo_range.value
         return d
 
     def update(self, settings_dict):
@@ -250,7 +250,7 @@ class Settings(db.Model):
         self.virality_max = settings_dict['virality_max']
         self.seriousness_min = settings_dict['seriousness_min']
         self.seriousness_max = settings_dict['seriousness_max']
-        self.echo_range = EchoRangeEnum(settings_dict['echo_range'])
+        self.politics_levels = settings_dict['politics_levels']
 
 
 class SettingsUpdate(db.Model):
@@ -582,7 +582,7 @@ class UserRule(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     rule_id = db.Column(db.Integer, db.ForeignKey('rules.id'), nullable=False)
     enabled = db.Column(db.Boolean, nullable=False)
-    level = db.Column(db.Integer)
+    levels = db.Column(ARRAY(db.Integer))
     created_at = db.Column(db.DateTime, nullable=False)
     last_modified = db.Column(db.DateTime, nullable=False)
 
@@ -591,10 +591,10 @@ class UserRule(db.Model):
 
     db.UniqueConstraint('user_id', 'rule_id')
 
-    def __init__(self, user_id, rule_id, enabled=False, level=None):
+    def __init__(self, user_id, rule_id, enabled=False, levels=None):
         self.user_id = user_id
         self.rule_id = rule_id
-        self.level = level
+        self.levels = levels
         self.enabled = enabled
         self.created_at = datetime.datetime.now()
         self.last_modified = datetime.datetime.now()

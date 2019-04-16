@@ -57,7 +57,7 @@ class Settings extends Component {
         const curr = currRules[i];
         if (curr.enabled !== prev.enabled) {
           isChanged = true;
-        } else if (curr.level !== prev.level) {
+        } else if (curr.levels !== prev.levels) {
           isChanged = true;
         }
       });
@@ -72,7 +72,7 @@ class Settings extends Component {
     const keys = ['include_corporate', 'gender_filter_on',
       'virality_min', 'virality_max', 'gender_female_per',
       'rudeness_min', 'rudeness_max', 'seriousness_min',
-      'seriousness_max', 'echo_range'];
+      'seriousness_max', 'politics_levels'];
 
     if (isEnabled(KEYWORD_FILTER)) {
       keys.push('keywordsOr');
@@ -153,6 +153,26 @@ class Settings extends Component {
     });
   }
 
+  handlePoliticsRuleToggleChange = (e) => {
+    const level = parseInt(e.target.name.split('-')[1], 10);
+    let levels = [];
+    if (this.state.settings.politics_levels) {
+      levels = [...this.state.settings.politics_levels];
+    }
+    if (e.target.checked) {
+      levels.push(level);
+    } else {
+      levels = levels.filter(l => l !== level);
+    }
+
+    this.setState({
+      settings: {
+        ...this.state.settings,
+        politics_levels: levels,
+      },
+    });
+  }
+
   politicsSetting = () => ({
     title: 'Politics',
     icon: getFilterReasonIcon('additive'),
@@ -161,23 +181,39 @@ class Settings extends Component {
     longDesc: 'Worried about your "echo chamber"? Gobo will let you choose to see posts from news sources similar to those that you already read, or if you want to see a "wider" set of news you can choose to include media sources that might challenge how you read about and see the world. Our algorithm curates these sources based on a left-right political spectrum in the U.S.',
     ruleCss: 'rule-additive',
     content: (
-      <div>
-        <ReactSlider
-          defaultValue={0}
-          min={0}
-          max={4}
-          step={1}
-          withBars
-          value={this.state.settings.echo_range}
-          onAfterChange={e => this.handleChange(e, 'echo_range')}
-          className="slider politics rule-additive"
-        />
-        <div className="slider-labels">
-          <span className="pull-left">My perspective</span>
-          <span className="pull-right">Lots of perspectives</span>
-        </div>
+      <div className="slider-labels">
+        <label htmlFor="politics-1">
+          <Toggle
+            checked={this.state.settings.politics_levels ? this.state.settings.politics_levels.filter(level => level === 1).length === 1 : false}
+            name="politics-1"
+            onChange={this.handlePoliticsRuleToggleChange}
+            icons={false}
+            className="rule-toggle"
+          />
+          <span className="toggle-label">Left</span>
+        </label>
+        <label htmlFor="politics-3">
+          <Toggle
+            checked={this.state.settings.politics_levels ? this.state.settings.politics_levels.filter(level => level === 3).length === 1 : false}
+            name="politics-3"
+            onChange={this.handlePoliticsRuleToggleChange}
+            icons={false}
+            className="rule-toggle"
+          />
+          <span className="toggle-label">Center</span>
+        </label>
+        <label htmlFor="politics-5">
+          <Toggle
+            checked={this.state.settings.politics_levels ? this.state.settings.politics_levels.filter(level => level === 5).length === 1 : false}
+            name="politics-5"
+            onChange={this.handlePoliticsRuleToggleChange}
+            icons={false}
+            className="rule-toggle"
+          />
+          <span className="toggle-label">Right</span>
+        </label>
       </div>
-      ),
+    ),
   })
 
   seriousnessSetting = () => ({
@@ -388,11 +424,32 @@ class Settings extends Component {
     ),
   })
 
-  handleRuleToggleChange = (e) => {
+  handleKeywordRuleToggleChange = (e) => {
     const rules = this.state.rules.map(rule => ({ ...rule }));
     const ruleId = parseInt(e.target.name.split('-')[0], 10);
     const currentRule = rules.filter(rule => rule.id === ruleId)[0];
     currentRule.enabled = e.target.checked;
+    this.setState({ rules });
+  }
+
+  handleAdditiveRuleToggleChange = (e) => {
+    const rules = this.state.rules.map(rule => ({ ...rule }));
+    const tokens = e.target.name.split('-');
+    const ruleId = parseInt(tokens[0], 10);
+    const level = parseInt(tokens[1], 10);
+    const currentRule = rules.filter(rule => rule.id === ruleId)[0];
+
+    let levels = [];
+    if (currentRule.levels) {
+      levels = [...currentRule.levels];
+    }
+    if (e.target.checked) {
+      levels.push(level);
+    } else {
+      levels = levels.filter(l => l !== level);
+    }
+
+    currentRule.levels = levels;
     this.setState({ rules });
   }
 
@@ -411,7 +468,7 @@ class Settings extends Component {
           <Toggle
             checked={rule.enabled}
             name={`${rule.id}-${rule.title}`}
-            onChange={this.handleRuleToggleChange}
+            onChange={this.handleKeywordRuleToggleChange}
             icons={false}
             className="rule-toggle"
           />
@@ -437,34 +494,37 @@ class Settings extends Component {
     subtitle: `Curated by ${rule.creator_display_name}`,
     ruleCss: 'rule-additive',
     content: (
-      <div>
-        <ReactSlider
-          defaultValue={0}
-          min={rule.level_min}
-          max={rule.level_max}
-          step={1}
-          withBars
-          value={rule.level}
-          onAfterChange={e => this.handleRuleSlideChange(e, rule.id)}
-          className="slider politics"
-          disabled={!rule.enabled}
-        />
-        <div className="slider-labels additive-labels">
-          <span className="pull-left">{rule.level_min_name}</span>
-          <span className="pull-right">{rule.level_max_name}</span>
-        </div>
-        <div className="slider-labels">
-          <label htmlFor={`${rule.id}-${rule.title}`}>
-            <Toggle
-              checked={rule.enabled}
-              name={`${rule.id}-${rule.title}`}
-              onChange={this.handleRuleToggleChange}
-              icons={false}
-              className="rule-toggle"
-            />
-            <span className="toggle-label">Activate rule</span>
-          </label>
-        </div>
+      <div className="slider-labels">
+        <label htmlFor={`${rule.id}-0-${rule.title}`}>
+          <Toggle
+            checked={rule.levels ? rule.levels.filter(level => level === 0).length === 1 : false}
+            name={`${rule.id}-0-${rule.title}`}
+            onChange={this.handleAdditiveRuleToggleChange}
+            icons={false}
+            className="rule-toggle"
+          />
+          <span className="toggle-label">Tech Critics</span>
+        </label>
+        <label htmlFor={`${rule.id}-2-${rule.title}`}>
+          <Toggle
+            checked={rule.levels ? rule.levels.filter(level => level === 2).length === 1 : false}
+            name={`${rule.id}-2-${rule.title}`}
+            onChange={this.handleAdditiveRuleToggleChange}
+            icons={false}
+            className="rule-toggle"
+          />
+          <span className="toggle-label">Tech Journalists</span>
+        </label>
+        <label htmlFor={`${rule.id}-4-${rule.title}`}>
+          <Toggle
+            checked={rule.levels ? rule.levels.filter(level => level === 4).length === 1 : false}
+            name={`${rule.id}-4-${rule.title}`}
+            onChange={this.handleAdditiveRuleToggleChange}
+            icons={false}
+            className="rule-toggle"
+          />
+          <span className="toggle-label">Tech Companies</span>
+        </label>
       </div>
     ),
   })

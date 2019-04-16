@@ -7,6 +7,7 @@ from server.core import db
 from server.models import Post, SettingsUpdate
 from server.enums import PoliticsEnum
 from server.blueprints import api
+from server.utils import are_int_arrays_same
 
 logger = logging.getLogger(__name__)
 
@@ -52,7 +53,6 @@ def get_posts():
 @login_required
 def get_settings():
     settings = current_user.settings.as_dict()
-    settings['political_affiliation'] = current_user.political_affiliation.value
     return jsonify(settings)
 
 
@@ -80,7 +80,7 @@ def get_rules():
     rules = []
     for association in current_user.rule_associations:
         serialized = association.rule.serialize()
-        serialized.update(enabled=association.enabled, level=association.level)
+        serialized.update(enabled=association.enabled, levels=association.levels)
         rules.append(serialized)
     return jsonify({'rules': rules})
 
@@ -96,8 +96,8 @@ def toggle_rules():
             if association.enabled is not rule['enabled']:
                 association.enabled = rule['enabled']
                 updated = True
-            if association.level is not rule['level']:
-                association.level = rule['level']
+            if not are_int_arrays_same(association.levels, rule['levels']):
+                association.levels = rule['levels']
                 updated = True
 
     if updated:
