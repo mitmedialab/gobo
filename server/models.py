@@ -95,7 +95,7 @@ class User(db.Model):
 
     def get_names(self):
         d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name not in [
-            'password', 'id', 'posts', 'settings', 'facebook_data']}
+            'password', 'id', 'posts', 'settings', 'facebook_data', 'political_affiliation']}
         d['mastodon_name'] = ''
         d['mastodon_domain'] = ''
         if self.mastodon_auth:
