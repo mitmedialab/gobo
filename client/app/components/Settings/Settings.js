@@ -95,9 +95,9 @@ class Settings extends Component {
     this.setState({ settings });
   }
 
-  handleCheckBoxChange = (e, key) => {
+  handleCorporateChange = (e, key) => {
     const settings = { ...this.state.settings };
-    settings[key] = e.target.checked;
+    settings[key] = !e.target.checked;
     this.setState({ settings });
   }
 
@@ -178,7 +178,7 @@ class Settings extends Component {
     icon: getFilterReasonIcon('additive'),
     desc: 'See stories matching or challenging your political perspective.',
     key: 'echo_range',
-    longDesc: 'Worried about your "echo chamber"? Gobo will let you choose to see posts from news sources similar to those that you already read, or if you want to see a "wider" set of news you can choose to include media sources that might challenge how you read about and see the world. Our algorithm curates these sources based on a left-right political spectrum in the U.S.',
+    longDesc: 'Worried about your "echo chamber"? Gobo lets you add posts from political perspectives that might be different from your own. We curated a list of popular U.S. news sources from the left, center, and right, so you can explore a range of positions on U.S. politics.',
     ruleCss: 'rule-additive',
     subtitle: (<span>Powered by <a href="https://mediacloud.org/" rel="noopener noreferrer" target="_blank">Media Cloud</a></span>),
     content: (
@@ -222,7 +222,7 @@ class Settings extends Component {
     icon: getFilterReasonIcon('seriousness'),
     desc: 'Control the ratio of serious news to fun stuff in your feed.',
     key: 'news_score',
-    longDesc: "Social media can be overwhelming, and sometimes it’s necessary to have a break from the news cycles. Gobo will run the text of each post, and any articles linked to, through an algorithm that detects topics it talks about. We've created this algorithm ourselves, teaching it the difference based on tags in a giant set of New York Times articles. It will mark each post with the topics it is about (sports, politics, pop culture, etc.) and then we'll include or exclude content based on the ratio that you set.",
+    longDesc: "Social media can be overwhelming, and sometimes it’s necessary to have a break from the news cycles. Gobo will run the text of each post -- and any articles linked to it -- through an algorithm that detects the topics it talks about. We created this algorithm ourselves, teaching it how to detect topics based on tags in a giant set of New York Times articles. It will mark each post with the topics it is about (sports, politics, pop culture, etc.), and we'll include or exclude posts based on the ratio that you set.",
     ruleCss: 'rule-filter',
     subtitle: (<span>Powered by <a href="https://mediacloud.org/" rel="noopener noreferrer" target="_blank">Media Cloud</a></span>),
     content: (
@@ -257,8 +257,8 @@ class Settings extends Component {
     title: 'Rudeness',
     icon: getFilterReasonIcon('rudeness'),
     key: 'toxicity',
-    desc: 'Filter out the trolls, or see just how rude they are.',
-    longDesc: 'Want to enforce good manners on your feed? Rude and obnoxious behaviour on social media has sadly become the norm. Gobo uses a Google algorithm to measure how "rude" a post is, and lets you filter it out. Beware - like most algorithms this one exhibits questionable behaviour when it comes to race, particularly in its failure to account for African-American Vernacular English.',
+    desc: 'Filter out the trolls, or see how rude they are.',
+    longDesc: (<span>Rude comments on social media have sadly become the norm. What if there was a way to hide these comments out of your feed? Gobo uses a Google algorithm to measure how "rude" a post is and lets you filter it out. Like most algorithms, this one exhibits questionable behaviour when it comes to race -- particularly in its <a href="https://onezero.medium.com/how-automated-tools-discriminate-against-black-language-2ac8eab8d6db" rel="noopener noreferrer" target="_blank">misidentification of African-American Vernacular English as being rude</a>.</span>),
     ruleCss: 'rule-filter',
     subtitle: (<span>Powered by <a href="https://perspectiveapi.com" rel="noopener noreferrer" target="_blank">Perspective</a></span>),
     content: (
@@ -281,7 +281,7 @@ class Settings extends Component {
             onAfterChange={e => this.handleDualSliderChange(e, 'rudeness')}
           />
           <div className="slider-labels">
-            <span className="pull-left"> Clean</span>
+            <span className="pull-left"> Not rude</span>
             <span className="pull-right"> Very rude</span>
           </div>
         </div>
@@ -294,7 +294,7 @@ class Settings extends Component {
     icon: getFilterReasonIcon('gender'),
     key: 'gender',
     desc: 'Change how much each gender is represented in your feed.',
-    longDesc: 'Curious to see what your female or male friends are talking about? Want to try rebalancing your feed to 50/50 men and women? Gobo will use a variety of techniques to detect what gender the author of a post is. We recognize that the algorithms for detecting gender discriminate against non-binary folks, and we include it here to invite criticism of Gobo and other social media platforms.',
+    longDesc: 'Curious to see what your female or male friends are talking about? Want to try rebalancing your feed to 50/50 men and women? Or simply mute all men on your feed? Gobo uses a tool from the OpenGenderTracking project to detect what gender the author of a post is. We recognize that the algorithms for detecting gender exclude non-binary folks, but we include it here to imagine a way of rethinking gender representation on social media.',
     ruleCss: 'rule-filter',
     subtitle: (<span>Powered by <a href="http://opengendertracking.github.io/" rel="noopener noreferrer" target="_blank">OpenGenderTracking</a></span>),
     content: (
@@ -338,21 +338,21 @@ class Settings extends Component {
     title: 'Brands',
     icon: getFilterReasonIcon('corporate'),
     key: 'is_corporate',
-    desc: 'Filter out any brands from your feed to be commercial free.',
-    longDesc: 'Want to limit your feed to the friends and family you actually care about? Brands are major players on social media platforms, often consuming large amounts of our feeds with either reposts or sponsored content that is featured. Gobo detects content from brands and lets you exclude them if you want to. At the moment, our algorithm doesn’t differentiate between corporations and non-profit organizations.',
+    desc: 'Hide posts from brands to make your feed commercial-free.',
+    longDesc: 'Want to limit your feed to the friends and family you actually care about? Brands are major players on social media platforms, often consuming large amounts of our feeds with either reposts or sponsored content. Gobo detects posts from brands and lets you hide them when you want. A limitation of our algorithm is that it doesn’t differentiate between corporations and non-profit organizations.',
     ruleCss: 'rule-filter',
-    subtitle: 'Curated by Gobo',
+    subtitle: 'Powered by Gobo',
     content: (
       <div className="slider-labels">
         <label htmlFor="corporate">
           <Toggle
             name="corporate"
-            checked={this.state.settings.include_corporate}
-            onChange={(e) => { this.handleCheckBoxChange(e, 'include_corporate'); }}
+            checked={!this.state.settings.include_corporate}
+            onChange={(e) => { this.handleCorporateChange(e, 'include_corporate'); }}
             icons={false}
             className="rule-toggle"
           />
-          <span className="toggle-label">Show content from brands</span>
+          <span className="toggle-label">Block all brands</span>
         </label>
       </div>
     ),
@@ -362,10 +362,10 @@ class Settings extends Component {
     title: 'Obscurity',
     icon: getFilterReasonIcon('virality'),
     key: 'virality_count',
-    desc: 'See the posts that aren’t getting as much love.',
-    longDesc: 'Social media sites prioritize the posts with the most shares and likes. So what are the posts that you might not being seeing? Gobo will look at the number of shares and likes each post in your feed has and include it or exclude it based on your settings.',
+    desc: 'See the posts that arenʼt getting as much love.',
+    longDesc: 'Social media sites prioritize the posts with the most shares and likes. So what are the posts that you might not being seeing? Gobo will look at the number of shares and likes each post has and include it or exclude it based on your settings.',
     ruleCss: 'rule-filter',
-    subtitle: 'Curated by Gobo',
+    subtitle: 'Powered by Gobo',
     content: (
       <div>
         {this.props.feed.posts.length > 0 &&
@@ -464,9 +464,12 @@ class Settings extends Component {
     icon: getFilterReasonIcon('keyword'),
     desc: rule.description,
     key: `${rule.id}-${rule.title}`,
-    longDesc: 'Excluding posts that contain any of the words:',
+    longDesc: (<div>
+      <p>Political news can be overwhelming! With 2020 coming up, election news is beginning to dominate the media. What if you could take a break from it? Gobo lets you hide posts about candidates running for the US 2020 Presidential election. We created a list of the current candidates, along with some other election-related phrases. Any post containing a word from this list is hidden from your feed.</p>
+      <p>Hiding posts that contain any of these words:</p>
+    </div>),
     longDescList: rule.exclude_terms,
-    subtitle: `Curated by ${rule.creator_display_name}`,
+    subtitle: `Powered by ${rule.creator_display_name}`,
     ruleCss: 'rule-filter',
     content: (
       <div className="slider-labels">
@@ -478,7 +481,7 @@ class Settings extends Component {
             icons={false}
             className="rule-toggle"
           />
-          <span className="toggle-label">Activate rule</span>
+          <span className="toggle-label">Hide election posts</span>
         </label>
       </div>
     ),
@@ -496,7 +499,7 @@ class Settings extends Component {
     icon: getFilterReasonIcon('additive'),
     desc: rule.description,
     key: `${rule.id}-${rule.title}`,
-    longDesc: rule.long_description,
+    longDesc: (<div>We figured as Gobo users, you might be interested in the latest tech news. But how is tech being talked about by different people? We believe that tech is political, so we curated a list of source with different perspectives on tech. Gobo lets you add posts from these accounts to your feed, so you can explore the range of opinions on the latest tech news.</div>),
     subtitle: `Curated by ${rule.creator_display_name}`,
     ruleCss: 'rule-additive',
     content: (
@@ -564,7 +567,7 @@ class Settings extends Component {
         <ul className="settings-menu">
           <li>
             <header className="settings-header">
-              <Button className="filter-toggle-btn" onClick={this.props.onMinimize}><span className={`arrow-icon icon-${arrowIcon}`} /><h1><span className="sr-only">Collapse/Expand</span>Filters</h1></Button>
+              <Button className="filter-toggle-btn" onClick={this.props.onMinimize}><span className={`arrow-icon icon-${arrowIcon}`} /><h1><span className="sr-only">Collapse/Expand</span>Rules</h1></Button>
             </header>
           </li>
           {settings.map((feature, index) => {
