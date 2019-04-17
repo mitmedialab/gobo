@@ -40,10 +40,6 @@ export function postFacebookResponseToServer(response) {
   });
 }
 
-export function postPoliticalAffiliationToServer(response) {
-  return axios.post(`${API_URL}api/set_political_affiliation`, { political_affiliation: response });
-}
-
 export function getTwitterAuthURl() {
   return axios.get(`${API_URL}api/get_twitter_oauth_token`);
 }

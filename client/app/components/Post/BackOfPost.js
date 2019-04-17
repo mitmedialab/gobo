@@ -47,17 +47,14 @@ class BackOfPost extends Component {
     return 'in the top 25% of popular posts';
   }
 
-  politicalQuintileText(score) {
-    const myQuintile = this.props.feed.settings.echo_range || 0;
-    const distance = Math.abs(myQuintile - score);
-    if (distance === 0) {
-      return 'similar to your political perspective';
-    } else if (distance <= 2) {
-      // distance is between 1-2
-      return 'slightly different from your political perspective';
+  politicalLevelText = (level) => {
+    let politicalDirection = 'center';
+    if (level === 1) {
+      politicalDirection = 'left';
+    } else if (level === 5) {
+      politicalDirection = 'right';
     }
-    // distance is between 3-4
-    return 'very different from your political perspective';
+    return `Post is from the political ${politicalDirection}`;
   }
 
   keywordRulesText = () => {
@@ -94,7 +91,7 @@ class BackOfPost extends Component {
 
         {post.political_quintile &&
         (<div className="explanation">
-          <span><span className="icon icon-additive rule-additive" /> {this.politicalQuintileText(post.political_quintile)}</span>
+          <span><span className="icon icon-additive rule-additive" /> {this.politicalLevelText(post.political_quintile)}</span>
         </div>)
         }
 

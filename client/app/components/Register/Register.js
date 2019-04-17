@@ -5,12 +5,8 @@ import { connect } from 'react-redux';
 import CouhesMessage from './registerSteps/CouhesMessage';
 import SignupEmailPassword from './registerSteps/SignupEmailPassword';
 import SocialAuth from './registerSteps/SocialAuth';
-import SelectPersona from './registerSteps/SelectPersona';
 import RegisterSuccess from './registerSteps/RegisterSuccess';
 
-const propTypes = {
-  passwordLock: PropTypes.object.isRequired,
-};
 
 class Register extends Component {
 
@@ -32,8 +28,6 @@ class Register extends Component {
       case 3:
         return <SocialAuth onFinish={this.nextStep} />;
       case 4:
-        return <SelectPersona onFinish={this.nextStep} />;
-      case 5:
         return <RegisterSuccess />;
       default:
         return <CouhesMessage onFinish={this.nextStep} />;
@@ -49,15 +43,12 @@ class Register extends Component {
   }
 
   render() {
-    const element = this.getCurrentElement();
-
     return (
       <div className="content-with-nav registration-screen">
         <h1 className="sr-only">Registration</h1>
         <div className="registration-form">
           <div className="content">
-            {element}
-
+            {this.getCurrentElement()}
             <div className="next-back-buttons">
               {(this.state.step > 3 || this.state.step === 2) && <button onClick={this.prevStep} >Back</button>}
               {this.state.step > 2 && this.state.step < 4 && <button onClick={this.nextStep} >Next</button>}
@@ -69,6 +60,8 @@ class Register extends Component {
   }
 }
 
-Register.propTypes = propTypes;
+Register.propTypes = {
+  passwordLock: PropTypes.object.isRequired,
+};
 
 export default connect(state => ({ auth: state.auth, passwordLock: state.passwordLock }))(Register);
