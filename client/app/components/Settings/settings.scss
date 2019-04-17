@@ -170,12 +170,8 @@ $handle-height: 24px;
   background: lighten($text-color, 10%);
 }
 
-.rule-filter .bar-1 {
+.rule-setting .bar-1 {
   background-color: $filter-color;
-}
-
-.additive-filter .bar-1 {
-  background-color: $additive-color;
 }
 
 .bar-gender .bar {
@@ -184,10 +180,6 @@ $handle-height: 24px;
 
 .bar-gender .bar.bar-1 {
   background: lighten($text-color, 10%);
-}
-
-.politics .bar {
-  background-color: $additive-color;
 }
 
 .slider .bar {
@@ -248,8 +240,8 @@ $handle-height: 24px;
 
 }
 
-.rule-toggle {
-  background-color: #199a27;
+.rule-toggle.react-toggle--checked .react-toggle-track {
+  background-color: $green;
 }
 
 .filter-content {
@@ -257,16 +249,7 @@ $handle-height: 24px;
   padding: 30px 50px 30px 30px;
 }
 
-.rule-additive {
-  .filter-icon {
-    color: $additive-color;
-  }
-  &.filter-icon {
-    color: $additive-color;
-  }
-}
-
-.rule-filter {
+.rule-setting {
   .filter-icon {
     color: $filter-color;
   }

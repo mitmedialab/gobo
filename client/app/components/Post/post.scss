@@ -38,12 +38,7 @@ $post-hidden-padding: $padding-small-vertical;
     margin: 0;
     min-height: 30px;  // same as what's used on a button
     line-height: 30px;  // same as what's used on a button
-
     color: $filter-color;
-    .icon-additive {
-      color: $additive-color;
-    }
-
   }
 
   .post-header{
@@ -166,14 +161,7 @@ $post-hidden-padding: $padding-small-vertical;
     font-size:2em;
     margin-right: -4px;
     vertical-align: middle;
-
-    &.rule-additive {
-      color: $additive-color;
-    }
-
-    &.rule-filter {
-      color: $filter-color;
-    }
+    color: $filter-color;
   }
 
   .explanation {
@@ -207,7 +195,7 @@ $post-hidden-padding: $padding-small-vertical;
     line-height: 18px;
 
     .footer-underline {
-      border-bottom: 1px dotted $inverse-text-color;      
+      border-bottom: 1px dotted $inverse-text-color;
     }
   }
 
