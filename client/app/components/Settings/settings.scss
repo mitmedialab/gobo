@@ -384,3 +384,7 @@ $rule-height: 40px;
   position: relative;
   top: $rule-height / 2 - 6px;
 }
+
+.settings-rule-description-title {
+  @extend .tk-futura-pt-bold;
+}

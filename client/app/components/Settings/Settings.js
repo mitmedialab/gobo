@@ -178,7 +178,51 @@ class Settings extends Component {
     icon: getFilterReasonIcon('additive'),
     desc: 'See stories matching or challenging your political perspective.',
     key: 'echo_range',
-    longDesc: 'Worried about your "echo chamber"? Gobo lets you add posts from political perspectives that might be different from your own. We curated a list of popular U.S. news sources from the left, center, and right, so you can explore a range of positions on U.S. politics.',
+    longDesc: (
+      <div>
+        <p>Worried about your "echo chamber"? Gobo lets you add posts from political perspectives that might be different from your own. We curated a list of popular U.S. news sources from the left, center, and right, so you can explore a range of positions on U.S. politics.</p>
+        <p>Politics sources:</p>
+        <p className="settings-rule-description-title">Left</p>
+        <ul>
+          <li><a href="http://www.huffingtonpost.com/" rel="noopener noreferrer" target="_blank">Huffington Post</a></li>
+          <li><a href="http://www.msnbc.msn.com/" rel="noopener noreferrer" target="_blank">MSNBC</a></li>
+          <li><a href="http://www.vox.com/" rel="noopener noreferrer" target="_blank">Vox</a></li>
+          <li><a href="http://www.npr.org/" rel="noopener noreferrer" target="_blank">NPR</a></li>
+          <li><a href="http://www.politicususa.com/" rel="noopener noreferrer" target="_blank">Politicus USA</a></li>
+          <li><a href="http://www.thedailybeast.com/" rel="noopener noreferrer" target="_blank">The Daily Beast</a></li>
+          <li><a href="http://www.slate.com/" rel="noopener noreferrer" target="_blank">Slate</a></li>
+          <li><a href="http://rawstory.com/" rel="noopener noreferrer" target="_blank">Raw Story</a></li>
+          <li><a href="http://www.salon.com/" rel="noopener noreferrer" target="_blank">Salon</a></li>
+          <li><a href="http://www.dailykos.com/" rel="noopener noreferrer" target="_blank">Daily Kos</a></li>
+        </ul>
+        <p className="settings-rule-description-title">Center</p>
+        <ul>
+          <li><a href="http://thehill.com/" rel="noopener noreferrer" target="_blank">The Hill</a></li>
+          <li><a href="http://abcnews.go.com/" rel="noopener noreferrer" target="_blank">ABC News</a></li>
+          <li><a href="http://usatoday.com/" rel="noopener noreferrer" target="_blank">USA Today</a></li>
+          <li><a href="http://www.businessinsider.com/" rel="noopener noreferrer" target="_blank">Business Insider</a></li>
+          <li><a href="http://online.wsj.com/" rel="noopener noreferrer" target="_blank">Wall Street Journal</a></li>
+          <li><a href="http://www.reuters.com/" rel="noopener noreferrer" target="_blank">Reuters</a></li>
+          <li><a href="https://theintercept.com/" rel="noopener noreferrer" target="_blank">The Intercept</a></li>
+          <li><a href="https://www.mediaite.com/" rel="noopener noreferrer" target="_blank">Mediaite</a></li>
+          <li><a href="http://businessweek.com/" rel="noopener noreferrer" target="_blank">Business Week</a></li>
+          <li><a href="http://www.cnbc.com/" rel="noopener noreferrer" target="_blank">CNBC</a></li>
+        </ul>
+        <p className="settings-rule-description-title">Right</p>
+        <ul>
+          <li><a href="http://www.breitbart.com/" rel="noopener noreferrer" target="_blank">Breitbart</a></li>
+          <li><a href="http://conservativetribune.com/" rel="noopener noreferrer" target="_blank">Conservative Tribune</a></li>
+          <li><a href="http://www.theblaze.com/" rel="noopener noreferrer" target="_blank">The Blaze</a></li>
+          <li><a href="http://dailycaller.com/" rel="noopener noreferrer" target="_blank">Daily Caller</a></li>
+          <li><a href="http://www.foxnews.com/" rel="noopener noreferrer" target="_blank">Fox News</a></li>
+          <li><a href="http://www.dailymail.co.uk/" rel="noopener noreferrer" target="_blank">Daily Mail</a></li>
+          <li><a href="http://www.thegatewaypundit.com/" rel="noopener noreferrer" target="_blank">The Gateway Pundit</a></li>
+          <li><a href="http://www.westernjournalism.com/" rel="noopener noreferrer" target="_blank">Western Journalism</a></li>
+          <li><a href="http://www.nypost.com/" rel="noopener noreferrer" target="_blank">NY Post</a></li>
+          <li><a href="http://thepoliticalinsider.com/" rel="noopener noreferrer" target="_blank">The Political Insider</a></li>
+        </ul>
+      </div>
+    ),
     ruleCss: 'rule-additive',
     subtitle: (<span>Powered by <a href="https://mediacloud.org/" rel="noopener noreferrer" target="_blank">Media Cloud</a></span>),
     content: (
@@ -499,7 +543,42 @@ class Settings extends Component {
     icon: getFilterReasonIcon('additive'),
     desc: rule.description,
     key: `${rule.id}-${rule.title}`,
-    longDesc: (<div>We figured as Gobo users, you might be interested in the latest tech news. But how is tech being talked about by different people? We believe that tech is political, so we curated a list of source with different perspectives on tech. Gobo lets you add posts from these accounts to your feed, so you can explore the range of opinions on the latest tech news.</div>),
+    longDesc: (
+      <div>
+        <p>We figured as Gobo users, you might be interested in the latest tech news. But how is tech being talked about by different people? We believe that tech is political, so we curated a list of source with different perspectives on tech. Gobo lets you add posts from these accounts to your feed, so you can explore the range of opinions on the latest tech news.</p>
+        <p>Tech perspectives sources:</p>
+        <p className="settings-rule-description-title">Tech Critics</p>
+        <ul>
+          <li><a href="https://twitter.com/techworkersco" rel="noopener noreferrer" target="_blank">Tech Workers Coalition</a></li>
+          <li><a href="https://twitter.com/datasociety" rel="noopener noreferrer" target="_blank">Data & Society</a></li>
+          <li><a href="https://twitter.com/Data4BlackLives" rel="noopener noreferrer" target="_blank">Data for Black Lives</a></li>
+          <li><a href="https://twitter.com/jovialjoy" rel="noopener noreferrer" target="_blank">Joy Buolamwini</a></li>
+          <li><a href="https://twitter.com/gleemie" rel="noopener noreferrer" target="_blank">Lilly Irani</a></li>
+          <li><a href="https://twitter.com/katecrawford" rel="noopener noreferrer" target="_blank">Kate Crawford</a></li>
+          <li><a href="https://twitter.com/safiyanoble" rel="noopener noreferrer" target="_blank">Safiya Noble</a></li>
+          <li><a href="https://twitter.com/zephoria" rel="noopener noreferrer" target="_blank">danah boyd</a></li>
+        </ul>
+        <p className="settings-rule-description-title">Tech Journalists</p>
+        <ul>
+          <li><a href="https://twitter.com/ForbesTech" rel="noopener noreferrer" target="_blank">Forbes Tech</a></li>
+          <li><a href="https://twitter.com/WSJTech" rel="noopener noreferrer" target="_blank">Wall Street Journal Tech</a></li>
+          <li><a href="https://twitter.com/NBCNewsTech" rel="noopener noreferrer" target="_blank">NBC News Tech</a></li>
+          <li><a href="https://twitter.com/technology" rel="noopener noreferrer" target="_blank">Bloomberg Technology</a></li>
+          <li><a href="https://twitter.com/ReutersTech" rel="noopener noreferrer" target="_blank">Reuters Tech News</a></li>
+        </ul>
+        <p className="settings-rule-description-title">Tech Companies</p>
+        <ul>
+          <li><a href="https://twitter.com/Google" rel="noopener noreferrer" target="_blank">Google</a></li>
+          <li><a href="https://twitter.com/facebook" rel="noopener noreferrer" target="_blank">Facebook</a></li>
+          <li><a href="https://twitter.com/Microsoft" rel="noopener noreferrer" target="_blank">Microsoft</a></li>
+          <li><a href="https://twitter.com/Apple" rel="noopener noreferrer" target="_blank">Apple</a></li>
+          <li><a href="https://twitter.com/amazon" rel="noopener noreferrer" target="_blank">Amazon</a></li>
+          <li><a href="https://twitter.com/Twitter" rel="noopener noreferrer" target="_blank">Twitter</a></li>
+          <li><a href="https://twitter.com/Uber" rel="noopener noreferrer" target="_blank">Uber</a></li>
+          <li><a href="https://twitter.com/lyft" rel="noopener noreferrer" target="_blank">Lyft</a></li>
+        </ul>
+      </div>
+    ),
     subtitle: `Curated by ${rule.creator_display_name}`,
     ruleCss: 'rule-additive',
     content: (
