@@ -243,7 +243,7 @@ button {
 	color: $btn-primary-text-color;
 	letter-spacing: 1.5px;
 	height: 40px;
-	padding: 0px 15px;
+	padding: 0px $padding-large-horizontal * 2;
 	-webkit-font-smoothing: subpixel-antialiased;
 	cursor: pointer;
 	white-space: nowrap;
