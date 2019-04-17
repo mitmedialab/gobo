@@ -19,6 +19,8 @@ $sidebar-color: #fff;
   .filter-toggle-btn {
     background-color: $nav-color;
     height: unset;
+    padding: 0;
+    padding-left: $padding-small-horizontal;
   }
 
   *:focus{
