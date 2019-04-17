@@ -223,7 +223,7 @@ class Settings extends Component {
         </ul>
       </div>
     ),
-    ruleCss: 'rule-additive',
+    ruleCss: 'rule-setting',
     subtitle: (<span>Powered by <a href="https://mediacloud.org/" rel="noopener noreferrer" target="_blank">Media Cloud</a></span>),
     content: (
       <div className="slider-labels additive-toggles">
@@ -267,7 +267,7 @@ class Settings extends Component {
     desc: 'Control the ratio of serious news to fun stuff in your feed.',
     key: 'news_score',
     longDesc: "Social media can be overwhelming, and sometimes it’s necessary to have a break from the news cycles. Gobo will run the text of each post -- and any articles linked to it -- through an algorithm that detects the topics it talks about. We created this algorithm ourselves, teaching it how to detect topics based on tags in a giant set of New York Times articles. It will mark each post with the topics it is about (sports, politics, pop culture, etc.), and we'll include or exclude posts based on the ratio that you set.",
-    ruleCss: 'rule-filter',
+    ruleCss: 'rule-setting',
     subtitle: (<span>Powered by <a href="https://mediacloud.org/" rel="noopener noreferrer" target="_blank">Media Cloud</a></span>),
     content: (
       <div>
@@ -278,7 +278,7 @@ class Settings extends Component {
             </Sparklines>
           </div>
         }
-        <div className="setting-with-sparklines rule-filter">
+        <div className="setting-with-sparklines rule-setting">
           <ReactSlider
             defaultValue={[0, 1]}
             min={0}
@@ -303,7 +303,7 @@ class Settings extends Component {
     key: 'toxicity',
     desc: 'Filter out the trolls, or see how rude they are.',
     longDesc: (<span>Rude comments on social media have sadly become the norm. What if there was a way to hide these comments out of your feed? Gobo uses a Google algorithm to measure how "rude" a post is and lets you filter it out. Like most algorithms, this one exhibits questionable behaviour when it comes to race -- particularly in its <a href="https://onezero.medium.com/how-automated-tools-discriminate-against-black-language-2ac8eab8d6db" rel="noopener noreferrer" target="_blank">misidentification of African-American Vernacular English as being rude</a>.</span>),
-    ruleCss: 'rule-filter',
+    ruleCss: 'rule-setting',
     subtitle: (<span>Powered by <a href="https://perspectiveapi.com" rel="noopener noreferrer" target="_blank">Perspective</a></span>),
     content: (
       <div>
@@ -314,7 +314,7 @@ class Settings extends Component {
             </Sparklines>
           </div>
         }
-        <div className="setting-with-sparklines rule-filter">
+        <div className="setting-with-sparklines rule-setting">
           <ReactSlider
             defaultValue={[0, 1]}
             min={0}
@@ -339,7 +339,7 @@ class Settings extends Component {
     key: 'gender',
     desc: 'Change how much each gender is represented in your feed.',
     longDesc: 'Curious to see what your female or male friends are talking about? Want to try rebalancing your feed to 50/50 men and women? Or simply mute all men on your feed? Gobo uses a tool from the OpenGenderTracking project to detect what gender the author of a post is. We recognize that the algorithms for detecting gender exclude non-binary folks, but we include it here to imagine a way of rethinking gender representation on social media.',
-    ruleCss: 'rule-filter',
+    ruleCss: 'rule-setting',
     subtitle: (<span>Powered by <a href="http://opengendertracking.github.io/" rel="noopener noreferrer" target="_blank">OpenGenderTracking</a></span>),
     content: (
       <div>
@@ -384,7 +384,7 @@ class Settings extends Component {
     key: 'is_corporate',
     desc: 'Hide posts from brands to make your feed commercial-free.',
     longDesc: 'Want to limit your feed to the friends and family you actually care about? Brands are major players on social media platforms, often consuming large amounts of our feeds with either reposts or sponsored content. Gobo detects posts from brands and lets you hide them when you want. A limitation of our algorithm is that it doesn’t differentiate between corporations and non-profit organizations.',
-    ruleCss: 'rule-filter',
+    ruleCss: 'rule-setting',
     subtitle: 'Powered by Gobo',
     content: (
       <div className="slider-labels">
@@ -408,7 +408,7 @@ class Settings extends Component {
     key: 'virality_count',
     desc: 'See the posts that arenʼt getting as much love.',
     longDesc: 'Social media sites prioritize the posts with the most shares and likes. So what are the posts that you might not being seeing? Gobo will look at the number of shares and likes each post has and include it or exclude it based on your settings.',
-    ruleCss: 'rule-filter',
+    ruleCss: 'rule-setting',
     subtitle: 'Powered by Gobo',
     content: (
       <div>
@@ -419,7 +419,7 @@ class Settings extends Component {
             </Sparklines>
           </div>
         }
-        <div className="setting-with-sparklines rule-filter">
+        <div className="setting-with-sparklines rule-setting">
           <ReactSlider
             defaultValue={[0, 1]}
             min={0}
@@ -444,7 +444,7 @@ class Settings extends Component {
     desc: 'Enter to filter by any keywords. Space for multiple keywords. Blank to clear.',
     key: 'keywordOr',
     longDesc: 'Proof of Concept. Needs some UX',
-    ruleCss: 'rule-filter',
+    ruleCss: 'rule-setting',
     content: (
       <Input
         text="PoC - OR Keyword Filter"
@@ -462,7 +462,7 @@ class Settings extends Component {
     desc: 'Enter to filter by all keywords. Space for multiple keywords. Blank to clear.',
     key: 'keywordAnd',
     longDesc: 'Proof of Concept. Needs some UX',
-    ruleCss: 'rule-filter',
+    ruleCss: 'rule-setting',
     content: (
       <Input
         text="PoC - AND Keyword Filter"
@@ -514,7 +514,7 @@ class Settings extends Component {
     </div>),
     longDescList: rule.exclude_terms,
     subtitle: `Powered by ${rule.creator_display_name}`,
-    ruleCss: 'rule-filter',
+    ruleCss: 'rule-setting',
     content: (
       <div className="slider-labels">
         <label htmlFor={`${rule.id}-${rule.title}`}>
@@ -580,7 +580,7 @@ class Settings extends Component {
       </div>
     ),
     subtitle: `Curated by ${rule.creator_display_name}`,
-    ruleCss: 'rule-additive',
+    ruleCss: 'rule-setting',
     content: (
       <div className="slider-labels additive-toggles">
         <label htmlFor={`${rule.id}-0-${rule.title}`}>
