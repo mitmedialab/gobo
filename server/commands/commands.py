@@ -106,17 +106,15 @@ def share_rule_to_user(user_id, rule_id, enabled):
 @click.command()
 @click.option('--rule-id', required=True, type=int, help='ID of user rule to share')
 @click.option('--enabled', required=False, type=bool, default=False, help='Whether rule is enabled initially')
-@click.option('--level', required=False, type=int, default=None, help='Default level for additive rules')
 @with_appcontext
-def share_rule_all_users(rule_id, enabled, level):
+def share_rule_all_users(rule_id, enabled):
     """Share rule with all users and/or modify enabled state"""
     for user in User.query.all():
         setting = UserRule.query.filter_by(user_id=user.id, rule_id=rule_id).first()
         if setting:
             setting.enabled = enabled
-            setting.level = level
         else:
-            setting = UserRule(user.id, rule_id, enabled, level)
+            setting = UserRule(user.id, rule_id, enabled)
             db.session.add(setting)
     db.session.commit()
     print "Successfully added settings"
