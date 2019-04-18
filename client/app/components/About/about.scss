@@ -3,6 +3,43 @@
 		text-align: center;
 	}
 
+	.colored-background {
+		color: $inverse-text-color;
+
+		a {
+			color: $inverse-text-color;
+			border-bottom-width: 1px;
+			border-bottom-style: dotted;
+			border-bottom-color: $inverse-text-color;
+
+			&:hover {
+				$hover-color: darken($inverse-text-color, 15%);
+				color: $hover-color;
+				border-bottom-color: $hover-color;
+			}
+		}
+	}
+
+	.orange-background {
+		@extend .colored-background;
+		background-color: $orange;
+	}
+
+	.red-background {
+		@extend .colored-background;
+		background-color: $red;
+	}
+
+	.green-background {
+		@extend .colored-background;
+		background-color: $green;
+	}
+
+	.purple-background {
+		@extend .colored-background;
+		background-color: $purple;
+	}
+
 }
 
 #privacy {

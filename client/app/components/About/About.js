@@ -52,15 +52,15 @@ const About = (props) => {
           <div className="col-lg-12">
             <h1>Table of Contents</h1>
             <ul>
-              <li><a target="#features">Features</a></li>
-              <li><a target="#faq">FAQ</a></li>
-              <li><a target="#team">Team</a></li>
-              <li><a target="#press">Press</a></li>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#faq">FAQ</a></li>
+              <li><a href="#team">Team</a></li>
+              <li><a href="#press">Press</a></li>
             </ul>
           </div>
         </div>
 
-        <div className="row">
+        <div className="row orange-background">
           <div className="col-lg-12">
             <h1 id="feature">Features</h1>
             {['control', 'connect', 'see', 'perspective'].map(key =>
@@ -72,7 +72,7 @@ const About = (props) => {
           </div>
         </div>
 
-        <div className="row">
+        <div className="row red-background">
           <div className="col-lg-12">
             <h1 id="faq">FAQ</h1>
 
@@ -114,7 +114,7 @@ const About = (props) => {
           </div>
         </div>
 
-        <div className="row">
+        <div className="row green-background">
           <div className="col-lg-12">
             <h1 id="team">Team</h1>
             <ul>
@@ -128,7 +128,7 @@ const About = (props) => {
           </div>
         </div>
 
-        <div className="row">
+        <div className="row purple-background">
           <div className="col-lg-12">
             <h1 id="press">Press</h1>
             <p>Check out some things that have been written on Gobo!</p>
