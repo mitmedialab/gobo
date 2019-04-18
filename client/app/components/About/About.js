@@ -28,7 +28,7 @@ const About = (props) => {
   }
   return (
     <div className="content-with-nav">
-      <div className="container">
+      <div className="container about">
         {loginContent}
         <div className="row">
           <div className="col-lg-12">
@@ -38,6 +38,8 @@ const About = (props) => {
               media and imagine a better version of it. This is a technology-to-think-with -- a tool we want
               you to play with and push against. Gobo is being built by a small team at <a href="https://www.media.mit.edu/groups/civic-media/overview/" target="_blank" rel="noopener noreferrer">MIT Media Lab's Center for Civic Media</a>,
               where we work on technologies for social change. You can learn more about Gobo and why we built it in our FAQ.
+            </p>
+            <p>
               For questions, feedback, and musings, you can reach the Gobo team at <a href="mailto:gobo@media.mit.edu">gobo@media.mit.edu</a>.
             </p>
 
@@ -48,15 +50,19 @@ const About = (props) => {
 
         <div className="row">
           <div className="col-lg-12">
-            <h2>
-              Table of contents
-            </h2>
+            <h1>Table of Contents</h1>
+            <ul>
+              <li><a target="#features">Features</a></li>
+              <li><a target="#faq">FAQ</a></li>
+              <li><a target="#team">Team</a></li>
+              <li><a target="#press">Press</a></li>
+            </ul>
           </div>
         </div>
 
         <div className="row">
           <div className="col-lg-12">
-            <h1>Features</h1>
+            <h1 id="feature">Features</h1>
             {['control', 'connect', 'see', 'perspective'].map(key =>
               (<div key={key}>
                 <h2>{COPY[key].title}</h2>
@@ -68,7 +74,7 @@ const About = (props) => {
 
         <div className="row">
           <div className="col-lg-12">
-            <h1>FAQ</h1>
+            <h1 id="faq">FAQ</h1>
 
             <h2>What is Gobo?</h2>
             <p>Gobo is a social media browser that gives you control and transparency over what you see. Through Gobo, you can connect your Twitter, Facebook, and Mastodon accounts and view all of these feeds in one place. Using a set of “rules”, you can choose to hide certain kinds of posts and show others. For example, our "obscurity" rule allows you to hide viral content that’s overwhelming your feed or surface hidden gems you might be missing. Meanwhile, our "politics" rule allows you to add content from political perspectives you aren’t seeing. Gobo aims to be completely transparent, showing you why each post was included in your feed and inviting you to explore which posts were hidden.</p>
@@ -110,7 +116,7 @@ const About = (props) => {
 
         <div className="row">
           <div className="col-lg-12">
-            <h1>Team</h1>
+            <h1 id="team">Team</h1>
             <ul>
               <li>Ethan Zuckerman, Director</li>
               <li>Rahul Bhargava, Project Manager</li>
@@ -124,7 +130,7 @@ const About = (props) => {
 
         <div className="row">
           <div className="col-lg-12">
-            <h1>Team</h1>
+            <h1 id="press">Press</h1>
             <p>Check out some things that have been written on Gobo!</p>
             <ul>
               <li>Anna Chung, <a href="https://onezero.medium.com/how-automated-tools-discriminate-against-black-language-2ac8eab8d6db">How Automated Tools Discriminate Against Black Language</a> (OneZero, Medium, 2/2019)</li>
