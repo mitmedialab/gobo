@@ -101,7 +101,7 @@ class SocialMediaButtons extends Component {
   getFacebookButton = () => {
     const buttonProps = this.getButtonDefaults(this.state.facebookSuccess, 'Facebook');
     return (
-      <div>
+      <div className="sm-platform">
         <FacebookLogin
           appId={this.props.socialMediaData.facebookAppId}
           autoLoad={false}
@@ -115,7 +115,7 @@ class SocialMediaButtons extends Component {
           disableMobileRedirect={false}
           icon={<span className={`button-icon ${buttonProps.buttonIcon}`} />}
         />
-        <p><small>Connect to Facebook to allow Gobo to read Facebook pages that you like. Gobo displays public posts from liked pages for you to filter. Unfortunately we cannot display posts on your feed from your friends.</small></p>
+        <p className="sm-description"><small>Connect to Facebook to allow Gobo to read Facebook pages that you like. Gobo displays public posts from liked pages for you to filter. Unfortunately we cannot display posts on your feed from your friends.</small></p>
       </div>
     );
   }
@@ -126,11 +126,11 @@ class SocialMediaButtons extends Component {
       buttonProps.buttonText = 'Error authenticating twitter. Try again.';
     }
     return (
-      <div>
+      <div className="sm-platform">
         <button onClick={this.onTwitterButtonClick} className={buttonProps.buttonClass} >
           {buttonProps.buttonText} <span className={`button-icon ${buttonProps.buttonIcon}`} />
         </button>
-        <p><small>Connect to Twitter to allow Gobo to read tweets from your timeline. Gobo displays up to 500 of the most recent posts from your feed for you to filter.</small></p>
+        <p className="sm-description"><small>Connect to Twitter to allow Gobo to read tweets from your timeline. Gobo displays up to 500 of the most recent posts from your feed for you to filter.</small></p>
       </div>
     );
   }
@@ -147,7 +147,7 @@ class SocialMediaButtons extends Component {
     const options = DEFAULT_MASTODON_INSTANCES.map(instance => ({ value: instance, label: instance }));
 
     return (
-      <div className="input_group">
+      <div className="input_group sm-platform">
         {!this.state.mastodonSuccess &&
           <div>
             <Creatable
@@ -171,7 +171,7 @@ class SocialMediaButtons extends Component {
         <button onClick={this.handleMastodonClick} className={buttonProps.buttonClass} >
           {buttonProps.buttonText} <span className={`button-icon ${buttonProps.buttonIcon}`} />
         </button>
-        <p><small>
+        <p className="sm-description"><small>
           Connect to Mastodon to allow Gobo to read toots from your timeline.
           Gobo displays recent posts from your feed for you to filter.
         </small></p>
@@ -266,7 +266,7 @@ class SocialMediaButtons extends Component {
     const isFacebookEnabled = this.props.socialMediaData.isFacebookEnabled && this.props.socialMediaData.facebookAppId;
     const isMastodonEnabled = this.props.socialMediaData.isMastodonEnabled;
     return (
-      <div className="facebook_twitter_buttons">
+      <div className="social-media-profiles">
         {this.getTwitterButton()}
         {isFacebookEnabled && this.getFacebookButton()}
         {isMastodonEnabled && this.getMastodonButton()}

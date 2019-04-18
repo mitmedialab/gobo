@@ -21,6 +21,7 @@ $sidebar-color: #fff;
     height: unset;
     padding: 0;
     padding-left: $padding-small-horizontal;
+    border-radius: 0;  // keeps the text from getting chopped off in safari
   }
 
   *:focus{
@@ -113,7 +114,7 @@ $sidebar-color: #fff;
 .filter-title-text {
   @extend .tk-futura-pt-bold;
   vertical-align: middle;
-  font-size:1.1em;
+  font-size:  20px;
 }
 
 .filter-title-icon {
@@ -216,7 +217,7 @@ $handle-height: 24px;
   .toggle-label {
     vertical-align: super;
     font-weight: normal;
-    padding-left: $padding-small-vertical;
+    padding-left: $padding-large-vertical;
   }
 
   .react-toggle-track {
@@ -240,8 +241,14 @@ $handle-height: 24px;
 
 }
 
-.rule-toggle.react-toggle--checked .react-toggle-track {
-  background-color: $green;
+.rule-toggle {
+  &.react-toggle--checked .react-toggle-track {
+    background-color: $green;
+  }
+
+  .react-toggle-thumb {
+    border: 0;
+  }
 }
 
 .filter-content {
@@ -305,7 +312,7 @@ $control-width: 314px; // manually determind
   }
 }
 .filter-description {
-  margin-top: 10px;
+  margin-top: $padding-large-horizontal;
   a {
     border-bottom: 1px dotted $text-color;
     cursor: pointer;
@@ -344,6 +351,13 @@ $control-width: 314px; // manually determind
   position:absolute;
   top:0;
   right:0;
+
+  button {
+    background-color: unset;
+    color: $light-gray;
+    padding: 0;
+    padding-right: $padding-large-vertical;
+  }
 }
 
 .ReactModalPortal {
@@ -370,4 +384,9 @@ $rule-height: 40px;
 
 .settings-rule-description-title {
   @extend .tk-futura-pt-bold;
+}
+
+.filter-subtitle {
+  font-style: italic;
+  font-size: 13px;
 }

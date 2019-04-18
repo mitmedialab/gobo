@@ -104,7 +104,7 @@ class SettingsItem extends Component {
             </ul>
           }
           <div className="modal-close-button">
-            <button onClick={this.closeModal}>X</button>
+            <button onClick={this.closeModal}>&#10005;</button>
           </div>
         </ReactModal>
       </div>

@@ -24,13 +24,13 @@
     display: inline-block;
     max-height: 140px;
     vertical-align: top;
-    padding-left: 20px;
     padding-top: 60px;
   }
 
   .profile-info {
     display: inline-block;
-    padding: $large-buffer;
+    padding-top: $large-buffer;
+    padding-bottom: $large-buffer;
 
     h3 {
       margin-top: 0;
@@ -38,8 +38,20 @@
     }
   }
 
-  .facebook_twitter_buttons {
+  .social-media-profiles {
     margin-bottom: $padding-large-vertical;
+
+    .sm-description {
+      margin-top: $padding-large-vertical;
+    }
+
+    .sm-platform {
+      padding-bottom: $padding-large-vertical * 2;
+
+      &.input_group {
+        padding-top: $padding-large-vertical * 2;
+      }
+    }
   }
 
   .profile-privacy-description {

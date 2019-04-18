@@ -37,7 +37,7 @@
 
   @media (min-width: $screen-md-min) {
     padding-bottom: 50%; // mimics full height
-    padding-top: 120px;
+    padding-top: 140px;
 	}
 }
 
@@ -112,8 +112,9 @@
 }
 
 .flip-card-front {
-  padding-left: $padding-large-vertical;
-  padding-right: $padding-large-vertical;
+  $side-padding: 50px;
+  padding-left: $side-padding;
+  padding-right: $side-padding;
   text-align: center;
   .card-title {
     padding-top: 35%;
@@ -129,9 +130,7 @@
     padding-right: $padding-large-horizontal;
     background-color: lighten($color, 10%);
     .card-title {
-      padding-top: $padding-large-horizontal;
-      // padding-bottom: $padding-small-horizontal;
-      // background-color: $color;
+      padding-top: $padding-large-horizontal * 1.5;
     }
   }
 }
@@ -177,4 +176,9 @@
 .landing-civic-logo {
   $logo-size: 150px;
   height: $logo-size;
+}
+
+.landing-sidebar-civic-logo {
+  height: 100px;
+  margin-top: 50px;
 }

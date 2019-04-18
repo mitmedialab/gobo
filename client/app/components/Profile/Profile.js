@@ -40,7 +40,7 @@ const Profile = (props) => {
       <PlatformConnected
         platformName="Twitter"
         platformUrl={`https://twitter.com/@${user.twitter_name}`}
-        userName={`@${user.twitter_name}`}
+        userName={` @${user.twitter_name}`}
         userDescription={user.twitter_data.description}
       />
     );
@@ -56,7 +56,7 @@ const Profile = (props) => {
       <PlatformConnected
         platformName="Facebook"
         platformUrl={`https://facebook.com/@${user.facebook_name}`}
-        userName={user.facebook_name}
+        userName={` ${user.facebook_name}`}
       />
     );
   } else {
@@ -71,7 +71,7 @@ const Profile = (props) => {
       <PlatformConnected
         platformName="Mastodon"
         platformUrl={`https://${user.mastodon_domain}/@${user.mastodon_name}`}
-        userName={`${user.mastodon_name}@${user.mastodon_domain}`}
+        userName={` ${user.mastodon_name}@${user.mastodon_domain}`}
       />
     );
   } else {
