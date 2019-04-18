@@ -353,6 +353,13 @@ $control-width: 314px; // manually determind
   position:absolute;
   top:0;
   right:0;
+
+  button {
+    background-color: unset;
+    color: $light-gray;
+    padding: 0;
+    padding-right: $padding-large-vertical;
+  }
 }
 
 .ReactModalPortal {
