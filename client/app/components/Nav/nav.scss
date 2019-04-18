@@ -11,8 +11,9 @@ $glyphicon-menu-font-size: 17px;
 }
 
 .avatar {
-  height: 40px;
-  width: 40px;
+  $size: 35px;
+  height: $size;
+  width: $size;
 }
 
 .navbar {
