@@ -276,6 +276,10 @@ $post-hidden-padding: $padding-small-vertical;
     padding: 0 $padding-large-horizontal * 2 0 0;
 
     @media (min-width: $screen-md-min) {
+      padding: 0 40px 0 0;
+    }
+
+    @media (min-width: $screen-lg-min) {
       padding: 0 80px 0 0;
     }
 
