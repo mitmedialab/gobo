@@ -242,8 +242,14 @@ $handle-height: 24px;
 
 }
 
-.rule-toggle.react-toggle--checked .react-toggle-track {
-  background-color: $green;
+.rule-toggle {
+  &.react-toggle--checked .react-toggle-track {
+    background-color: $green;
+  }
+
+  .react-toggle-thumb {
+    border: 0;
+  }
 }
 
 .filter-content {
