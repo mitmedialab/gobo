@@ -1,5 +1,7 @@
 .about, .privacy {
 
+	$spacing-between-sections: 40px;
+
 	h1 {
 		text-align: center;
 		margin-bottom: 40px;
@@ -12,14 +14,29 @@
 	.about-section {
 		max-width:  $screen-sm-min;
 
-		$spacing-between-sections: 80px;
 		margin-bottom: $spacing-between-sections;
 		margin-top: $spacing-between-sections;
+		padding-left: $padding-large-horizontal * 3;
+		padding-right: $padding-large-horizontal * 3;
 
-		// center content
-		float: unset;
-		margin-left: auto;
-		margin-right: auto;
+		@media (min-width: $screen-sm-min) {
+			float: unset;
+			margin-left: auto;
+			margin-right: auto;
+
+			margin-bottom: $spacing-between-sections * 2;
+			margin-top: $spacing-between-sections * 2;
+
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
+
+	.about-navigation {
+		margin-top: $spacing-between-sections / 2;
+		@media (min-width: $screen-sm-min) {
+			margin-top: $spacing-between-sections;
+		}
 	}
 }
 
@@ -36,6 +53,15 @@
 		margin-left: auto;
 		margin-right: auto;
 		max-width: 300px;
+	}
+
+	.colored-button {
+		$size: 120px;
+		border-radius: 0;
+		padding: 0;
+		width: $size;
+		height: $size;
+		font-size: 20px
 	}
 
 	.colored-background {
@@ -56,22 +82,18 @@
 	}
 
 	.orange-background {
-		@extend .colored-background;
 		background-color: $orange;
 	}
 
 	.red-background {
-		@extend .colored-background;
 		background-color: $red;
 	}
 
 	.green-background {
-		@extend .colored-background;
 		background-color: $green;
 	}
 
 	.purple-background {
-		@extend .colored-background;
 		background-color: $purple;
 	}
 }
