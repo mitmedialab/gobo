@@ -45,12 +45,23 @@ const About = (props) => {
 
             <p>{VERSION}</p>
 
+            <div className="row text-center">
+              <div className="col-lg-12">
+                <div className="about-navigation">
+                  <Button className="colored-button orange-background" onClick={() => document.getElementById('features').scrollIntoView()} text="Features" />
+                  <Button className="colored-button red-background" onClick={() => document.getElementById('faq').scrollIntoView()} text="FAQ" />
+                  <br className="hidden-lg hidden-md hidden-sm" />
+                  <Button className="colored-button green-background" onClick={() => document.getElementById('team').scrollIntoView()} text="Team" />
+                  <Button className="colored-button purple-background" onClick={() => document.getElementById('press').scrollIntoView()} text="Press" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="row orange-background">
+        <div id="features" className="row colored-background orange-background">
           <div className="col-lg-12 about-section">
-            <h1>Features</h1>
+            <h1 >Features</h1>
             {['control', 'connect', 'see', 'perspective'].map(key =>
               (<div key={key}>
                 <h2>{COPY[key].title}</h2>
@@ -60,7 +71,7 @@ const About = (props) => {
           </div>
         </div>
 
-        <div className="row red-background">
+        <div id="faq" className="row colored-background red-background">
           <div className="col-lg-12 about-section">
             <h1>FAQ</h1>
 
@@ -102,9 +113,9 @@ const About = (props) => {
           </div>
         </div>
 
-        <div className="row green-background">
+        <div id="team" className="row colored-background green-background">
           <div className="col-lg-12 about-section">
-            <h1>Team</h1>
+            <h1 >Team</h1>
             <ul className="about-team">
               <li>Ethan Zuckerman, Director</li>
               <li>Rahul Bhargava, Project Manager</li>
@@ -116,7 +127,7 @@ const About = (props) => {
           </div>
         </div>
 
-        <div className="row purple-background">
+        <div id="press" className="row colored-background purple-background">
           <div className="col-lg-12 about-section">
             <h1>Press</h1>
             <h2>Check out some things that have been written on Gobo!</h2>
