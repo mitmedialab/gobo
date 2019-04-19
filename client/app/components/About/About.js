@@ -28,10 +28,10 @@ const About = (props) => {
   }
   return (
     <div className="content-with-nav">
-      <div className="container about">
+      <div className="container-fluid about">
         {loginContent}
         <div className="row">
-          <div className="col-lg-12">
+          <div className="col-lg-12 about-section">
             <h1>Your social media. Your rules.</h1>
             <p>
               Gobo is an experiment, not a startup. We’re building it to change the conversation on social
@@ -48,21 +48,9 @@ const About = (props) => {
           </div>
         </div>
 
-        <div className="row">
-          <div className="col-lg-12">
-            <h1>Table of Contents</h1>
-            <ul>
-              <li><a href="#features">Features</a></li>
-              <li><a href="#faq">FAQ</a></li>
-              <li><a href="#team">Team</a></li>
-              <li><a href="#press">Press</a></li>
-            </ul>
-          </div>
-        </div>
-
         <div className="row orange-background">
-          <div className="col-lg-12">
-            <h1 id="feature">Features</h1>
+          <div className="col-lg-12 about-section">
+            <h1>Features</h1>
             {['control', 'connect', 'see', 'perspective'].map(key =>
               (<div key={key}>
                 <h2>{COPY[key].title}</h2>
@@ -73,8 +61,8 @@ const About = (props) => {
         </div>
 
         <div className="row red-background">
-          <div className="col-lg-12">
-            <h1 id="faq">FAQ</h1>
+          <div className="col-lg-12 about-section">
+            <h1>FAQ</h1>
 
             <h2>What is Gobo?</h2>
             <p>Gobo is a social media browser that gives you control and transparency over what you see. Through Gobo, you can connect your Twitter, Facebook, and Mastodon accounts and view all of these feeds in one place. Using a set of “rules”, you can choose to hide certain kinds of posts and show others. For example, our "obscurity" rule allows you to hide viral content that’s overwhelming your feed or surface hidden gems you might be missing. Meanwhile, our "politics" rule allows you to add content from political perspectives you aren’t seeing. Gobo aims to be completely transparent, showing you why each post was included in your feed and inviting you to explore which posts were hidden.</p>
@@ -115,9 +103,9 @@ const About = (props) => {
         </div>
 
         <div className="row green-background">
-          <div className="col-lg-12">
-            <h1 id="team">Team</h1>
-            <ul>
+          <div className="col-lg-12 about-section">
+            <h1>Team</h1>
+            <ul className="about-team">
               <li>Ethan Zuckerman, Director</li>
               <li>Rahul Bhargava, Project Manager</li>
               <li>Dennis Jen, Lead Developer</li>
@@ -129,9 +117,9 @@ const About = (props) => {
         </div>
 
         <div className="row purple-background">
-          <div className="col-lg-12">
-            <h1 id="press">Press</h1>
-            <p>Check out some things that have been written on Gobo!</p>
+          <div className="col-lg-12 about-section">
+            <h1>Press</h1>
+            <h2>Check out some things that have been written on Gobo!</h2>
             <ul>
               <li>Anna Chung, <a href="https://onezero.medium.com/how-automated-tools-discriminate-against-black-language-2ac8eab8d6db">How Automated Tools Discriminate Against Black Language</a> (OneZero, Medium, 2/2019)</li>
               <li>Ethan Zuckerman, <a href="http://www.ethanzuckerman.com/blog/2018/12/09/we-make-the-media-a-recent-speech-at-freedom-of-speech-online-2018/">We Make the Media - a recent speech at Freedom of Speech Online 2018</a> (MIT Media Lab, Medium, 12/2018)</li>

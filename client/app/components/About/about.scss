@@ -1,6 +1,39 @@
 .about {
+
 	h1 {
 		text-align: center;
+		margin-bottom: 40px;
+	}
+
+	h2 {
+		font-size: 18px;
+	}
+
+	ul {
+		@extend .list-unstyled;
+		li {
+			padding-bottom: $padding-large-horizontal;
+		}
+	}
+
+	.about-team {
+		font-size: 20px;
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 300px;
+	}
+
+	.about-section {
+		max-width:  $screen-sm-min;
+
+		$spacing-between-sections: 80px;
+		margin-bottom: $spacing-between-sections;
+		margin-top: $spacing-between-sections;
+
+		// center content
+		float: unset;
+		margin-left: auto;
+		margin-right: auto;
 	}
 
 	.colored-background {
