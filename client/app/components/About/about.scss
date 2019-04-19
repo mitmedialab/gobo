@@ -1,4 +1,4 @@
-.about {
+.about, .privacy {
 
 	h1 {
 		text-align: center;
@@ -7,20 +7,6 @@
 
 	h2 {
 		font-size: 18px;
-	}
-
-	ul {
-		@extend .list-unstyled;
-		li {
-			padding-bottom: $padding-large-horizontal;
-		}
-	}
-
-	.about-team {
-		font-size: 20px;
-		margin-left: auto;
-		margin-right: auto;
-		max-width: 300px;
 	}
 
 	.about-section {
@@ -34,6 +20,22 @@
 		float: unset;
 		margin-left: auto;
 		margin-right: auto;
+	}
+}
+
+.about {
+	ul {
+		@extend .list-unstyled;
+		li {
+			padding-bottom: $padding-large-horizontal;
+		}
+	}
+
+	.about-team {
+		font-size: 20px;
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 300px;
 	}
 
 	.colored-background {
@@ -71,61 +73,5 @@
 	.purple-background {
 		@extend .colored-background;
 		background-color: $purple;
-	}
-
-}
-
-#privacy {
-
-	.content {
-		max-width: 690px;
-		margin: 0 auto;
-		padding-bottom: 90px;
-
-		@media (max-width:600px) {
-			// padding-top: 10px;
-			margin: 10px;
-		}
-	}
-
-	h1 {
-		color:#000;
-		font-size: 30px;
-	}
-
-	h2 {
-		font-size:20px;
-		color:#000;
-	}
-
-	h3 {
-		font-size: 1em;
-	}
-
-	a {
-		color: $btn-primary-bg-color;
-	}
-
-	Button {
-		background-color: $btn-primary-bg-color;
-		color: $btn-primary-text-color;
-		width: 100%;
-		padding: 12px;
-		margin: 8px 0;
-		font-weight: 700;
-		font-size:20px;
-		border-radius: 0;
-	}
-
-	.logos {
-		position:fixed;
-		right:0;
-		bottom: 0;
-		margin:20px;
-
-		img {
-			width:40px;
-			margin: 5px;
-		}
 	}
 }
