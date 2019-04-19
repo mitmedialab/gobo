@@ -1,4 +1,81 @@
-#landing-page, #privacy {
+.about {
+
+	h1 {
+		text-align: center;
+		margin-bottom: 40px;
+	}
+
+	h2 {
+		font-size: 18px;
+	}
+
+	ul {
+		@extend .list-unstyled;
+		li {
+			padding-bottom: $padding-large-horizontal;
+		}
+	}
+
+	.about-team {
+		font-size: 20px;
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 300px;
+	}
+
+	.about-section {
+		max-width:  $screen-sm-min;
+
+		$spacing-between-sections: 80px;
+		margin-bottom: $spacing-between-sections;
+		margin-top: $spacing-between-sections;
+
+		// center content
+		float: unset;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.colored-background {
+		color: $inverse-text-color;
+
+		a {
+			color: $inverse-text-color;
+			border-bottom-width: 1px;
+			border-bottom-style: dotted;
+			border-bottom-color: $inverse-text-color;
+
+			&:hover {
+				$hover-color: darken($inverse-text-color, 15%);
+				color: $hover-color;
+				border-bottom-color: $hover-color;
+			}
+		}
+	}
+
+	.orange-background {
+		@extend .colored-background;
+		background-color: $orange;
+	}
+
+	.red-background {
+		@extend .colored-background;
+		background-color: $red;
+	}
+
+	.green-background {
+		@extend .colored-background;
+		background-color: $green;
+	}
+
+	.purple-background {
+		@extend .colored-background;
+		background-color: $purple;
+	}
+
+}
+
+#privacy {
 
 	.content {
 		max-width: 690px;
