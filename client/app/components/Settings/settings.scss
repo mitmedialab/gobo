@@ -22,6 +22,7 @@ $sidebar-color: #fff;
     padding: 0;
     padding-left: $padding-small-horizontal;
     border-radius: 0;  // keeps the text from getting chopped off in safari
+    margin: 0;
   }
 
   *:focus{
@@ -29,6 +30,7 @@ $sidebar-color: #fff;
   }
 }
 
+$spacing-heading-top: 25px;
 .settings-content {
   height: 100%;
   overflow-x: hidden;
@@ -44,7 +46,7 @@ $sidebar-color: #fff;
   h1 {
     margin: 0px;
     padding: 0px;
-    padding-top: 25px;
+    padding-top: $spacing-heading-top;
     margin-left: 150px;
     color: $inverse-text-color;
   }
@@ -70,7 +72,7 @@ $sidebar-color: #fff;
   @extend .pull-left;
   font-size: 20px;
   color: $inverse-text-color;
-  padding-top: 27px;
+  padding-top: $spacing-heading-top;
   padding-left: 30px;
 }
 
