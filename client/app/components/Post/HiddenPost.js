@@ -12,8 +12,9 @@ const HiddenPost = (props) => {
   const content = (
     <div className="post">
       <div className="post front">
-        <span>{ reasons } { props.showText && text }</span>
-        <span className={`pull-right source-icon ${getSourceIcon(post.source)}`} />
+        <div className="pull-left">{ reasons }</div>
+        <div className={`pull-right source-icon ${getSourceIcon(post.source)}`} />
+        <div className="reasons-text">{ props.showText && text }</div>
       </div>
     </div>
   );

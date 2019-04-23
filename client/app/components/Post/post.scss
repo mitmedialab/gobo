@@ -239,6 +239,13 @@ $post-hidden-padding: $padding-small-vertical;
     padding: $post-hidden-padding;
   }
 
+  .reasons-text {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-top: 4px; // centers text
+  }
+
 }
 
 .post-content-text {
