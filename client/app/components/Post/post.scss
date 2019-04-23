@@ -63,6 +63,8 @@ $post-hidden-padding: $padding-small-vertical;
 
   .rule-icon {
     font-size: 24px;
+    position: relative;
+    top: -2px;
     vertical-align: middle;
   }
 
@@ -220,7 +222,7 @@ $post-hidden-padding: $padding-small-vertical;
 
   .source-icon {
     // centers the icon
-    margin-top: 3px;
+    margin-top: 1px;
   }
 
   .post {
