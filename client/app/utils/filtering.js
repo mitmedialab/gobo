@@ -194,7 +194,7 @@ export function getFilteredPosts(posts, settings, rules, showPlatform) {
   const filterReasons = {};
   const viralityScores = posts.map(post => Math.log(post.virality_count + 1));
   const maxVirality = viralityScores.reduce((a, b) => Math.max(a, b), 0);
-  const sum = viralityScores.reduce((previous, current) => current += previous);
+  const sum = viralityScores.reduce((previous, current) => current += previous, 0);
   const viralityAvg = sum / viralityScores.length;
 
   // TODO: continue refactoring filters to this pattern
