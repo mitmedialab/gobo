@@ -7,7 +7,7 @@ from sqlalchemy.types import ARRAY
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from server.core import db, bcrypt
-from server.enums import GenderEnum, PoliticsEnum, EchoRangeEnum
+from server.enums import GenderEnum, PoliticsEnum
 
 post_associations_table = db.Table('posts_associations', db.metadata,
                                    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
@@ -23,7 +23,6 @@ class User(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     _password = db.Column('password', db.String(255), nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
-    completed_registration = db.Column(db.Boolean, default=True)
 
     last_login = db.Column(db.DateTime, nullable=True)
     last_post_fetch = db.Column(db.DateTime, nullable=True)
@@ -48,8 +47,6 @@ class User(db.Model):
 
     twitter_data = db.Column(db.JSON)
     facebook_data = db.Column(db.JSON)
-
-    political_affiliation = db.Column(db.Enum(PoliticsEnum), default=PoliticsEnum.center)
 
     posts = db.relationship("Post", secondary=post_associations_table, lazy='dynamic')
     settings = db.relationship("Settings", uselist=False, back_populates="user")
@@ -95,7 +92,7 @@ class User(db.Model):
 
     def get_names(self):
         d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name not in [
-            'password', 'id', 'posts', 'settings', 'facebook_data', 'political_affiliation']}
+            'password', 'id', 'posts', 'settings', 'facebook_data']}
         d['mastodon_name'] = ''
         d['mastodon_domain'] = ''
         if self.mastodon_auth:
@@ -229,7 +226,6 @@ class Settings(db.Model):
     virality_max = db.Column(db.Float, db.CheckConstraint('virality_max<=1'), default=1)
     seriousness_min = db.Column(db.Float, db.CheckConstraint('seriousness_min>=0'), default=0)
     seriousness_max = db.Column(db.Float, db.CheckConstraint('seriousness_max<=1'), default=1)
-    echo_range = db.Column(db.Enum(EchoRangeEnum), default=EchoRangeEnum.narrow)
     politics_levels = db.Column(ARRAY(db.Integer))
 
     rudeness_ck = db.CheckConstraint('rudeness_max>rudeness_min')
@@ -237,7 +233,7 @@ class Settings(db.Model):
     seriousness_ck = db.CheckConstraint('seriousness_max>seriousness_min')
 
     def as_dict(self):
-        d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name != 'echo_range'}
+        d = {c.name: getattr(self, c.name) for c in self.__table__.columns}
         return d
 
     def update(self, settings_dict):
