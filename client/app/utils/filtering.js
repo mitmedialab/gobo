@@ -187,6 +187,12 @@ function filterPostByPoliticalLevels(post, settings) {
   return filtered;
 }
 
+function calculateGenderRatio(posts) {
+  const femaleCount = posts.filter(post => post.gender === 'GenderEnum.female').length;
+  const maleCount = posts.filter(post => post.gender === 'GenderEnum.male').length;
+  return Math.min(1, femaleCount / (femaleCount + maleCount));
+}
+
 export function getFilteredPosts(posts, settings, rules, showPlatform) {
   const filteredPosts = [];
   let keptPosts = [];
@@ -278,7 +284,6 @@ export function getFilteredPosts(posts, settings, rules, showPlatform) {
   const keptFemalePosts = keptPosts.filter(post => post.gender === 'GenderEnum.female');
   const keptMalePosts = keptPosts.filter(post => post.gender === 'GenderEnum.male');
   const numPostsToKeep = getGenderCounts(keptFemalePosts.length, keptMalePosts.length, settings.gender_female_per / 100.0);
-  const neutralFb = Math.min(1, keptFemalePosts.length / (keptFemalePosts.length + keptMalePosts.length));
 
   ['f', 'm'].forEach((gender) => {
     const keptPostsGender = gender === 'f' ? keptFemalePosts : keptMalePosts;
@@ -297,7 +302,6 @@ export function getFilteredPosts(posts, settings, rules, showPlatform) {
   return {
     inFeedPosts,
     filteredPosts,
-    neutralFb,
     filterReasons,
     maxVirality,
     viralityAvg,
@@ -305,7 +309,8 @@ export function getFilteredPosts(posts, settings, rules, showPlatform) {
 }
 
 export default function calculateFilteredPosts(posts, settings, rules, showPlatform) {
-  const { inFeedPosts, filteredPosts, neutralFb, filterReasons, maxVirality, viralityAvg } = getFilteredPosts(posts, settings, rules, showPlatform);
+  const { inFeedPosts, filteredPosts, filterReasons, maxVirality, viralityAvg } = getFilteredPosts(posts, settings, rules, showPlatform);
+  const neutralFb = calculateGenderRatio(posts);
   return {
     inFeedPosts,
     filtered: filteredPosts,
