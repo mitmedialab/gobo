@@ -138,7 +138,11 @@ class Settings extends Component {
   }
 
   muteAllMen = () => {
-    this.handleChange(100, 'gender_female_per');
+    let ratio = 100;
+    if (this.props.neutralFB && this.state.settings.gender_female_per === 100) {
+      ratio = Math.round(this.props.neutralFB * 100);
+    }
+    this.handleChange(ratio, 'gender_female_per');
   }
 
   openFilter = (index) => {
