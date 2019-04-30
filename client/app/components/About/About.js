@@ -50,7 +50,7 @@ const About = (props) => {
                 <div className="about-navigation">
                   <Button className="colored-button orange-background" onClick={() => document.getElementById('features').scrollIntoView()} text="Features" />
                   <Button className="colored-button red-background" onClick={() => document.getElementById('faq').scrollIntoView()} text="FAQ" />
-                  <br className="hidden-lg hidden-md hidden-sm" />
+                  <br className="d-block d-md-none" />
                   <Button className="colored-button green-background" onClick={() => document.getElementById('team').scrollIntoView()} text="Team" />
                   <Button className="colored-button purple-background" onClick={() => document.getElementById('press').scrollIntoView()} text="Press" />
                 </div>

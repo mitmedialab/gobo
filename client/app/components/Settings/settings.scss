@@ -20,7 +20,7 @@ $sidebar-color: #fff;
     background-color: $nav-color;
     height: unset;
     padding: 0;
-    padding-left: $padding-small-horizontal;
+    padding-left: $spacer-small;
     border-radius: 0;  // keeps the text from getting chopped off in safari
     margin: 0;
   }
@@ -69,7 +69,7 @@ $spacing-heading-top: 25px;
 }
 
 .arrow-icon {
-  @extend .pull-left;
+  float: left;
   font-size: 20px;
   color: $inverse-text-color;
   padding-top: $spacing-heading-top;
@@ -198,7 +198,7 @@ $handle-height: 24px;
   height: $handle-height;
   @include shadow($thumb-shadow-size, $thumb-shadow-blur, $thumb-shadow-color);
 
-  @media (min-width: $screen-sm-min) {
+  @include media-breakpoint-up(sm) {
     width: 10px;
   }
 }
@@ -219,7 +219,7 @@ $handle-height: 24px;
   .toggle-label {
     vertical-align: super;
     font-weight: normal;
-    padding-left: $padding-large-vertical;
+    padding-left: $spacer-small;
   }
 
   .react-toggle-track {
@@ -314,7 +314,7 @@ $control-width: 314px; // manually determind
   }
 }
 .filter-description {
-  margin-top: $padding-large-horizontal;
+  margin-top: $spacer-small;
   a {
     border-bottom: 1px dotted $text-color;
     cursor: pointer;
@@ -358,7 +358,7 @@ $control-width: 314px; // manually determind
     background-color: unset;
     color: $light-gray;
     padding: 0;
-    padding-right: $padding-large-vertical;
+    padding-right: $spacer-large;
   }
 }
 
@@ -368,13 +368,13 @@ $control-width: 314px; // manually determind
   }
 
   .filter-modal-description {
-    padding-bottom: $padding-small-vertical;
+    padding-bottom: $spacer-small;
   }
 }
 
 $rule-height: 40px;
 .rule-sparklines {
-  @extend .pull-left;
+  float: left;
   width: $control-width - 37px; // found manually
   height: $rule-height;
 }

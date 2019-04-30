@@ -1,20 +1,24 @@
 $settings-width: 420px;
 $settings-width-closed: 56px;
 
-@mixin wide-feed-mixin { margin-right:$settings-width-closed; }
-@mixin minimized-sidebar-mixin {  width:$settings-width-closed; }
-
 .feed {
   margin-right: $settings-width;
+  width: 100%;
 }
 
 .sidebar {
   width: $settings-width;
 }
 
-.feed.wide {  @include wide-feed-mixin; }
+@mixin wide-feed-mixin { margin-right:$settings-width-closed; }
+.feed.wide {
+  @include wide-feed-mixin;
+}
 
-.sidebar.minimized {  @include minimized-sidebar-mixin; }
+@mixin minimized-sidebar-mixin {  width:$settings-width-closed; }
+.sidebar.minimized {
+  @include minimized-sidebar-mixin;
+}
 
 @media (max-width: 800px) {
   %wide { @include wide-feed-mixin; }
@@ -30,9 +34,9 @@ $settings-width-closed: 56px;
 }
 
 .posts {
-  margin: $padding-large-horizontal;
-  margin-left: $padding-large-horizontal * 2;
-  margin-right: $padding-large-horizontal * 2;
+  margin: $spacer-small;
+  margin-left: $spacer-large * 2;
+  margin-right: $spacer-large * 2;
 
   @media (max-width: 768px) {
     margin: 10px;
@@ -40,7 +44,7 @@ $settings-width-closed: 56px;
 }
 
 .filtered-text {
-  padding-bottom: $padding-large-horizontal;
+  padding-bottom: $spacer-small;
 }
 
 .no-posts-text {

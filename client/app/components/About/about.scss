@@ -12,14 +12,15 @@
 	}
 
 	.about-section {
-		max-width:  $screen-sm-min;
+		$small-screen: 576px;
+		max-width:  $small-screen;
 
 		margin-bottom: $spacing-between-sections;
 		margin-top: $spacing-between-sections;
-		padding-left: $padding-large-horizontal * 3;
-		padding-right: $padding-large-horizontal * 3;
+		padding-left: $spacer-small * 3;
+		padding-right: $spacer-small * 3;
 
-		@media (min-width: $screen-sm-min) {
+		@include media-breakpoint-up(sm) {
 			float: unset;
 			margin-left: auto;
 			margin-right: auto;
@@ -34,7 +35,7 @@
 
 	.about-navigation {
 		margin-top: $spacing-between-sections / 2;
-		@media (min-width: $screen-sm-min) {
+		@include media-breakpoint-up(sm) {
 			margin-top: $spacing-between-sections;
 		}
 	}
@@ -44,7 +45,7 @@
 	ul {
 		@extend .list-unstyled;
 		li {
-			padding-bottom: $padding-large-horizontal;
+			padding-bottom: $spacer-small;
 		}
 	}
 

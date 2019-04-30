@@ -293,8 +293,8 @@ class Settings extends Component {
             onAfterChange={e => this.handleDualSliderChange(e, 'seriousness')}
           />
           <div className="slider-labels">
-            <span className="pull-left"> Not serious</span>
-            <span className="pull-right"> Very serious</span>
+            <span className="float-left"> Not serious</span>
+            <span className="float-right"> Very serious</span>
           </div>
         </div>
       </div>
@@ -329,8 +329,8 @@ class Settings extends Component {
             onAfterChange={e => this.handleDualSliderChange(e, 'rudeness')}
           />
           <div className="slider-labels">
-            <span className="pull-left"> Not rude</span>
-            <span className="pull-right"> Very rude</span>
+            <span className="float-left"> Not rude</span>
+            <span className="float-right"> Very rude</span>
           </div>
         </div>
       </div>
@@ -362,8 +362,8 @@ class Settings extends Component {
             className="slider bar-gender"
           />
           <div className="slider-labels">
-            <span className="pull-left"> {100 - this.state.settings.gender_female_per || '0'}% men</span>
-            <span className="pull-right"> {this.state.settings.gender_female_per || '0'}% women</span>
+            <span className="float-left"> {100 - this.state.settings.gender_female_per || '0'}% men</span>
+            <span className="float-right"> {this.state.settings.gender_female_per || '0'}% women</span>
           </div>
           <div className="mute-men-wrapper slider-labels">
             <label htmlFor="mute-men">
@@ -434,8 +434,8 @@ class Settings extends Component {
             onAfterChange={e => this.handleDualSliderChange(e, 'virality')}
           />
           <div className="slider-labels">
-            <span className="pull-left"> Obscure </span>
-            <span className="pull-right"> Viral</span>
+            <span className="float-left"> Obscure </span>
+            <span className="float-right"> Viral</span>
           </div>
         </div>
       </div>

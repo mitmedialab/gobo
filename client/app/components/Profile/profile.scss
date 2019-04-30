@@ -1,5 +1,5 @@
 .profile-content {
-  $large-buffer: $padding-large-vertical * 2;
+  $large-buffer: $spacer-large;
 
   max-width: 900px;
   margin: 0 auto;
@@ -8,12 +8,8 @@
     margin-bottom: 0px;
   }
 
-  .profile-content {
-    margin-top: $large-buffer;
-  }
-
   .header {
-    padding-top: 60px;
+    padding-top: $spacer-large;
     width: 450px;
     max-width: 100%;
   }
@@ -36,17 +32,17 @@
   }
 
   .social-media-profiles {
-    margin-bottom: $padding-large-vertical;
+    margin-bottom: $spacer-large;
 
     .sm-description {
-      margin-top: $padding-large-vertical;
+      margin-top: $spacer-small;
     }
 
     .sm-platform {
-      padding-bottom: $padding-large-vertical * 2;
+      padding-bottom: $spacer-medium;
 
       &.input_group {
-        padding-top: $padding-large-vertical * 2;
+        padding-top: $spacer-large;
       }
     }
   }
