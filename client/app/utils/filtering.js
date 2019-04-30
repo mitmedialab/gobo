@@ -6,7 +6,7 @@ export function getFilterReasonIcon(reasonType) {
     rudeness: 'icon-toxicity',
     seriousness: 'icon-seriousness',
     virality: 'icon-virality',
-    additive: 'icon-additive',
+    additive: 'icon-echo',
     gender: 'icon-gender',
   };
   return reasons[reasonType];
