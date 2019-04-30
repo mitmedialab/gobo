@@ -7,7 +7,7 @@ import { getPostDateString } from 'utils/misc';
 const Head = props => (
   <div className="post-header">
     { props.showLogo &&
-      <div className="pull-right">
+      <div className="float-right">
         <a href={props.iconUrl} target="_blank" rel="noopener noreferrer" className={`source-icon ${props.iconClass}`} />
       </div>
     }

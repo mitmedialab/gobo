@@ -1,8 +1,8 @@
-.landing-container {
+ .landing-container {
   background-color: $header-color;
   padding-bottom: 50px;
 
-  @media (min-width: $screen-md-min) {
+  @include media-breakpoint-up(lg) {
 		background-color: $background;
     padding-bottom: 0;
 	}
@@ -17,7 +17,7 @@
   color: $inverse-text-color;
   text-align: center;
   padding-top: 50px;
-  padding-bottom: $padding-large-horizontal * 1.5;
+  padding-bottom: $spacer-small;
 
   .logo {
     height: 90px;
@@ -32,17 +32,17 @@
 
   .landing-subtitle {
     font-size: 20px;
-    padding-bottom: $padding-large-horizontal;
+    padding-bottom: $spacer-large;
   }
 
-  @media (min-width: $screen-md-min) {
-    padding-bottom: 50%; // mimics full height
+  @include media-breakpoint-up(lg) {
+    min-height: calc(100vh);
     padding-top: 140px;
 	}
 }
 
 .landing-cards {
-  @media (min-width: $screen-md-min) {
+  @include media-breakpoint-up(lg) {
     padding: 40px;
 	}
 }
@@ -51,17 +51,16 @@
 .flip-card {
   $dim-max: 350px;
 
-  @extend .col-md-6;
   background-color: transparent;
   height: $dim-max;
   max-width: $dim-max;
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
   color: $inverse-text-color;
-  padding: $padding-large-horizontal;
+  padding: $spacer-small;
   margin-left: auto;
   margin-right: auto;
 
-  @media (min-width: $screen-md-min) {
+  @include media-breakpoint-up(lg) {
     margin-left: unset;
     margin-right: unset;
     max-width: unset;
@@ -74,10 +73,6 @@
   height: 100%;
   transition: transform 0.8s;
   transform-style: preserve-3d;
-
-  @media (min-width: $screen-md-min) {
-    margin-left: $padding-large-vertical;
-	}
 }
 
 /* Do an horizontal flip when you move the mouse over the flip box container */
@@ -95,7 +90,8 @@
 }
 
 .card-description {
-  padding: $padding-large-horizontal;
+  padding: $spacer-large;
+  padding-top: 0;
 }
 
 .card-title {
@@ -105,7 +101,7 @@
 }
 
 .card-learn-more {
-  padding-top: $padding-large-vertical;
+  padding-top: $spacer-large;
   text-decoration-line: underline;
   text-decoration-style: dotted;
   text-decoration-color: $inverse-text-color;
@@ -126,11 +122,9 @@
   background-color: $color;
 
   &.flip-card-back {
-    padding-left: $padding-large-horizontal;
-    padding-right: $padding-large-horizontal;
     background-color: lighten($color, 10%);
     .card-title {
-      padding-top: $padding-large-horizontal * 1.5;
+      padding-top: $spacer-small;
     }
   }
 }

@@ -12,15 +12,15 @@ const HiddenPost = (props) => {
   const content = (
     <div className="post">
       <div className="post front">
-        <div className="pull-left">{ reasons }</div>
-        <div className={`pull-right source-icon ${getSourceIcon(post.source)}`} />
+        <div className="float-left">{ reasons }</div>
+        <div className={`float-right source-icon ${getSourceIcon(post.source)}`} />
         <div className="reasons-text">{ props.showText && text }</div>
       </div>
     </div>
   );
 
   return props.onClick ? (
-    <div className="post-container-hidden" onClick={props.onClick} role="button" tabIndex="0">
+    <div className="post-container-hidden clickable" onClick={props.onClick} role="button" tabIndex="0">
       { content }
     </div>
   ) : (

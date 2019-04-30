@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const PlatformUnconnected = props => (
   <div className="profile-content unauthorized">
     <p>
-      <b>{props.platformName}</b>: Not Connected
+      <span className="tk-futura-pt-bold">{props.platformName}</span>: Not Connected
     </p>
   </div>
   );

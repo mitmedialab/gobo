@@ -106,12 +106,15 @@ $input-height: 70px;
 $input-font-size: 16px;
 
 $icon-font-path: "/bootstrap-fonts/";
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+@import "~bootstrap-scss/bootstrap";
 
 // ---- icons -----
 $font-path: "/custom-icons/fontello";
 $font-name: "33540572";
 
+$spacer-small: $spacer;
+$spacer-medium: $spacer * 1.5;
+$spacer-large: $spacer * 2;
 
 @font-face {
 	font-family: 'fontello';
@@ -193,11 +196,7 @@ body {
 
 .content-with-nav {
 	padding-top: $navbar-height;
-	@media (min-width: $screen-md-min) {
-		padding-top: $navbar-height;
-	}
-
-	@media (max-width: $screen-sm-min) {
+	@include media-breakpoint-up(md) {
 		padding-top: $navbar-height;
 	}
 }
@@ -214,6 +213,10 @@ h1,h2,h3,h4,h5,h6 {
 
 h1 {
 	font-size: 2em;
+}
+
+label {
+	margin-bottom: $spacer * 0.25;
 }
 
 .page {
@@ -234,7 +237,7 @@ h1 {
 
 button {
 	@include transition(all 0.2s ease-in-out);
-	@include user-select(none);
+	user-select: none;
 	display: inline-block;
 	position: relative;
 	border: none;
@@ -243,7 +246,9 @@ button {
 	color: $btn-primary-text-color;
 	letter-spacing: 1.5px;
 	height: 40px;
-	padding: 0px $padding-large-horizontal * 2;
+	padding: 0px;
+	padding-left: $spacer-large;
+	padding-right: $spacer-large;
 	-webkit-font-smoothing: subpixel-antialiased;
 	cursor: pointer;
 	white-space: nowrap;
@@ -352,6 +357,10 @@ button {
 
 a, a:hover, a:focus, a:active a:visited{
 	text-decoration: none;
+}
+
+.clickable {
+	cursor: pointer;
 }
 
 // While there is some elegance to having components import their own .scss files,

@@ -42,8 +42,8 @@ class PostFooter extends Component {
     return (
       <div className={`post-footer ${additiveCSS}`}>
         <div className="footer-content">
-          <span className="hidden-xs">{!this.props.flipped && this.makeActionList()}</span>
-          <a className="footer-text" onClick={this.props.onFlipClick} role="button" tabIndex="0">
+          <span className="d-none d-sm-inline">{!this.props.flipped && this.makeActionList()}</span>
+          <a className="footer-text clickable btn" onClick={this.props.onFlipClick} role="button" tabIndex="0">
             <span className="footer-underline">{text}</span>
           </a>
         </div>

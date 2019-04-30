@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const PlatformConnected = props => (
   <div className="profile-content authorized">
     <p>
-      <b>{props.platformName}</b>:
+      <span className="tk-futura-pt-bold">{props.platformName}</span>:
       <a href={props.platformUrl}>{props.userName}</a>
     </p>
     { props.userDescription &&

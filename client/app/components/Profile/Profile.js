@@ -86,25 +86,31 @@ const Profile = (props) => {
         <div className="registration-screen">
           <div className="registration-form">
             <div className="row header" >
-              <img className="profile-img" src={avatar} alt={accountName} />
-              <div className="profile-info">
-                <h3>{accountName}</h3>
-                {twitterContent}
-                {facebookContent}
-                {mastodonContent}
-              </div>
-              <div>
-                <SocialMediaButtons
-                  onFinish={() => {}}
-                  facebookConnected={user.facebook_authorized}
-                  twitterConnected={user.twitter_authorized}
-                  mastodonConnected={user.mastodon_authorized}
-                />
-                <DeleteAccountButton />
-                <Link to="/feed">
-                  <button className="button button_wide"> Back to my feed</button>
-                </Link>
-                <p className="profile-privacy-description"><small>See our <Link to={'/privacy'}> privacy policy</Link> for more information.</small></p>
+              <div className="col">
+                <div className="d-flex">
+                  <div className="p-2">
+                    <img className="profile-img rounded-circle" src={avatar} alt={accountName} />
+                  </div>
+                  <div className="p-2 flex-grow-1 profile-info">
+                    <h3>{accountName}</h3>
+                    {twitterContent}
+                    {facebookContent}
+                    {mastodonContent}
+                  </div>
+                </div>
+                <div>
+                  <SocialMediaButtons
+                    onFinish={() => {}}
+                    facebookConnected={user.facebook_authorized}
+                    twitterConnected={user.twitter_authorized}
+                    mastodonConnected={user.mastodon_authorized}
+                  />
+                  <DeleteAccountButton />
+                  <Link to="/feed">
+                    <button className="button button_wide"> Back to my feed</button>
+                  </Link>
+                  <p className="profile-privacy-description"><small>See our <Link to={'/privacy'}> privacy policy</Link> for more information.</small></p>
+                </div>
               </div>
             </div>
           </div>
