@@ -542,7 +542,7 @@ class Settings extends Component {
     this.setState({ rules });
   }
 
-  additiveRule = rule => ({
+  techPerspectivesRule = rule => ({
     title: rule.title,
     icon: getFilterReasonIcon('additive'),
     desc: rule.description,
@@ -621,6 +621,25 @@ class Settings extends Component {
     ),
   })
 
+  additiveRule = rule => ({
+    title: rule.title,
+    icon: getFilterReasonIcon('additive'),
+    desc: rule.description,
+    key: `${rule.id}-${rule.title}`,
+    longDesc: (
+      <div>
+        TBD
+      </div>
+    ),
+    subtitle: `Curated by ${rule.creator_display_name}`,
+    ruleCss: 'rule-setting',
+    content: (
+      <div className="slider-labels additive-toggles">
+        TBD
+      </div>
+    ),
+  })
+
   render() {
     const settings = [
       this.politicsSetting(),
@@ -640,7 +659,12 @@ class Settings extends Component {
       if (rule.type === 'keyword') {
         settings.push(this.keywordRule(rule));
       } else if (rule.type === 'additive') {
-        settings.push(this.additiveRule(rule));
+        // TODO: will be removed in https://github.com/mitmedialab/gobo/issues/233
+        if (rule.id === 2) {
+          settings.push(this.techPerspectivesRule(rule));
+        } else {
+          settings.push(this.additiveRule(rule));
+        }
       }
     });
 
