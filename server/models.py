@@ -481,15 +481,12 @@ class Rule(db.Model):
     creator_display_name = db.Column(db.String(255), nullable=False)
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(255), nullable=False)
-    long_description = db.Column(db.String(255))
+    long_description = db.Column(db.String(510))
     source = db.Column(db.String(255), nullable=False)
     shareable = db.Column(db.Boolean, nullable=False)
     link = db.Column(db.String(255))
     exclude_terms = db.Column(ARRAY(db.String(255)))
-    level_min = db.Column(db.Integer)
-    level_min_name = db.Column(db.String(255))
-    level_max = db.Column(db.Integer)
-    level_max_name = db.Column(db.String(255))
+    level_display_names = db.Column(ARRAY(db.String(255)))
     type = db.Column(db.String(255), nullable=False)  # e.g. additive, keyword
     created_at = db.Column(db.DateTime, nullable=False)
     last_modified = db.Column(db.DateTime, nullable=False)
@@ -532,24 +529,26 @@ class AdditiveRule(Rule):
     post_associations = db.relationship("PostAdditiveRule", back_populates="rule", cascade="delete, delete-orphan")
 
     def __init__(self, creator_user_id, creator_display_name, title, description, long_description, shareable, source,
-                 link, level_min, level_min_name, level_max, level_max_name):
+                 link, level_names):
         super(AdditiveRule, self).__init__(creator_user_id, creator_display_name, title, description, shareable, source,
                                            link, 'additive')
         self.long_description = long_description
-        self.level_min = level_min
-        self.level_min_name = level_min_name
-        self.level_max = level_max
-        self.level_max_name = level_max_name
+        self.level_display_names = level_names
 
     def serialize(self):
         rule_dict = super(AdditiveRule, self).serialize()
         rule_dict.update({
-            'level_min': self.level_min,
-            'level_min_name': self.level_min_name,
-            'level_max': self.level_max,
-            'level_max_name': self.level_max_name,
+            'level_display_names': self.level_display_names,
             'long_description': self.long_description,
         })
+
+        if self.additive_links:
+            links = []
+            for link in self.additive_links:
+                links.append(link.serialize())
+            rule_dict.update({
+                'links': links
+            })
         return rule_dict
 
 
@@ -624,6 +623,7 @@ class AdditiveRuleLink(db.Model):
     rule_id = db.Column(db.Integer, db.ForeignKey('rules.id'), nullable=False)
     source = db.Column(db.String(255), nullable=False)
     uri = db.Column(db.String(255), nullable=False)
+    display_name = db.Column(db.String(255), nullable=False)
     level = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
     last_modified = db.Column(db.DateTime, nullable=False)
@@ -631,13 +631,22 @@ class AdditiveRuleLink(db.Model):
     rule = db.relationship("AdditiveRule", back_populates="additive_links")
     db.PrimaryKeyConstraint('rule_id', 'uri')
 
-    def __init__(self, rule_id, source, uri, level):
+    def __init__(self, rule_id, source, uri, level, name):
         self.rule_id = rule_id
         self.source = source
         self.uri = uri
+        self.display_name = name
         self.level = level
         self.created_at = datetime.datetime.now()
         self.last_modified = datetime.datetime.now()
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'uri': self.uri,
+            'name': self.display_name,
+            'level': self.level,
+        }
 
 
 @event.listens_for(UserRule, 'before_update')

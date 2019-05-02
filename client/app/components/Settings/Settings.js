@@ -621,24 +621,59 @@ class Settings extends Component {
     ),
   })
 
-  additiveRule = rule => ({
-    title: rule.title,
-    icon: getFilterReasonIcon('additive'),
-    desc: rule.description,
-    key: `${rule.id}-${rule.title}`,
-    longDesc: (
-      <div>
-        TBD
-      </div>
-    ),
-    subtitle: `Curated by ${rule.creator_display_name}`,
-    ruleCss: 'rule-setting',
-    content: (
-      <div className="slider-labels additive-toggles">
-        TBD
-      </div>
-    ),
-  })
+  additiveRule = (rule) => {
+    const levelToLinks = {};
+    rule.level_display_names.forEach((level, i) => {
+      const links = rule.links ? rule.links.filter(link => link.level === i) : [];
+      levelToLinks[level] = links;
+    });
+
+    return {
+      title: rule.title,
+      icon: getFilterReasonIcon('additive'),
+      desc: rule.description,
+      key: `${rule.id}-${rule.title}`,
+      longDesc: (
+        <div>
+          <p>{rule.long_description}</p>
+          <p>{`${rule.title} sources:`}</p>
+          {rule.level_display_names.map(level => (
+            <React.Fragment key={`${rule.id}-${rule.title}-${level}-section`}>
+              <p key={`${rule.id}-${rule.title}-${level}-description-title`} className="settings-rule-description-title">
+                {level}
+              </p>
+              <ul key={`${rule.id}-${rule.title}-${level}`}>
+                {levelToLinks[level].map(link => (<li key={`${rule.id}-${rule.title}-${level}-${link.id}`}>
+                  <a href={link.uri} rel="noopener noreferrer" target="_blank" key={`${rule.id}-${rule.title}-${level}-${link.id}-link`}>
+                    {link.name}
+                  </a>
+                </li>))}
+              </ul>
+            </React.Fragment>
+            ))}
+        </div>
+      ),
+      subtitle: `Curated by ${rule.creator_display_name}`,
+      ruleCss: 'rule-setting',
+      content: (
+        <div className="slider-labels additive-toggles">
+          {rule.level_display_names.map((name, level) =>
+            // eslint-disable-next-line react/no-array-index-key
+            (<label htmlFor={`${rule.id}-${level}-${rule.title}`} key={`${rule.id}-${level}-${rule.title}-toggle-label`}>
+              <Toggle
+                checked={rule.levels ? rule.levels.filter(l => l === level).length === 1 : false}
+                name={`${rule.id}-${level}-${rule.title}`}
+                onChange={this.handleAdditiveRuleToggleChange}
+                icons={false}
+                className="rule-toggle"
+              />
+              <span className="toggle-label">{name}</span>
+            </label>
+            ))}
+        </div>
+      ),
+    };
+  }
 
   render() {
     const settings = [
