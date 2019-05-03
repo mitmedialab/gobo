@@ -45,6 +45,10 @@ $settings-width-closed: 56px;
 
 .filtered-text {
   padding-bottom: $spacer-small;
+
+  @media print {
+    display: none;
+  }
 }
 
 .no-posts-text {

@@ -111,6 +111,15 @@ $post-hidden-padding: $spacer-small * 0.5;
     &.additive-post {
       background-color: $additive-color;
     }
+
+    @media print {
+      display: none;
+    }
+  }
+
+  @media print {
+    border: black 3px;
+    border-style: dotted;
   }
 }
 
@@ -217,9 +226,21 @@ $post-hidden-padding: $spacer-small * 0.5;
   @include media-breakpoint-up(md) {
     padding-bottom: $spacer-small;
   }
+
+  @media print {
+    break-inside: avoid;
+
+    &:nth-child(n+50) {
+      display: none;
+    }
+  }
 }
 
 .post-container-hidden {
+  @media print {
+    display: none;
+  }
+
   padding-bottom: 0;
 
   .source-icon {

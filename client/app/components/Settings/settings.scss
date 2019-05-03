@@ -28,6 +28,10 @@ $sidebar-color: #fff;
   *:focus{
     outline:none;
   }
+
+  @media print {
+    display: none;
+  }
 }
 
 $spacing-heading-top: 25px;
