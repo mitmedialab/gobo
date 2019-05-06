@@ -56,7 +56,9 @@ def create_app(env=None):
 def create_celery_app(app=None):
     env = os.getenv('FLASK_ENV', 'dev')
     app = app or create_app(env.lower())
-    celery = Celery(__name__, broker=app.config['CELERY_BROKER_URL'])
+    thirty_minutes = 1800
+    celery = Celery(__name__, broker=app.config['CELERY_BROKER_URL'], task_soft_time_limit=thirty_minutes,
+                    worker_max_tasks_per_child=10)
     celery.conf.update(app.config)
     TaskBase = celery.Task
 
