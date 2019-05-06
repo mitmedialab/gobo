@@ -50,6 +50,7 @@ def queue_user_posts(db_session, user_id, platforms_to_fetch):
                 update({"last_post_fetch": datetime.now()})
             logger.info("  Updated user {}".format(user.id))
     db_session.commit()
+    db_session.close()
     logger.info("queued {} tasks".format(tasks_queued))
 
 
@@ -60,7 +61,7 @@ if __name__ == '__main__':
 
     user_id_arg = int(sys.argv[1])
     platforms = ['twitter', 'facebook', 'mastodon']
-    if sys.argv[2]:
+    if len(sys.argv) > 2:
         platforms = [sys.argv[2]]
 
     queue_user_posts(session, user_id_arg, platforms)
