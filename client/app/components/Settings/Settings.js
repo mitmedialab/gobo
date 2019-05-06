@@ -542,85 +542,6 @@ class Settings extends Component {
     this.setState({ rules });
   }
 
-  techPerspectivesRule = rule => ({
-    title: rule.title,
-    icon: getFilterReasonIcon('additive'),
-    desc: rule.description,
-    key: `${rule.id}-${rule.title}`,
-    longDesc: (
-      <div>
-        <p>We figured as Gobo users, you might be interested in the latest tech news. But how is tech being talked about by different people? We believe that tech is political, so we curated a list of source with different perspectives on tech. Gobo lets you add posts from these accounts to your feed, so you can explore the range of opinions on the latest tech news.</p>
-        <p>Tech perspectives sources:</p>
-        <p className="settings-rule-description-title">Tech Critics</p>
-        <ul>
-          <li><a href="https://twitter.com/techworkersco" rel="noopener noreferrer" target="_blank">Tech Workers Coalition</a></li>
-          <li><a href="https://twitter.com/datasociety" rel="noopener noreferrer" target="_blank">Data & Society</a></li>
-          <li><a href="https://twitter.com/Data4BlackLives" rel="noopener noreferrer" target="_blank">Data for Black Lives</a></li>
-          <li><a href="https://twitter.com/jovialjoy" rel="noopener noreferrer" target="_blank">Joy Buolamwini</a></li>
-          <li><a href="https://twitter.com/gleemie" rel="noopener noreferrer" target="_blank">Lilly Irani</a></li>
-          <li><a href="https://twitter.com/katecrawford" rel="noopener noreferrer" target="_blank">Kate Crawford</a></li>
-          <li><a href="https://twitter.com/safiyanoble" rel="noopener noreferrer" target="_blank">Safiya Noble</a></li>
-          <li><a href="https://twitter.com/zephoria" rel="noopener noreferrer" target="_blank">danah boyd</a></li>
-        </ul>
-        <p className="settings-rule-description-title">Tech Journalists</p>
-        <ul>
-          <li><a href="https://twitter.com/ForbesTech" rel="noopener noreferrer" target="_blank">Forbes Tech</a></li>
-          <li><a href="https://twitter.com/WSJTech" rel="noopener noreferrer" target="_blank">Wall Street Journal Tech</a></li>
-          <li><a href="https://twitter.com/NBCNewsTech" rel="noopener noreferrer" target="_blank">NBC News Tech</a></li>
-          <li><a href="https://twitter.com/technology" rel="noopener noreferrer" target="_blank">Bloomberg Technology</a></li>
-          <li><a href="https://twitter.com/ReutersTech" rel="noopener noreferrer" target="_blank">Reuters Tech News</a></li>
-        </ul>
-        <p className="settings-rule-description-title">Tech Companies</p>
-        <ul>
-          <li><a href="https://twitter.com/Google" rel="noopener noreferrer" target="_blank">Google</a></li>
-          <li><a href="https://twitter.com/facebook" rel="noopener noreferrer" target="_blank">Facebook</a></li>
-          <li><a href="https://twitter.com/Microsoft" rel="noopener noreferrer" target="_blank">Microsoft</a></li>
-          <li><a href="https://twitter.com/Apple" rel="noopener noreferrer" target="_blank">Apple</a></li>
-          <li><a href="https://twitter.com/amazon" rel="noopener noreferrer" target="_blank">Amazon</a></li>
-          <li><a href="https://twitter.com/Twitter" rel="noopener noreferrer" target="_blank">Twitter</a></li>
-          <li><a href="https://twitter.com/Uber" rel="noopener noreferrer" target="_blank">Uber</a></li>
-          <li><a href="https://twitter.com/lyft" rel="noopener noreferrer" target="_blank">Lyft</a></li>
-        </ul>
-      </div>
-    ),
-    subtitle: `Curated by ${rule.creator_display_name}`,
-    ruleCss: 'rule-setting',
-    content: (
-      <div className="slider-labels additive-toggles">
-        <label htmlFor={`${rule.id}-0-${rule.title}`}>
-          <Toggle
-            checked={rule.levels ? rule.levels.filter(level => level === 0).length === 1 : false}
-            name={`${rule.id}-0-${rule.title}`}
-            onChange={this.handleAdditiveRuleToggleChange}
-            icons={false}
-            className="rule-toggle"
-          />
-          <span className="toggle-label">Tech Critics</span>
-        </label>
-        <label htmlFor={`${rule.id}-2-${rule.title}`}>
-          <Toggle
-            checked={rule.levels ? rule.levels.filter(level => level === 2).length === 1 : false}
-            name={`${rule.id}-2-${rule.title}`}
-            onChange={this.handleAdditiveRuleToggleChange}
-            icons={false}
-            className="rule-toggle"
-          />
-          <span className="toggle-label">Tech Journalists</span>
-        </label>
-        <label htmlFor={`${rule.id}-4-${rule.title}`}>
-          <Toggle
-            checked={rule.levels ? rule.levels.filter(level => level === 4).length === 1 : false}
-            name={`${rule.id}-4-${rule.title}`}
-            onChange={this.handleAdditiveRuleToggleChange}
-            icons={false}
-            className="rule-toggle"
-          />
-          <span className="toggle-label">Tech Companies</span>
-        </label>
-      </div>
-    ),
-  })
-
   additiveRule = (rule) => {
     const levelToLinks = {};
     rule.level_display_names.forEach((level, i) => {
@@ -694,12 +615,7 @@ class Settings extends Component {
       if (rule.type === 'keyword') {
         settings.push(this.keywordRule(rule));
       } else if (rule.type === 'additive') {
-        // TODO: will be removed in https://github.com/mitmedialab/gobo/issues/233
-        if (rule.id === 2) {
-          settings.push(this.techPerspectivesRule(rule));
-        } else {
-          settings.push(this.additiveRule(rule));
-        }
+        settings.push(this.additiveRule(rule));
       }
     });
 
