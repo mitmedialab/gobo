@@ -63,6 +63,7 @@ def create_celery_app(app=None):
     celery.conf.update({
         'worker_max_tasks_per_child': 10,
         'task_soft_time_limit': thirty_minutes,
+        'worker_max_memory_per_child': 48000  # 48MB
     })
 
     TaskBase = celery.Task
