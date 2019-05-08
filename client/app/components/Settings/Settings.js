@@ -574,7 +574,8 @@ class Settings extends Component {
             ))}
         </div>
       ),
-      subtitle: `Curated by ${rule.creator_display_name}`,
+      subtitle: rule.link ?
+        (<React.Fragment>Curated by <a href={rule.link} rel="noopener noreferrer" target="_blank">{rule.creator_display_name}</a></React.Fragment>) : `Curated by ${rule.creator_display_name}`,
       ruleCss: 'rule-setting',
       content: (
         <div className="slider-labels additive-toggles">
