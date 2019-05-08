@@ -28,7 +28,6 @@ const HeadMastodon = (props) => {
       picSrc={content.account.avatar_static}
       link={content.uri}
       repost={repost}
-      iconUrl="https://joinmastodon.org/"
       iconClass={getSourceIcon('mastodon')}
       showLogo={props.showLogo}
     />

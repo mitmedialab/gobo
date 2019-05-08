@@ -26,7 +26,6 @@ const HeadFacebook = (props) => {
       author={author}
       picSrc={picSrc}
       link={content.permalink_url}
-      iconUrl="https://www.facebook.com/"
       iconClass={getSourceIcon('facebook')}
       showLogo={props.showLogo}
     />
