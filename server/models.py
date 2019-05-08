@@ -545,7 +545,8 @@ class AdditiveRule(Rule):
         if self.additive_links:
             links = []
             for link in self.additive_links:
-                links.append(link.serialize())
+                if not any(l['name'] == link.display_name for l in links):
+                    links.append(link.serialize())
             rule_dict.update({
                 'links': links
             })
@@ -624,6 +625,7 @@ class AdditiveRuleLink(db.Model):
     source = db.Column(db.String(255), nullable=False)
     uri = db.Column(db.String(255), nullable=False)
     display_name = db.Column(db.String(255), nullable=False)
+    display_uri = db.Column(db.String(255))
     level = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
     last_modified = db.Column(db.DateTime, nullable=False)
@@ -631,11 +633,12 @@ class AdditiveRuleLink(db.Model):
     rule = db.relationship("AdditiveRule", back_populates="additive_links")
     db.PrimaryKeyConstraint('rule_id', 'uri')
 
-    def __init__(self, rule_id, source, uri, level, name):
+    def __init__(self, rule_id, source, uri, level, name, display_uri):
         self.rule_id = rule_id
         self.source = source
         self.uri = uri
         self.display_name = name
+        self.display_uri = display_uri
         self.level = level
         self.created_at = datetime.datetime.now()
         self.last_modified = datetime.datetime.now()
@@ -643,7 +646,7 @@ class AdditiveRuleLink(db.Model):
     def serialize(self):
         return {
             'id': self.id,
-            'uri': self.uri,
+            'uri': self.display_uri or self.uri,
             'name': self.display_name,
             'level': self.level,
         }
