@@ -13,11 +13,3 @@ class GenderEnum(enum.Enum):
         elif string.lower() == "male":
             return cls.male
         return cls.unknown
-
-
-class PoliticsEnum(enum.Enum):
-    left = 1
-    center_left = 2
-    center = 3
-    center_right = 4
-    right = 5

@@ -72,7 +72,7 @@ class Settings extends Component {
     const keys = ['include_corporate', 'gender_filter_on',
       'virality_min', 'virality_max', 'gender_female_per',
       'rudeness_min', 'rudeness_max', 'seriousness_min',
-      'seriousness_max', 'politics_levels'];
+      'seriousness_max'];
 
     if (isEnabled(KEYWORD_FILTER)) {
       keys.push('keywordsOr');
@@ -156,114 +156,6 @@ class Settings extends Component {
       openFilter: -1,
     });
   }
-
-  handlePoliticsRuleToggleChange = (e) => {
-    const level = parseInt(e.target.name.split('-')[1], 10);
-    let levels = [];
-    if (this.state.settings.politics_levels) {
-      levels = [...this.state.settings.politics_levels];
-    }
-    if (e.target.checked) {
-      levels.push(level);
-    } else {
-      levels = levels.filter(l => l !== level);
-    }
-
-    this.setState({
-      settings: {
-        ...this.state.settings,
-        politics_levels: levels,
-      },
-    });
-  }
-
-  politicsSetting = () => ({
-    title: 'Politics',
-    icon: getFilterReasonIcon('additive'),
-    desc: 'See stories matching or challenging your political perspective.',
-    key: 'echo_range',
-    longDesc: (
-      <div>
-        <p>Worried about your "echo chamber"? Gobo lets you add posts from political perspectives that might be different from your own. We curated a list of popular U.S. news sources from the left, center, and right, so you can explore a range of positions on U.S. politics.</p>
-        <p>Politics sources:</p>
-        <p className="settings-rule-description-title">Left</p>
-        <ul>
-          <li><a href="http://www.huffingtonpost.com/" rel="noopener noreferrer" target="_blank">Huffington Post</a></li>
-          <li><a href="http://www.msnbc.msn.com/" rel="noopener noreferrer" target="_blank">MSNBC</a></li>
-          <li><a href="http://www.vox.com/" rel="noopener noreferrer" target="_blank">Vox</a></li>
-          <li><a href="http://www.npr.org/" rel="noopener noreferrer" target="_blank">NPR</a></li>
-          <li><a href="http://www.politicususa.com/" rel="noopener noreferrer" target="_blank">Politicus USA</a></li>
-          <li><a href="http://www.thedailybeast.com/" rel="noopener noreferrer" target="_blank">The Daily Beast</a></li>
-          <li><a href="http://www.slate.com/" rel="noopener noreferrer" target="_blank">Slate</a></li>
-          <li><a href="http://rawstory.com/" rel="noopener noreferrer" target="_blank">Raw Story</a></li>
-          <li><a href="http://www.salon.com/" rel="noopener noreferrer" target="_blank">Salon</a></li>
-          <li><a href="http://www.dailykos.com/" rel="noopener noreferrer" target="_blank">Daily Kos</a></li>
-        </ul>
-        <p className="settings-rule-description-title">Center</p>
-        <ul>
-          <li><a href="http://thehill.com/" rel="noopener noreferrer" target="_blank">The Hill</a></li>
-          <li><a href="http://abcnews.go.com/" rel="noopener noreferrer" target="_blank">ABC News</a></li>
-          <li><a href="http://usatoday.com/" rel="noopener noreferrer" target="_blank">USA Today</a></li>
-          <li><a href="http://www.businessinsider.com/" rel="noopener noreferrer" target="_blank">Business Insider</a></li>
-          <li><a href="http://online.wsj.com/" rel="noopener noreferrer" target="_blank">Wall Street Journal</a></li>
-          <li><a href="http://www.reuters.com/" rel="noopener noreferrer" target="_blank">Reuters</a></li>
-          <li><a href="https://theintercept.com/" rel="noopener noreferrer" target="_blank">The Intercept</a></li>
-          <li><a href="https://www.mediaite.com/" rel="noopener noreferrer" target="_blank">Mediaite</a></li>
-          <li><a href="http://businessweek.com/" rel="noopener noreferrer" target="_blank">Business Week</a></li>
-          <li><a href="http://www.cnbc.com/" rel="noopener noreferrer" target="_blank">CNBC</a></li>
-        </ul>
-        <p className="settings-rule-description-title">Right</p>
-        <ul>
-          <li><a href="http://www.breitbart.com/" rel="noopener noreferrer" target="_blank">Breitbart</a></li>
-          <li><a href="http://conservativetribune.com/" rel="noopener noreferrer" target="_blank">Conservative Tribune</a></li>
-          <li><a href="http://www.theblaze.com/" rel="noopener noreferrer" target="_blank">The Blaze</a></li>
-          <li><a href="http://dailycaller.com/" rel="noopener noreferrer" target="_blank">Daily Caller</a></li>
-          <li><a href="http://www.foxnews.com/" rel="noopener noreferrer" target="_blank">Fox News</a></li>
-          <li><a href="http://www.dailymail.co.uk/" rel="noopener noreferrer" target="_blank">Daily Mail</a></li>
-          <li><a href="http://www.thegatewaypundit.com/" rel="noopener noreferrer" target="_blank">The Gateway Pundit</a></li>
-          <li><a href="http://www.westernjournalism.com/" rel="noopener noreferrer" target="_blank">Western Journalism</a></li>
-          <li><a href="http://www.nypost.com/" rel="noopener noreferrer" target="_blank">NY Post</a></li>
-          <li><a href="http://thepoliticalinsider.com/" rel="noopener noreferrer" target="_blank">The Political Insider</a></li>
-        </ul>
-      </div>
-    ),
-    ruleCss: 'rule-setting',
-    subtitle: (<span>Powered by <a href="https://mediacloud.org/" rel="noopener noreferrer" target="_blank">Media Cloud</a></span>),
-    content: (
-      <div className="slider-labels additive-toggles">
-        <label htmlFor="politics-1">
-          <Toggle
-            checked={this.state.settings.politics_levels ? this.state.settings.politics_levels.filter(level => level === 1).length === 1 : false}
-            name="politics-1"
-            onChange={this.handlePoliticsRuleToggleChange}
-            icons={false}
-            className="rule-toggle"
-          />
-          <span className="toggle-label">Left</span>
-        </label>
-        <label htmlFor="politics-3">
-          <Toggle
-            checked={this.state.settings.politics_levels ? this.state.settings.politics_levels.filter(level => level === 3).length === 1 : false}
-            name="politics-3"
-            onChange={this.handlePoliticsRuleToggleChange}
-            icons={false}
-            className="rule-toggle"
-          />
-          <span className="toggle-label">Center</span>
-        </label>
-        <label htmlFor="politics-5">
-          <Toggle
-            checked={this.state.settings.politics_levels ? this.state.settings.politics_levels.filter(level => level === 5).length === 1 : false}
-            name="politics-5"
-            onChange={this.handlePoliticsRuleToggleChange}
-            icons={false}
-            className="rule-toggle"
-          />
-          <span className="toggle-label">Right</span>
-        </label>
-      </div>
-    ),
-  })
 
   seriousnessSetting = () => ({
     title: 'Seriousness',
@@ -599,7 +491,6 @@ class Settings extends Component {
 
   render() {
     const settings = [
-      this.politicsSetting(),
       this.seriousnessSetting(),
       this.rudenessSetting(),
       this.genderSetting(),

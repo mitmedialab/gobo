@@ -7,7 +7,7 @@ from sqlalchemy.types import ARRAY
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from server.core import db, bcrypt
-from server.enums import GenderEnum, PoliticsEnum
+from server.enums import GenderEnum
 
 post_associations_table = db.Table('posts_associations', db.metadata,
                                    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
@@ -226,7 +226,6 @@ class Settings(db.Model):
     virality_max = db.Column(db.Float, db.CheckConstraint('virality_max<=1'), default=1)
     seriousness_min = db.Column(db.Float, db.CheckConstraint('seriousness_min>=0'), default=0)
     seriousness_max = db.Column(db.Float, db.CheckConstraint('seriousness_max<=1'), default=1)
-    politics_levels = db.Column(ARRAY(db.Integer))
 
     rudeness_ck = db.CheckConstraint('rudeness_max>rudeness_min')
     virality_ck = db.CheckConstraint('virality_max>virality_min')
@@ -246,7 +245,6 @@ class Settings(db.Model):
         self.virality_max = settings_dict['virality_max']
         self.seriousness_min = settings_dict['seriousness_min']
         self.seriousness_max = settings_dict['seriousness_max']
-        self.politics_levels = settings_dict['politics_levels']
 
 
 class SettingsUpdate(db.Model):
@@ -279,7 +277,6 @@ class Post(db.Model):
     virality_count = db.Column(db.Integer)
     has_link = db.Column(db.Boolean)
     news_score = db.Column(db.Float)
-    political_quintile = db.Column(db.Enum(PoliticsEnum))
 
     db.UniqueConstraint('source_id', 'source', name='post_id')
     rule_associations = db.relationship("PostAdditiveRule", back_populates="post", cascade="delete, delete-orphan")
@@ -313,10 +310,8 @@ class Post(db.Model):
                 self.has_link = False
 
     def as_dict(self):
-        d = {c.name: getattr(self, c.name) for c in self.__table__.columns
-             if c.name not in ['gender', 'political_quintile']}
+        d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name not in ['gender']}
         d['gender'] = str(self.gender)
-        d['political_quintile'] = self.political_quintile.value if self.political_quintile else None
 
         # using the cache saves time over db lookups
         if self.rules:
