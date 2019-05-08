@@ -8,7 +8,7 @@ const Head = props => (
   <div className="post-header">
     { props.showLogo &&
       <div className="float-right">
-        <a href={props.iconUrl} target="_blank" rel="noopener noreferrer" className={`source-icon ${props.iconClass}`} />
+        <a href={props.link} target="_blank" rel="noopener noreferrer" className={`source-icon ${props.iconClass}`} />
       </div>
     }
     {Object.keys(props.repost).length > 0 &&
@@ -25,7 +25,7 @@ const Head = props => (
         {props.author} {props.account && <span className="account">{props.account}</span>}
       </div>
       <div className="date">
-        <a href={props.link}>{getPostDateString(props.post)}</a>
+        <a href={props.link} target="_blank" rel="noopener noreferrer">{getPostDateString(props.post)}</a>
       </div>
     </div>
   </div>
@@ -37,7 +37,6 @@ Head.propTypes = {
   link: PropTypes.string.isRequired,
   picSrc: PropTypes.string.isRequired,
   iconClass: PropTypes.string.isRequired,
-  iconUrl: PropTypes.string.isRequired,
   showLogo: PropTypes.bool.isRequired,
   repost: PropTypes.object,
   account: PropTypes.string,

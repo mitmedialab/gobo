@@ -26,7 +26,6 @@ const HeadTwitter = (props) => {
       picSrc={content.user.profile_image_url_https}
       link={link}
       repost={repost}
-      iconUrl="https://twitter.com/"
       iconClass={getSourceIcon('twitter')}
       showLogo={props.showLogo}
     />
