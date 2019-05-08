@@ -126,8 +126,9 @@ def share_rule_all_users(rule_id, enabled):
 @click.option('--source', required=True, type=str, help='Twitter and Facebook are supported only')
 @click.option('--link', required=True, type=str, help='URI to pull from')
 @click.option('--name', required=True, type=str, help='Label to display for the link in the UI')
+@click.option('--display-uri', required=False, type=str, default=False, help='URI to link to in the UI')
 @with_appcontext
-def add_additive_rule_link(rule_id, level, source, link, name):
+def add_additive_rule_link(rule_id, level, source, link, name, display_uri):
     """Add link for an additive rule"""
     if source not in ['twitter', 'facebook']:
         print "Only Facebook and Twitter links are supported currently"
@@ -135,7 +136,7 @@ def add_additive_rule_link(rule_id, level, source, link, name):
 
     rule = AdditiveRule.query.filter_by(id=rule_id).first()
     if rule:
-        rule_link = AdditiveRuleLink(rule_id, source, link, level, name)
+        rule_link = AdditiveRuleLink(rule_id, source, link, level, name, display_uri)
         db.session.add(rule_link)
         db.session.commit()
         print "Successfully added link"

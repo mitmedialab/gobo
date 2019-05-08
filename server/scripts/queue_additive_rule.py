@@ -42,6 +42,7 @@ def get_facebook_posts(max_posts, link):
     }
 
     r = requests.get(url, facebook_query, timeout=config.DEFAULT_REQUEST_TIMEOUT)
+    posts = []
     try:
         result = r.json()
     except ValueError:
