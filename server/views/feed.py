@@ -5,7 +5,6 @@ from flask_login import login_required, current_user
 
 from server.core import db
 from server.models import Post, SettingsUpdate
-from server.enums import PoliticsEnum
 from server.blueprints import api
 from server.utils import are_int_arrays_same
 
@@ -20,11 +19,6 @@ POSTS_QUINTILE_COUNT = 20  # how many news posts to grab. this number should div
 def get_posts():
     personalized_posts = current_user.posts.order_by(Post.created_at.desc())[:PERSONAL_POSTS_MAX]
     ignore_ids = [item.id for item in personalized_posts]
-    for quintile in PoliticsEnum:
-        posts = Post.query.filter((
-            Post.id.notin_(ignore_ids)) & (Post.political_quintile == quintile)).order_by(
-                Post.created_at.desc())[:POSTS_QUINTILE_COUNT]
-        personalized_posts.extend(posts)
 
     rule_associations = [r for r in current_user.rule_associations if r.rule.type == 'additive']
     for rule_association in rule_associations:

@@ -81,7 +81,7 @@ def queue_additive_rule(rule_id, level):
             post_id = post['id_str'] if 'id_str' in post else str(post['id'])
             post_item = session.query(Post).filter_by(original_id=post_id, source=link.source).first()
             if not post_item:
-                post_item = Post(post_id, link.source, post, False)
+                post_item = Post(post_id, link.source, post)
                 session.add(post_item)
                 session.commit()
                 tasks.analyze_post.delay(post_item.id)

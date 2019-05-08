@@ -18,11 +18,6 @@ const REASONS = {
     type: 'virality',
     icon: getFilterReasonIcon('virality'),
   },
-  newsEcho: {
-    label: 'News Echo',
-    type: 'newsEcho',
-    icon: getFilterReasonIcon('additive'),
-  },
   rudeness: {
     label: 'Rudeness',
     type: 'rudeness',
@@ -175,18 +170,6 @@ export function filterPostByRuleLevels(post, rule) {
   return filtered;
 }
 
-function filterPostByPoliticalLevels(post, settings) {
-  let filtered = false;
-  if (post.is_news) {
-    if (settings.politics_levels) {
-      filtered = settings.politics_levels.filter(level => level === post.political_quintile).length === 0;
-    } else {
-      filtered = true;
-    }
-  }
-  return filtered;
-}
-
 function calculateGenderRatio(posts) {
   const femaleCount = posts.filter(post => post.gender === 'GenderEnum.female').length;
   const maleCount = posts.filter(post => post.gender === 'GenderEnum.male').length;
@@ -264,12 +247,6 @@ export function getFilteredPosts(posts, settings, rules, showPlatform) {
     if (viralityScore > settings.virality_max || viralityScore < settings.virality_min) {
       keep = false;
       filterReasons[post.id].push(REASONS.virality);
-    }
-
-    if (filterPostByPoliticalLevels(post, settings)) {
-      keep = false;
-      inFeed = false;
-      filterReasons[post.id].push(REASONS.newsEcho);
     }
 
     if (inFeed) {
