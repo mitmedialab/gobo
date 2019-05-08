@@ -76,8 +76,6 @@ def analyze_gender_corporate(post_id):
             gender = GenderEnum.fromString(result)
         else:
             gender = GenderEnum.unknown
-    if post.is_news:
-        gender = GenderEnum.unknown
     if gender == GenderEnum.unknown or post.has_precomputed_corporate():
         corporate = True
     post.update_gender_corporate(gender, corporate)
@@ -132,7 +130,4 @@ def analyze_news_score(post_id):
         if 'taxonomies' in result:
             scores = [float(x['score'])for x in result['taxonomies'] if '/news' in x['label'].lower()]
             score = max(scores) if scores else 0.0
-    if post.is_news:
-        score = min(1.0, score+0.6)
-    post.news_score = score
     db.session.commit()

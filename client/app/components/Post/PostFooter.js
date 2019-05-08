@@ -36,8 +36,7 @@ class PostFooter extends Component {
       icon.url = 'https://joinmastodon.org/';
     }
 
-    const isAdditive = this.props.post.is_news || this.props.post.rules;
-    const additiveCSS = isAdditive ? 'additive-post' : '';
+    const additiveCSS = this.props.post.rules ? 'additive-post' : '';
 
     return (
       <div className={`post-footer ${additiveCSS}`}>

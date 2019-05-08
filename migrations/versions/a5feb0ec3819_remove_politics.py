@@ -18,9 +18,11 @@ depends_on = None
 
 def upgrade():
     op.drop_column('posts', 'political_quintile')
+    op.drop_column('posts', 'is_news')
     op.drop_column('user_settings', 'politics_levels')
 
 
 def downgrade():
     op.add_column('user_settings', sa.Column('politics_levels', postgresql.ARRAY(sa.INTEGER()), autoincrement=False, nullable=True))
     op.add_column('posts', sa.Column('political_quintile', postgresql.ENUM(u'left', u'center_left', u'center', u'center_right', u'right', name='politicsenum'), autoincrement=False, nullable=True))
+    op.add_column('posts', sa.Column('is_news', sa.BOOLEAN(), autoincrement=False, nullable=True))

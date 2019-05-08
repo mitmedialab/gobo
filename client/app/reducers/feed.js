@@ -35,7 +35,6 @@ const defaultState = {
     rudeness_max: 1,
     seriousness_min: 0,
     seriousness_max: 1,
-    politics_levels: [],
   },
   rules: [],
   showPlatform: 'all',

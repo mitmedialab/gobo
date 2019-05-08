@@ -197,7 +197,7 @@ def _add_post(user, post, source):
         if post_item:
             post_item.update_content(post)
         else:
-            post_item = Post(post_id, source, post, False)
+            post_item = Post(post_id, source, post)
             db.session.add(post_item)
             added_new = True
 

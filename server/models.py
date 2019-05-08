@@ -270,7 +270,6 @@ class Post(db.Model):
     created_at = db.Column(db.DateTime)
 
     # filters
-    is_news = db.Column(db.Boolean)
     toxicity = db.Column(db.Float)
     gender = db.Column(db.Enum(GenderEnum))
     is_corporate = db.Column(db.Boolean)
@@ -287,11 +286,10 @@ class Post(db.Model):
         'polymorphic_on': source,
     }
 
-    def __init__(self, original_id, source, content, is_news):
+    def __init__(self, original_id, source, content):
         self.original_id = original_id
         self.source = source
         self.content = content
-        self.is_news = is_news
         self.retrieved_at = datetime.datetime.now()
         self.rules = None
         if source == 'twitter':
@@ -330,10 +328,8 @@ class Post(db.Model):
     def has_toxicity_rate(self):
         return self.toxicity is not None
 
-    def update_content(self, content, is_news=False):
+    def update_content(self, content):
         self.content.update(content)
-        if is_news:
-            self.is_news = True
 
     def update_toxicity(self, score):
         self.toxicity = score
