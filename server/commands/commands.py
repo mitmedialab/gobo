@@ -128,6 +128,7 @@ def share_rule_all_users(rule_id, enabled):
 @click.option('--name', required=True, type=str, help='Label to display for the link in the UI')
 @click.option('--display-uri', required=False, type=str, default=False, help='URI to link to in the UI')
 @with_appcontext
+# pylint: disable=too-many-arguments
 def add_additive_rule_link(rule_id, level, source, link, name, display_uri):
     """Add link for an additive rule"""
     if source not in ['twitter', 'facebook']:

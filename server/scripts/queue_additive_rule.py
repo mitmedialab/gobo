@@ -1,9 +1,9 @@
 import os
 import logging
-
-import requests
 from datetime import datetime, timedelta
 from urlparse import urljoin
+
+import requests
 import click
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
