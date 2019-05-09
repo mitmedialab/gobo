@@ -43,19 +43,6 @@ $spacing-heading-top: 25px;
   border-color: $nav-border-color;
 }
 
-.settings-header {
-  height: 80px;
-  background-color: $nav-color;
-
-  h1 {
-    margin: 0px;
-    padding: 0px;
-    padding-top: $spacing-heading-top;
-    margin-left: 150px;
-    color: $inverse-text-color;
-  }
-}
-
 .settings-menu {
   list-style: none;
   padding: 0;
@@ -66,10 +53,6 @@ $spacing-heading-top: 25px;
   //color: #c7c7c7;
   overflow: hidden;
   font-weight: 700;
-}
-
-.setting-item {
-  padding: 0px;
 }
 
 .arrow-icon {
@@ -110,13 +93,6 @@ $spacing-heading-top: 25px;
   }
 }
 
-.filter {
-  width: 100%;
-  border-style: solid;
-  border-width: 1px 0 0;
-  border-color: $nav-border-color;
-}
-
 .filter-title-text {
   @extend .tk-futura-pt-bold;
   vertical-align: middle;
@@ -130,10 +106,6 @@ $spacing-heading-top: 25px;
   :before {
     margin-left: 0px;
   }
-}
-
-.filter-controls {
-  padding: 1em 0;
 }
 
 .my-gender-ratio {
@@ -257,11 +229,6 @@ $handle-height: 24px;
   }
 }
 
-.filter-content {
-  display:flex;
-  padding: 30px 50px 30px 30px;
-}
-
 .rule-setting {
   .filter-icon {
     color: $filter-color;
@@ -271,52 +238,93 @@ $handle-height: 24px;
   }
 }
 
-.filter-inner {
-  width: 100%;
+// TODO: -- START small sizes...
+$control-width: 314px; // manually determind
+.filter {
+  height: 56px;
+
+  @include media-breakpoint-up(lg) {
+    width: 100%;
+    border-style: solid;
+    border-width: 1px 0 0;
+    border-color: $nav-border-color;
+    height: auto;
+  }
 }
 
-$control-width: 314px; // manually determind
-@mixin small-sidebar {
-  .filter {
-    height: 56px;
-  }
-  .setting-item {
-    padding: 0;
-  }
-  .filter-inner {
-    transform: translate(100px);
-    width: $control-width;
-  }
-  .settings-menu {
-    position: fixed;
-  }
+.setting-item {
+  padding: 0;
+}
 
-  .filter-inner.open{
-    position: absolute;
-    width: $control-width; // manually determind
-    right: 56px;  // width of sidebar
-    transform: translate(-322px);
-    background-color: $sidebar-color;
-    padding: 10px;
-    z-index: 100001;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+.filter-inner {
+  transform: translate(100px);
+  width: $control-width;
+
+  @include media-breakpoint-up(lg) {
+    transform: inherit;
+    width: 100%;
   }
-  .filter-controls {
+}
+
+.settings-menu {
+  position: fixed;
+
+  @include media-breakpoint-up(lg) {
     position: relative;
   }
+}
 
-  .filter-content{
-    background-color: inherit;
-    height: 56px;
-    padding: 7px 1px;
+.filter-inner.open{
+  position: absolute;
+  width: $control-width; // manually determind
+  right: 56px;  // width of sidebar
+  transform: translate(-322px);
+  background-color: $sidebar-color;
+  padding: 10px;
+  z-index: 100001;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+
+.filter-controls {
+  position: relative;
+
+  @include media-breakpoint-up(lg) {
+    padding: 1em 0;
   }
+}
 
-  .settings-header {
+.filter-content {
+  background-color: inherit;
+  height: 56px;
+  padding: 7px 1px;
+  display:flex;
+
+  @include media-breakpoint-up(lg) {
+    padding: 30px 50px 30px 30px;
+    height: inherit;
+  }
+}
+
+.settings-header {
+  display: none;
+
+  @include media-breakpoint-up(lg) {
+    display: block;
+    height: 80px;
+    background-color: $nav-color;
+
     h1 {
-      display: none;
+      margin: 0px;
+      padding: 0px;
+      padding-top: $spacing-heading-top;
+      margin-left: 150px;
+      color: $inverse-text-color;
     }
   }
 }
+// TODO: -- END small sizes...
+
+
 .filter-description {
   margin-top: $spacer-small;
   a {
@@ -332,26 +340,26 @@ $control-width: 314px; // manually determind
   }
 }
 
-.sidebar.minimized {
-  .filter:first-of-type {
-    height:88px;
-  }
-  .arrow-icon {
-    padding-left: 0;
-  }
-  .filter-content {
-    padding: 9px 0px;
-  }
-  @include small-sidebar;
-}
+// .sidebar.minimized {
+//   .filter:first-of-type {
+//     height:88px;
+//   }
+//   .arrow-icon {
+//     padding-left: 0;
+//   }
+//   .filter-content {
+//     padding: 9px 0px;
+//   }
+//   @include small-sidebar;
+// }
 
-@media (max-width: 800px) {
-  .settings-header {
-    display: none;
-  }
-
-  @include small-sidebar;
-}
+// @media (max-width: 800px) {
+//   // .settings-header {
+//   //   display: none;
+//   // }
+//
+//   @include small-sidebar;
+// }
 
 .modal-close-button {
   position:absolute;

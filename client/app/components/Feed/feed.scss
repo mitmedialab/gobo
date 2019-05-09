@@ -1,36 +1,37 @@
 $settings-width: 420px;
 $settings-width-closed: 56px;
 
+@mixin wide-feed-mixin {
+  margin-right:$settings-width-closed;
+}
+
+@mixin minimized-sidebar-mixin {
+  width: $settings-width-closed;
+}
+
 .feed {
-  margin-right: $settings-width;
+  margin-right:$settings-width-closed;
   width: 100%;
+
+  @include media-breakpoint-up(lg) {
+    margin-right: $settings-width;
+  }
 }
 
 .sidebar {
-  width: $settings-width;
+  width: $settings-width-closed;
+
+  @include media-breakpoint-up(lg) {
+    width: $settings-width;
+  }
 }
 
-@mixin wide-feed-mixin { margin-right:$settings-width-closed; }
 .feed.wide {
   @include wide-feed-mixin;
 }
 
-@mixin minimized-sidebar-mixin {  width:$settings-width-closed; }
 .sidebar.minimized {
   @include minimized-sidebar-mixin;
-}
-
-@media (max-width: 800px) {
-  %wide { @include wide-feed-mixin; }
-  %minimized { @include minimized-sidebar-mixin; }
-
-  .feed {
-    @extend %wide;
-  }
-
-  .sidebar {
-    @extend %minimized;
-  }
 }
 
 .posts {
