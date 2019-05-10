@@ -522,8 +522,9 @@ class Settings extends Component {
           </li>
           {settings.map((feature, index) => {
             const isOpen = ((this.state.openFilter !== -1) && (this.state.openFilter === index));
+            const openClass = isOpen ? 'open' : '';
             return (
-              <li className="setting-item filter" key={feature.key}>
+              <li className={`setting-item filter ${openClass}`} key={feature.key}>
                 <SettingsItem
                   feature={feature}
                   isOpen={isOpen}

@@ -1,3 +1,11 @@
+// TODO:
+// * settings icons should afford clicking on mobile
+// * do not enable clicking on non-mobile view
+// - position settings modal in mobile
+// * add margins in mobile modal
+// - remove minimize code and css
+// * add underline indication when open?
+
 $handle-color: lighten($text-color, 10%);
 $sidebar-color: #fff;
 
@@ -14,7 +22,12 @@ $sidebar-color: #fff;
   padding-bottom: 4em;
   position: fixed;
   right: 0;
-  min-height: 100%;
+
+  height: 60px;
+
+  @include media-breakpoint-up(lg) {
+    min-height: 100%;
+  }
 
   .filter-toggle-btn {
     background-color: $nav-color;
@@ -36,17 +49,23 @@ $sidebar-color: #fff;
 
 $spacing-heading-top: 25px;
 .settings-content {
-  height: 100%;
   overflow-x: hidden;
   border-style: solid;
   border-width: 0 0 0 1px;
   border-color: $nav-border-color;
+
+  @include media-breakpoint-up(lg) {
+    height: 100%;
+  }
 }
 
 .settings-menu {
   list-style: none;
   padding: 0;
-  padding-bottom: 3em;
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: 3em;
+  }
 }
 
 .settings-menu > li > div > a {
@@ -87,12 +106,6 @@ $spacing-heading-top: 25px;
 
 }
 
-.settings-menu {
-  button {
-    color: #000;
-  }
-}
-
 .filter-title-text {
   @extend .tk-futura-pt-bold;
   vertical-align: middle;
@@ -102,9 +115,12 @@ $spacing-heading-top: 25px;
 .filter-title-icon {
   font-size:40px;
   vertical-align: top;
-  margin-right: 0.5em;
   :before {
     margin-left: 0px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    margin-right: 0.5em;
   }
 }
 
@@ -203,7 +219,7 @@ $handle-height: 24px;
   }
 
   &.mute-men-wrapper {
-    padding-top: 40px;
+    margin-top: 40px;
   }
 
 }
@@ -232,13 +248,17 @@ $handle-height: 24px;
 .rule-setting {
   .filter-icon {
     color: $filter-color;
+    cursor: pointer;
+
+    @include media-breakpoint-up(lg) {
+      cursor: auto;
+    }
   }
   &.filter-icon {
     color: $filter-color;
   }
 }
 
-// TODO: -- START small sizes...
 $control-width: 314px; // manually determind
 .filter {
   height: 56px;
@@ -254,35 +274,78 @@ $control-width: 314px; // manually determind
 
 .setting-item {
   padding: 0;
+  display: inline-flex;
+
+  @include media-breakpoint-up(lg) {
+    display: block;
+  }
+
+  &.open {
+    border-bottom: 3px solid $filter-color;
+
+    @include media-breakpoint-up(lg) {
+      border-bottom: unset;
+    }
+  }
 }
 
 .filter-inner {
-  transform: translate(100px);
   width: $control-width;
+  display: none;
+  visibility: hidden;
 
   @include media-breakpoint-up(lg) {
-    transform: inherit;
     width: 100%;
+    display: block;
+    visibility: visible;
+  }
+
+  &.open{
+    position: absolute;
+    width: $control-width; // manually determined
+
+    // TODO: get the width right...
+    // width: 85%;
+    left: 50%;
+    transform: translate(-50%, 60px);
+
+    background-color: $sidebar-color;
+    padding: $spacer-large;
+    z-index: 100001;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+
+    // TODO: my changes...
+    display: block;
+    visibility: visible;
+    white-space: normal;
+
+    @include media-breakpoint-up(lg) {
+      position: unset;
+      width: 100%;
+      left: auto;
+      transform: none;
+      background-color: inherit;
+      padding: 0;
+      z-index: auto;
+      box-shadow: none;
+    }
+
   }
 }
 
 .settings-menu {
-  position: fixed;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
 
   @include media-breakpoint-up(lg) {
-    position: relative;
+      overflow: auto;
+      white-space: inherit;
   }
-}
 
-.filter-inner.open{
-  position: absolute;
-  width: $control-width; // manually determind
-  right: 56px;  // width of sidebar
-  transform: translate(-322px);
-  background-color: $sidebar-color;
-  padding: 10px;
-  z-index: 100001;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  button {
+    color: #000;
+  }
 }
 
 .filter-controls {
@@ -322,8 +385,6 @@ $control-width: 314px; // manually determind
     }
   }
 }
-// TODO: -- END small sizes...
-
 
 .filter-description {
   margin-top: $spacer-small;

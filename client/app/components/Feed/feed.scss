@@ -1,8 +1,8 @@
 $settings-width: 420px;
-$settings-width-closed: 56px;
+$settings-width-closed: 100%;
 
 @mixin wide-feed-mixin {
-  margin-right:$settings-width-closed;
+  // margin-right:$settings-width-closed;
 }
 
 @mixin minimized-sidebar-mixin {
@@ -10,7 +10,7 @@ $settings-width-closed: 56px;
 }
 
 .feed {
-  margin-right:$settings-width-closed;
+  // margin-right:$settings-width-closed;
   width: 100%;
 
   @include media-breakpoint-up(lg) {
