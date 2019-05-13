@@ -5,9 +5,13 @@ import { Link, Redirect } from 'react-router-dom';
 import { Button } from '@blueprintjs/core';
 import { getPosts, getRules, getSettings } from 'actions/feed';
 
+import isEnabled, { OVERVIEW } from 'utils/featureFlags';
+
 import Post from 'components/Post/Post';
 import Settings from 'components/Settings/Settings';
 import Loader from 'components/Loader/Loader';
+
+import OverviewVis from 'components/OverviewVis/OverviewVis';
 
 
 function mapStateToProps(state) {
@@ -86,6 +90,7 @@ class Feed extends Component {
 
     return (
       <div className="content-with-nav container-fluid">
+        {isEnabled(OVERVIEW) && <OverviewVis feed={this.props.feed} />}
         <div className="row">
           <div className={this.state.minimizedSettings ? 'feed wide' : 'feed'}>
             <div className="posts">
