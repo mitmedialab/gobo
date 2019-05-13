@@ -130,4 +130,6 @@ def analyze_news_score(post_id):
         if 'taxonomies' in result:
             scores = [float(x['score'])for x in result['taxonomies'] if '/news' in x['label'].lower()]
             score = max(scores) if scores else 0.0
+
+    post.news_score = score
     db.session.commit()
