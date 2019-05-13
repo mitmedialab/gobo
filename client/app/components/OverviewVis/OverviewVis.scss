@@ -1,0 +1,13 @@
+.overview-post {
+  height: 30px;
+  width: 2px;
+  display: inline-flex;
+}
+
+.overview-post-filtered {
+  background-color: $filter-color;
+}
+
+.overview-post-visible {
+  background-color: $light-gray;
+}
