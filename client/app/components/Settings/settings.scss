@@ -5,6 +5,9 @@
 // * add margins in mobile modal
 // - remove minimize code and css
 // * add underline indication when open?
+// - add drop shadow on mobile
+// - add gray to pop up (maybe make it a modal?)
+// - see about adding a "more" or pan arrow?
 
 $handle-color: lighten($text-color, 10%);
 $sidebar-color: #fff;
@@ -261,7 +264,7 @@ $handle-height: 24px;
 
 $control-width: 314px; // manually determind
 .filter {
-  height: 56px;
+  height: $rules-mobile-height;
 
   @include media-breakpoint-up(lg) {
     width: 100%;

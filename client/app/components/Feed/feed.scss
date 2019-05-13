@@ -9,8 +9,15 @@ $settings-width-closed: 100%;
   width: $settings-width-closed;
 }
 
+.feed-wrapper {
+  padding-top: $rules-mobile-height;
+
+  @include media-breakpoint-up(lg) {
+    padding-top: 0;
+  }
+}
+
 .feed {
-  // margin-right:$settings-width-closed;
   width: 100%;
 
   @include media-breakpoint-up(lg) {
@@ -36,11 +43,11 @@ $settings-width-closed: 100%;
 
 .posts {
   margin: $spacer-small;
-  margin-left: $spacer-large * 2;
-  margin-right: $spacer-large * 2;
 
-  @media (max-width: 768px) {
-    margin: 10px;
+  @include media-breakpoint-up(lg) {
+    margin: $spacer-small;
+    margin-left: $spacer-large * 2;
+    margin-right: $spacer-large * 2;
   }
 }
 
