@@ -64,7 +64,8 @@ class SettingsItem extends Component {
     return (
       <div className={`filter-content ${this.props.feature.ruleCss}`}>
         <div className="filter-icon">
-          <span className={`filter-title-icon ${this.props.feature.icon}`} tabIndex="0" role="button" onClick={this.toggleOpen} />
+          <span className={`d-none d-lg-block filter-title-icon ${this.props.feature.icon}`} />
+          <span className={`d-lg-none filter-title-icon ${this.props.feature.icon}`} tabIndex="0" role="button" onClick={this.toggleOpen} />
         </div>
         <div className={`filter-inner ${openClass}`} tabIndex="0" onBlur={this.close} ref={(el) => { this.filterElement = el; }}>
           <div className="filter-title">
