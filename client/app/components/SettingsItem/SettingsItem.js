@@ -25,6 +25,7 @@ const DEFAULT_MODAL_STYLES = {
     position: 'absolute',
     top: '50%',
     left: '50%',
+    right: 'unset',
     transform: 'translate(-50%, -50%)',
     minHeight: '300px',
     minWidth: '300px',
