@@ -56,7 +56,7 @@
     "react-facebook-login": "^3.6.2",
     "react-g-analytics": "^0.4.2",
     "react-helmet": "^5.0.3",
-    "react-modal": "^2.3.2",
+    "react-modal": "^3.8.1",
     "react-onclickoutside": "^6.6.0",
     "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
