@@ -33,7 +33,7 @@ $sidebar-color: #fff;
 
   @include media-breakpoint-up(lg) {
     min-height: 100%;
-    box-shadow: 0;
+    box-shadow: unset;
   }
 
   .filter-toggle-btn {
@@ -197,7 +197,7 @@ $handle-height: 24px;
   height: $handle-height;
   @include shadow($thumb-shadow-size, $thumb-shadow-blur, $thumb-shadow-color);
 
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(lg) {
     width: 10px;
   }
 }
@@ -290,57 +290,15 @@ $control-width: 314px; // manually determind
   @include media-breakpoint-up(lg) {
     display: block;
   }
-
-  &.open {
-    border-bottom: 3px solid $filter-color;
-
-    @include media-breakpoint-up(lg) {
-      border-bottom: unset;
-    }
-  }
 }
 
 .filter-inner {
-  width: $control-width;
-  display: none;
-  visibility: hidden;
+  width: $control-width - 30px;
+  // display: none;
+  // visibility: hidden;
 
   @include media-breakpoint-up(lg) {
     width: 100%;
-    display: block;
-    visibility: visible;
-  }
-
-  &.open{
-    position: absolute;
-    width: $control-width; // manually determined
-
-    // TODO: get the width right...
-    // width: 85%;
-    left: 50%;
-    transform: translate(-50%, 60px);
-
-    background-color: $sidebar-color;
-    padding: $spacer-large;
-    z-index: 100001;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-
-    // TODO: my changes...
-    display: block;
-    visibility: visible;
-    white-space: normal;
-
-    @include media-breakpoint-up(lg) {
-      position: unset;
-      width: 100%;
-      left: auto;
-      transform: none;
-      background-color: inherit;
-      padding: 0;
-      z-index: auto;
-      box-shadow: none;
-    }
-
   }
 }
 
@@ -411,27 +369,6 @@ $control-width: 314px; // manually determind
     cursor: pointer;
   }
 }
-
-// .sidebar.minimized {
-//   .filter:first-of-type {
-//     height:88px;
-//   }
-//   .arrow-icon {
-//     padding-left: 0;
-//   }
-//   .filter-content {
-//     padding: 9px 0px;
-//   }
-//   @include small-sidebar;
-// }
-
-// @media (max-width: 800px) {
-//   // .settings-header {
-//   //   display: none;
-//   // }
-//
-//   @include small-sidebar;
-// }
 
 .modal-close-button {
   position:absolute;
