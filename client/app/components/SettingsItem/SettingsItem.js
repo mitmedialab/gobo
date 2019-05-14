@@ -40,6 +40,10 @@ class SettingsItem extends Component {
     };
   }
 
+  componentDidMount() {
+    ReactModal.setAppElement('body');
+  }
+
   toggleOpen = () => {
     if (this.props.isOpen) {
       this.close();
@@ -74,7 +78,7 @@ class SettingsItem extends Component {
         <div className="filter-description">
           {this.props.feature.desc} <a onClick={this.openModal} tabIndex="0" role="button">Learn more</a>
         </div>
-        <div className="filter-controls" onFocus={this.toggleOpen}>
+        <div className="filter-controls">
           {this.props.feature.content}
         </div>
       </div>
