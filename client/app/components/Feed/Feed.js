@@ -28,7 +28,6 @@ class Feed extends Component {
     this.state = {
       showFilteredOnly: false,
       processing: false,
-      minimizedSettings: false,
     };
   }
 
@@ -41,12 +40,6 @@ class Feed extends Component {
   toggleshowFilteredOnly = () => {
     this.setState({
       showFilteredOnly: !this.state.showFilteredOnly,
-    });
-  }
-
-  toggleSettings = () => {
-    this.setState({
-      minimizedSettings: !this.state.minimizedSettings,
     });
   }
 
@@ -93,7 +86,7 @@ class Feed extends Component {
         <div className="feed-wrapper">
           {isEnabled(OVERVIEW) && <OverviewVis feed={this.props.feed} />}
           <div className="row">
-            <div className={this.state.minimizedSettings ? 'feed wide' : 'feed'}>
+            <div className="feed">
               <div className="posts">
                 {(!this.props.feed.loading_posts) && (this.props.feed.posts.length === 0) &&
                 (<div>
@@ -122,8 +115,8 @@ class Feed extends Component {
                 {postsHtml}
               </div>
             </div>
-            <div className={this.state.minimizedSettings ? 'sidebar minimized' : 'sidebar'}>
-              <Settings neutralFB={filteredPosts.fb} onMinimize={this.toggleSettings} minimized={this.state.minimizedSettings} />
+            <div className="sidebar">
+              <Settings neutralFB={filteredPosts.fb} />
             </div>
           </div>
         </div>

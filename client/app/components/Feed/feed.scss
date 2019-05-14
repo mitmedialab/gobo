@@ -1,13 +1,4 @@
 $settings-width: 420px;
-$settings-width-closed: 100%;
-
-@mixin wide-feed-mixin {
-  // margin-right:$settings-width-closed;
-}
-
-@mixin minimized-sidebar-mixin {
-  width: $settings-width-closed;
-}
 
 .feed-wrapper {
   padding-top: $rules-mobile-height;
@@ -26,19 +17,11 @@ $settings-width-closed: 100%;
 }
 
 .sidebar {
-  width: $settings-width-closed;
+  width: 100%;
 
   @include media-breakpoint-up(lg) {
     width: $settings-width;
   }
-}
-
-.feed.wide {
-  @include wide-feed-mixin;
-}
-
-.sidebar.minimized {
-  @include minimized-sidebar-mixin;
 }
 
 .posts {

@@ -6,9 +6,10 @@
 // * add underline indication when open?
 // * add drop shadow on mobile
 // * add borders on mobile view
+// * add gray to pop up (maybe make it a modal?)
+// * settings too small
+// - add text?
 // - remove minimize code and css
-// - add gray to pop up (maybe make it a modal?)
-// - settings too small
 
 $handle-color: lighten($text-color, 10%);
 $sidebar-color: #fff;
@@ -76,7 +77,6 @@ $spacing-heading-top: 25px;
 }
 
 .settings-menu > li > div > a {
-  //color: #c7c7c7;
   overflow: hidden;
   font-weight: 700;
 }
@@ -89,7 +89,6 @@ $spacing-heading-top: 25px;
   padding-left: 30px;
 }
 
-
 @media (min-width: 1281px) {
   .sb-menu-icon {
     display: none;
@@ -100,7 +99,6 @@ $spacing-heading-top: 25px;
   float: right;
   line-height: 28px;
   text-align: center;
-  //color: #eeeff1;
 }
 
 .settings-menu li > div> a.menu-open + .setting-controls {
@@ -110,7 +108,6 @@ $spacing-heading-top: 25px;
   clear: both;
   display: none;
   height: auto;
-
 }
 
 .filter-title-text {
@@ -294,8 +291,6 @@ $control-width: 314px; // manually determind
 
 .filter-inner {
   width: $control-width - 30px;
-  // display: none;
-  // visibility: hidden;
 
   @include media-breakpoint-up(lg) {
     width: 100%;
