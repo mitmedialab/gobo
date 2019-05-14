@@ -1,16 +1,3 @@
-// TODO:
-// * settings icons should afford clicking on mobile
-// * do not enable clicking on non-mobile view
-// * position settings modal in mobile
-// * add margins in mobile modal
-// * add underline indication when open?
-// * add drop shadow on mobile
-// * add borders on mobile view
-// * add gray to pop up (maybe make it a modal?)
-// * settings too small
-// - add text?
-// - remove minimize code and css
-
 $handle-color: lighten($text-color, 10%);
 $sidebar-color: #fff;
 
@@ -79,14 +66,6 @@ $spacing-heading-top: 25px;
 .settings-menu > li > div > a {
   overflow: hidden;
   font-weight: 700;
-}
-
-.arrow-icon {
-  float: left;
-  font-size: 20px;
-  color: $inverse-text-color;
-  padding-top: $spacing-heading-top;
-  padding-left: 30px;
 }
 
 @media (min-width: 1281px) {
