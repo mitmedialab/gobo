@@ -1,6 +1,9 @@
+$overview-height: 5px;
+
 .overview-post {
-  height: 30px;
-  width: 2px;
+  height: $overview-height;
+  width: 1px;
+  position: absolute;
   display: inline-flex;
 }
 
@@ -9,5 +12,13 @@
 }
 
 .overview-post-visible {
-  background-color: $light-gray;
+  background-color: $purple;
+
+  &.overview-post-additive {
+    background-color: $green;
+  }
+}
+
+.overview-wrapper {
+  height: $overview-height;
 }
