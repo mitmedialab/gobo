@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import Toggle from 'react-toggle';
 import 'react-toggle/style.css';
 import { updateRules, updateSettings } from 'actions/feed';
-import { Button } from '@blueprintjs/core';
 import Input from 'components/Input/Input';
 import SettingsItem from 'components/SettingsItem/SettingsItem';
 import isEnabled, { KEYWORD_FILTER } from 'utils/featureFlags';
@@ -511,13 +510,12 @@ class Settings extends Component {
       }
     });
 
-    const arrowIcon = this.props.minimized ? 'left-open' : 'right-open';
     return (
       <div className="settings-content">
         <ul className="settings-menu">
           <li>
             <header className="settings-header">
-              <Button className="filter-toggle-btn" onClick={this.props.onMinimize}><span className={`arrow-icon icon-${arrowIcon}`} /><h1><span className="sr-only">Collapse/Expand</span>Rules</h1></Button>
+              <h1>Rules</h1>
             </header>
           </li>
           {settings.map((feature, index) => {
@@ -549,8 +547,6 @@ function mapStateToProps(state) {
 Settings.propTypes = {
   dispatch: PropTypes.func.isRequired,
   neutralFB: PropTypes.number.isRequired,
-  minimized: PropTypes.bool.isRequired,
-  onMinimize: PropTypes.func.isRequired,
   feed: PropTypes.object.isRequired,
 };
 

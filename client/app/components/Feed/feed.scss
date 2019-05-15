@@ -1,45 +1,36 @@
 $settings-width: 420px;
-$settings-width-closed: 56px;
+
+.feed-wrapper {
+  padding-top: $rules-mobile-height;
+
+  @include media-breakpoint-up(lg) {
+    padding-top: 0;
+  }
+}
 
 .feed {
-  margin-right: $settings-width;
   width: 100%;
+
+  @include media-breakpoint-up(lg) {
+    margin-right: $settings-width;
+  }
 }
 
 .sidebar {
-  width: $settings-width;
-}
+  width: 100%;
 
-@mixin wide-feed-mixin { margin-right:$settings-width-closed; }
-.feed.wide {
-  @include wide-feed-mixin;
-}
-
-@mixin minimized-sidebar-mixin {  width:$settings-width-closed; }
-.sidebar.minimized {
-  @include minimized-sidebar-mixin;
-}
-
-@media (max-width: 800px) {
-  %wide { @include wide-feed-mixin; }
-  %minimized { @include minimized-sidebar-mixin; }
-
-  .feed {
-    @extend %wide;
-  }
-
-  .sidebar {
-    @extend %minimized;
+  @include media-breakpoint-up(lg) {
+    width: $settings-width;
   }
 }
 
 .posts {
   margin: $spacer-small;
-  margin-left: $spacer-large * 2;
-  margin-right: $spacer-large * 2;
 
-  @media (max-width: 768px) {
-    margin: 10px;
+  @include media-breakpoint-up(lg) {
+    margin: $spacer-small;
+    margin-left: $spacer-large * 2;
+    margin-right: $spacer-large * 2;
   }
 }
 

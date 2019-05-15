@@ -28,7 +28,6 @@ class Feed extends Component {
     this.state = {
       showFilteredOnly: false,
       processing: false,
-      minimizedSettings: false,
     };
   }
 
@@ -41,12 +40,6 @@ class Feed extends Component {
   toggleshowFilteredOnly = () => {
     this.setState({
       showFilteredOnly: !this.state.showFilteredOnly,
-    });
-  }
-
-  toggleSettings = () => {
-    this.setState({
-      minimizedSettings: !this.state.minimizedSettings,
     });
   }
 
@@ -90,39 +83,41 @@ class Feed extends Component {
 
     return (
       <div className="content-with-nav container-fluid">
-        {isEnabled(OVERVIEW) && <OverviewVis feed={this.props.feed} />}
-        <div className="row">
-          <div className={this.state.minimizedSettings ? 'feed wide' : 'feed'}>
-            <div className="posts">
-              {(!this.props.feed.loading_posts) && (this.props.feed.posts.length === 0) &&
-              (<div>
-                <p>We couldn't find any posts for your feed.</p>
-                <p>Did you authenticate your social media accounts?</p>
-                <p>Visit your <Link to="/profile">profile</Link> page to add your accounts.</p>
-                <p>If you did authenticate, try refreshing this page.</p>
-              </div>)}
+        <div className="feed-wrapper">
+          {isEnabled(OVERVIEW) && <OverviewVis feed={this.props.feed} />}
+          <div className="row">
+            <div className="feed">
+              <div className="posts">
+                {(!this.props.feed.loading_posts) && (this.props.feed.posts.length === 0) &&
+                (<div>
+                  <p>We couldn't find any posts for your feed.</p>
+                  <p>Did you authenticate your social media accounts?</p>
+                  <p>Visit your <Link to="/profile">profile</Link> page to add your accounts.</p>
+                  <p>If you did authenticate, try refreshing this page.</p>
+                </div>)}
 
-              {(this.props.feed.loading_posts || this.props.feed.filtering_posts) &&
-              <div>
-                <p className="filtered-text text-center">Hold on while we fetch your feed...</p>
-                <Loader />
-              </div>}
+                {(this.props.feed.loading_posts || this.props.feed.filtering_posts) &&
+                <div>
+                  <p className="filtered-text text-center">Hold on while we fetch your feed...</p>
+                  <Loader />
+                </div>}
 
-              {posts.length > 0 &&
-              <div className="filtered-text text-center">
-                <Button disabled={filteredPosts.filtered.length === 0} onClick={this.toggleshowFilteredOnly} text={filteredLinkText} />
-              </div>}
+                {posts.length > 0 &&
+                <div className="filtered-text text-center">
+                  <Button disabled={filteredPosts.filtered.length === 0} onClick={this.toggleshowFilteredOnly} text={filteredLinkText} />
+                </div>}
 
-              {!this.props.feed.loading_posts && this.props.feed.posts.length > 0 && filteredPosts[showing].length === 0 &&
-              (<div className="no-posts-text">
-                {noPostsText}
-              </div>)}
+                {!this.props.feed.loading_posts && this.props.feed.posts.length > 0 && filteredPosts[showing].length === 0 &&
+                (<div className="no-posts-text">
+                  {noPostsText}
+                </div>)}
 
-              {postsHtml}
+                {postsHtml}
+              </div>
             </div>
-          </div>
-          <div className={this.state.minimizedSettings ? 'sidebar minimized' : 'sidebar'}>
-            <Settings neutralFB={filteredPosts.fb} onMinimize={this.toggleSettings} minimized={this.state.minimizedSettings} />
+            <div className="sidebar">
+              <Settings neutralFB={filteredPosts.fb} />
+            </div>
           </div>
         </div>
       </div>

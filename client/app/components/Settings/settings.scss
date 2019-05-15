@@ -1,5 +1,6 @@
 $handle-color: lighten($text-color, 10%);
 $sidebar-color: #fff;
+$sidebar-text-color: #8e8e8e;
 
 .sidebar {
   top: $navbar-height;
@@ -9,12 +10,19 @@ $sidebar-color: #fff;
   display: block;
   padding: 0;
   background-color: $sidebar-color;
-  color: #8e8e8e;
+  color: $sidebar-text-color;
 
-  padding-bottom: 4em;
   position: fixed;
   right: 0;
-  min-height: 100%;
+
+  height: $rules-mobile-height;
+
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.175);
+
+  @include media-breakpoint-up(lg) {
+    min-height: 100%;
+    box-shadow: unset;
+  }
 
   .filter-toggle-btn {
     background-color: $nav-color;
@@ -36,50 +44,29 @@ $sidebar-color: #fff;
 
 $spacing-heading-top: 25px;
 .settings-content {
-  height: 100%;
   overflow-x: hidden;
   border-style: solid;
   border-width: 0 0 0 1px;
   border-color: $nav-border-color;
-}
 
-.settings-header {
-  height: 80px;
-  background-color: $nav-color;
-
-  h1 {
-    margin: 0px;
-    padding: 0px;
-    padding-top: $spacing-heading-top;
-    margin-left: 150px;
-    color: $inverse-text-color;
+  @include media-breakpoint-up(lg) {
+    height: 100%;
   }
 }
 
 .settings-menu {
   list-style: none;
   padding: 0;
-  padding-bottom: 3em;
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: 3em;
+  }
 }
 
 .settings-menu > li > div > a {
-  //color: #c7c7c7;
   overflow: hidden;
   font-weight: 700;
 }
-
-.setting-item {
-  padding: 0px;
-}
-
-.arrow-icon {
-  float: left;
-  font-size: 20px;
-  color: $inverse-text-color;
-  padding-top: $spacing-heading-top;
-  padding-left: 30px;
-}
-
 
 @media (min-width: 1281px) {
   .sb-menu-icon {
@@ -91,7 +78,6 @@ $spacing-heading-top: 25px;
   float: right;
   line-height: 28px;
   text-align: center;
-  //color: #eeeff1;
 }
 
 .settings-menu li > div> a.menu-open + .setting-controls {
@@ -101,39 +87,52 @@ $spacing-heading-top: 25px;
   clear: both;
   display: none;
   height: auto;
-
-}
-
-.settings-menu {
-  button {
-    color: #000;
-  }
-}
-
-.filter {
-  width: 100%;
-  border-style: solid;
-  border-width: 1px 0 0;
-  border-color: $nav-border-color;
 }
 
 .filter-title-text {
   @extend .tk-futura-pt-bold;
-  vertical-align: middle;
-  font-size:  20px;
-}
-
-.filter-title-icon {
-  font-size:40px;
   vertical-align: top;
-  margin-right: 0.5em;
-  :before {
-    margin-left: 0px;
+  font-size: 14px;
+  color: $sidebar-text-color;
+  height: 45px;
+  display: inline-flex;
+
+  @mixin wide() {
+    vertical-align: middle;
+    font-size: 20px;
+    height: unset;
+  }
+
+  &.wide {
+    @include wide();
+  }
+
+  @include media-breakpoint-up(lg) {
+    @include wide();
   }
 }
 
-.filter-controls {
-  padding: 1em 0;
+.filter-title-icon {
+  $font-size: 35px;
+  font-size: $font-size;
+  line-height: $font-size + 10px;
+  :before {
+    margin-left: 0px;
+  }
+
+  @mixin wide() {
+    font-size: 40px;
+    line-height: 40px;
+    margin-right: 0.5em;
+  }
+
+  &.wide {
+    @include wide();
+  }
+
+  @include media-breakpoint-up(lg) {
+    @include wide();
+  }
 }
 
 .my-gender-ratio {
@@ -202,7 +201,7 @@ $handle-height: 24px;
   height: $handle-height;
   @include shadow($thumb-shadow-size, $thumb-shadow-blur, $thumb-shadow-color);
 
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(lg) {
     width: 10px;
   }
 }
@@ -231,7 +230,7 @@ $handle-height: 24px;
   }
 
   &.mute-men-wrapper {
-    padding-top: 40px;
+    margin-top: 40px;
   }
 
 }
@@ -257,66 +256,103 @@ $handle-height: 24px;
   }
 }
 
-.filter-content {
-  display:flex;
-  padding: 30px 50px 30px 30px;
-}
-
 .rule-setting {
   .filter-icon {
     color: $filter-color;
+    cursor: pointer;
+
+    @include media-breakpoint-up(lg) {
+      cursor: auto;
+    }
   }
   &.filter-icon {
     color: $filter-color;
   }
 }
 
-.filter-inner {
-  width: 100%;
+$control-width: 314px; // manually determind
+.filter {
+  @include media-breakpoint-up(lg) {
+    width: 100%;
+    border-style: solid;
+    border-width: 1px 0 0;
+    border-color: $nav-border-color;
+    height: auto;
+    border-left: 0;
+    margin-top: 0;
+  }
 }
 
-$control-width: 314px; // manually determind
-@mixin small-sidebar {
-  .filter {
-    height: 56px;
+.setting-item {
+  padding: 0;
+  display: inline-flex;
+
+  @include media-breakpoint-up(lg) {
+    display: block;
   }
-  .setting-item {
-    padding: 0;
+}
+
+.filter-inner {
+  width: $control-width - 30px;
+
+  @include media-breakpoint-up(lg) {
+    width: 100%;
   }
-  .filter-inner {
-    transform: translate(100px);
-    width: $control-width;
-  }
-  .settings-menu {
-    position: fixed;
+}
+
+.settings-menu {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+
+  @include media-breakpoint-up(lg) {
+      overflow: auto;
+      white-space: inherit;
   }
 
-  .filter-inner.open{
-    position: absolute;
-    width: $control-width; // manually determind
-    right: 56px;  // width of sidebar
-    transform: translate(-322px);
-    background-color: $sidebar-color;
-    padding: 10px;
-    z-index: 100001;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  button {
+    color: #000;
   }
-  .filter-controls {
-    position: relative;
-  }
+}
 
-  .filter-content{
-    background-color: inherit;
-    height: 56px;
-    padding: 7px 1px;
-  }
+.filter-controls {
+  position: relative;
 
-  .settings-header {
+  @include media-breakpoint-up(lg) {
+    padding: 1em 0;
+  }
+}
+
+.filter-content {
+  background-color: inherit;
+  padding-right: $spacer-small * 0.25;
+  display: flex;
+  border-left: 1px solid $light-gray;
+
+  @include media-breakpoint-up(lg) {
+    padding: 30px 50px 30px 30px;
+    border-left: 0;
+  }
+}
+
+.settings-header {
+  display: none;
+
+  @include media-breakpoint-up(lg) {
+    display: block;
+    height: 80px;
+    background-color: $nav-color;
+
     h1 {
-      display: none;
+      margin: 0px;
+      padding: 0px;
+      padding-top: $spacing-heading-top;
+      margin-left: 150px;
+      color: $inverse-text-color;
     }
   }
 }
+
 .filter-description {
   margin-top: $spacer-small;
   a {
@@ -330,27 +366,6 @@ $control-width: 314px; // manually determind
     border-bottom: 1px dotted $text-color;
     cursor: pointer;
   }
-}
-
-.sidebar.minimized {
-  .filter:first-of-type {
-    height:88px;
-  }
-  .arrow-icon {
-    padding-left: 0;
-  }
-  .filter-content {
-    padding: 9px 0px;
-  }
-  @include small-sidebar;
-}
-
-@media (max-width: 800px) {
-  .settings-header {
-    display: none;
-  }
-
-  @include small-sidebar;
 }
 
 .modal-close-button {
@@ -372,6 +387,7 @@ $control-width: 314px; // manually determind
   }
 
   .filter-modal-description {
+    padding-top: $spacer-small;
     padding-bottom: $spacer-small;
   }
 }
