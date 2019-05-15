@@ -1,5 +1,6 @@
 $handle-color: lighten($text-color, 10%);
 $sidebar-color: #fff;
+$sidebar-text-color: #8e8e8e;
 
 .sidebar {
   top: $navbar-height;
@@ -9,13 +10,12 @@ $sidebar-color: #fff;
   display: block;
   padding: 0;
   background-color: $sidebar-color;
-  color: #8e8e8e;
+  color: $sidebar-text-color;
 
-  padding-bottom: 4em;
   position: fixed;
   right: 0;
 
-  height: 60px;
+  height: $rules-mobile-height;
 
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.175);
 
@@ -91,19 +91,47 @@ $spacing-heading-top: 25px;
 
 .filter-title-text {
   @extend .tk-futura-pt-bold;
-  vertical-align: middle;
-  font-size:  20px;
+  vertical-align: top;
+  font-size: 14px;
+  color: $sidebar-text-color;
+  height: 45px;
+  display: inline-flex;
+
+  @mixin wide() {
+    vertical-align: middle;
+    font-size: 20px;
+    height: unset;
+  }
+
+  &.wide {
+    @include wide();
+  }
+
+  @include media-breakpoint-up(lg) {
+    @include wide();
+  }
 }
 
 .filter-title-icon {
-  font-size:40px;
-  vertical-align: top;
+  $font-size: 35px;
+  font-size: $font-size;
+  line-height: $font-size + 10px;
   :before {
     margin-left: 0px;
   }
 
-  @include media-breakpoint-up(lg) {
+  @mixin wide() {
+    font-size: 40px;
+    line-height: 40px;
     margin-right: 0.5em;
+  }
+
+  &.wide {
+    @include wide();
+  }
+
+  @include media-breakpoint-up(lg) {
+    @include wide();
   }
 }
 
@@ -244,10 +272,6 @@ $handle-height: 24px;
 
 $control-width: 314px; // manually determind
 .filter {
-  height: $rules-mobile-height;
-  border-left: 1px solid $light-gray;
-  margin-top: $spacer-small * 0.25;
-
   @include media-breakpoint-up(lg) {
     width: 100%;
     border-style: solid;
@@ -301,13 +325,13 @@ $control-width: 314px; // manually determind
 
 .filter-content {
   background-color: inherit;
-  height: 56px;
-  padding: 7px 1px;
-  display:flex;
+  padding-right: $spacer-small * 0.25;
+  display: flex;
+  border-left: 1px solid $light-gray;
 
   @include media-breakpoint-up(lg) {
     padding: 30px 50px 30px 30px;
-    height: inherit;
+    border-left: 0;
   }
 }
 
@@ -363,6 +387,7 @@ $control-width: 314px; // manually determind
   }
 
   .filter-modal-description {
+    padding-top: $spacer-small;
     padding-bottom: $spacer-small;
   }
 }

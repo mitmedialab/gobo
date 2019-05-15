@@ -68,7 +68,7 @@ class SettingsItem extends Component {
     const settingsInner = (
       <div className="filter-inner">
         <div className="filter-title">
-          <span className="filter-title-text">{this.props.feature.title}</span>
+          <span className="wide filter-title-text">{this.props.feature.title}</span>
         </div>
         {this.props.feature.subtitle &&
           <div className="filter-subtitle">
@@ -87,7 +87,7 @@ class SettingsItem extends Component {
     const settingsModalStyles = {
       overlay: {
         ...DEFAULT_MODAL_STYLES.overlay,
-        top: '120px',
+        top: '105px',
       },
       content: {
         ...DEFAULT_MODAL_STYLES.content,
@@ -101,7 +101,9 @@ class SettingsItem extends Component {
       <div className={`filter-content ${this.props.feature.ruleCss}`}>
         <div className="filter-icon">
           <span className={`d-none d-lg-block filter-title-icon ${this.props.feature.icon}`} />
-          <span className={`d-lg-none filter-title-icon ${this.props.feature.icon}`} tabIndex="0" role="button" onClick={this.toggleOpen} />
+          <span className={`d-lg-none filter-title-icon ${this.props.feature.icon}`} tabIndex="0" role="button" onClick={this.toggleOpen}>
+            <span className="filter-title-text">{this.props.feature.title}</span>
+          </span>
         </div>
         <span className="d-none d-lg-block">
           {settingsInner}
@@ -121,8 +123,8 @@ class SettingsItem extends Component {
           style={DEFAULT_MODAL_STYLES}
         >
           <div className="filter-title">
-            <span className={`filter-title-icon filter-icon ${this.props.feature.ruleCss} ${this.props.feature.icon}`} />
-            <span className="filter-title-text">{this.props.feature.title}</span>
+            <span className={`wide filter-title-icon filter-icon ${this.props.feature.ruleCss} ${this.props.feature.icon}`} />
+            <span className="wide filter-title-text">{this.props.feature.title}</span>
           </div>
           <div className="filter-modal-description">
             <i>{this.props.feature.desc}</i>
