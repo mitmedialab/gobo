@@ -84,7 +84,6 @@ class Feed extends Component {
     return (
       <div className="content-with-nav container-fluid">
         <div className="feed-wrapper">
-          {isEnabled(OVERVIEW) && <OverviewVis feed={this.props.feed} />}
           <div className="row">
             <div className="feed">
               <div className="posts">
@@ -116,6 +115,7 @@ class Feed extends Component {
               </div>
             </div>
             <div className="sidebar">
+              {isEnabled(OVERVIEW) && <OverviewVis feed={this.props.feed} />}
               <Settings neutralFB={filteredPosts.fb} />
             </div>
           </div>

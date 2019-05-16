@@ -57,6 +57,7 @@ $spacing-heading-top: 25px;
 .settings-menu {
   list-style: none;
   padding: 0;
+  margin-bottom: 0;
 
   @include media-breakpoint-up(lg) {
     padding-bottom: 3em;
