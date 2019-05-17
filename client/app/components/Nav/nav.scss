@@ -18,11 +18,15 @@ $glyphicon-menu-font-size: 17px;
 .navbar {
   z-index: 1030;
   margin-bottom: 0;
-  padding: 0 30px 0;
+  padding: 0 $spacer-small * 0.5 0;
   border-radius: 0;
   border: 0;
   box-shadow: none;
   background-color: $header-color;
+
+  @include media-breakpoint-up(md) {
+    padding: 0 30px 0;
+  }
 }
 
 .navbar .logo {
@@ -83,7 +87,7 @@ $glyphicon-menu-font-size: 17px;
 .navbar-nav.navbar-right .dropdown-menu {
   @include media-breakpoint-up(md) {
     left: -80px;
-  }  
+  }
 }
 
 .open > .dropdown-menu {
