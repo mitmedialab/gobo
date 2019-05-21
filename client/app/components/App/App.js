@@ -32,17 +32,23 @@ class App extends Component {
   render() {
     const Home = this.props.auth.isAuthenticated ? Feed : Landing;
     const homeTitle = this.props.auth.isAuthenticated ? 'feed' : 'landing';
+    const helmet = (
+      <Helmet>
+        <title>Gobo</title>
+        <meta name="description" content="A Site for Gobo Social" />
+      </Helmet>
+    );
+
+    if (this.props.auth.isAuthenticating) {
+      return helmet;
+    }
 
     // Details for dev errors "Invalid prop 'component' supplied to 'Route': the prop is not a valid React component"
     // can be seen in https://github.com/ReactTraining/react-router/issues/6471 -- essentially, it should be
     // fixed at some point with a new version of the router and it's ok as is for now
     return (
       <div>
-        <Helmet>
-          <title>Gobo</title>
-          <meta name="description" content="A Site for Gobo Social" />
-        </Helmet>
-
+        {helmet}
         <Nav auth={this.props.auth} />
         <div role="main">
           <Switch>
@@ -56,7 +62,7 @@ class App extends Component {
             <Route path="/about" component={withTracker(About, { title: 'about' })} />
             <Route path="/privacy" component={withTracker(Privacy, { title: 'privacy' })} />
             <Route path="/forgot_password" component={withTracker(ForgotPassword, { title: 'forgot_password' })} />
-            <Route path="/reset_password%3Ftoken%3D:token" component={withTracker(ResetPassword, { title: 'forgot_password' })} />
+            <Route path="/reset_password%3Ftoken%3D:token" component={withTracker(ResetPassword, { title: 'reset_password' })} />
             <Route path="/api/:function" />
             <Route path="*/" component={NoMatch} />
           </Switch>
