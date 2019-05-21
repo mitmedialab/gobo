@@ -3,7 +3,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from 'react-dom';
-import { BrowserRouter } from 'react-g-analytics';
+import { BrowserRouter } from 'react-router-dom';
+import GoogleAnalytics from 'react-ga';
 
 import App from 'components/App/App';
 import ManageScroll from 'components/ManageScroll/ManageScroll';
@@ -58,9 +59,11 @@ const ravenOptions = {
 Raven.config('https://d2a0fea6a02c4cd490b46c7a7ec91992@sentry.io/221335').install();
 // require('./manageServiceWorker');
 
+GoogleAnalytics.initialize('UA-********-**');
+
 const Root = () => (
   <Provider store={store}>
-    <BrowserRouter id="UA-*******-**">
+    <BrowserRouter>
       <ManageScroll>
         <App />
       </ManageScroll>
