@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { Button } from '@blueprintjs/core';
-import { getPosts, getRules, getSettings } from 'actions/feed';
+import { getPosts, getRules, getSettings, toggleShowHidden } from 'actions/feed';
 
 import isEnabled, { OVERVIEW } from 'utils/featureFlags';
 
@@ -41,6 +41,7 @@ class Feed extends Component {
     this.setState({
       showFilteredOnly: !this.state.showFilteredOnly,
     });
+    this.props.dispatch(toggleShowHidden(!this.state.showFilteredOnly));
   }
 
   render() {

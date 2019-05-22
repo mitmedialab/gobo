@@ -5,7 +5,7 @@ import { Sparklines, SparklinesBars } from 'react-sparklines';
 import PropTypes from 'prop-types';
 import Toggle from 'react-toggle';
 import 'react-toggle/style.css';
-import { updateRules, updateSettings } from 'actions/feed';
+import { updateRules, updateSettings, ruleChanged } from 'actions/feed';
 import Input from 'components/Input/Input';
 import SettingsItem from 'components/SettingsItem/SettingsItem';
 import isEnabled, { KEYWORD_FILTER } from 'utils/featureFlags';
@@ -92,18 +92,19 @@ class Settings extends Component {
     settings[`${key}_min`] = e[0];
     settings[`${key}_max`] = e[1];
     this.setState({ settings });
+    this.props.dispatch(ruleChanged(key, 'slider', `(${e[0]},${e[1]})`));
   }
 
   handleCorporateChange = (e, key) => {
     const settings = { ...this.state.settings };
     settings[key] = !e.target.checked;
     this.setState({ settings });
+    this.props.dispatch(ruleChanged('brands', 'hide', !settings[key]));
   }
 
-  handleInputChange = (e, key) => {
-    const settings = { ...this.state.settings };
-    settings[key] = ['anti-abortion'];
-    this.setState({ settings });
+  handleGenderChange = (e) => {
+    this.handleChange(e, 'gender_female_per');
+    this.props.dispatch(ruleChanged('gender', 'slider', e));
   }
 
   handleChange = (e, key) => {
@@ -142,6 +143,7 @@ class Settings extends Component {
       ratio = Math.round(this.props.neutralFB * 100);
     }
     this.handleChange(ratio, 'gender_female_per');
+    this.props.dispatch(ruleChanged('gender', 'mute-all-men', ratio === 100));
   }
 
   openFilter = (index) => {
@@ -249,7 +251,7 @@ class Settings extends Component {
             max={100}
             withBars
             value={this.state.settings.gender_female_per}
-            onAfterChange={e => this.handleChange(e, 'gender_female_per')}
+            onAfterChange={e => this.handleGenderChange(e)}
             className="slider bar-gender"
           />
           <div className="slider-labels">
@@ -375,6 +377,7 @@ class Settings extends Component {
     const currentRule = rules.filter(rule => rule.id === ruleId)[0];
     currentRule.enabled = e.target.checked;
     this.setState({ rules });
+    this.props.dispatch(ruleChanged(currentRule.title, 'hide', currentRule.enabled));
   }
 
   handleAdditiveRuleToggleChange = (e) => {
@@ -396,6 +399,7 @@ class Settings extends Component {
 
     currentRule.levels = levels;
     this.setState({ rules });
+    this.props.dispatch(ruleChanged(currentRule.title, currentRule.level_display_names[level], e.target.checked));
   }
 
   keywordRule = rule => ({

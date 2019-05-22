@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import { toggleHidden, toggleFlip } from 'actions/post';
 
 import HiddenPost from 'components/Post/HiddenPost';
 import BackOfPost from './BackOfPost';
@@ -29,12 +32,14 @@ class Post extends Component {
     this.setState({
       expandClicked: true,
     });
+    this.props.dispatch(toggleHidden(false));
   }
 
   onCollapseClicked = () => {
     this.setState({
       expandClicked: false,
     });
+    this.props.dispatch(toggleHidden(true));
   }
 
   makePostContent() {
@@ -53,10 +58,12 @@ class Post extends Component {
 
   flip = () => {
     this.setState({ flipped: true });
+    this.props.dispatch(toggleFlip(true));
   }
 
   unFlip = () => {
     this.setState({ flipped: false });
+    this.props.dispatch(toggleFlip(false));
   }
 
   makePostHead = () => {
@@ -121,6 +128,7 @@ class Post extends Component {
 }
 
 Post.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
   virality_max: PropTypes.number.isRequired,
   virality_avg: PropTypes.number.isRequired,
@@ -132,4 +140,4 @@ Post.defaultProps = {
   filtered_by: [],
 };
 
-export default Post;
+export default connect()(Post);
