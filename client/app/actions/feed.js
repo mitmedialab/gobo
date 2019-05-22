@@ -14,6 +14,10 @@ export const GET_RULES_SUCCESS = 'feed/GET_RULES_SUCCESS';
 export const GET_RULES_FAIL = 'feed/GET_RULES_FAIL';
 export const UPDATE_RULES = 'feed/UPDATE_RULES';
 export const UPDATE_SHOW_PLATFORM = 'feed/UPDATE_SHOW_PLATFORM';
+export const TOGGLE_FILTERED_ONLY = 'feed/TOGGLE_FILTERED_ONLY';
+export const RULE_CHANGED = 'feed/RULE_CHANGED';
+export const OPEN_MODAL = 'feed/OPEN_MODAL';
+
 
 /*--------*/
 // Define Action creators
@@ -97,5 +101,23 @@ export function updateShowPlatform(showPlatform) {
   return (dispatch) => {
     dispatch({ type: UPDATE_SHOW_PLATFORM, showPlatform });
     return dispatch(filterPosts({ showPlatform }));
+  };
+}
+
+export function toggleShowHidden(showFilteredOnly) {
+  return (dispatch) => {
+    dispatch({ type: TOGGLE_FILTERED_ONLY, showFilteredOnly });
+  };
+}
+
+export function ruleChanged(rule, component, value) {
+  return (dispatch) => {
+    dispatch({ type: RULE_CHANGED, rule, component, value });
+  };
+}
+
+export function openModal(rule, value) {
+  return (dispatch) => {
+    dispatch({ type: OPEN_MODAL, rule, value });
   };
 }

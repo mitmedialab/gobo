@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ReactModal from 'react-modal';
 
+import { openModal } from 'actions/feed';
+
+
 const DEFAULT_MODAL_STYLES = {
   overlay: {
     position: 'fixed',
@@ -54,6 +57,7 @@ class SettingsItem extends Component {
 
   openModal = () => {
     this.setState({ modalOpen: true });
+    this.props.dispatch(openModal(this.props.feature.title, 'learn-more'));
   }
 
   closeModal = () => {
@@ -153,6 +157,7 @@ function mapStateToProps(state) {
 }
 
 SettingsItem.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onOpen: PropTypes.func.isRequired,

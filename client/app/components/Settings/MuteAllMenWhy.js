@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import ReactModal from 'react-modal';
+
+import { openModal } from 'actions/feed';
 
 const modalStyles = {
   overlay: {
@@ -44,6 +48,7 @@ class MuteAllMenWhy extends Component {
     this.setState({
       openWhyModel: true,
     });
+    this.props.dispatch(openModal('gender', 'why'));
   }
 
   closeWhyModal() {
@@ -87,4 +92,8 @@ class MuteAllMenWhy extends Component {
   }
 }
 
-export default MuteAllMenWhy;
+MuteAllMenWhy.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
+
+export default connect()(MuteAllMenWhy);
