@@ -26,6 +26,7 @@ class User(db.Model):
 
     last_login = db.Column(db.DateTime, nullable=True)
     last_post_fetch = db.Column(db.DateTime, nullable=True)
+    last_active = db.Column(db.DateTime, nullable=True)
 
     facebook_name = db.Column(db.String(255))
     facebook_picture_url = db.Column(db.String(255))
@@ -110,6 +111,10 @@ class User(db.Model):
 
     def update_last_post_fetch(self):
         self.last_post_fetch = datetime.datetime.now()
+        db.session.commit()
+
+    def update_last_active(self):
+        self.last_active = datetime.datetime.now()
         db.session.commit()
 
     def set_facebook_data(self, data):

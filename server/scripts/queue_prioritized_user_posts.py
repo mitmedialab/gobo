@@ -29,20 +29,21 @@ def queue_prioritized_users_posts(db_session):
     logger.info("Searching for {} users to prioritize for updating".format(queue_size))
 
     # helpers for filtering users
-    connected_to_services = or_(User.twitter_authorized == True, User.facebook_authorized == True)
+    connected_to_services = or_(User.twitter_authorized == True,
+                                User.facebook_authorized == True,
+                                User.mastodon_authorized == True,)
     not_fetched_recently = (datetime.now() - User.last_post_fetch) > timedelta(hours=config.HOURS_TO_WAIT)
 
-    # 1. First find connected users that have logged in recently but we haven't updated recently
+    # 1. First find recently active, connected users with stale posts
     if len(prioritized_users) < queue_size:
         matching_users = db_session.query(User).\
             filter(connected_to_services). \
-            filter(User.last_login.isnot(None)). \
+            filter(User.last_active.isnot(None)). \
             filter(User.last_post_fetch.isnot(None)).filter(not_fetched_recently). \
-            order_by(User.last_login.desc()). \
+            order_by(User.last_active.desc()). \
             limit(queue_size - len(prioritized_users))
         matching_user_count = matching_users.count()
-        # pylint: disable=line-too-long
-        logger.debug("  adding {} users that have logged in recently but we haven't updated recently".format(matching_user_count))
+        logger.debug("  adding {} active users but with stale posts".format(matching_user_count))
         prioritized_users.extend(matching_users.all())
 
     # 2. Then add connected users that we've never updated and haven't logged in a while
