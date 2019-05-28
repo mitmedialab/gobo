@@ -48,6 +48,8 @@ class User(db.Model):
     twitter_data = db.Column(db.JSON)
     facebook_data = db.Column(db.JSON)
 
+    hide_tracking = db.Column(db.Boolean, nullable=True, default=False)
+
     posts = db.relationship("Post", secondary=post_associations_table, lazy='dynamic')
     settings = db.relationship("Settings", uselist=False, back_populates="user")
     rule_associations = db.relationship("UserRule", back_populates="user", cascade="delete, delete-orphan")
@@ -90,7 +92,7 @@ class User(db.Model):
     def get_last_post_fetch(self):
         return self.last_post_fetch
 
-    def get_names(self):
+    def serialize(self):
         d = {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name not in [
             'password', 'id', 'posts', 'settings', 'facebook_data']}
         d['mastodon_name'] = ''
@@ -99,6 +101,7 @@ class User(db.Model):
             d['mastodon_name'] = self.mastodon_auth.username
             d['mastodon_domain'] = self.mastodon_auth.app.domain
         d['avatar'] = self.twitter_data['profile_image_url_https'] if self.twitter_data else self.facebook_picture_url
+        d['hide_tracking'] = True if self.hide_tracking else False
         return d
 
     def update_last_login(self):
