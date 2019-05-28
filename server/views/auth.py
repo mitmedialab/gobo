@@ -61,7 +61,7 @@ def login():
     user = User.query.filter_by(email=json_data['email'].lower()).first()
     if user and user.check_password(json_data['password']):
         login_user(user, remember=True)
-        user_result = user.get_names()
+        user_result = user.serialize()
         current_user.update_last_login()
         status = True
     else:
@@ -91,7 +91,7 @@ def logout():
 @login_required
 def confirm_auth():
     return jsonify({'result': current_user.is_authenticated(),
-                    'user': current_user.get_names()})
+                    'user': current_user.serialize()})
 
 
 def delete_user_by_id(user_id, db_session):

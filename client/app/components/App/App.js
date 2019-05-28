@@ -52,17 +52,17 @@ class App extends Component {
         <Nav auth={this.props.auth} />
         <div role="main">
           <Switch>
-            <Route exact path="/" component={withTracker(Home, { title: homeTitle })} />
-            <Route path="/login" component={withTracker(Login, { title: 'login' })} />
-            <Route path="/register" component={withTracker(RegisterWrapper, { title: 'register' })} />
-            <Route path="/feed" component={withTracker(Feed, { title: 'feed' })} />
-            <Route path="/profile" component={withTracker(Profile, { title: 'profile' })} />
+            <Route exact path="/" component={withTracker(Home, { title: homeTitle, user: this.props.auth.user })} />
+            <Route path="/login" component={withTracker(Login, { title: 'login', user: this.props.auth.user })} />
+            <Route path="/register" component={withTracker(RegisterWrapper, { title: 'register', user: this.props.auth.user })} />
+            <Route path="/feed" component={withTracker(Feed, { title: 'feed', user: this.props.auth.user })} />
+            <Route path="/profile" component={withTracker(Profile, { title: 'profile', user: this.props.auth.user })} />
             <Route path="/twitter_callback" component={TwitterCallback} />
             <Route path="/mastodon_auth_complete" component={MastodonAuthComplete} />
-            <Route path="/about" component={withTracker(About, { title: 'about' })} />
-            <Route path="/privacy" component={withTracker(Privacy, { title: 'privacy' })} />
-            <Route path="/forgot_password" component={withTracker(ForgotPassword, { title: 'forgot_password' })} />
-            <Route path="/reset_password%3Ftoken%3D:token" component={withTracker(ResetPassword, { title: 'reset_password' })} />
+            <Route path="/about" component={withTracker(About, { title: 'about', user: this.props.auth.user })} />
+            <Route path="/privacy" component={withTracker(Privacy, { title: 'privacy', user: this.props.auth.user })} />
+            <Route path="/forgot_password" component={withTracker(ForgotPassword, { title: 'forgot_password', user: this.props.auth.user })} />
+            <Route path="/reset_password%3Ftoken%3D:token" component={withTracker(ResetPassword, { title: 'reset_password', user: this.props.auth.user })} />
             <Route path="/api/:function" />
             <Route path="*/" component={NoMatch} />
           </Switch>

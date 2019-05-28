@@ -11,9 +11,11 @@ const withTracker = (WrappedComponent, options = {}) => {
   };
 
   const HOC = (props) => {
-    useEffect(() => trackPage(props.location.pathname), [
-      props.location.pathname,
-    ]);
+    if (!options.user || !options.user.hide_tracking) {
+      useEffect(() => trackPage(props.location.pathname), [
+        props.location.pathname,
+      ]);
+    }
 
     return <WrappedComponent {...props} />;
   };
