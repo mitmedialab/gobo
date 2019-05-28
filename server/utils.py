@@ -1,3 +1,4 @@
+from builtins import zip
 from flask_mail import Message
 
 

@@ -1,5 +1,6 @@
 # pylint: disable=too-many-instance-attributes,no-self-use,too-many-arguments
 
+from builtins import str
 import datetime
 
 from sqlalchemy import event
