@@ -1,5 +1,5 @@
 import logging
-
+import functools
 from flask import request, jsonify
 from flask_login import login_required, current_user
 
@@ -14,8 +14,19 @@ PERSONAL_POSTS_MAX = 300  # how many personal posts to grab
 POSTS_QUINTILE_COUNT = 20  # how many news posts to grab. this number should divide by 5.
 
 
+def update_last_active(func):
+    """Helper for updating user's last active field. current_user is expected."""
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        value = func(*args, **kwargs)
+        current_user.update_last_active()
+        return value
+    return wrapper
+
+
 @api.route('/get_posts', methods=['GET'])
 @login_required
+@update_last_active
 def get_posts():
     personalized_posts = current_user.posts.order_by(Post.created_at.desc())[:PERSONAL_POSTS_MAX]
     ignore_ids = [item.id for item in personalized_posts]
@@ -45,6 +56,7 @@ def get_posts():
 
 @api.route('/get_settings', methods=['GET'])
 @login_required
+@update_last_active
 def get_settings():
     settings = current_user.settings.as_dict()
     return jsonify(settings)
@@ -52,6 +64,7 @@ def get_settings():
 
 @api.route('/update_settings', methods=['POST'])
 @login_required
+@update_last_active
 def update_settings():
     json_data = request.json
 
@@ -70,6 +83,7 @@ def update_settings():
 
 @api.route('/get_rules', methods=['GET'])
 @login_required
+@update_last_active
 def get_rules():
     rules = []
     for association in current_user.rule_associations:
@@ -81,6 +95,7 @@ def get_rules():
 
 @api.route('/toggle_rules', methods=['POST'])
 @login_required
+@update_last_active
 def toggle_rules():
     rules_to_update = request.json['rules']
     updated = False
