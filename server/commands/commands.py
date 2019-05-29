@@ -43,7 +43,7 @@ def create_keyword_rule(creator_id, creator_display_name, title, description, ex
     rule = KeywordRule(creator_id, creator_display_name, title, description, shareable, source, link, split_terms)
     db.session.add(rule)
     db.session.commit()
-    print "Successfully added rule ID: {}".format(rule.id)
+    print("Successfully added rule ID: {}".format(rule.id))
     db.session.close()
 
 
@@ -68,7 +68,7 @@ def create_additive_rule(creator_id, creator_display_name, title, description, l
                         split_terms)
     db.session.add(rule)
     db.session.commit()
-    print "Successfully added rule ID: {}".format(rule.id)
+    print("Successfully added rule ID: {}".format(rule.id))
     db.session.close()
 
 
@@ -78,7 +78,7 @@ def create_additive_rule(creator_id, creator_display_name, title, description, l
 def delete_rule(rule_id):
     db.session.delete(Rule.query.filter_by(id=rule_id).first())
     db.session.commit()
-    print "Deleted rule ID: {}".format(rule_id)
+    print("Deleted rule ID: {}".format(rule_id))
     db.session.close()
 
 
@@ -98,7 +98,7 @@ def share_rule_to_user(user_id, rule_id, enabled):
         db.session.add(setting)
         action = "added"
     db.session.commit()
-    print "Successfully {} setting ID: {}".format(action, setting.id)
+    print("Successfully {} setting ID: {}".format(action, setting.id))
     db.session.close()
 
 
@@ -116,7 +116,7 @@ def share_rule_all_users(rule_id, enabled):
             setting = UserRule(user.id, rule_id, enabled)
             db.session.add(setting)
     db.session.commit()
-    print "Successfully added settings"
+    print("Successfully added settings")
     db.session.close()
 
 
@@ -132,7 +132,7 @@ def share_rule_all_users(rule_id, enabled):
 def add_additive_rule_link(rule_id, level, source, link, name, display_uri):
     """Add link for an additive rule"""
     if source not in ['twitter', 'facebook']:
-        print "Only Facebook and Twitter links are supported currently"
+        print("Only Facebook and Twitter links are supported currently")
         return
 
     rule = AdditiveRule.query.filter_by(id=rule_id).first()
@@ -140,7 +140,7 @@ def add_additive_rule_link(rule_id, level, source, link, name, display_uri):
         rule_link = AdditiveRuleLink(rule_id, source, link, level, name, display_uri)
         db.session.add(rule_link)
         db.session.commit()
-        print "Successfully added link"
+        print("Successfully added link")
         db.session.close()
     else:
-        print "No rule ID '{}' found".format(rule_id)
+        print("No rule ID '{}' found".format(rule_id))

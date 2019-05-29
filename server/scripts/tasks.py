@@ -10,16 +10,16 @@ from flask import current_app
 from raven import Client
 from mastodon import Mastodon, MastodonAPIError
 
-import analyze_modules
+from server.scripts import analyze_modules
 
 # pylint: disable=no-name-in-module,import-error
 from server.config.config import config_map
 from ..models import User, TwitterAuth, Post, MastodonAuth
-from .celery import celery
+from server.scripts.celery import celery
 from ..core import db
 
-from .name_gender import NameGender
-from .gender_classifier.NameClassifier_light import NameClassifier
+from server.scripts.name_gender import NameGender
+from server.scripts.gender_classifier.NameClassifier_light import NameClassifier
 
 logger = getLogger(__name__)
 

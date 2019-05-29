@@ -29,7 +29,7 @@ brew install pyenv
 
 Then install the versions of Python we need:
 ```
-pyenv install 2.7.10
+pyenv install 3.7.3
 ```
 
 #### PyEnv-VirtualEnv
@@ -49,7 +49,7 @@ And then create a virtualenv for this project.  The name is important, because t
 refers to it so it loads automatically when you enter the directory (if `eval "$(pyenv virtualenv-init -)"` 
 is in your `.profile`):
 ```
-pyenv virtualenv 2.7.10 gobo
+pyenv virtualenv 3.7.3 gobo-3.7.3
 ```
 
 #### Requirements and Database

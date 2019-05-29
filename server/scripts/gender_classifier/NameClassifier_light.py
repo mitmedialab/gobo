@@ -4,8 +4,8 @@ __author__ = 'parisazahedi'
 import os
 import unicodedata
 
-from genderComputer.genderComputer import GenderComputer
-from utils import *
+from .genderComputer.genderComputer import GenderComputer
+from .utils import *
 
 
 class NameClassifier:

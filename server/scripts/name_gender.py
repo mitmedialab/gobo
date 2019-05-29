@@ -24,7 +24,7 @@ class NameGender:
         score = {'result': GenderEnum.unknown, 'counts': 0}
 
         if name and name != "":
-            if (isinstance(name, basestring) and name != ""):
+            if (isinstance(name, str) and name != ""):
 
                 first_name = name.split(" ")[0].lower()
             else:
@@ -90,7 +90,7 @@ class NameGender:
         full_path = os.path.realpath(__file__)
         filepath = os.path.join(os.path.dirname(full_path), 'static_data/names/{}')
 
-        with open(filepath.format(count_file_name), 'rb') as csvfile:
+        with open(filepath.format(count_file_name), 'rt') as csvfile:
             namesreader = csv.reader(csvfile)
             for name_pair in namesreader:
                 count_data[name_pair[0].lower()] = float(name_pair[1])
