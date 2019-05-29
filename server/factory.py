@@ -54,7 +54,7 @@ def create_app(env=None):
     return app
 
 
-def create_celery_app(app=None, **kwargs):
+def create_celery_app(app=None):
     env = os.getenv('FLASK_ENV', 'dev')
     app = app or create_app(env.lower())
     celery = Celery(__name__, broker=app.config['CELERY_BROKER_URL'])

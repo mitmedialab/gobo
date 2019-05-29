@@ -1,2 +1,2 @@
 -r common.txt
-pylint==1.9.3
+pylint==2.3.1

@@ -10,6 +10,6 @@ class GenderEnum(enum.Enum):
     def fromString(cls, string):
         if string.lower() == "female":
             return cls.female
-        elif string.lower() == "male":
+        if string.lower() == "male":
             return cls.male
         return cls.unknown
