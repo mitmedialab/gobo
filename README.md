@@ -97,14 +97,13 @@ Run the Flask server locally:
 $ ./run.sh
 ```
 
-In order to fetch posts from FB and Twitter you need to run the redis-server and celery worker locally.  Open 2 new shell terminals, and activate the virtualenv. Then run:
+In order to fetch posts from Facebook, Twitter, and Mastodon you need to run the redis-server and celery worker locally.  Open 2 new shell terminals. Then run:
 ```shell
 $ redis-server
 ```
 
 And in the other one:
 ```shell
-$ source venv/bin/activate
 $ celery -A server.scripts.tasks worker
 ```
 

@@ -647,7 +647,7 @@ class GenderComputer():
                 break
 
         # If all countries have twitter user stats, then use stats of twitter users, else use stats of internet users
-        for cnt, gnd in countriesGenders.iteritems():
+        for cnt, gnd in countriesGenders.items():
             userNum = self.countryStats[cnt][1] if hasStat else self.countryStats[cnt][0]
             #
             # try:
