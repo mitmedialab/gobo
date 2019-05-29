@@ -1,7 +1,7 @@
 import os
 import logging
 from datetime import datetime, timedelta
-from urlparse import urljoin
+from urllib.parse import urljoin
 
 import requests
 import click
