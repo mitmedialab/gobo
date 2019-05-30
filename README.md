@@ -15,7 +15,7 @@ Gobo is a [Flask](http://flask.pocoo.org)-based server side, which uses [React](
 
 ### Backend
 
-Gobo uses Python 2.7.x.
+Gobo uses Python 3.7.x.
 
 Create `config.py` in `server/config/` using the provided template to hold the right api keys and database url.
 
