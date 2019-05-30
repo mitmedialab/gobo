@@ -1,6 +1,6 @@
 import os
 import logging
-from urllib.parse import urlparse
+import urllib.parse as up
 
 import psycopg2
 
@@ -17,8 +17,8 @@ config = config_map[config_type]
 NUM_DAYS = 14
 BATCH_DELETE_LIMIT = 5000
 
-urlparse.uses_netloc.append("postgres")
-url = urlparse.urlparse(config.SQLALCHEMY_DATABASE_URI)
+up.uses_netloc.append("postgres")
+url = up.urlparse(config.SQLALCHEMY_DATABASE_URI)
 
 conn = psycopg2.connect(
     database=url.path[1:],
