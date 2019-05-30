@@ -5,9 +5,9 @@ import csv
 
 
 def toUnicode(obj, encoding='utf-8'):
-    if isinstance(obj, basestring):
-        if not isinstance(obj, unicode):
-            obj = unicode(obj, encoding)
+    # if isinstance(obj, str):
+    #     if not isinstance(obj, unicode):
+    #         obj = unicode(obj, encoding)
     return obj
 
 

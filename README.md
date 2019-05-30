@@ -15,7 +15,7 @@ Gobo is a [Flask](http://flask.pocoo.org)-based server side, which uses [React](
 
 ### Backend
 
-Gobo uses Python 2.7.x.
+Gobo uses Python 3.7.x.
 
 Create `config.py` in `server/config/` using the provided template to hold the right api keys and database url.
 
@@ -29,7 +29,7 @@ brew install pyenv
 
 Then install the versions of Python we need:
 ```
-pyenv install 2.7.10
+pyenv install 3.7.3
 ```
 
 #### PyEnv-VirtualEnv
@@ -49,7 +49,7 @@ And then create a virtualenv for this project.  The name is important, because t
 refers to it so it loads automatically when you enter the directory (if `eval "$(pyenv virtualenv-init -)"` 
 is in your `.profile`):
 ```
-pyenv virtualenv 2.7.10 gobo
+pyenv virtualenv 3.7.3 gobo-3.7.3
 ```
 
 #### Requirements and Database
@@ -97,14 +97,13 @@ Run the Flask server locally:
 $ ./run.sh
 ```
 
-In order to fetch posts from FB and Twitter you need to run the redis-server and celery worker locally.  Open 2 new shell terminals, and activate the virtualenv. Then run:
+In order to fetch posts from Facebook, Twitter, and Mastodon you need to run the redis-server and celery worker locally.  Open 2 new shell terminals. Then run:
 ```shell
 $ redis-server
 ```
 
 And in the other one:
 ```shell
-$ source venv/bin/activate
 $ celery -A server.scripts.tasks worker
 ```
 

@@ -91,7 +91,7 @@ def analyze_virality(post_id):
     comments = post.get_comments_count()
     shares = post.get_shares_count()
     total_reaction = likes+shares+comments
-    post.virality_count = max(post.virality_count, total_reaction)
+    post.virality_count = max(post.virality_count if post.has_virality() else 0, total_reaction)
     db.session.commit()
 
 

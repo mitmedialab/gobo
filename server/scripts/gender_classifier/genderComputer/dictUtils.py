@@ -57,7 +57,7 @@ class MyDict:
     def __init__(self, path=None, encod=None):
         self.data = {}
         if path is not None:
-            fdict = open(path, "r")
+            fdict = open(path, "rb")
             if encod is not None:
                 dict1 = pickle.load(fdict, encoding=encod)
             else:
@@ -123,7 +123,7 @@ class MyDict:
             f.write('%s\n' % rs)
 
         f.close()
-        print "Wrote dictionary to %s" % path
+        print("Wrote dictionary to %s" % path)
 
     def __getitem__(self, key):
         if key in self.data:

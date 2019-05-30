@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import os
 from importlib import import_module
 
@@ -5,7 +6,7 @@ from celery import Celery
 from flask import Flask
 from raven.contrib.flask import Sentry
 
-from commands.commands import add_additive_rule_link, create_additive_rule, create_db, create_keyword_rule, \
+from .commands.commands import add_additive_rule_link, create_additive_rule, create_db, create_keyword_rule, \
     delete_rule, drop_db, share_rule_to_user, share_rule_all_users
 
 from .core import db, bcrypt, login_manager, mail, migrate
@@ -63,7 +64,7 @@ def create_celery_app(app=None):
     celery.conf.update({
         'worker_max_tasks_per_child': 10,
         'task_soft_time_limit': thirty_minutes,
-        'worker_max_memory_per_child': 400000  # 400MB
+        'worker_max_memory_per_child': 400000,  # 400MB
     })
 
     TaskBase = celery.Task

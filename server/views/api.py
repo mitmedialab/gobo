@@ -1,10 +1,10 @@
 # pylint: disable=unused-import
 import logging
 
-import social_auth
-import auth
-import feed
-import beta_password
+import server.views.social_auth
+import server.views.auth
+import server.views.feed
+import server.views.beta_password
 
 from server.core import login_manager
 from server.models import User

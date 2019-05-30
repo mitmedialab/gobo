@@ -1,4 +1,4 @@
-class BaseConfig(object):
+class BaseConfig:
     # Controls lots of internal things.  Set to True locally; False on production.
     DEBUG = True
 

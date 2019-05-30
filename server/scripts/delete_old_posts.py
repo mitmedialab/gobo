@@ -1,6 +1,6 @@
 import os
 import logging
-import urlparse
+from urllib.parse import urlparse
 
 import psycopg2
 
@@ -77,7 +77,7 @@ try:
     conn.commit()
 except Exception as e:
     logger.exception(e)
-    print "There was an error executing posts clean up"
+    print("There was an error executing posts clean up")
 
 cur.close()
 conn.close()

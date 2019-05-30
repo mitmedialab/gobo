@@ -1,5 +1,6 @@
 # pylint: disable=too-many-instance-attributes,no-self-use,too-many-arguments
 
+from builtins import str
 import datetime
 
 from sqlalchemy import event
@@ -102,7 +103,8 @@ class User(db.Model):
             d['mastodon_name'] = self.mastodon_auth.username
             d['mastodon_domain'] = self.mastodon_auth.app.domain
         d['avatar'] = self.twitter_data['profile_image_url_https'] if self.twitter_data else self.facebook_picture_url
-        d['hide_tracking'] = True if self.hide_tracking else False
+
+        d['hide_tracking'] = False if self.hide_tracking is None else self.hide_tracking
         return d
 
     def update_last_login(self):

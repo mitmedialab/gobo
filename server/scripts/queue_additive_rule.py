@@ -1,7 +1,7 @@
 import os
 import logging
 from datetime import datetime, timedelta
-from urlparse import urljoin
+from urllib.parse import urljoin
 
 import requests
 import click
@@ -46,9 +46,9 @@ def get_facebook_posts(max_posts, link):
     try:
         result = r.json()
     except ValueError:
-        logger.warn("Unable to parse {}".format(url))
+        logger.warning("Unable to parse {}".format(url))
     if 'error' in result:
-        logger.warn(" unable to fetch FB data - error {} - {}".format(
+        logger.warning(" unable to fetch FB data - error {} - {}".format(
             result['error']['type'], result['error']['message']))
     else:
         logger.info(" adding {} facebook posts".format(len(result['data'])))

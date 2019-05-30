@@ -1,5 +1,5 @@
 import logging
-from urlparse import urljoin
+from urllib.parse import urljoin
 
 from flask import abort, request, jsonify, session
 from flask import current_app as app
@@ -168,4 +168,4 @@ def get_facebook_long_auth(token):
 
             tasks.get_facebook_posts_per_user.delay(current_user.get_id())
         except:
-            print 'error in facebook auth'
+            print('error in facebook auth')

@@ -21,11 +21,11 @@ import os
 import re
 import csv
 from unidecode import unidecode
-from unicodeMagic import UnicodeReader
-from dictUtils import MyDict
-from nameUtils import only_greek_chars, only_cyrillic_chars
-from nameUtils import leet2eng, inverseNameParts, extractFirstName
-from filters import normaliseCountryName
+from .unicodeMagic import UnicodeReader
+from .dictUtils import MyDict
+from .nameUtils import only_greek_chars, only_cyrillic_chars
+from .nameUtils import leet2eng, inverseNameParts, extractFirstName
+from .filters import normaliseCountryName
 
 
 def simplifiedGender(gender):
@@ -69,20 +69,20 @@ def loadData(country, dataPath, hasHeader=True, script="Latin"):
             except:
                 '''If second column does not exist, default to count=1'''
                 count = 1
-                if names.has_key(name):
+                if name in names:
                     '''If here then I've seen this name before, modulo case.
                     Only count once (there is no frequency information anyway)'''
                     count = 0
-            if names.has_key(name):
+            if name in names:
                 names[name] += count
             else:
                 names[name] = count
         fd.close()
 
         '''Add versions without diacritics'''
-        for name in names.keys():
+        for name in list(names):
             dname = unidecode(name)
-            if not names.has_key(dname):
+            if not dname in names:
                 names[dname] = names[name]
 
         return names
@@ -96,7 +96,7 @@ def loadData(country, dataPath, hasHeader=True, script="Latin"):
 
 
 def getScriptMap(dataPath):
-    fd = open(os.path.join(dataPath, 'script_map.csv'), 'rb')
+    fd = open(os.path.join(dataPath, 'script_map.csv'), 'rt')
     reader = csv.reader(fd)
 
     scripts_dict = dict()
@@ -111,7 +111,7 @@ def getScriptMap(dataPath):
 
         colnum = len(row)
 
-        for i in xrange(2, colnum):
+        for i in range(2, colnum):
             scripts_dict[row[0]].append(row[i].strip())
     fd.close()
     return (scripts_dict)
@@ -349,7 +349,7 @@ class GenderComputer():
         # for country in self.countryStats.keys():
         # 	self.countryStats[country] = self.countryStats[country] / total
         #
-        print 'Finished initialization'
+        print('Finished initialization')
 
     '''Look <firstName> (and potentially its diminutives) up for <country>.
 	Decide gender based on frequency.'''
@@ -647,7 +647,7 @@ class GenderComputer():
                 break
 
         # If all countries have twitter user stats, then use stats of twitter users, else use stats of internet users
-        for cnt, gnd in countriesGenders.iteritems():
+        for cnt, gnd in countriesGenders.items():
             userNum = self.countryStats[cnt][1] if hasStat else self.countryStats[cnt][0]
             #
             # try:
@@ -860,12 +860,11 @@ if __name__ == "__main__":
     dataPath = os.path.abspath(".")
     gc = GenderComputer(os.path.join(dataPath, 'nameLists'))
 
-    print 'Test suite 1'
+    print('Test suite 1')
     for (name, country) in testSuite1:
-        print [unidecode(name), country], gc.render(name, country, None, "Latin")
-        print [unidecode(name), country], gc.resolveGender(name, "Latin")
+        print([unidecode(name), country], gc.render(name, country, None, "Latin"))
+        print([unidecode(name), country], gc.resolveGender(name, "Latin"))
 
-    print
-    print 'Test suite 2'
+    print('Test suite 2')
     for (name, country) in testSuite2:
         print [unidecode(name), country], gc.resolveGender(name, country, None, "Latin")
