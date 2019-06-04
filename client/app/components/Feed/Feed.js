@@ -5,11 +5,12 @@ import { Link, Redirect } from 'react-router-dom';
 import { Button } from '@blueprintjs/core';
 import { getPosts, getRules, getSettings, toggleShowHidden } from 'actions/feed';
 
-import isEnabled, { OVERVIEW } from 'utils/featureFlags';
+import isEnabled, { OVERVIEW, TOUR } from 'utils/featureFlags';
 
 import Post from 'components/Post/Post';
 import Settings from 'components/Settings/Settings';
 import Loader from 'components/Loader/Loader';
+import Tour from 'components/Tour/Tour';
 
 import OverviewVis from 'components/OverviewVis/OverviewVis';
 
@@ -121,6 +122,7 @@ class Feed extends Component {
             </div>
           </div>
         </div>
+        {isEnabled(TOUR) && <Tour />}
       </div>
     );
   }
