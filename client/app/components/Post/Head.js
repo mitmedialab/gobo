@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { getPostDateString } from 'utils/misc';
+import isEnabled, { SORT_VIRALITY } from 'utils/featureFlags';
 
 
 const Head = props => (
@@ -22,7 +23,7 @@ const Head = props => (
     }
     <div className="post-header-details">
       <div className="author">
-        {props.author} {props.account && <span className="account">{props.account}</span>}
+        {isEnabled(SORT_VIRALITY) && `[${props.position}/${props.totalCount}]`} {props.author} {props.account && <span className="account">{props.account}</span>}
       </div>
       <div className="date">
         <a href={props.link} target="_blank" rel="noopener noreferrer">{getPostDateString(props.post)}</a>
@@ -38,6 +39,8 @@ Head.propTypes = {
   picSrc: PropTypes.string.isRequired,
   iconClass: PropTypes.string.isRequired,
   showLogo: PropTypes.bool.isRequired,
+  totalCount: PropTypes.number.isRequired,
+  position: PropTypes.number.isRequired,
   repost: PropTypes.object,
   account: PropTypes.string,
 };

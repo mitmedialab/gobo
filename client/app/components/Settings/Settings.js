@@ -8,7 +8,7 @@ import 'react-toggle/style.css';
 import { updateRules, updateSettings, ruleChanged } from 'actions/feed';
 import Input from 'components/Input/Input';
 import SettingsItem from 'components/SettingsItem/SettingsItem';
-import isEnabled, { KEYWORD_FILTER } from 'utils/featureFlags';
+import isEnabled, { KEYWORD_FILTER, SORT_VIRALITY } from 'utils/featureFlags';
 import { getFilterReasonIcon } from 'utils/filtering';
 import { calculateBins } from 'utils/misc';
 import MuteAllMenWhy from './MuteAllMenWhy';
@@ -78,6 +78,10 @@ class Settings extends Component {
       keys.push('keywordsAnd');
     }
 
+    if (isEnabled(SORT_VIRALITY)) {
+      keys.push('sortVirality');
+    }
+
     let isChanged = false;
     keys.forEach((key) => {
       if (prevSettings[key] !== currSettings[key]) {
@@ -134,6 +138,20 @@ class Settings extends Component {
           keywordsAnd,
         },
       });
+    }
+  }
+
+  handleViralityKeypress = (e) => {
+    if (e.key === 'Enter') {
+      const sortVirality = e.target.value.length > 0 ? e.target.value.toLowerCase() : '';
+      if (['asc', 'desc', ''].includes(sortVirality)) {
+        this.setState({
+          settings: {
+            ...this.state.settings,
+            sortVirality,
+          },
+        });
+      }
     }
   }
 
@@ -492,6 +510,24 @@ class Settings extends Component {
     };
   }
 
+  viralitySortSetting = () => ({
+    title: 'PoC - Sort by Virality',
+    icon: getFilterReasonIcon('virality'),
+    desc: 'Clear/Empty to reset, ASC for ascending, DESC for descending',
+    key: 'sortVirality',
+    longDesc: 'Proof of Concept.',
+    ruleCss: 'rule-setting',
+    content: (
+      <Input
+        text="Input: blank, asc, desc"
+        type="text"
+        errorMessage=""
+        emptyMessage=""
+        handleKeypress={this.handleViralityKeypress}
+      />
+    ),
+  })
+
   render() {
     const settings = [
       this.seriousnessSetting(),
@@ -500,6 +536,11 @@ class Settings extends Component {
       this.brandsSetting(),
       this.obscuritySetting(),
     ];
+
+
+    if (isEnabled(SORT_VIRALITY)) {
+      settings.unshift(this.viralitySortSetting());
+    }
 
     if (isEnabled(KEYWORD_FILTER)) {
       settings.push(this.keywordOrSetting());

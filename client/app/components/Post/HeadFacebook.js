@@ -6,7 +6,7 @@ import Head from './Head';
 
 
 const HeadFacebook = (props) => {
-  const { post } = props;
+  const { post, totalCount, position } = props;
   const { content } = post;
   const picSrc = (content.from && content.from.picture) ? content.from.picture.data.url : '';
   let author = post.content.from ? post.content.from.name : '';
@@ -28,6 +28,8 @@ const HeadFacebook = (props) => {
       link={content.permalink_url}
       iconClass={getSourceIcon('facebook')}
       showLogo={props.showLogo}
+      totalCount={totalCount}
+      position={position}
     />
   );
 };
@@ -35,6 +37,8 @@ const HeadFacebook = (props) => {
 HeadFacebook.propTypes = {
   post: PropTypes.object.isRequired,
   showLogo: PropTypes.bool.isRequired,
+  totalCount: PropTypes.number.isRequired,
+  position: PropTypes.number.isRequired,
 };
 
 export default HeadFacebook;

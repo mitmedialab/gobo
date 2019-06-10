@@ -67,15 +67,15 @@ class Post extends Component {
   }
 
   makePostHead = () => {
-    const { post } = this.props;
+    const { post, totalCount, position } = this.props;
     const showLogo = this.props.filtered_by.length === 0;
     switch (post.source) {
       case 'twitter':
-        return (<HeadTwitter post={post} showLogo={showLogo} />);
+        return (<HeadTwitter post={post} showLogo={showLogo} totalCount={totalCount} position={position} />);
       case 'facebook':
-        return (<HeadFacebook post={post} showLogo={showLogo} />);
+        return (<HeadFacebook post={post} showLogo={showLogo} totalCount={totalCount} position={position} />);
       case 'mastodon':
-        return (<HeadMastodon post={post} showLogo={showLogo} />);
+        return (<HeadMastodon post={post} showLogo={showLogo} totalCount={totalCount} position={position} />);
       default:
         return (<div />);
     }
@@ -134,6 +134,8 @@ Post.propTypes = {
   virality_avg: PropTypes.number.isRequired,
   isCollapsable: PropTypes.bool.isRequired,
   filtered_by: PropTypes.array,
+  totalCount: PropTypes.number.isRequired,
+  position: PropTypes.number.isRequired,
 };
 
 Post.defaultProps = {
