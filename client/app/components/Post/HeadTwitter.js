@@ -6,7 +6,7 @@ import Head from './Head';
 
 
 const HeadTwitter = (props) => {
-  const { post } = props;
+  const { post, totalCount, position } = props;
   let { content } = post;
   let repost = {};
   if (content.retweeted_status) {
@@ -28,6 +28,8 @@ const HeadTwitter = (props) => {
       repost={repost}
       iconClass={getSourceIcon('twitter')}
       showLogo={props.showLogo}
+      totalCount={totalCount}
+      position={position}
     />
   );
 };
@@ -35,6 +37,8 @@ const HeadTwitter = (props) => {
 HeadTwitter.propTypes = {
   post: PropTypes.object.isRequired,
   showLogo: PropTypes.bool.isRequired,
+  totalCount: PropTypes.number.isRequired,
+  position: PropTypes.number.isRequired,
 };
 
 export default HeadTwitter;

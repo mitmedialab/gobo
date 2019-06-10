@@ -285,9 +285,29 @@ export function getFilteredPosts(posts, settings, rules, showPlatform) {
   };
 }
 
+/**
+ * Sort by virality. This is experimental functionality that should be moved
+ * into it's own utility file and called by redux rather than from w/in filtering.
+ */
+function sortByVirality(posts, reverse) {
+  const sortedPosts = [...posts].sort((a, b) => a.virality_count - b.virality_count);
+  if (reverse) {
+    return sortedPosts.reverse();
+  }
+  return sortedPosts;
+}
+
 export default function calculateFilteredPosts(posts, settings, rules, showPlatform) {
-  const { inFeedPosts, filteredPosts, filterReasons, maxVirality, viralityAvg } = getFilteredPosts(posts, settings, rules, showPlatform);
+  const filteredMetadata = getFilteredPosts(posts, settings, rules, showPlatform);
+  const { filteredPosts, filterReasons, maxVirality, viralityAvg } = filteredMetadata;
+  let { inFeedPosts } = filteredMetadata;
   const neutralFb = calculateGenderRatio(posts);
+
+  // TODO:
+  if (settings.sortVirality) {
+    inFeedPosts = sortByVirality(inFeedPosts, settings.sortVirality === 'asc');
+  }
+
   return {
     inFeedPosts,
     filtered: filteredPosts,

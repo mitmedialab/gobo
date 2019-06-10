@@ -6,7 +6,7 @@ import Head from './Head';
 
 
 const HeadMastodon = (props) => {
-  const { post } = props;
+  const { post, totalCount, position } = props;
   let { content } = post;
   let repost = {};
 
@@ -30,6 +30,8 @@ const HeadMastodon = (props) => {
       repost={repost}
       iconClass={getSourceIcon('mastodon')}
       showLogo={props.showLogo}
+      totalCount={totalCount}
+      position={position}
     />
   );
 };
@@ -37,6 +39,8 @@ const HeadMastodon = (props) => {
 HeadMastodon.propTypes = {
   post: PropTypes.object.isRequired,
   showLogo: PropTypes.bool.isRequired,
+  totalCount: PropTypes.number.isRequired,
+  position: PropTypes.number.isRequired,
 };
 
 export default HeadMastodon;

@@ -5,7 +5,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { Button } from '@blueprintjs/core';
 import { getPosts, getRules, getSettings, toggleShowHidden } from 'actions/feed';
 
-import isEnabled, { OVERVIEW, TOUR } from 'utils/featureFlags';
+import isEnabled, { OVERVIEW, TOUR, SORT_VIRALITY } from 'utils/featureFlags';
 
 import Post from 'components/Post/Post';
 import Settings from 'components/Settings/Settings';
@@ -78,6 +78,8 @@ class Feed extends Component {
             virality_max={filteredPosts.virality_max}
             virality_avg={filteredPosts.virality_avg}
             isCollapsable={isCollapsable}
+            totalCount={postsToDisplay.length}
+            position={isEnabled(SORT_VIRALITY) ? this.props.feed.posts.indexOf(post) + 1 : 0}
           />
         );
       });

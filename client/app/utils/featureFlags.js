@@ -3,6 +3,7 @@ import { getQueryParam } from './url';
 export const KEYWORD_FILTER = 'kwfilter';
 export const OVERVIEW = 'overview';
 export const TOUR = 'tour';
+export const SORT_VIRALITY = 'sort';
 
 
 /**
