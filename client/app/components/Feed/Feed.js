@@ -67,7 +67,7 @@ class Feed extends Component {
       } else {
         postsToDisplay = posts;
       }
-      postsHtml = postsToDisplay.map((post) => {
+      postsHtml = postsToDisplay.map((post, i) => {
         const filterReasons = filteredPosts.reasons[post.id];
         const isCollapsable = filterReasons && filterReasons.length > 0 && !this.state.showFilteredOnly;
         return (
@@ -78,8 +78,7 @@ class Feed extends Component {
             virality_max={filteredPosts.virality_max}
             virality_avg={filteredPosts.virality_avg}
             isCollapsable={isCollapsable}
-            totalCount={postsToDisplay.length}
-            position={isEnabled(SORT_VIRALITY) ? this.props.feed.posts.indexOf(post) + 1 : 0}
+            position={isEnabled(SORT_VIRALITY) ? this.props.feed.posts.indexOf(post) - i : 0}
           />
         );
       });
