@@ -32,15 +32,18 @@ def drop_db():
 @click.option('--title', required=True, type=str, help='Rule title (short)')
 @click.option('--description', required=True, type=str, help='Rule description (long)')
 @click.option('--exclude-terms', required=True, type=str, help='Terms to exclude--separate by commas.')
+@click.option('--control-display-name', required=True, type=str, help='Text to display on the toggle.')
 @click.option('--shareable', required=False, type=bool, default=True, help='Whether to share the rule publicly.')
 @click.option('--source', required=False, type=str, default='gobo', help='Source for how this rule was generated')
 @click.option('--link', required=False, type=str, help='URL to include in the rule.')
 @with_appcontext
 # pylint: disable=too-many-arguments
-def create_keyword_rule(creator_id, creator_display_name, title, description, exclude_terms, shareable, source, link):
+def create_keyword_rule(creator_id, creator_display_name, title, description, exclude_terms, control_display_name,
+                        shareable, source, link):
     """Creates a new keyword rule."""
     split_terms = [term.strip() for term in exclude_terms.split(',')]
-    rule = KeywordRule(creator_id, creator_display_name, title, description, shareable, source, link, split_terms)
+    rule = KeywordRule(creator_id, creator_display_name, title, description, shareable, source, link, split_terms,
+                       control_display_name)
     db.session.add(rule)
     db.session.commit()
     print("Successfully added rule ID: {}".format(rule.id))

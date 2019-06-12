@@ -426,7 +426,7 @@ class Settings extends Component {
     desc: rule.description,
     key: `${rule.id}-${rule.title}`,
     longDesc: (<div>
-      <p>Political news can be overwhelming! With 2020 coming up, election news is beginning to dominate the media. What if you could take a break from it? Gobo lets you hide posts about candidates running for the US 2020 Presidential election. We created a list of the current candidates, along with some other election-related phrases. Any post containing a word from this list is hidden from your feed.</p>
+      <p>{rule.long_description}</p>
       <p>Hiding posts that contain any of these words:</p>
     </div>),
     longDescList: rule.exclude_terms,
@@ -442,7 +442,7 @@ class Settings extends Component {
             icons={false}
             className="rule-toggle"
           />
-          <span className="toggle-label">Hide election posts</span>
+          <span className="toggle-label">{rule.control_display_name}</span>
         </label>
       </div>
     ),
