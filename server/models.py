@@ -488,6 +488,7 @@ class Rule(db.Model):
     link = db.Column(db.String(255))
     exclude_terms = db.Column(ARRAY(db.String(255)))
     level_display_names = db.Column(ARRAY(db.String(255)))
+    control_display_name = db.Column(db.String(255))
     type = db.Column(db.String(255), nullable=False)  # e.g. additive, keyword
     created_at = db.Column(db.DateTime, nullable=False)
     last_modified = db.Column(db.DateTime, nullable=False)
@@ -560,15 +561,17 @@ class KeywordRule(Rule):
     }
 
     def __init__(self, creator_user_id, creator_display_name, title, description, shareable, source, link,
-                 exclude_terms):
+                 exclude_terms, control_display_name):
         super(KeywordRule, self).__init__(creator_user_id, creator_display_name, title, description, shareable,
                                           source, link, 'keyword')
         self.exclude_terms = exclude_terms
+        self.control_display_name = control_display_name
 
     def serialize(self):
         rule_dict = super(KeywordRule, self).serialize()
         rule_dict.update({
             'exclude_terms': self.exclude_terms,
+            'control_display_name': self.control_display_name,
         })
         return rule_dict
 
