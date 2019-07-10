@@ -2,20 +2,18 @@ $overview-height: 5px;
 
 .overview-post {
   height: $overview-height;
-  width: 1px;
-  position: absolute;
   display: inline-flex;
 }
 
 .overview-post-filtered {
-  background-color: $filter-color;
+  background-color: $background-color;
 }
 
 .overview-post-visible {
-  background-color: $purple;
+  background-color: $primary-color;
 
   &.overview-post-additive {
-    background-color: $green;
+    background-color: $additive-color;
   }
 }
 
