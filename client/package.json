@@ -67,7 +67,6 @@
     "react-slider": "^0.11.2",
     "react-sparklines": "^1.7.0",
     "react-toggle": "^4.0.2",
-    "react-tooltip": "^3.10.0",
     "redux": "^3.5.2",
     "redux-thunk": "^2.2.0",
     "sass-loader": "^6.0.5",

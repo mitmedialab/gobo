@@ -5,7 +5,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { Button } from '@blueprintjs/core';
 import { getPosts, getRules, getSettings, toggleShowHidden } from 'actions/feed';
 
-import isEnabled, { OVERVIEW, TOUR, SORT_VIRALITY } from 'utils/featureFlags';
+import isEnabled, { TOUR, SORT_VIRALITY } from 'utils/featureFlags';
 
 import Post from 'components/Post/Post';
 import Settings from 'components/Settings/Settings';
@@ -89,6 +89,7 @@ class Feed extends Component {
         <div className="feed-wrapper">
           <div className="row">
             <div className="feed">
+              <OverviewVis feed={this.props.feed} />
               <div className="posts">
                 {(!this.props.feed.loading_posts) && (this.props.feed.posts.length === 0) &&
                 (<div>
@@ -118,7 +119,6 @@ class Feed extends Component {
               </div>
             </div>
             <div className="sidebar">
-              {isEnabled(OVERVIEW) && <OverviewVis feed={this.props.feed} />}
               <Settings neutralFB={filteredPosts.fb} />
             </div>
           </div>
