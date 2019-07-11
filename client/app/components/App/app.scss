@@ -101,7 +101,6 @@ $dark-blue: #080533;
 $background: $background-color;
 
 $navbar-height: 60px;
-$navbar-height-desktop: 48px;
 
 $rules-mobile-height: 45px;
 
@@ -200,7 +199,7 @@ body {
 .content-with-nav {
 	padding-top: $navbar-height;
 	@include media-breakpoint-up(md) {
-		padding-top: $navbar-height-desktop;
+		padding-top: $navbar-height;
 	}
 }
 
