@@ -19,4 +19,5 @@ $overview-height: 5px;
 
 .overview-wrapper {
   height: $overview-height;
+  font-size: 0;  // this fixes an odd gap that appears at the top
 }
