@@ -1,4 +1,4 @@
-$overview-height: 5px;
+$overview-height: 20px;
 
 .overview-post {
   height: $overview-height;
@@ -6,7 +6,7 @@ $overview-height: 5px;
 }
 
 .overview-post-filtered {
-  background-color: $background-color;
+  background-color: $light-gray;
 }
 
 .overview-post-visible {
