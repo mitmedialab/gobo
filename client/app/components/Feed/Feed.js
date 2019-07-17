@@ -5,7 +5,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { Button } from '@blueprintjs/core';
 import { getPosts, getRules, getSettings, toggleShowHidden } from 'actions/feed';
 
-import isEnabled, { TOUR, SORT_VIRALITY } from 'utils/featureFlags';
+import isEnabled, { SORT_VIRALITY } from 'utils/featureFlags';
 
 import Post from 'components/Post/Post';
 import Settings from 'components/Settings/Settings';
@@ -123,7 +123,7 @@ class Feed extends Component {
             </div>
           </div>
         </div>
-        {isEnabled(TOUR) && <Tour />}
+        <Tour />
       </div>
     );
   }

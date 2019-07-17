@@ -182,7 +182,7 @@ class Settings extends Component {
     desc: 'Control the ratio of serious news to fun stuff in your feed.',
     key: 'news_score',
     longDesc: "Social media can be overwhelming, and sometimes it’s necessary to have a break from the news cycles. Gobo will run the text of each post -- and any articles linked to it -- through an algorithm that detects the topics it talks about. We created this algorithm ourselves, teaching it how to detect topics based on tags in a giant set of New York Times articles. It will mark each post with the topics it is about (sports, politics, pop culture, etc.), and we'll include or exclude posts based on the ratio that you set.",
-    ruleCss: 'rule-setting',
+    ruleCss: 'rule-setting tour-rule-seriousness',
     subtitle: (<span>Powered by <a href="https://mediacloud.org/" rel="noopener noreferrer" target="_blank">Media Cloud</a></span>),
     content: (
       <div>
@@ -218,7 +218,7 @@ class Settings extends Component {
     key: 'toxicity',
     desc: 'Filter out the trolls, or see how rude they are.',
     longDesc: (<span>Rude comments on social media have sadly become the norm. What if there was a way to hide these comments out of your feed? Gobo uses a Google algorithm to measure how "rude" a post is and lets you filter it out. Like most algorithms, this one exhibits questionable behaviour when it comes to race -- particularly in its <a href="https://onezero.medium.com/how-automated-tools-discriminate-against-black-language-2ac8eab8d6db" rel="noopener noreferrer" target="_blank">misidentification of African-American Vernacular English as being rude</a>.</span>),
-    ruleCss: 'rule-setting',
+    ruleCss: 'rule-setting tour-rule-rudeness',
     subtitle: (<span>Powered by <a href="https://perspectiveapi.com" rel="noopener noreferrer" target="_blank">Perspective</a></span>),
     content: (
       <div>
@@ -489,7 +489,7 @@ class Settings extends Component {
       ),
       subtitle: rule.link ?
         (<React.Fragment>Curated by <a href={rule.link} rel="noopener noreferrer" target="_blank">{rule.creator_display_name}</a></React.Fragment>) : `Curated by ${rule.creator_display_name}`,
-      ruleCss: 'rule-setting',
+      ruleCss: `rule-setting tour-rule-${rule.title.split(' ').join('-').toLowerCase()}`,
       content: (
         <div className="slider-labels additive-toggles">
           {rule.level_display_names.map((name, level) =>
@@ -551,7 +551,11 @@ class Settings extends Component {
       if (rule.type === 'keyword') {
         settings.push(this.keywordRule(rule));
       } else if (rule.type === 'additive') {
-        settings.push(this.additiveRule(rule));
+        if (rule.title.toLowerCase() === 'politics') {
+          settings.splice(1, 0, this.additiveRule(rule));
+        } else {
+          settings.push(this.additiveRule(rule));
+        }
       }
     });
 
