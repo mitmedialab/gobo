@@ -104,7 +104,7 @@ class Post extends Component {
                 {this.props.filtered_by.length > 0 &&
                   <HiddenPost
                     showText
-                    post={this.props.post}
+                    post={post}
                     filteredBy={this.props.filtered_by}
                     onClick={this.props.isCollapsable ? this.onCollapseClicked : undefined}
                   />
