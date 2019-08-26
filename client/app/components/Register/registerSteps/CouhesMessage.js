@@ -28,7 +28,7 @@ class CouhesMessage extends Component {
           <p>Your participation in this study is completely voluntary and you are free to choose whether to be in it or not. If you choose to be in this study, you may subsequently withdraw from it at any time without penalty or consequences of any kind.  The investigator may withdraw you from this research if circumstances arise which warrant doing so.</p>
           <h4>Purpose of the study</h4>
           <p>This study will assess how you use a new website that lets you control what content, and from whom, you are exposed to from your various social media networks. We will analyze how you choose to filter and prioritize content based on criteria our website offers.</p>
-          <h4>Prodcedures</h4>
+          <h4>Procedures</h4>
           <p>If you volunteer to participate in this study, we would ask you to do the following things: Create an account on our website, and authorize our site to pull in posts from your friends and pages you follow on various social media platforms. Then you will have the opportunity to see a combined list of all the content in one place, and control how it is filtered and prioritized. We ask that you use our website for at least a month, trying various settings for the filters to control what you see.
           </p>
           <h4>Potential Risks and discomforts</h4>
