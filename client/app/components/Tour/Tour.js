@@ -71,9 +71,7 @@ class Tour extends Component {
     return (
       <ReactJoyride
         steps={this.state.steps}
-        scrollToFirstStep
         callback={this.joyrideCallback}
-        continuous
         disableScrolling
         spotlightPadding={0}
         styles={{

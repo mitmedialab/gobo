@@ -122,6 +122,8 @@ const About = (props) => {
               <li>Dennis Jen, Lead Developer</li>
               <li>Anna Chung, Researcher/Designer</li>
               <li>Alexis Hope, Designer</li>
+              <li>Belén Carolina Saldías Fuentes, Machine Learning Researchers/System Designer</li>
+              <li>Neil Gaikwad, Machine Learning Researchers/System Designer</li>
               <li>Jasmin Rubinovitz, Past Developer</li>
             </ul>
           </div>
