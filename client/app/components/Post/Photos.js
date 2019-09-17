@@ -10,7 +10,6 @@ const propTypes = {
 };
 
 class Photos extends React.Component {
-
   /*
   constructor (props, context) {
     super(props, context);

@@ -107,16 +107,16 @@ module.exports = {
   //   stripPrefix: 'static/',
   //   mergeStaticsConfig: true, // Merge webpacks static outputs with the globs described above.
   //   // runtimeCaching: [{
-         //    //   urlPattern: /^https:\/\/api\.github\.com\//,
-         //    //   handler: 'fastest',
-         //    //   networkTimeoutSeconds: 5000,
-         //    //   options: {
-         //    //     cache: {
-         //    //       maxEntries: 10,
-         //    //       name: 'github-api-cache'
-         //    //     }
-         //    //   }
-         //    // }]
+    //    //   urlPattern: /^https:\/\/api\.github\.com\//,
+    //    //   handler: 'fastest',
+    //    //   networkTimeoutSeconds: 5000,
+    //    //   options: {
+    //    //     cache: {
+    //    //       maxEntries: 10,
+    //    //       name: 'github-api-cache'
+    //    //     }
+    //    //   }
+    //    // }]
   // }),
   ],
 };

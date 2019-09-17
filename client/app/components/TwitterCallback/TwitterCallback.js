@@ -14,7 +14,6 @@ const propTypes = {
 };
 
 class TwitterCallback extends Component {
-
   componentDidMount() {
     const parsed = queryString.parse(this.props.location.search);
     this.props.dispatch(startPostTwitterCallback(parsed));
@@ -44,7 +43,6 @@ class TwitterCallback extends Component {
       </div>
     );
   }
-
 }
 
 TwitterCallback.propTypes = propTypes;

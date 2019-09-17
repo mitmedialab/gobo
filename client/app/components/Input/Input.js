@@ -25,7 +25,6 @@ const propTypes = {
 };
 
 class Input extends Component {
-
   constructor(props) {
     super(props);
     const valid = (this.props.isValid && this.props.isValid()) || true;
@@ -163,7 +162,7 @@ class Input extends Component {
   checkRules(value) {
     const validData = {
       minChars: !_.isEmpty(value) ? value.length >= parseInt(this.state.minCharacters, 10) : false,
-      capitalLetters: true,  // !_.isEmpty(value) ? countCapitals(value)==parseInt(this.props.requireCapitals): false,
+      capitalLetters: true, // !_.isEmpty(value) ? countCapitals(value)==parseInt(this.props.requireCapitals): false,
       numbers: !_.isEmpty(value) ? countNumbers(value) > 0 : false,
       words: !_.isEmpty(value) ? !this.checkWords(value) : false,
     };

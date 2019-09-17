@@ -53,12 +53,12 @@ export function getTwitterAuthUrl() {
   return (dispatch) => {
     dispatch({ type: GET_TWITTER_AUTH_URL_LOAD });
     return getTwitterAuthURl()
-    .then((result) => {
-      dispatch({ type: GET_TWITTER_AUTH_URL_SUCCESS, result });
-    })
-    .catch((error) => {
-      dispatch({ type: GET_TWITTER_AUTH_URL_FAIL, error });
-    });
+      .then((result) => {
+        dispatch({ type: GET_TWITTER_AUTH_URL_SUCCESS, result });
+      })
+      .catch((error) => {
+        dispatch({ type: GET_TWITTER_AUTH_URL_FAIL, error });
+      });
   };
 }
 

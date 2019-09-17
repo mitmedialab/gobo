@@ -10,7 +10,6 @@ import SingleRegistrationWrapper from 'components/SingleRegistrationWrapper/Sing
 
 
 class ResetPassword extends Component {
-
   constructor(props) {
     super(props);
     this.state = {

@@ -34,7 +34,6 @@ const modalStyles = {
 };
 
 class MuteAllMenWhy extends Component {
-
   constructor(props) {
     super(props);
     this.state = {

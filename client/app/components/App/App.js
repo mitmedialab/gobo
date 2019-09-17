@@ -24,7 +24,6 @@ const ForgotPassword = () => <Async load={import('components/ForgotPassword/Forg
 const ResetPassword = () => <Async load={import('components/ResetPassword/ResetPassword')} />;
 
 class App extends Component {
-
   componentWillMount() {
     this.props.dispatch(tryGetUser());
   }

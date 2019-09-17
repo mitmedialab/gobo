@@ -7,7 +7,7 @@ const PlatformUnconnected = props => (
       <span className="tk-futura-pt-bold">{props.platformName}</span>: Not Connected
     </p>
   </div>
-  );
+);
 
 PlatformUnconnected.propTypes = {
   platformName: PropTypes.string.isRequired,

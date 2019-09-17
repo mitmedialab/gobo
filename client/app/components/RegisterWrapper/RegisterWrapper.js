@@ -26,7 +26,6 @@ class RegisterWrapper extends Component {
     }
     return element;
   }
-
 }
 
 const mapStateToProps = state => ({

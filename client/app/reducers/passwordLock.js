@@ -2,12 +2,12 @@
 // Load Actions
 /* ---------- */
 import {
-    LOCK_STATUS_LOAD,
-    LOCK_STATUS_SUCCESS,
-    LOCK_STATUS_FAIL,
-    VERIFY_PW_LOAD,
-    VERIFY_PW_SUCCESS,
-    VERIFY_PW_FAIL,
+  LOCK_STATUS_LOAD,
+  LOCK_STATUS_SUCCESS,
+  LOCK_STATUS_FAIL,
+  VERIFY_PW_LOAD,
+  VERIFY_PW_SUCCESS,
+  VERIFY_PW_FAIL,
 } from 'actions/passwordLock';
 
 /* ------------------- */
