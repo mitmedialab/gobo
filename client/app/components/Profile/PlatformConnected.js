@@ -9,9 +9,9 @@ const PlatformConnected = props => (
     </p>
     { props.userDescription &&
     <p>{props.userDescription}</p>
-      }
+    }
   </div>
-  );
+);
 
 PlatformConnected.defaultProps = {
   userDescription: '',

@@ -16,7 +16,6 @@ import InputError from 'components/Input/InputError';
 const MAX_POLLS = 120;
 
 class SocialMediaButtons extends Component {
-
   constructor(props) {
     super(props);
     this.state = {

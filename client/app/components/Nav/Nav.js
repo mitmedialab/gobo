@@ -11,7 +11,6 @@ import onClickOutside from 'react-onclickoutside';
 const DROP_DOWN_MENU_CLASSES = 'dropdown-menu list-group keep-dropdown w230';
 
 class NavBar extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -165,7 +164,7 @@ class NavBar extends Component {
         </div>
       </nav>
     </header>
-    );
+  );
 
   render() {
     if (this.props.auth.isAuthenticated || window.location.pathname !== '/') {
@@ -173,7 +172,6 @@ class NavBar extends Component {
     }
     return (<div />);
   }
-
 }
 
 function mapStateToProps(state) {

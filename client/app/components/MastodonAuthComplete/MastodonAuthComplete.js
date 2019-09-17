@@ -11,7 +11,6 @@ import { mastodonToken } from 'actions/socialMediaLogin';
 import Loader from 'components/Loader/Loader';
 
 class MastodonAuthComplete extends Component {
-
   componentDidMount() {
     const mastodonAuthCode = getQueryParam('code');
     if (mastodonAuthCode) {
@@ -62,7 +61,6 @@ class MastodonAuthComplete extends Component {
       </div>
     );
   }
-
 }
 
 MastodonAuthComplete.propTypes = {

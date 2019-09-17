@@ -7,7 +7,6 @@ import ls from 'local-storage';
 const LS_TOUR_KEY = 'intro-tour-completed-v1.0.0';
 
 class Tour extends Component {
-
   state = {
     tourCompleted: ls.get(LS_TOUR_KEY) || false,
     steps: [
@@ -76,7 +75,7 @@ class Tour extends Component {
         spotlightPadding={0}
         styles={{
           options: {
-            zIndex: 1000000,  // some very high value so that it sits on top of the header
+            zIndex: 1000000, // some very high value so that it sits on top of the header
           },
         }}
       />

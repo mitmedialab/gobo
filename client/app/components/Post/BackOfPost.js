@@ -32,7 +32,6 @@ function seriousnessScoreToString(score) {
 }
 
 class BackOfPost extends Component {
-
   viralityScoreToString(score) {
     const logScore = Math.log(score + 1);
     const viralityAvg = this.props.virality_avg;
@@ -136,7 +135,6 @@ class BackOfPost extends Component {
       </div>
     );
   }
-
 }
 
 function mapStateToProps(state) {

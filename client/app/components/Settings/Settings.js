@@ -18,7 +18,6 @@ const SPARKLINE_BINS = 30;
 const SPARKLINE_STYLES = { strokeWidth: '1', fill: '#cccccc' };
 
 class Settings extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -209,7 +208,7 @@ class Settings extends Component {
           </div>
         </div>
       </div>
-      ),
+    ),
   })
 
   rudenessSetting = () => ({
@@ -245,7 +244,7 @@ class Settings extends Component {
           </div>
         </div>
       </div>
-      ),
+    ),
   })
 
   genderSetting = () => ({
@@ -290,7 +289,7 @@ class Settings extends Component {
           </div>
         </div>
       </div>
-      ),
+    ),
   })
 
   brandsSetting = () => ({
@@ -350,7 +349,7 @@ class Settings extends Component {
           </div>
         </div>
       </div>
-      ),
+    ),
   })
 
   keywordOrSetting = () => ({
@@ -484,7 +483,7 @@ class Settings extends Component {
                 </li>))}
               </ul>
             </React.Fragment>
-            ))}
+          ))}
         </div>
       ),
       subtitle: rule.link ?

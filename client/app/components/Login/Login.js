@@ -9,7 +9,6 @@ import EmailInput from 'components/Input/EmailInput';
 import PasswordInput from 'components/Input/PasswordInput';
 
 class Login extends Component {
-
   constructor(props) {
     super(props);
     this.state = {

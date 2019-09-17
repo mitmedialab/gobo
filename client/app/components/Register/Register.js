@@ -9,7 +9,6 @@ import RegisterSuccess from './registerSteps/RegisterSuccess';
 
 
 class Register extends Component {
-
   constructor(props) {
     super(props);
     let step = 1;

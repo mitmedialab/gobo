@@ -81,7 +81,7 @@ module.exports = {
       template: '../webpack/template.html',
     }),
     new CopyWebpackPlugin([
-            { from: '../static' },
+      { from: '../static' },
     ]),
   ],
 };

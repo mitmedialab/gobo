@@ -14,15 +14,15 @@ const ActionList = (props) => {
             <span className={`${action.icon} action-icon`} />
             <span className="action-count">{formatNumber(action.count)}</span>
           </a>
-            }
+          }
           { !action.link &&
           <span>
             <span className={`${action.icon} action-icon`} />
             <span className="action-count">{formatNumber(action.count)}</span>
           </span>
-            }
+          }
         </span>
-        ))}
+      ))}
     </span>
   );
 };

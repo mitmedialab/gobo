@@ -17,7 +17,6 @@ const propTypes = {
 };
 
 class SignupEmailPassword extends Component {
-
   constructor(props) {
     super(props);
     this.state = {

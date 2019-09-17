@@ -14,7 +14,6 @@ const propTypes = {
 };
 
 class LockScreen extends Component {
-
   constructor(props) {
     super(props);
     this.state = {

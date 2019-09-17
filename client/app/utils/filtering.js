@@ -2,7 +2,7 @@
 export function getFilterReasonIcon(reasonType) {
   const reasons = {
     corporate: 'icon-corporate',
-    keyword: 'icon-keyword-rule',  // TODO: this needs a real logo
+    keyword: 'icon-keyword-rule', // TODO: this needs a real logo
     rudeness: 'icon-toxicity',
     seriousness: 'icon-seriousness',
     virality: 'icon-virality',
@@ -43,7 +43,7 @@ const REASONS = {
 function getGenderCounts(f, m, r) {
   if (m === 0) {
     if (f === 0) {
-            // m = 0, f = 0
+      // m = 0, f = 0
       return { f: 0, m: 0 };
     }
     // m = 0 f > 0

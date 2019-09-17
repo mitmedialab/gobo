@@ -16,7 +16,7 @@ const LandingCard = props => (
       </div>
     </div>
   </div>
-  );
+);
 
 LandingCard.propTypes = {
   title: PropTypes.string.isRequired,

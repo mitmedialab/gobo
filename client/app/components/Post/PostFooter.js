@@ -8,7 +8,6 @@ import ActionListMastodon from './ActionListMastodon';
 
 
 class PostFooter extends Component {
-
   makeActionList = () => {
     const post = this.props.post;
     switch (post.source) {

@@ -10,10 +10,10 @@ const Media = (props) => {
   switch (props.media[0].type) {
     case 'photo':
       return <Photos media={props.media} />;
-  // case 'video':
-  //     return <Video {...props} />
-  // case 'animated_gif':
-  //     return <Video gif={true} {...props} />
+      // case 'video':
+      //     return <Video {...props} />
+      // case 'animated_gif':
+      //     return <Video gif={true} {...props} />
     default:
       return <div />;
   }

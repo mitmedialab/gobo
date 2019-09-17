@@ -15,7 +15,6 @@ import HeadFacebook from './HeadFacebook';
 import HeadMastodon from './HeadMastodon';
 
 class Post extends Component {
-
   // Facebook post object reference https://developers.facebook.com/docs/graph-api/reference/v2.10/post
   // Facebook type is one of {link, status, photo, video, offer}
   // if type = status, status_type is one of {mobile_status_update, created_note, added_photos, added_video, shared_story, created_group, created_event, wall_post, app_created_story, published_story, tagged_in_photo, approved_friend}

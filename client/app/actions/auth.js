@@ -42,13 +42,13 @@ export function loginUserRequest() {
 
 export function logout() {
   return dispatch => apiLogout()
-      .then(() => {
-        dispatch({ type: LOGOUT_USER });
-      })
-      .catch(() => {
-        // console.log('logout failed!!', error);
-        dispatch({ type: LOGOUT_USER });
-      });
+    .then(() => {
+      dispatch({ type: LOGOUT_USER });
+    })
+    .catch(() => {
+      // console.log('logout failed!!', error);
+      dispatch({ type: LOGOUT_USER });
+    });
 }
 
 
@@ -176,20 +176,20 @@ export function deleteUser() {
   return function (dispatch) {
     dispatch(deleteUserRequest());
     return deleteAccount()
-        .then(parseJSON)
-        .then((response) => {
-          if (response.result) {
-            try {
-              dispatch(deleteUserSuccess());
-            } catch (e) {
-              dispatch(deleteUserFailure({ response }));
-            }
-          } else {
+      .then(parseJSON)
+      .then((response) => {
+        if (response.result) {
+          try {
+            dispatch(deleteUserSuccess());
+          } catch (e) {
             dispatch(deleteUserFailure({ response }));
           }
-        })
-        .catch((e) => {
-          dispatch(deleteUserFailure({ e }));
-        });
+        } else {
+          dispatch(deleteUserFailure({ response }));
+        }
+      })
+      .catch((e) => {
+        dispatch(deleteUserFailure({ e }));
+      });
   };
 }
