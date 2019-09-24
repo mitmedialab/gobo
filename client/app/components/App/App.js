@@ -22,6 +22,7 @@ const MastodonAuthComplete = () => <Async load={import('components/MastodonAuthC
 const NoMatch = () => <Async load={import('components/NoMatch/NoMatch')} />;
 const ForgotPassword = () => <Async load={import('components/ForgotPassword/ForgotPassword')} />;
 const ResetPassword = () => <Async load={import('components/ResetPassword/ResetPassword')} />;
+const StaleFeed = () => <Async load={import('components/StaleFeed/StaleFeed')} />;
 
 class App extends Component {
   componentWillMount() {
@@ -62,6 +63,7 @@ class App extends Component {
             <Route path="/privacy" component={withTracker(Privacy, { title: 'privacy', user: this.props.auth.user })} />
             <Route path="/forgot_password" component={withTracker(ForgotPassword, { title: 'forgot_password', user: this.props.auth.user })} />
             <Route path="/reset_password%3Ftoken%3D:token" component={withTracker(ResetPassword, { title: 'reset_password', user: this.props.auth.user })} />
+            <Route path="/stale_feed" component={withTracker(StaleFeed, { title: 'stale_feed', user: this.props.auth.user })} />
             <Route path="/api/:function" />
             <Route path="*/" component={NoMatch} />
           </Switch>

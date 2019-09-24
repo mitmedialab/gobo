@@ -65,3 +65,8 @@ def forgot_password():
 @home.route('/reset_password?token=<token>', methods=['GET'])
 def reset_password(token):  # pylint: disable=unused-argument
     return render_template('index.html')
+
+
+@home.route('/stale_feed', methods=['GET'])
+def stale_feed():
+    return render_template('index.html')
