@@ -26,19 +26,23 @@ class StaleFeed extends Component {
     return (
       <div className="fluid-container">
         <div className="row">
-          <div className="col-lg-6">
-            <GridVis activeSection={this.state.activeSection} />
-          </div>
-          <div className="col-lg-6 overflow-auto vh-100" ref={this.scrollableRef}>
+          <div className="col-lg-12">
+            <div className="position-fixed p-3 w-100 h-100">
+              <GridVis activeSection={this.state.activeSection} />
+            </div>
             <Waypoint
               topOffset={'33%'}
               bottomOffset={'66%'}
               onEnter={d => this.onStepEnter('A', d)}
             >
               <div id="scrolly-A" className="vh-100">
-                <h1>Part A: Your Feed</h1>
-                <p>Stuff about how algorithms curate your feed.</p>
-                <p>Here's an abstracted example of what our feed looked like.</p>
+                <div className="d-flex justify-content-center">
+                  <div className="card">
+                    <h1 className="card-title">Part A: Your Feed</h1>
+                    <p className="card-text">Stuff about how algorithms curate your feed.</p>
+                    <p className="card-text">Here's an abstracted example of what our feed looked like.</p>
+                  </div>
+                </div>
               </div>
             </Waypoint>
 
@@ -48,9 +52,13 @@ class StaleFeed extends Component {
               onEnter={d => this.onStepEnter('B', d)}
             >
               <div id="scrolly-B" className="vh-100">
-                <h1>Part B: Highlight recent content</h1>
-                <p>We looked at recency as a dimension used in algorithmic curation.</p>
-                <p>You see a lot of old posts because...</p>
+                <div className="d-flex justify-content-center">
+                  <div className="card">
+                    <h1 className="card-title">Part B: Highlight recent content</h1>
+                    <p className="card-text">We looked at recency as a dimension used in algorithmic curation.</p>
+                    <p className="card-text">You see a lot of old posts because...</p>
+                  </div>
+                </div>
               </div>
             </Waypoint>
 
@@ -60,10 +68,14 @@ class StaleFeed extends Component {
               onEnter={d => this.onStepEnter('C', d)}
             >
               <div className="vh-100">
-                <Timeline section="C" activeSection={this.state.activeSection} />
-                <h1>Part C: Lets zoom way out</h1>
-                <p>Lets zoom way out to see how the rest of our feed looks.</p>
-                <p>Recent vs. stale content is scattered and mixed up throughout our feed.</p>
+                <div className="d-flex justify-content-center">
+                  <div className="card">
+                    <Timeline section="C" activeSection={this.state.activeSection} />
+                    <h1 className="card-title">Part C: Lets zoom way out</h1>
+                    <p className="card-text">Lets zoom way out to see how the rest of our feed looks.</p>
+                    <p className="card-text">Recent vs. stale content is scattered and mixed up throughout our feed.</p>
+                  </div>
+                </div>
               </div>
             </Waypoint>
 
@@ -73,8 +85,12 @@ class StaleFeed extends Component {
               onEnter={d => this.onStepEnter('D', d)}
             >
               <div className="vh-100">
-                <h1>Part D: Lets reshape it so we can see it all</h1>
-                <p>Lets reshape the feed further so that we can see the whole thing (well, as many pages as we captured).</p>
+                <div className="d-flex justify-content-center">
+                  <div className="card">
+                    <h1 className="card-title">Part D: Lets reshape it so we can see it all</h1>
+                    <p className="card-text">Lets reshape the feed further so that we can see the whole thing (well, as many pages as we captured).</p>
+                  </div>
+                </div>
               </div>
             </Waypoint>
 
@@ -84,8 +100,12 @@ class StaleFeed extends Component {
               onEnter={d => this.onStepEnter('E', d)}
             >
               <div className="vh-100">
-                <h1>Part E: Sort by time</h1>
-                <p />
+                <div className="d-flex justify-content-center">
+                  <div className="card">
+                    <h1 className="card-title">Part E: Sort by time</h1>
+                    <p />
+                  </div>
+                </div>
               </div>
             </Waypoint>
 
@@ -95,10 +115,14 @@ class StaleFeed extends Component {
               onEnter={d => this.onStepEnter('F', d)}
             >
               <div className="vh-100">
-                <h1>Part F: Summarize</h1>
-                <p>Here's what some other feeds look like</p>
-                <p>Here are some more resources...</p>
-                <p>Here are more feeds from three of our researchers: Multiple times a day user, daily, rare (about once a week).</p>
+                <div className="d-flex justify-content-center">
+                  <div className="card">
+                    <h1 className="card-title">Part F: Summarize</h1>
+                    <p className="card-text">Here's what some other feeds look like</p>
+                    <p className="card-text">Here are some more resources...</p>
+                    <p className="card-text">Here are more feeds from three of our researchers: Multiple times a day user, daily, rare (about once a week).</p>
+                  </div>
+                </div>
               </div>
             </Waypoint>
           </div>
