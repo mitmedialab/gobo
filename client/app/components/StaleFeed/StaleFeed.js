@@ -10,15 +10,18 @@ import GridVis from 'components/StaleFeed/GridVis';
 class StaleFeed extends Component {
   state = {
     activeSection: '',
+    fixed: false,
   }
 
   onStepEnter = (step) => {
     this.setState({
       activeSection: step,
+      fixedPosition: ['C', 'D', 'E', 'F'].includes(step),
     });
   }
 
   render() {
+    const { fixedPosition } = this.state;
     if (!isEnabled(SCROLLY_TELLING)) {
       return (<div />);
     }
@@ -27,7 +30,18 @@ class StaleFeed extends Component {
       <div className="fluid-container">
         <div className="row">
           <div className="col-lg-12">
-            <div className="position-fixed p-3 w-100 h-100">
+            <h1>Do you know your feed?</h1>
+            <p>Stuff about your feed! Learning more about you?</p>
+            <p>Try Gobo!</p>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-lg-12">
+            <div
+              style={fixedPosition ? { top: 0 } : { }}
+              className={`${fixedPosition ? 'position-fixed' : 'position-absolute'} p-3 w-100 h-100`}
+            >
               <GridVis activeSection={this.state.activeSection} />
             </div>
             <Waypoint
