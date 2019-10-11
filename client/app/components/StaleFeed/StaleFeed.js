@@ -132,8 +132,6 @@ class StaleFeed extends Component {
                 <div className="d-flex justify-content-center">
                   <div className="card">
                     <h1 className="card-title">Part F: Summarize</h1>
-                    <p className="card-text">Here's what some other feeds look like</p>
-                    <p className="card-text">Here are some more resources...</p>
                     <p className="card-text">Here are more feeds from three of our researchers: Multiple times a day user, daily, rare (about once a week).</p>
                   </div>
                 </div>

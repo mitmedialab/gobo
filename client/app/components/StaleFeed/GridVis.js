@@ -8,6 +8,7 @@ const RAHUL_FEED = { version: '1.0.0', posts: [{ timestamp: 1570561041, feedOrde
 
 const ANNA_FEED = { version: '1.0.0', posts: [{ timestamp: 1570712415, feedOrder: 0, reactionCount: '3K' }, { timestamp: 1570362047, feedOrder: 1, reactionCount: '0' }, { timestamp: 1570677146, feedOrder: 2, reactionCount: '119' }, { timestamp: 1570717451, feedOrder: 3, reactionCount: '7' }, { timestamp: 1570596954, feedOrder: 4, reactionCount: '581' }, { timestamp: 1570661606, feedOrder: 5, reactionCount: '240' }, { timestamp: 1570578434, feedOrder: 6, reactionCount: '0' }, { timestamp: 1570561085, feedOrder: 7, reactionCount: '43' }, { timestamp: 1570601968, feedOrder: 8, reactionCount: '51' }, { timestamp: 1570500586, feedOrder: 9, reactionCount: '0' }, { timestamp: 1570509988, feedOrder: 10, reactionCount: '24' }, { timestamp: 1570599540, feedOrder: 11, reactionCount: '21' }, { timestamp: 1570664659, feedOrder: 12, reactionCount: '45' }, { timestamp: 1569604709, feedOrder: 13, reactionCount: '305' }, { timestamp: 1570595280, feedOrder: 14, reactionCount: '35' }, { timestamp: 1570598587, feedOrder: 15, reactionCount: '28K' }, { timestamp: 1570235195, feedOrder: 16, reactionCount: '16' }, { timestamp: 1570660813, feedOrder: 17, reactionCount: '22' }, { timestamp: 1570671000, feedOrder: 18, reactionCount: '11' }, { timestamp: 1570649871, feedOrder: 19, reactionCount: '31' }, { timestamp: 1570639199, feedOrder: 20, reactionCount: '2' }, { timestamp: 1570273747, feedOrder: 21, reactionCount: '22' }, { timestamp: 1570473692, feedOrder: 22, reactionCount: '12' }, { timestamp: 1570494463, feedOrder: 23, reactionCount: '12' }, { timestamp: 1570430595, feedOrder: 24, reactionCount: '19K' }, { timestamp: 1569584929, feedOrder: 25, reactionCount: '853' }, { timestamp: 1570645293, feedOrder: 26, reactionCount: '1.1K' }, { timestamp: 1570537937, feedOrder: 27, reactionCount: '17' }, { timestamp: 1570551896, feedOrder: 28, reactionCount: '17' }, { timestamp: 1570532807, feedOrder: 29, reactionCount: '8' }, { timestamp: 1570496012, feedOrder: 30, reactionCount: '70' }, { timestamp: 1570622352, feedOrder: 31, reactionCount: '668' }, { timestamp: 1570661659, feedOrder: 32, reactionCount: '128' }, { timestamp: 1570643518, feedOrder: 33, reactionCount: '6' }, { timestamp: 1570689872, feedOrder: 34, reactionCount: '18' }, { timestamp: 1570473645, feedOrder: 35, reactionCount: '0' }, { timestamp: 1570719833, feedOrder: 36, reactionCount: '0' }, { timestamp: 1570712651, feedOrder: 37, reactionCount: '4.5K' }, { timestamp: 1570560566, feedOrder: 38, reactionCount: '23' }, { timestamp: 1570622855, feedOrder: 39, reactionCount: '2.5K' }, { timestamp: 1570402540, feedOrder: 40, reactionCount: '79' }, { timestamp: 1570478868, feedOrder: 41, reactionCount: '25' }, { timestamp: 1570492080, feedOrder: 42, reactionCount: '28' }, { timestamp: 1570625027, feedOrder: 43, reactionCount: '16' }, { timestamp: 1570493120, feedOrder: 44, reactionCount: '22' }, { timestamp: 1570556262, feedOrder: 45, reactionCount: '165' }, { timestamp: 1570283420, feedOrder: 46, reactionCount: '49' }, { timestamp: 1570670109, feedOrder: 47, reactionCount: '35' }, { timestamp: 1570655060, feedOrder: 48, reactionCount: '1' }, { timestamp: 1570502279, feedOrder: 49, reactionCount: '16' }, { timestamp: 1570666045, feedOrder: 50, reactionCount: '1.9K' }, { timestamp: 1570581334, feedOrder: 51, reactionCount: '23' }, { timestamp: 1570592916, feedOrder: 52, reactionCount: '8' }, { timestamp: 1570196914, feedOrder: 53, reactionCount: '344' }, { timestamp: 1570601728, feedOrder: 54, reactionCount: '1' }, { timestamp: 1570486750, feedOrder: 55, reactionCount: '12' }, { timestamp: 1570508535, feedOrder: 56, reactionCount: '4' }, { timestamp: 1570687717, feedOrder: 57, reactionCount: '17' }, { timestamp: 1570237416, feedOrder: 58, reactionCount: '47' }, { timestamp: 1570119399, feedOrder: 59, reactionCount: '123' }, { timestamp: 1570386835, feedOrder: 60, reactionCount: '203' }, { timestamp: 1570487598, feedOrder: 61, reactionCount: '25' }, { timestamp: 1570645816, feedOrder: 62, reactionCount: '4' }, { timestamp: 1570677092, feedOrder: 63, reactionCount: '52' }, { timestamp: 1570657653, feedOrder: 64, reactionCount: '3.7K' }, { timestamp: 1570642615, feedOrder: 65, reactionCount: '232' }, { timestamp: 1570645803, feedOrder: 66, reactionCount: '34' }, { timestamp: 1570473968, feedOrder: 67, reactionCount: '3' }, { timestamp: 1570685657, feedOrder: 68, reactionCount: '13' }, { timestamp: 1570654576, feedOrder: 69, reactionCount: '3' }, { timestamp: 1570711921, feedOrder: 70, reactionCount: '25' }, { timestamp: 1570666525, feedOrder: 71, reactionCount: '5' }, { timestamp: 1570275946, feedOrder: 72, reactionCount: '386' }, { timestamp: 1570635727, feedOrder: 73, reactionCount: '4' }, { timestamp: 1570409180, feedOrder: 74, reactionCount: '5' }, { timestamp: 1570564071, feedOrder: 75, reactionCount: '47' }, { timestamp: 1570448311, feedOrder: 76, reactionCount: '5.2K' }, { timestamp: 1570712338, feedOrder: 77, reactionCount: '389' }, { timestamp: 1570484095, feedOrder: 78, reactionCount: '2.7K' }, { timestamp: 1570491729, feedOrder: 79, reactionCount: '18' }, { timestamp: 1570622814, feedOrder: 80, reactionCount: '465' }, { timestamp: 1570718532, feedOrder: 81, reactionCount: '23' }, { timestamp: 1570584526, feedOrder: 82, reactionCount: '12' }, { timestamp: 1570408430, feedOrder: 83, reactionCount: '15' }, { timestamp: 1570680150, feedOrder: 84, reactionCount: '16K' }, { timestamp: 1570660205, feedOrder: 85, reactionCount: '6' }, { timestamp: 1570706155, feedOrder: 86, reactionCount: '13' }, { timestamp: 1570647996, feedOrder: 87, reactionCount: '105' }, { timestamp: 1570570125, feedOrder: 88, reactionCount: '8' }, { timestamp: 1570568744, feedOrder: 89, reactionCount: '13' }, { timestamp: 1570628780, feedOrder: 90, reactionCount: '2' }, { timestamp: 1570716438, feedOrder: 91, reactionCount: '3' }, { timestamp: 1570713299, feedOrder: 92, reactionCount: '58' }, { timestamp: 1570461663, feedOrder: 93, reactionCount: '9' }, { timestamp: 1570714641, feedOrder: 94, reactionCount: '1' }, { timestamp: 1570451290, feedOrder: 95, reactionCount: '155' }, { timestamp: 1570653044, feedOrder: 96, reactionCount: '431' }, { timestamp: 1570592421, feedOrder: 97, reactionCount: '77' }, { timestamp: 1570655618, feedOrder: 98, reactionCount: '2' }, { timestamp: 1570471721, feedOrder: 99, reactionCount: '18K' }, { timestamp: 1570496106, feedOrder: 100, reactionCount: '12' }, { timestamp: 1570387305, feedOrder: 101, reactionCount: '8.6K' }, { timestamp: 1570459624, feedOrder: 102, reactionCount: '75' }, { timestamp: 1570373380, feedOrder: 103, reactionCount: '93' }, { timestamp: 1570468757, feedOrder: 104, reactionCount: '2' }, { timestamp: 1570480559, feedOrder: 105, reactionCount: '0' }, { timestamp: 1570388283, feedOrder: 106, reactionCount: '74' }], exportSeconds: 1570719912.311 };
 
+
 class GridVis extends Component {
   constructor(props) {
     super(props);
@@ -22,8 +23,8 @@ class GridVis extends Component {
     this.preprocessPosts(ANNA_FEED);
 
     this.state = {
-      staleColor: '#dddddd',
-      freshColor: 'orange',
+      staleColor: '#4267b2',
+      freshColor: '#dddddd',
       mainFeed: ANNA_FEED,
       feedB: RAHUL_FEED,
       feedC: DENNIS_FEED,
@@ -59,15 +60,18 @@ class GridVis extends Component {
   preprocessPosts = (feed) => {
     // eslint-disable-next-line no-param-reassign
     feed.posts = feed.posts.slice(0, 100);
-    this.randomizePostHeight(feed.posts);
+    this.randomizePostContent(feed.posts);
     this.computeSortIndices(feed.posts);
     this.computeStaleness(feed.posts, feed.exportSeconds);
   }
 
-  randomizePostHeight = (posts) => {
+  randomizePostContent = (posts) => {
     posts.forEach((post) => {
+      const postType = Math.random() < 0.2 ? 'image' : 'text';
       // eslint-disable-next-line no-param-reassign
-      post.postHeight = 50 + Math.round(Math.random() * 50);
+      post.postType = postType;
+      // eslint-disable-next-line no-param-reassign
+      post.postHeight = postType === 'image' ? 200 : 80;
     });
   }
 
@@ -106,40 +110,59 @@ class GridVis extends Component {
     const { mainFeed, feedB, feedC, postWidth } = this.state;
     let nextY = 0;
     const postSpacing = 20;
+    const componentFillColor = '#888888';
+    const componentOutlineColor = 'gray';
 
-    d3.select('.grid')
-      .selectAll('rect')
+    // TODO: I think I can add a class to separate the groups, so that I can
+    // add an image or add "text" based on a selectAll
+    const postGroups = d3.select('.grid')
+      .selectAll('.postGroup')
       .data(mainFeed.posts)
       .enter()
-      .append('rect')
-      .attr('width', postWidth)
-      .attr('height', d => d.postHeight)
-      .attr('fill', this.state.staleColor)
-      .attr('stroke', 'gray')
-      .attr('stroke-width', 1)
-      .attr('x', 0)
-      .attr('y', (d) => {
+      .append('g')
+      .attr('class', 'post')
+      .attr('transform', (d) => {
         const y = nextY;
         nextY += d.postHeight + postSpacing;
-        return y;
+        return `translate(0,${y})`;
       });
 
-    nextY = 0;
-    d3.select('.postLabels')
-      .selectAll('text.postLabel')
-      .data(mainFeed.posts)
-      .enter()
-      .append('text')
+    postGroups.append('rect')
+      .attr('class', 'postFrame')
+      .attr('width', postWidth)
+      .attr('height', d => d.postHeight)
+      .attr('fill', this.state.freshColor)
+      .attr('stroke', 'gray')
+      .attr('stroke-width', 1)
+      .attr('x', 0);
+
+    postGroups.filter(d => d.postType === 'image')
+      .append('rect')
+      .attr('class', 'postImage postContent')
+      .attr('width', postWidth - 20)
+      .attr('height', 100)
+      .attr('stroke', componentOutlineColor)
+      .attr('stroke-width', 1)
+      .attr('fill', componentFillColor)
+      .attr('x', 10)
+      .attr('y', 70);
+
+    postGroups.append('circle')
+      .attr('class', 'postAvatar postContent')
+      .attr('cx', 30)
+      .attr('cy', 30)
+      .attr('fill', componentFillColor)
+      .attr('stroke', componentOutlineColor)
+      .attr('stroke-width', 1)
+      .attr('r', 20);
+
+    postGroups.append('text')
       .attr('class', 'postLabel')
       .text(d => (new Date(d.timestamp * 1000)).toDateString())
       .attr('font-size', '20px')
       .attr('fill', 'black')
-      .attr('x', 15)
-      .attr('y', (d) => {
-        const y = nextY;
-        nextY += d.postHeight + postSpacing;
-        return y + 25;
-      });
+      .attr('x', 60)
+      .attr('y', 35);
 
     this.renderHistogramLabels(mainFeed, '.sectionA', '.grid')
       .attr('opacity', 0);
@@ -153,10 +176,10 @@ class GridVis extends Component {
 
   transitionToPosts = () => {
     d3.select('.grid')
-      .selectAll('rect')
+      .selectAll('.postFrame')
       .transition()
       .duration(1000)
-      .attr('fill', this.state.staleColor);
+      .attr('fill', this.state.freshColor);
 
     d3.select('.legend')
       .transition()
@@ -174,58 +197,72 @@ class GridVis extends Component {
       .attr('opacity', 1);
 
     d3.select('.grid')
-      .selectAll('rect')
+      .selectAll('.post')
+      .transition()
+      .duration(1000)
+      .attr('transform', (d) => {
+        const y = nextY;
+        nextY += d.postHeight + 20;
+        return `translate(0,${y})`;
+      });
+
+    d3.select('.grid')
+      .selectAll('.postFrame')
       .transition()
       .duration(1000)
       .attr('width', postWidth)
       .attr('height', d => d.postHeight)
-      .attr('y', (d) => {
-        const y = nextY;
-        nextY += d.postHeight + 20;
-        return y;
-      })
       .attr('fill', d => (d.stale ? this.state.staleColor : this.state.freshColor));
 
-    d3.select('.postLabels')
-      .selectAll('text.postLabel')
+    d3.selectAll('.postContent')
       .transition()
-      .duration(2000)
+      .duration(1000)
+      .attr('opacity', 1);
+
+    d3.selectAll('.postLabel')
+      .transition()
+      .duration(1000)
       .attr('fill', 'black');
   }
 
   transitionToBlocks = () => {
     const { dim } = this.state;
 
-    d3.select('.postLabels')
-      .selectAll('text.postLabel')
+    d3.selectAll('.postLabel')
       .transition()
-      .duration(500)
+      .duration(1000)
       .attr('fill', 'transparent');
 
+    d3.selectAll('.postContent')
+      .transition()
+      .duration(1000)
+      .attr('opacity', 0);
+
     d3.select('.grid')
-      .selectAll('rect')
+      .selectAll('.post')
+      .transition()
+      .duration(1000)
+      .attr('transform', (d, i) => `translate(0,${i * dim})`);
+
+    d3.select('.grid')
+      .selectAll('.postFrame')
       .transition()
       .duration(1000)
       .attr('width', dim)
-      .attr('height', dim)
-      .attr('x', 0)
-      .attr('y', (d, i) => i * dim);
+      .attr('height', dim);
   }
 
   transitionToFeed = () => {
     const { cols, dim } = this.state;
 
     d3.select('.grid')
-      .selectAll('rect')
+      .selectAll('.post')
       .transition()
       .duration(1000)
-      .attr('x', (d, i) => {
+      .attr('transform', (d, i) => {
         const col = i % cols;
-        return col * dim;
-      })
-      .attr('y', (d, i) => {
         const row = Math.floor(i / cols);
-        return row * dim;
+        return `translate(${col * dim},${row * dim})`;
       });
   }
 
@@ -233,19 +270,21 @@ class GridVis extends Component {
     const { cols, dim } = this.state;
 
     d3.select('.grid')
-      .selectAll('rect')
+      .selectAll('.post')
+      .transition()
+      .duration(1000)
+      .attr('transform', (d) => {
+        const col = d.categoryOrder % cols;
+        const row = Math.floor(d.categoryOrder / cols);
+        return `translate(${col * dim},${row * dim})`;
+      });
+
+    d3.select('.grid')
+      .selectAll('.postFrame')
       .transition()
       .duration(1000)
       .attr('width', dim)
-      .attr('stroke-width', 1)
-      .attr('x', (d) => {
-        const col = d.categoryOrder % cols;
-        return col * dim;
-      })
-      .attr('y', (d) => {
-        const row = Math.floor(d.categoryOrder / cols);
-        return row * dim;
-      });
+      .attr('stroke-width', 1);
 
     ['.histogramLabel', '.sectionB', '.sectionC'].forEach((selector) => {
       d3.selectAll(selector)
@@ -263,12 +302,10 @@ class GridVis extends Component {
     const recentY = 30;
 
     d3.select('.grid')
-      .selectAll('rect')
+      .selectAll('.post')
       .transition()
       .duration(1000)
-      .attr('width', barWidth)
-      .attr('stroke-width', 0)
-      .attr('x', (d) => {
+      .attr('transform', (d) => {
         let x;
         if (d.stale) {
           x = staleX;
@@ -277,14 +314,15 @@ class GridVis extends Component {
           x = recentX;
           recentX += barWidth;
         }
-        return x;
-      })
-      .attr('y', (d) => {
-        if (d.stale) {
-          return staleY;
-        }
-        return recentY;
+        return `translate(${x},${d.stale ? staleY : recentY})`;
       });
+
+    d3.select('.grid')
+      .selectAll('.postFrame')
+      .transition()
+      .duration(1000)
+      .attr('width', barWidth)
+      .attr('stroke-width', 0);
 
     ['.histogramLabel', '.sectionB', '.sectionC'].forEach((selector) => {
       d3.selectAll(selector)
