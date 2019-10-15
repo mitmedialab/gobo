@@ -1,4 +1,29 @@
-.card {
-  background-color: rgba(128, 128, 128, 0.5);
+.stale-opening {
   color: white;
+  background-color: black;
+  min-height: 300px;
+
+  h1 {
+    font-size: 80px;
+  }
+
+  .stale-container {
+    max-width: 600px;
+    margin: auto;
+  }
+
+  p {
+    font-size: 20px;
+  }
+
+}
+
+.card {
+  @extend .p-2;
+  background-color: rgba(195, 45, 67, 0.8);
+  color: white;
+  font-size: 24px;
+  font-weight: 400;
+  max-width: 320px;
+  line-height: normal;
 }
