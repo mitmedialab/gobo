@@ -29,8 +29,9 @@ class GridVis extends Component {
       freshColor: '#dddddd',
       mainFeed: ETHAN_FEED,
       feedB: RAHUL_FEED,
-      feedC: DENNIS_FEED,
-      postWidth: 500,
+      feedC: ANNA_FEED,
+      feedD: DENNIS_FEED,
+      postWidth: 400,
       barWidth: 3,
       day,
       cols,
@@ -76,7 +77,7 @@ class GridVis extends Component {
       // eslint-disable-next-line no-param-reassign
       post.postType = postType;
       // eslint-disable-next-line no-param-reassign
-      post.postHeight = postType === 'image' ? 200 : 80;
+      post.postHeight = postType === 'image' ? 180 : 80;
     });
   }
 
@@ -112,7 +113,7 @@ class GridVis extends Component {
   }
 
   createChart = () => {
-    const { mainFeed, feedB, feedC, postWidth } = this.state;
+    const { mainFeed, feedB, feedC, feedD, postWidth } = this.state;
     let nextY = 0;
     const postSpacing = 20;
     const componentFillColor = '#888888';
@@ -161,6 +162,19 @@ class GridVis extends Component {
       .attr('y', 70)
       .attr('opacity', 1);
 
+    [55, 62, 69].forEach((y) => {
+      postGroups.filter(d => d.postType === 'text')
+        .append('line')
+        .attr('class', 'postText postContent')
+        .attr('stroke', componentOutlineColor)
+        .attr('stroke-width', 5)
+        .attr('x1', 10)
+        .attr('y1', y)
+        .attr('x2', postWidth - 20)
+        .attr('y2', y)
+        .attr('opacity', 1);
+    });
+
     postGroups.append('circle')
       .attr('class', 'postAvatar postContent')
       .attr('cx', 30)
@@ -179,11 +193,12 @@ class GridVis extends Component {
       .attr('x', 60)
       .attr('y', 35);
 
-    this.renderHistogramLabels(mainFeed, '.sectionA', '.grid')
+    this.renderHistogramLabels(mainFeed, '.sectionA', '.histogramLabels')
       .attr('opacity', 0);
 
     this.renderHistogram(feedB, '.sectionB', '.gridB');
     this.renderHistogram(feedC, '.sectionC', '.gridC');
+    this.renderHistogram(feedD, '.sectionD', '.gridD');
 
     d3.select('.legend')
       .attr('opacity', 0);
@@ -316,7 +331,7 @@ class GridVis extends Component {
       .attr('width', dim)
       .attr('stroke-width', 1);
 
-    ['.histogramLabel', '.sectionB', '.sectionC'].forEach((selector) => {
+    ['.histogramLabel', '.sectionB', '.sectionC', '.sectionD'].forEach((selector) => {
       d3.selectAll(selector)
         .transition()
         .duration(500)
@@ -356,7 +371,7 @@ class GridVis extends Component {
   }
 
   transitionToAllHistograms = () => {
-    ['.mainCanvas', '.histogramLabel', '.sectionB', '.sectionC'].forEach((selector) => {
+    ['.mainCanvas', '.histogramLabel', '.sectionB', '.sectionC', '.sectionD'].forEach((selector) => {
       d3.selectAll(selector)
         .transition()
         .duration(1000)
@@ -436,15 +451,19 @@ class GridVis extends Component {
           </g>
           <g transform="translate(0,25)" className="sectionA">
             <g transform="translate(0,25)" className="grid" />
-            <g transform="translate(0,25)" className="postLabels" />
+            <g transform="translate(0,25)" className="histogramLabels" />
           </g>
           <g transform="translate(0,130)" className="sectionB">
             <text x="0" y="15">User B's Feed</text>
             <g transform="translate(0,25)" className="gridB" />
           </g>
           <g transform="translate(0,240)" className="sectionC">
-            <text x="0" y="15">User C'c Feed</text>
+            <text x="0" y="15">User C's Feed</text>
             <g transform="translate(0,25)" className="gridC" />
+          </g>
+          <g transform="translate(0,350)" className="sectionD">
+            <text x="0" y="15">User D's Feed</text>
+            <g transform="translate(0,25)" className="gridD" />
           </g>
         </g>
       </svg>
