@@ -27,5 +27,5 @@ export const DEFAULT_MASTODON_INSTANCES = [
   'mastodon.technology',
 ];
 
-export const VERSION = 'v2.16.0';
+export const VERSION = 'v2.17.0';
 export const API_URL = ''; // process.env.NODE_ENV === 'production' ? '': 'http://localhost:5000/'
