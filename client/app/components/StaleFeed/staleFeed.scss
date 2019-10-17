@@ -34,24 +34,6 @@
     -o-animation: fadeout 2s; /* Opera */
   }
 }
-// .stale-image-enter {
-//   -webkit-transition: opacity 1s ease-in-out;
-//   -moz-transition: opacity 1s ease-in-out;
-//   -o-transition: opacity 1s ease-in-out;
-//   transition: opacity 1s ease-in-out;
-//
-//   // animation: fadein 2s;
-//   // -moz-animation: fadein 2s; /* Firefox */
-//   // -webkit-animation: fadein 2s; /* Safari and Chrome */
-//   // -o-animation: fadein 2s; /* Opera */
-// }
-//
-// .stale-image-exit {
-//   // animation: fadeout 2s;
-//   // -moz-animation: fadeout 2s; /* Firefox */
-//   // -webkit-animation: fadeout 2s; /* Safari and Chrome */
-//   // -o-animation: fadeout 2s; /* Opera */
-// }
 
 .stale-container {
   max-width: 600px;
@@ -59,13 +41,19 @@
 }
 
 .card {
-  @extend .p-2;
-  background-color: rgba(255, 255, 255, 0.8);
+  @extend .p-4;
+  background-color: rgba(255, 255, 255, 1);
   color: black;
   font-size: 24px;
   font-weight: 400;
   max-width: 320px;
   line-height: normal;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.35);
+}
+
+.stale-blue-text {
+  color: #4267b2;
+  font-weight: bold;
 }
 
 @keyframes fadein {

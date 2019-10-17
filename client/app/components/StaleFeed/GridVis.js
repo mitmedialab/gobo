@@ -33,6 +33,8 @@ class GridVis extends Component {
       feedD: DENNIS_FEED,
       postWidth: 400,
       barWidth: 3,
+      freshComponentFillColor: '#888888',
+      staleComponentFillColor: '#dddddd',
       day,
       cols,
       dim,
@@ -77,7 +79,7 @@ class GridVis extends Component {
       // eslint-disable-next-line no-param-reassign
       post.postType = postType;
       // eslint-disable-next-line no-param-reassign
-      post.postHeight = postType === 'image' ? 180 : 80;
+      post.postHeight = postType === 'image' ? 180 : 100;
     });
   }
 
@@ -113,10 +115,9 @@ class GridVis extends Component {
   }
 
   createChart = () => {
-    const { mainFeed, feedB, feedC, feedD, postWidth } = this.state;
+    const { mainFeed, feedB, feedC, feedD, postWidth, freshComponentFillColor } = this.state;
     let nextY = 0;
     const postSpacing = 20;
-    const componentFillColor = '#888888';
     const componentOutlineColor = 'gray';
 
     d3.select('.feed')
@@ -157,16 +158,16 @@ class GridVis extends Component {
       .attr('height', 100)
       .attr('stroke', componentOutlineColor)
       .attr('stroke-width', 1)
-      .attr('fill', componentFillColor)
+      .attr('fill', freshComponentFillColor)
       .attr('x', 10)
-      .attr('y', 70)
+      .attr('y', 65)
       .attr('opacity', 1);
 
-    [55, 62, 69].forEach((y) => {
+    [65, 75, 85].forEach((y) => {
       postGroups.filter(d => d.postType === 'text')
         .append('line')
         .attr('class', 'postText postContent')
-        .attr('stroke', componentOutlineColor)
+        .attr('stroke', freshComponentFillColor)
         .attr('stroke-width', 5)
         .attr('x1', 10)
         .attr('y1', y)
@@ -179,10 +180,10 @@ class GridVis extends Component {
       .attr('class', 'postAvatar postContent')
       .attr('cx', 30)
       .attr('cy', 30)
-      .attr('fill', componentFillColor)
-      .attr('stroke', componentOutlineColor)
+      .attr('fill', freshComponentFillColor)
+      .attr('stroke', freshComponentFillColor)
       .attr('stroke-width', 1)
-      .attr('r', 20)
+      .attr('r', 15)
       .attr('opacity', 1);
 
     postGroups.append('text')
@@ -205,6 +206,7 @@ class GridVis extends Component {
   }
 
   transitionToPosts = () => {
+    const { freshComponentFillColor } = this.state;
     d3.select('.legend')
       .transition()
       .duration(1000)
@@ -220,15 +222,22 @@ class GridVis extends Component {
       .transition()
       .duration(1000)
       .attr('fill', this.state.freshColor);
+
+    d3.selectAll('.postContent')
+      .transition()
+      .duration(1000)
+      .attr('fill', freshComponentFillColor)
+      .attr('stroke', freshComponentFillColor)
+      .attr('opacity', 1);
   }
 
   transitionToDates = () => {
-    const { postWidth } = this.state;
+    const { postWidth, freshComponentFillColor, staleComponentFillColor } = this.state;
 
     d3.selectAll('.postLabel')
       .transition()
       .duration(1000)
-      .attr('fill', 'black');
+      .attr('fill', d => (d.stale ? staleComponentFillColor : freshComponentFillColor));
 
     let nextY = 0;
     d3.select('.grid')
@@ -252,6 +261,8 @@ class GridVis extends Component {
     d3.selectAll('.postContent')
       .transition()
       .duration(1000)
+      .attr('fill', d => (d.stale ? staleComponentFillColor : freshComponentFillColor))
+      .attr('stroke', d => (d.stale ? staleComponentFillColor : freshComponentFillColor))
       .attr('opacity', 1);
 
     d3.selectAll('.postContent')
@@ -368,6 +379,13 @@ class GridVis extends Component {
       .duration(1000)
       .attr('width', barWidth)
       .attr('stroke-width', 0);
+
+    ['.barLabel', '.histogramLabel'].forEach((selector) => {
+      d3.selectAll(selector)
+        .transition()
+        .duration(1000)
+        .attr('opacity', 1);
+    });
   }
 
   transitionToAllHistograms = () => {
@@ -449,20 +467,21 @@ class GridVis extends Component {
             <rect fill={`${this.state.staleColor}`} width="20" height="20" x="80" y="0" />
             <text x="105" y="15">Stale</text>
           </g>
-          <g transform="translate(0,25)" className="sectionA">
+          <g transform="translate(0,50)" className="sectionA">
+            <text className="barLabel" opacity="0" x="0" y="15">Ethan</text>
             <g transform="translate(0,25)" className="grid" />
             <g transform="translate(0,25)" className="histogramLabels" />
           </g>
-          <g transform="translate(0,130)" className="sectionB">
-            <text x="0" y="15">User B's Feed</text>
+          <g transform="translate(0,145)" className="sectionB">
+            <text x="0" y="15">Rahul</text>
             <g transform="translate(0,25)" className="gridB" />
           </g>
-          <g transform="translate(0,240)" className="sectionC">
-            <text x="0" y="15">User C's Feed</text>
+          <g transform="translate(0,245)" className="sectionC">
+            <text x="0" y="15">Anna</text>
             <g transform="translate(0,25)" className="gridC" />
           </g>
-          <g transform="translate(0,350)" className="sectionD">
-            <text x="0" y="15">User D's Feed</text>
+          <g transform="translate(0,345)" className="sectionD">
+            <text x="0" y="15">Dennis</text>
             <g transform="translate(0,25)" className="gridD" />
           </g>
         </g>
