@@ -4,13 +4,23 @@
   min-height: 300px;
 
   h1 {
-    font-size: 80px;
+    font-size: 60px;
     text-align: center;
   }
 
   p {
     font-size: 30px;
     text-align: center;
+
+    &.stale-credits {
+      font-size: 24px;
+      margin-bottom: 0;
+    }
+
+    .stale-link {
+      color: white;
+      border-bottom: 2px dotted rgba(255, 255, 255, 0.5);
+    }
   }
 
   animation: fadein 2s;
@@ -41,7 +51,12 @@
 }
 
 .card {
-  @extend .p-4;
+  padding: 1.5rem;
+
+  @include media-breakpoint-up(md) {
+    padding: 2.8rem;
+  }
+
   background-color: rgba(255, 255, 255, 1);
   color: black;
   font-size: 24px;
