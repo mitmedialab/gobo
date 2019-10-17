@@ -15,7 +15,7 @@ class GridVis extends Component {
   constructor(props) {
     super(props);
 
-    const dim = 30;
+    const dim = 32;
     const cols = 10;
     const day = 86400;
 
@@ -31,7 +31,7 @@ class GridVis extends Component {
       feedB: RAHUL_FEED,
       feedC: ANNA_FEED,
       feedD: DENNIS_FEED,
-      postWidth: 400,
+      postWidth: 350,
       barWidth: 3,
       freshComponentFillColor: '#888888',
       staleComponentFillColor: '#dddddd',
@@ -123,7 +123,7 @@ class GridVis extends Component {
     d3.select('.feed')
       .attr('transform', () => {
         const bBox = d3.select('.mainCanvas').node().getBoundingClientRect();
-        const x = Math.round(bBox.width * 0.5) - Math.round(postWidth * 0.5);
+        const x = Math.round(bBox.width * 0.5) - Math.round(postWidth * 0.5) - 15;
         return `translate(${x}, 50)`;
       });
 
@@ -340,6 +340,7 @@ class GridVis extends Component {
       .transition()
       .duration(1000)
       .attr('width', dim)
+      .attr('height', dim)
       .attr('stroke-width', 1);
 
     ['.histogramLabel', '.sectionB', '.sectionC', '.sectionD'].forEach((selector) => {
@@ -351,11 +352,10 @@ class GridVis extends Component {
   }
 
   transitionToOneHistogram = () => {
-    const { barWidth } = this.state;
+    const { barWidth, dim, mainFeed } = this.state;
+    const recentPosts = mainFeed.posts.filter(post => !post.stale);
     let staleX = 0;
-    let recentX = 0;
-    const staleY = 0;
-    const recentY = 30;
+    let recentX = (mainFeed.posts.length - recentPosts.length) * barWidth;
 
     d3.select('.grid')
       .selectAll('.post')
@@ -370,7 +370,7 @@ class GridVis extends Component {
           x = recentX;
           recentX += barWidth;
         }
-        return `translate(${x},${d.stale ? staleY : recentY})`;
+        return `translate(${x},0)`;
       });
 
     d3.select('.grid')
@@ -378,6 +378,7 @@ class GridVis extends Component {
       .transition()
       .duration(1000)
       .attr('width', barWidth)
+      .attr('height', dim - 2)
       .attr('stroke-width', 0);
 
     ['.barLabel', '.histogramLabel'].forEach((selector) => {
@@ -406,10 +407,10 @@ class GridVis extends Component {
 
   renderHistogram = (feed, section, grid) => {
     const { dim, barWidth } = this.state;
+    const recentPosts = feed.posts.filter(post => !post.stale);
     let staleX = 0;
-    let recentX = 0;
-    const staleY = 0;
-    const recentY = 30;
+    let recentX = (feed.posts.length - recentPosts.length) * barWidth;
+
     d3.select(section)
       .attr('opacity', 0)
       .select(grid)
@@ -418,7 +419,7 @@ class GridVis extends Component {
       .enter()
       .append('rect')
       .attr('width', barWidth)
-      .attr('height', dim)
+      .attr('height', dim - 2)
       .attr('fill', d => (d.stale ? this.state.staleColor : this.state.freshColor))
       .attr('stroke-width', 0)
       .attr('x', (d) => {
@@ -432,12 +433,7 @@ class GridVis extends Component {
         }
         return x;
       })
-      .attr('y', (d) => {
-        if (d.stale) {
-          return staleY;
-        }
-        return recentY;
-      });
+      .attr('y', 0);
 
     this.renderHistogramLabels(feed, section, grid);
   }
@@ -447,12 +443,14 @@ class GridVis extends Component {
     return d3.select(section)
       .select(grid)
       .selectAll('text')
-      .data([feed.posts.length - recentPosts.length, recentPosts.length])
+      .data([feed.posts.length - recentPosts.length])
       .enter()
       .append('text')
       .attr('class', 'histogramLabel')
-      .text(d => `${d}/${feed.posts.length}`)
-      .attr('y', (d, i) => 20 + (30 * i));
+      .text(d => `${d}% Stale`)
+      .attr('x', 5)
+      .attr('y', 20)
+      .attr('fill', this.state.staleComponentFillColor);
   }
 
   render() {
@@ -461,28 +459,28 @@ class GridVis extends Component {
     return (
       <svg className="mainCanvas" width={width} height="100%">
         <g className="feed">
-          <g transform="translate(0,20)" id="grid" className="legend">
+          <g transform="translate(0,0)" id="grid" className="legend">
             <rect fill={`${this.state.freshColor}`} width="20" height="20" x="0" y="0" />
             <text x="25" y="15">Recent</text>
             <rect fill={`${this.state.staleColor}`} width="20" height="20" x="80" y="0" />
             <text x="105" y="15">Stale</text>
           </g>
-          <g transform="translate(0,50)" className="sectionA">
+          <g transform="translate(0,30)" className="sectionA">
             <text className="barLabel" opacity="0" x="0" y="15">Ethan</text>
-            <g transform="translate(0,25)" className="grid" />
-            <g transform="translate(0,25)" className="histogramLabels" />
+            <g transform="translate(0,20)" className="grid" />
+            <g transform="translate(0,20)" className="histogramLabels" />
           </g>
-          <g transform="translate(0,145)" className="sectionB">
+          <g transform="translate(0,90)" className="sectionB">
             <text x="0" y="15">Rahul</text>
-            <g transform="translate(0,25)" className="gridB" />
+            <g transform="translate(0,20)" className="gridB" />
           </g>
-          <g transform="translate(0,245)" className="sectionC">
+          <g transform="translate(0,150)" className="sectionC">
             <text x="0" y="15">Anna</text>
-            <g transform="translate(0,25)" className="gridC" />
+            <g transform="translate(0,20)" className="gridC" />
           </g>
-          <g transform="translate(0,345)" className="sectionD">
+          <g transform="translate(0,210)" className="sectionD">
             <text x="0" y="15">Dennis</text>
-            <g transform="translate(0,25)" className="gridD" />
+            <g transform="translate(0,20)" className="gridD" />
           </g>
         </g>
       </svg>

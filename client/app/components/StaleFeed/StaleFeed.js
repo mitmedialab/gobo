@@ -15,7 +15,7 @@ class StaleFeed extends Component {
   onStepEnter = (step) => {
     this.setState({
       activeSection: step,
-      fixedPositionPreamble: ['RECENT_TOP_TOGGLE', 'PREAMBLE_START', 'OLD_FACEBOOK', 'PREAMBLE_ALGORITHMS', 'WHY_STALE'].includes(step),
+      fixedPositionPreamble: ['RECENT_TOP_TOGGLE_FB', 'RECENT_TOP_TOGGLE_TW', 'PREAMBLE_START', 'OLD_FACEBOOK', 'PREAMBLE_ALGORITHMS', 'WHY_STALE'].includes(step),
       fixedPosition: ['START_GRID', 'SORT_BY_TIME', 'ONE_HISTOGRAM', 'ALL_HISTOGRAMS', 'CREDITS'].includes(step),
     });
   }
@@ -36,12 +36,12 @@ class StaleFeed extends Component {
           bottomOffset={'100%'}
           onEnter={d => this.onStepEnter('INTRO', d)}
         >
-          <div className="row">
-            <div className="col-lg-12 stale-opening">
-              <div className="pt-5 pb-5">
-                <h1>The Fight Over the Feed</h1>
-                <p className="pt-5">Exploring just how real-time your Facebook feed might be</p>
-              </div>
+          <div className="row vh-100 stale-opening">
+            <div className="col-lg-12 align-self-center">
+              <h1>How Fresh Is Your Feed?</h1>
+              <p className="pt-4">Social media promises to show you what's happening right now. We checked. It isn’t.</p>
+              <p className="pt-4 stale-credits">By Anna Chung, Dennis Jen, and Rahul Bhargava</p>
+              <p className="stale-credits">(a project by the <a className="stale-link" target="_blank" rel="noopener noreferrer" href="https://www.media.mit.edu/groups/civic-media/overview/">Center for Civic Media</a>)</p>
             </div>
           </div>
         </Waypoint>
@@ -51,17 +51,20 @@ class StaleFeed extends Component {
           className={`${fixedPositionPreamble ? 'position-fixed' : 'position-absolute'} w-100 h-100`}
         >
           <div className="carousel-inner">
-            <div className={`carousel-item ${activeSection === 'PREAMBLE_START' ? 'active' : 'inactive'}`}>
-              <img className="d-block vw-100 vh-100" src="images/fb-scrolling.gif" alt="Animation of news feed" />
+            <div className={`carousel-item justify-content-center ${activeSection === 'PREAMBLE_START' ? 'd-flex active' : 'inactive'}`}>
+              <img className="d-block" src="images/fb-scrolling.gif" alt="Animation of news feed" />
             </div>
-            <div className={`carousel-item ${activeSection === 'OLD_FACEBOOK' ? 'active' : 'inactive'}`}>
-              <img className="d-block vw-100 vh-100" src="https://compote.slate.com/images/802a9c9c-308e-4986-8758-1d668fa15535.jpg" alt="Second slide" />
+            <div className={`carousel-item justify-content-center ${activeSection === 'OLD_FACEBOOK' ? 'd-flex active' : 'inactive'}`}>
+              <img className="d-block" src="images/old-fb-feed.jpg" alt="Old version of Facebook feed" />
             </div>
-            <div className={`carousel-item ${activeSection === 'PREAMBLE_ALGORITHMS' ? 'active' : 'inactive'}`}>
-              <img className="d-block vw-100 vh-100" src="https://media.giphy.com/media/pcKpO81dLCPdLY1xYs/giphy.gif" alt="Second slide" />
+            <div className={`carousel-item justify-content-center ${activeSection === 'PREAMBLE_ALGORITHMS' ? 'd-flex active' : 'inactive'}`}>
+              <img className="d-block" src="https://media.giphy.com/media/pcKpO81dLCPdLY1xYs/giphy.gif" alt="Algorithms" />
             </div>
-            <div className={`carousel-item ${activeSection === 'RECENT_TOP_TOGGLE' ? 'active' : 'inactive'}`}>
-              <img className="d-block vw-100 vh-100" src="images/fb_top_most_recent.gif" alt="Second slide" />
+            <div className={`carousel-item justify-content-center ${activeSection === 'RECENT_TOP_TOGGLE_FB' ? 'd-flex active' : 'inactive'}`}>
+              <img className="d-block" src="images/fb_top_most_recent.gif" alt="Second slide" />
+            </div>
+            <div className={`carousel-item justify-content-center ${activeSection === 'RECENT_TOP_TOGGLE_TW' ? 'd-flex active' : 'inactive'}`}>
+              <img className="d-block" src="images/twitter-feed-menu.png" alt="Second slide" />
             </div>
             <div className={`carousel-item ${activeSection === 'WHY_STALE' ? 'active' : 'inactive'}`}>
               <img className="d-block w-100" src="https://media.giphy.com/media/iIMwMis2QFzBZUcKhf/giphy.gif" alt="Third slide" />
@@ -86,8 +89,8 @@ class StaleFeed extends Component {
             <div className="col-lg-12 vh-100">
               <div className="d-flex justify-content-center">
                 <div className="card">
-                  <p className="card-text">A good chunk of this time is spent scrolling through “feeds”, where
-                  we encounter all sorts of content -- news articles, vacation photos, memes, and more.</p>
+                  <p className="card-text">A good chunk of this time is spent scrolling through “feeds,” where
+                  we encounter all sorts of content ⁠— news articles, vacation photos, memes, and more.</p>
                 </div>
               </div>
             </div>
@@ -95,8 +98,8 @@ class StaleFeed extends Component {
         </Waypoint>
 
         <Waypoint
-          topOffset={'5%'}
-          bottomOffset={'5%'}
+          topOffset={topOffset}
+          bottomOffset={bottomOffset}
           onEnter={d => this.onStepEnter('OLD_FACEBOOK', d)}
         >
           <div className="row">
@@ -111,8 +114,8 @@ class StaleFeed extends Component {
         </Waypoint>
 
         <Waypoint
-          topOffset={'5%'}
-          bottomOffset={'5%'}
+          topOffset={topOffset}
+          bottomOffset={bottomOffset}
           onEnter={d => this.onStepEnter('PREAMBLE_ALGORITHMS', d)}
         >
           <div className="row">
@@ -129,9 +132,9 @@ class StaleFeed extends Component {
         </Waypoint>
 
         <Waypoint
-          topOffset={'5%'}
-          bottomOffset={'5%'}
-          onEnter={d => this.onStepEnter('RECENT_TOP_TOGGLE', d)}
+          topOffset={topOffset}
+          bottomOffset={bottomOffset}
+          onEnter={d => this.onStepEnter('RECENT_TOP_TOGGLE_FB', d)}
         >
           <div className="row">
             <div className="col-lg-12 vh-100">
@@ -145,8 +148,18 @@ class StaleFeed extends Component {
         </Waypoint>
 
         <Waypoint
-          topOffset={'5%'}
-          bottomOffset={'5%'}
+          topOffset={topOffset}
+          bottomOffset={bottomOffset}
+          onEnter={d => this.onStepEnter('RECENT_TOP_TOGGLE_TW', d)}
+        >
+          <div className="row">
+            <div className="col-lg-12 vh-100" />
+          </div>
+        </Waypoint>
+
+        <Waypoint
+          topOffset={topOffset}
+          bottomOffset={bottomOffset}
           onEnter={d => this.onStepEnter('NONE', d)}
         >
           <div className="row">
@@ -249,7 +262,7 @@ class StaleFeed extends Component {
               <div className="vh-100">
                 <div className="d-flex justify-content-center">
                   <div className="card">
-                    <p className="card-text">Turns out, XX% of our posts were stale! This is pretty different from the original idea of the social media feed, when we expected to see whatever was happening "right now".</p>
+                    <p className="card-text">Turns out, 34% of our posts were stale! This is pretty different from the original idea of the social media feed, when we expected to see whatever was happening "right now".</p>
                   </div>
                 </div>
               </div>
@@ -370,18 +383,89 @@ class StaleFeed extends Component {
               bottomOffset={bottomOffset}
               onEnter={d => this.onStepEnter('NONE', d)}
             >
-              <div className="">
+              <div className="vh-100">
                 <div className="d-flex justify-content-center">
                   <div className="card">
                     <p className="card-text">
                       So we’re starting to see what’s going on, but we still can’t directly <strong>control</strong> what the algorithms are doing.
                     </p>
+                  </div>
+                </div>
+              </div>
+            </Waypoint>
+
+            <Waypoint
+              topOffset={topOffset}
+              bottomOffset={bottomOffset}
+              onEnter={d => this.onStepEnter('NONE', d)}
+            >
+              <div className="vh-100">
+                <div className="d-flex justify-content-center">
+                  <div className="card">
                     <p className="card-text">
-                      What if you could see posts only from your closest family and friends?<br />
-                      What if you could catch up on the news without distraction?<br />
-                      What if you could see more women’s voices in your feed?<br />
+                      What if you could see posts only from your closest family and friends?
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Waypoint>
+
+            <Waypoint
+              topOffset={topOffset}
+              bottomOffset={bottomOffset}
+              onEnter={d => this.onStepEnter('NONE', d)}
+            >
+              <div className="vh-100">
+                <div className="d-flex justify-content-center">
+                  <div className="card">
+                    <p className="card-text">
+                      What if you could catch up on the news without distraction?
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Waypoint>
+
+            <Waypoint
+              topOffset={topOffset}
+              bottomOffset={bottomOffset}
+              onEnter={d => this.onStepEnter('NONE', d)}
+            >
+              <div className="vh-100">
+                <div className="d-flex justify-content-center">
+                  <div className="card">
+                    <p className="card-text">
+                      What if you could see more women’s voices in your feed?
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Waypoint>
+
+            <Waypoint
+              topOffset={topOffset}
+              bottomOffset={bottomOffset}
+              onEnter={d => this.onStepEnter('NONE', d)}
+            >
+              <div className="vh-100">
+                <div className="d-flex justify-content-center">
+                  <div className="card">
+                    <p className="card-text">
                       What if you could filter out all the trolls?<br />
                     </p>
+                  </div>
+                </div>
+              </div>
+            </Waypoint>
+
+            <Waypoint
+              topOffset={topOffset}
+              bottomOffset={bottomOffset}
+              onEnter={d => this.onStepEnter('NONE', d)}
+            >
+              <div className="vh-100">
+                <div className="d-flex justify-content-center">
+                  <div className="card">
                     <p className="card-text">
                       Right now, you can’t make those choices because the social media algorithms do. We think it’s important to challenge that.
                     </p>
@@ -389,6 +473,7 @@ class StaleFeed extends Component {
                 </div>
               </div>
             </Waypoint>
+
           </div>
         </div>
 
@@ -397,9 +482,9 @@ class StaleFeed extends Component {
             <h2>Curious to learn more?</h2>
             <p>Do you want to learn more about how algorithms control what we see? Read these short articles:</p>
             <ul>
-              <li>TBD</li>
-              <li>TBD</li>
-              <li>TBD</li>
+              <li><a target="_blank" rel="noopener noreferrer" href="https://medium.com/trust-media-and-democracy/six-or-seven-things-social-media-can-do-for-democracy-66cee083b91a">Six or seven things social media can do for democracy</a> - by Ethan Zuckerman</li>
+              <li><a target="_blank" rel="noopener noreferrer" href="https://theconversation.com/explainer-how-facebook-has-become-the-worlds-largest-echo-chamber-91024">Explainer: how Facebook has become the world’s largest echo chamber</a> - Beth Daley (in The Conversation)</li>
+              <li><a target="_blank" rel="noopener noreferrer" href="https://techcrunch.com/2016/09/06/ultimate-guide-to-the-news-feed/">How Facebook News Feed Works</a> - Josh Costine (in Tech Crunch)</li>
             </ul>
 
             <p>Want to explore a different way control your own feed? Signup for our Gobo.social online social media browser. You can connect your social media accounts and use our various rules to control what content get shown to you, and what gets hidden.</p>
@@ -414,8 +499,6 @@ class StaleFeed extends Component {
               <li>Automating Inequality - Virginia Eubanks</li>
             </ul>
 
-            <h2>Credits</h2>
-            <p>Anna Chung, Dennis Jen, Rahul Bhargava</p>
             <h2>Methodology</h2>
             <p>
               Each researcher logged into their Facebook account and collected the date a post was created
