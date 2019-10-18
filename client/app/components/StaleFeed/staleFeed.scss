@@ -5,16 +5,27 @@ $stale-color: #f0a53c;
   color: white;
 
   h1 {
-    font-size: 60px;
+    font-size: 50px;
+    @include media-breakpoint-up(md) {
+      font-size: 60px;
+    }
+
     text-align: center;
   }
 
   p {
-    font-size: 30px;
+    font-size: 24px;
+    @include media-breakpoint-up(md) {
+      font-size: 30px;
+    }
+
     text-align: center;
 
     &.stale-credits {
-      font-size: 24px;
+      font-size: 20px;
+      @include media-breakpoint-up(md) {
+        font-size: 24px;
+      }
       margin-bottom: 0;
     }
 
