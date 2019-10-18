@@ -503,7 +503,7 @@ class StaleFeed extends Component {
             <p>Want to explore a different way control your own feed? Signup for our Gobo.social online social media browser. You can connect your social media accounts and use our various rules to control what content get shown to you, and what gets hidden.</p>
 
             <div className="d-flex justify-content-center p-4">
-              <img className="w-100" src="images/book-covers.png" />
+              <img className="w-100 h-100" src="images/book-covers.png" />
             </div>
             <p>Want to learn more about the impact of algorithms in other parts of society? Buy these great books, or check them out from your local library:</p>
             <ul>
