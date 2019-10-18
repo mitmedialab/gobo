@@ -206,7 +206,7 @@ class GridVis extends Component {
   }
 
   transitionToPosts = () => {
-    const { freshComponentFillColor } = this.state;
+    const { postWidth, freshComponentFillColor } = this.state;
     d3.select('.legend')
       .transition()
       .duration(1000)
@@ -221,6 +221,8 @@ class GridVis extends Component {
       .selectAll('.postFrame')
       .transition()
       .duration(1000)
+      .attr('width', postWidth)
+      .attr('height', d => d.postHeight)
       .attr('fill', this.state.freshColor);
 
     d3.selectAll('.postContent')
@@ -229,6 +231,17 @@ class GridVis extends Component {
       .attr('fill', freshComponentFillColor)
       .attr('stroke', freshComponentFillColor)
       .attr('opacity', 1);
+
+    let nextY = 0;
+    d3.select('.grid')
+      .selectAll('.post')
+      .transition()
+      .duration(1000)
+      .attr('transform', (d) => {
+        const y = nextY;
+        nextY += d.postHeight + 20;
+        return `translate(0,${y})`;
+      });
   }
 
   transitionToDates = () => {
@@ -304,12 +317,30 @@ class GridVis extends Component {
       .selectAll('.postFrame')
       .transition()
       .duration(1000)
+      .attr('fill', d => (d.stale ? this.state.staleColor : this.state.freshColor))
       .attr('width', dim)
       .attr('height', dim);
   }
 
   transitionToGrid = () => {
     const { cols, dim } = this.state;
+
+    d3.selectAll('.postLabel')
+      .transition()
+      .duration(1000)
+      .attr('fill', 'transparent');
+
+    d3.selectAll('.postContent')
+      .transition()
+      .duration(1000)
+      .attr('opacity', 0);
+
+    ['.histogramLabel', '.sectionB', '.sectionC', '.sectionD'].forEach((selector) => {
+      d3.selectAll(selector)
+        .transition()
+        .duration(500)
+        .attr('opacity', 0);
+    });
 
     d3.select('.grid')
       .selectAll('.post')
@@ -320,6 +351,14 @@ class GridVis extends Component {
         const row = Math.floor(i / cols);
         return `translate(${col * dim},${row * dim})`;
       });
+
+    d3.select('.grid')
+      .selectAll('.postFrame')
+      .transition()
+      .duration(1000)
+      .attr('width', dim)
+      .attr('height', dim)
+      .attr('stroke-width', 1);
   }
 
   transitionToOrdered = () => {
@@ -390,6 +429,9 @@ class GridVis extends Component {
   }
 
   transitionToAllHistograms = () => {
+    // just in case we skip over it
+    this.transitionToOneHistogram();
+
     ['.mainCanvas', '.histogramLabel', '.sectionB', '.sectionC', '.sectionD'].forEach((selector) => {
       d3.selectAll(selector)
         .transition()

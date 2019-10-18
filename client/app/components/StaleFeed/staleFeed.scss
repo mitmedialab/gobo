@@ -23,10 +23,10 @@
     }
   }
 
-  animation: fadein 2s;
-  -moz-animation: fadein 2s; /* Firefox */
-  -webkit-animation: fadein 2s; /* Safari and Chrome */
-  -o-animation: fadein 2s; /* Opera */
+  animation: fadein 3s;
+  -moz-animation: fadein 3s; /* Firefox */
+  -webkit-animation: fadein 3s; /* Safari and Chrome */
+  -o-animation: fadein 3s; /* Opera */
 }
 
 .carousel-inner {
@@ -45,9 +45,45 @@
   }
 }
 
+.orange-background {
+  transition: background-color 1.0s ease;
+  background-color: $orange;
+}
+
+.red-background {
+  transition: background-color 1.0s ease;
+  background-color: $red;
+}
+
+.green-background {
+  transition: background-color 1.0s ease;
+  background-color: $green;
+}
+
+.purple-background {
+  transition: background-color 1.0s ease;
+  background-color: $purple;
+}
+
+.inherit-background {
+  transition: background-color 1.0s ease;
+}
+
 .stale-container {
   max-width: 600px;
   margin: auto;
+
+  p {
+    font-size: 20px;
+  }
+
+  ul {
+    font-size: 20px;
+  }
+
+  h2 {
+    font-size: 40px;
+  }
 }
 
 .card {
