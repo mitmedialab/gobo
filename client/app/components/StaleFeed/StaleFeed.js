@@ -13,7 +13,7 @@ class StaleFeed extends Component {
   }
 
   state = {
-    activeSection: '',
+    activeSection: 'INTRO',
     fixed: false,
     backgroundColor: 'inherit-background',
   }
@@ -22,7 +22,7 @@ class StaleFeed extends Component {
     this.setState({
       activeSection: step,
       fixedPositionPreamble: ['FB_EXPLAINATIONS_STATIC', 'FB_EXPLAINATIONS', 'ALGORITHM_HEADLINES', 'RECENT_TOP_TOGGLE', 'PREAMBLE_START', 'OLD_FACEBOOK', 'PREAMBLE_ALGORITHMS', 'WHY_SEE'].includes(step),
-      fixedPosition: ['START_GRID', 'SORT_BY_TIME', 'ONE_HISTOGRAM', 'ALL_HISTOGRAMS', 'CREDITS'].includes(step),
+      fixedPosition: ['INTRO', 'START_GRID', 'SORT_BY_TIME', 'ONE_HISTOGRAM', 'ALL_HISTOGRAMS', 'CREDITS'].includes(step),
       backgroundColor: this.backgroundColors[step] ? this.backgroundColors[step] : 'inherit-background',
     });
   }
@@ -51,11 +51,13 @@ class StaleFeed extends Component {
           onEnter={d => this.onStepEnter('INTRO', d)}
         >
           <div className="row vh-100 stale-opening">
-            <div className="col-lg-12 align-self-center">
-              <h1>How Fresh Is Your Feed?</h1>
-              <p className="pt-4">Social media promises to show you what's happening right now. We checked. It isn’t.</p>
-              <p className="pt-4 stale-credits">By Anna Chung, Dennis Jen, and Rahul Bhargava</p>
-              <p className="stale-credits">(a project from the <a className="stale-link" target="_blank" rel="noopener noreferrer" href="https://www.media.mit.edu/groups/civic-media/overview/">Center for Civic Media</a>)</p>
+            <div className="col-lg-12">
+              <div className="pt-4 pb-4 stale-background w-100">
+                <h1>How Fresh Is Your Feed?</h1>
+                <p className="pt-2">Social media promises to show you what's happening right now. We checked. It isn’t.</p>
+                <p className="pt-2 stale-credits">By Anna Chung, Dennis Jen, and Rahul Bhargava</p>
+                <p className="stale-credits">(a project from the <a className="stale-link" target="_blank" rel="noopener noreferrer" href="https://www.media.mit.edu/groups/civic-media/overview/">Center for Civic Media</a>)</p>
+              </div>
             </div>
           </div>
         </Waypoint>
@@ -186,7 +188,7 @@ class StaleFeed extends Component {
         <div className="row">
           <div className="col-lg-12">
             <div
-              style={fixedPosition ? { top: 0 } : { }}
+              style={fixedPosition ? { zIndex: -1, top: 0 } : { }}
               className={`${fixedPosition ? 'position-fixed' : 'position-absolute'} w-100 h-100`}
             >
               <GridVis activeSection={this.state.activeSection} />
@@ -222,7 +224,7 @@ class StaleFeed extends Component {
               <div id="scrolly-start" className="vh-100">
                 <div className="d-flex justify-content-center">
                   <div className="card">
-                    <p className="card-text">Here's one of our feeds. We’ve highlighted the stale posts in <span className="stale-blue-text">blue</span> - these were posted more than a day ago. The more recent posts from today are in grey.</p>
+                    <p className="card-text">Here's one of our feeds. We’ve highlighted the stale posts in <span className="stale-text">orange</span> - these were posted more than a day ago. The more recent posts from today are in grey.</p>
                   </div>
                 </div>
               </div>
@@ -236,7 +238,7 @@ class StaleFeed extends Component {
               <div id="scrolly-blocks" className="vh-100">
                 <div className="d-flex justify-content-center">
                   <div className="card">
-                    <p className="card-text">As you can see, it’s quite a mix! All of the <span className="stale-blue-text">blue</span> posts? Those are stale posts the algorithm has mixed in.</p>
+                    <p className="card-text">As you can see, it’s quite a mix! All of the <span className="stale-text">orange</span> posts? Those are stale posts the algorithm has mixed in.</p>
                   </div>
                 </div>
               </div>
