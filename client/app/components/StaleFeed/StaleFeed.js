@@ -7,30 +7,44 @@ import GridVis from 'components/StaleFeed/GridVis';
 
 
 class StaleFeed extends Component {
+  constructor(props) {
+    super(props);
+    this.containerRef = React.createRef();
+  }
+
   state = {
     activeSection: '',
     fixed: false,
+    backgroundColor: 'inherit-background',
   }
 
   onStepEnter = (step) => {
     this.setState({
       activeSection: step,
-      fixedPositionPreamble: ['RECENT_TOP_TOGGLE_FB', 'RECENT_TOP_TOGGLE_TW', 'PREAMBLE_START', 'OLD_FACEBOOK', 'PREAMBLE_ALGORITHMS', 'WHY_STALE'].includes(step),
+      fixedPositionPreamble: ['FB_EXPLAINATIONS_STATIC', 'FB_EXPLAINATIONS', 'ALGORITHM_HEADLINES', 'RECENT_TOP_TOGGLE', 'PREAMBLE_START', 'OLD_FACEBOOK', 'PREAMBLE_ALGORITHMS', 'WHY_SEE'].includes(step),
       fixedPosition: ['START_GRID', 'SORT_BY_TIME', 'ONE_HISTOGRAM', 'ALL_HISTOGRAMS', 'CREDITS'].includes(step),
+      backgroundColor: this.backgroundColors[step] ? this.backgroundColors[step] : 'inherit-background',
     });
   }
 
+  backgroundColors = {
+    ORANGE: 'orange-background',
+    RED: 'red-background',
+    GREEN: 'green-background',
+    PURPLE: 'purple-background',
+  }
+
   render() {
-    const { fixedPosition, fixedPositionPreamble, activeSection } = this.state;
-    const topOffset = '33%';
-    const bottomOffset = '33%';
+    const { fixedPosition, fixedPositionPreamble, activeSection, backgroundColor } = this.state;
+    const topOffset = '15%';
+    const bottomOffset = '15%';
 
     if (!isEnabled(SCROLLY_TELLING)) {
       return (<div />);
     }
 
     return (
-      <div className="fluid-container">
+      <div className={`fluid-container ${backgroundColor}`}>
         <Waypoint
           topOffset={'5%'}
           bottomOffset={'100%'}
@@ -41,7 +55,7 @@ class StaleFeed extends Component {
               <h1>How Fresh Is Your Feed?</h1>
               <p className="pt-4">Social media promises to show you what's happening right now. We checked. It isn’t.</p>
               <p className="pt-4 stale-credits">By Anna Chung, Dennis Jen, and Rahul Bhargava</p>
-              <p className="stale-credits">(a project by the <a className="stale-link" target="_blank" rel="noopener noreferrer" href="https://www.media.mit.edu/groups/civic-media/overview/">Center for Civic Media</a>)</p>
+              <p className="stale-credits">(a project from the <a className="stale-link" target="_blank" rel="noopener noreferrer" href="https://www.media.mit.edu/groups/civic-media/overview/">Center for Civic Media</a>)</p>
             </div>
           </div>
         </Waypoint>
@@ -58,16 +72,22 @@ class StaleFeed extends Component {
               <img className="d-block" src="images/old-fb-feed.jpg" alt="Old version of Facebook feed" />
             </div>
             <div className={`carousel-item justify-content-center ${activeSection === 'PREAMBLE_ALGORITHMS' ? 'd-flex active' : 'inactive'}`}>
-              <img className="d-block" src="https://media.giphy.com/media/pcKpO81dLCPdLY1xYs/giphy.gif" alt="Algorithms" />
+              <img className="d-block" src="https://media.giphy.com/media/pcKpO81dLCPdLY1xYs/giphy.gif" alt="Algorithms are controlling your feed" />
             </div>
-            <div className={`carousel-item justify-content-center ${activeSection === 'RECENT_TOP_TOGGLE_FB' ? 'd-flex active' : 'inactive'}`}>
-              <img className="d-block" src="images/fb_top_most_recent.gif" alt="Second slide" />
+            <div className={`carousel-item justify-content-center ${activeSection === 'RECENT_TOP_TOGGLE' ? 'd-flex active' : 'inactive'}`}>
+              <img className="d-block" src="images/feed-menu.png" alt="Toggles between recent vs. top news" />
             </div>
-            <div className={`carousel-item justify-content-center ${activeSection === 'RECENT_TOP_TOGGLE_TW' ? 'd-flex active' : 'inactive'}`}>
-              <img className="d-block" src="images/twitter-feed-menu.png" alt="Second slide" />
+            <div className={`carousel-item  justify-content-center ${activeSection === 'ALGORITHM_HEADLINES' ? 'd-flex active' : 'inactive'}`}>
+              <img className="d-block" src="images/algorithm-headlines.png" alt="Headlines of algorithm impact" />
             </div>
-            <div className={`carousel-item ${activeSection === 'WHY_STALE' ? 'active' : 'inactive'}`}>
-              <img className="d-block w-100" src="https://media.giphy.com/media/iIMwMis2QFzBZUcKhf/giphy.gif" alt="Third slide" />
+            <div className={`carousel-item  justify-content-center ${activeSection === 'WHY_SEE' ? 'd-flex active' : 'inactive'}`}>
+              <img className="d-block" src="images/fb-why-am-i-seeing-this.gif" alt="Headlines of algorithm impact" />
+            </div>
+            <div className={`carousel-item  justify-content-center ${activeSection === 'FB_EXPLAINATIONS' ? 'd-flex active' : 'inactive'}`}>
+              <img className="d-block" src="images/fb-explainations.gif" alt="Headlines of algorithm impact" />
+            </div>
+            <div className={`carousel-item  justify-content-center ${activeSection === 'FB_EXPLAINATIONS_STATIC' ? 'd-flex active' : 'inactive'}`}>
+              <img className="d-block" src="images/fb-explainations-static.png" alt="Headlines of algorithm impact" />
             </div>
           </div>
         </div>
@@ -134,7 +154,7 @@ class StaleFeed extends Component {
         <Waypoint
           topOffset={topOffset}
           bottomOffset={bottomOffset}
-          onEnter={d => this.onStepEnter('RECENT_TOP_TOGGLE_FB', d)}
+          onEnter={d => this.onStepEnter('RECENT_TOP_TOGGLE', d)}
         >
           <div className="row">
             <div className="col-lg-12 vh-100">
@@ -144,16 +164,6 @@ class StaleFeed extends Component {
                 </div>
               </div>
             </div>
-          </div>
-        </Waypoint>
-
-        <Waypoint
-          topOffset={topOffset}
-          bottomOffset={bottomOffset}
-          onEnter={d => this.onStepEnter('RECENT_TOP_TOGGLE_TW', d)}
-        >
-          <div className="row">
-            <div className="col-lg-12 vh-100" />
           </div>
         </Waypoint>
 
@@ -270,7 +280,7 @@ class StaleFeed extends Component {
 
             <Waypoint
               topOffset={topOffset}
-              bottomOffset={'15%'}
+              bottomOffset={bottomOffset}
               onEnter={d => this.onStepEnter('ALL_HISTOGRAMS', d)}
             >
               <div className="vh-100">
@@ -280,6 +290,14 @@ class StaleFeed extends Component {
                   </div>
                 </div>
               </div>
+            </Waypoint>
+
+            <Waypoint
+              topOffset={topOffset}
+              bottomOffset={'15%'}
+              onEnter={d => this.onStepEnter('ALL_HISTOGRAMS', d)}
+            >
+              <div className="vh-100" />
             </Waypoint>
 
             <Waypoint
@@ -301,7 +319,7 @@ class StaleFeed extends Component {
             <Waypoint
               topOffset={topOffset}
               bottomOffset={bottomOffset}
-              onEnter={d => this.onStepEnter('NONE', d)}
+              onEnter={d => this.onStepEnter('ALGORITHM_HEADLINES', d)}
             >
               <div className="vh-100">
                 <div className="d-flex justify-content-center">
@@ -333,13 +351,13 @@ class StaleFeed extends Component {
             <Waypoint
               topOffset={topOffset}
               bottomOffset={bottomOffset}
-              onEnter={d => this.onStepEnter('NONE', d)}
+              onEnter={d => this.onStepEnter('WHY_SEE', d)}
             >
               <div className="vh-100">
                 <div className="d-flex justify-content-center">
                   <div className="card">
                     <p className="card-text">
-                      FB has recently tried to show us some of why, but it is hidden away. You can click the “why am I seeing this post” button to see some of the reasons.
+                      Facebook has recently tried to show us some of why, but it is hidden away. You can click the “why am I seeing this post” button to see some of the reasons.
                     </p>
                   </div>
                 </div>
@@ -349,23 +367,15 @@ class StaleFeed extends Component {
             <Waypoint
               topOffset={topOffset}
               bottomOffset={bottomOffset}
-              onEnter={d => this.onStepEnter('NONE', d)}
+              onEnter={d => this.onStepEnter('FB_EXPLAINATIONS', d)}
             >
-              <div className="vh-100">
-                <div className="d-flex justify-content-center">
-                  <div className="card">
-                    <p className="card-text">
-                      [visual: animated gif of stacking explanations from FB]
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <div className="vh-100" />
             </Waypoint>
 
             <Waypoint
               topOffset={topOffset}
               bottomOffset={bottomOffset}
-              onEnter={d => this.onStepEnter('NONE', d)}
+              onEnter={d => this.onStepEnter('FB_EXPLAINATIONS_STATIC', d)}
             >
               <div className="vh-100">
                 <div className="d-flex justify-content-center">
@@ -397,7 +407,7 @@ class StaleFeed extends Component {
             <Waypoint
               topOffset={topOffset}
               bottomOffset={bottomOffset}
-              onEnter={d => this.onStepEnter('NONE', d)}
+              onEnter={d => this.onStepEnter('ORANGE', d)}
             >
               <div className="vh-100">
                 <div className="d-flex justify-content-center">
@@ -413,7 +423,7 @@ class StaleFeed extends Component {
             <Waypoint
               topOffset={topOffset}
               bottomOffset={bottomOffset}
-              onEnter={d => this.onStepEnter('NONE', d)}
+              onEnter={d => this.onStepEnter('PURPLE', d)}
             >
               <div className="vh-100">
                 <div className="d-flex justify-content-center">
@@ -429,7 +439,7 @@ class StaleFeed extends Component {
             <Waypoint
               topOffset={topOffset}
               bottomOffset={bottomOffset}
-              onEnter={d => this.onStepEnter('NONE', d)}
+              onEnter={d => this.onStepEnter('GREEN', d)}
             >
               <div className="vh-100">
                 <div className="d-flex justify-content-center">
@@ -445,7 +455,7 @@ class StaleFeed extends Component {
             <Waypoint
               topOffset={topOffset}
               bottomOffset={bottomOffset}
-              onEnter={d => this.onStepEnter('NONE', d)}
+              onEnter={d => this.onStepEnter('RED', d)}
             >
               <div className="vh-100">
                 <div className="d-flex justify-content-center">
