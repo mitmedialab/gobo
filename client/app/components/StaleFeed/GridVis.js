@@ -25,7 +25,7 @@ class GridVis extends Component {
     this.preprocessPosts(ANNA_FEED);
 
     this.state = {
-      staleColor: '#4267b2',
+      staleColor: '#f0a53c',
       freshColor: '#dddddd',
       mainFeed: ETHAN_FEED,
       feedB: RAHUL_FEED,
@@ -34,7 +34,7 @@ class GridVis extends Component {
       postWidth: 350,
       barWidth: 3,
       freshComponentFillColor: '#888888',
-      staleComponentFillColor: '#dddddd',
+      staleComponentFillColor: '#6a6a6a',
       day,
       cols,
       dim,
