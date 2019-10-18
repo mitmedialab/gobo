@@ -272,7 +272,7 @@ class StaleFeed extends Component {
               <div className="vh-100">
                 <div className="d-flex justify-content-center">
                   <div className="card">
-                    <p className="card-text">Turns out, 34% of our posts were stale! This is pretty different from the original idea of the social media feed, when we expected to see whatever was happening "right now".</p>
+                    <p className="card-text">Turns out, 34% of our posts were stale! This is pretty different from the original idea of the social media feed, when we expected to see whatever was happening "right now."</p>
                   </div>
                 </div>
               </div>
@@ -341,7 +341,7 @@ class StaleFeed extends Component {
                 <div className="d-flex justify-content-center">
                   <div className="card">
                     <p className="card-text">
-                      So how is the algorithm is deciding what we see and what we don’t?
+                      So how is the algorithm deciding what we see and what we don’t?
                     </p>
                   </div>
                 </div>
@@ -497,16 +497,19 @@ class StaleFeed extends Component {
               <li><a target="_blank" rel="noopener noreferrer" href="https://techcrunch.com/2016/09/06/ultimate-guide-to-the-news-feed/">How Facebook News Feed Works</a> - Josh Costine (in Tech Crunch)</li>
             </ul>
 
-            <p>Want to explore a different way control your own feed? Signup for our Gobo.social online social media browser. You can connect your social media accounts and use our various rules to control what content get shown to you, and what gets hidden.</p>
             <div className="d-flex justify-content-center p-4">
               <img className="landing-civic-logo" src="images/gobo-logo.png" />
             </div>
+            <p>Want to explore a different way control your own feed? Signup for our Gobo.social online social media browser. You can connect your social media accounts and use our various rules to control what content get shown to you, and what gets hidden.</p>
 
+            <div className="d-flex justify-content-center p-4">
+              <img className="w-100" src="images/book-covers.png" />
+            </div>
             <p>Want to learn more about the impact of algorithms in other parts of society? Buy these great books, or check them out from your local library:</p>
             <ul>
-              <li>Algorithms of Oppression - Safiya Noble</li>
-              <li>Weapons of Math Destruction - Cathy O'Neil</li>
-              <li>Automating Inequality - Virginia Eubanks</li>
+              <li><a target="_blank" rel="noopener noreferrer" href="https://nyupress.org/9781479837243/algorithms-of-oppression/">Algorithms of Oppression</a> - Safiya Noble</li>
+              <li><a target="_blank" rel="noopener noreferrer" href="https://weaponsofmathdestructionbook.com">Weapons of Math Destruction</a> - Cathy O'Neil</li>
+              <li><a target="_blank" rel="noopener noreferrer" href="https://virginia-eubanks.com/books/">Automating Inequality</a> - Virginia Eubanks</li>
             </ul>
 
             <h2>Methodology</h2>
