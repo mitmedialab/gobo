@@ -62,7 +62,12 @@ class StaleFeed extends Component {
         >
           <div className="carousel-inner">
             <div className={`carousel-item justify-content-center ${activeSection === 'PREAMBLE_START' ? 'd-flex active' : 'inactive'}`}>
-              <img className="d-block more-transparent" src="images/fb-scrolling.gif" alt="Animation of news feed" />
+              <div className="d-lg-none">
+                <img className="d-block w-100 more-transparent" src="images/fb-scrolling.gif" alt="Animation of news feed" />
+              </div>
+              <div className="d-none d-lg-block">
+                <img className="d-block more-transparent" src="images/fb-scrolling.gif" alt="Animation of news feed" />
+              </div>
             </div>
             <div className={`carousel-item justify-content-center ${activeSection === 'OLD_FACEBOOK' ? 'd-flex active' : 'inactive'}`}>
               <img className="d-block less-transparent" src="images/old-fb-feed.jpg" alt="Old version of Facebook feed" />
@@ -74,16 +79,36 @@ class StaleFeed extends Component {
               <img className="d-block less-transparent" src="images/feed-menu.png" alt="Toggles between recent vs. top news" />
             </div>
             <div className={`carousel-item justify-content-center ${activeSection === 'ALGORITHM_HEADLINES' ? 'd-flex active' : 'inactive'}`}>
-              <img className="d-block more-transparent w-100" src="images/algorithm-headlines.png" alt="Headlines of algorithm impact" />
+              <div className="d-lg-none">
+                <img className="d-block more-transparent w-100" src="images/algorithm-headlines.png" alt="Headlines of algorithm impact" />
+              </div>
+              <div className="d-none d-lg-block">
+                <img className="d-block more-transparent" src="images/algorithm-headlines.png" alt="Headlines of algorithm impact" />
+              </div>
             </div>
             <div className={`carousel-item justify-content-center ${activeSection === 'WHY_SEE' ? 'd-flex active' : 'inactive'}`}>
-              <img className="d-block less-transparent" src="images/fb-why-am-i-seeing-this.gif" alt="Headlines of algorithm impact" />
+              <div className="d-lg-none">
+                <img className="d-block w-100 less-transparent" src="images/fb-why-am-i-seeing-this.gif" alt="Headlines of algorithm impact" />
+              </div>
+              <div className="d-none d-lg-block">
+                <img className="d-block less-transparent" src="images/fb-why-am-i-seeing-this.gif" alt="Headlines of algorithm impact" />
+              </div>
             </div>
             <div className={`carousel-item justify-content-center ${activeSection === 'FB_EXPLAINATIONS' ? 'd-flex active' : 'inactive'}`}>
-              <img className="d-block less-transparent" src="images/fb-explainations.gif" alt="Headlines of algorithm impact" />
+              <div className="d-lg-none">
+                <img className="d-block w-100 less-transparent" src="images/fb-explainations.gif" alt="Headlines of algorithm impact" />
+              </div>
+              <div className="d-none d-lg-block">
+                <img className="d-block less-transparent" src="images/fb-explainations.gif" alt="Headlines of algorithm impact" />
+              </div>
             </div>
             <div className={`carousel-item justify-content-center ${activeSection === 'FB_EXPLAINATIONS_STATIC' ? 'd-flex active' : 'inactive'}`}>
-              <img width="600" height="590" className="d-block less-transparent" src="images/fb-explainations-static.png" alt="Headlines of algorithm impact" />
+              <div className="d-lg-none">
+                <img className="d-block w-100 less-transparent" src="images/fb-explainations-static.png" alt="Headlines of algorithm impact" />
+              </div>
+              <div className="d-none d-lg-block">
+                <img width="600" height="590" className="d-block less-transparent" src="images/fb-explainations-static.png" alt="Headlines of algorithm impact" />
+              </div>
             </div>
           </div>
         </div>
