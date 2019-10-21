@@ -56,7 +56,7 @@ class StaleFeed extends Component {
                 <h1>How Fresh Is Your Feed?</h1>
                 <p className="pt-2">Social media promises to show you what's happening right now. We checked. It isn’t.</p>
                 <p className="pt-2 stale-credits">By Anna Chung, Dennis Jen, and Rahul Bhargava</p>
-                <p className="stale-credits">(a project from the <a className="stale-link" target="_blank" rel="noopener noreferrer" href="https://www.media.mit.edu/groups/civic-media/overview/">Center for Civic Media</a>)</p>
+                <p className="stale-credits">a project from the <a className="stale-link" target="_blank" rel="noopener noreferrer" href="https://www.media.mit.edu/groups/civic-media/overview/">Center for Civic Media</a></p>
               </div>
             </div>
           </div>
@@ -68,28 +68,28 @@ class StaleFeed extends Component {
         >
           <div className="carousel-inner">
             <div className={`carousel-item justify-content-center ${activeSection === 'PREAMBLE_START' ? 'd-flex active' : 'inactive'}`}>
-              <img className="d-block" src="images/fb-scrolling.gif" alt="Animation of news feed" />
+              <img className="d-block more-transparent" src="images/fb-scrolling.gif" alt="Animation of news feed" />
             </div>
             <div className={`carousel-item justify-content-center ${activeSection === 'OLD_FACEBOOK' ? 'd-flex active' : 'inactive'}`}>
-              <img className="d-block" src="images/old-fb-feed.jpg" alt="Old version of Facebook feed" />
+              <img className="d-block less-transparent" src="images/old-fb-feed.jpg" alt="Old version of Facebook feed" />
             </div>
             <div className={`carousel-item justify-content-center ${activeSection === 'PREAMBLE_ALGORITHMS' ? 'd-flex active' : 'inactive'}`}>
               <img className="d-block" src="https://media.giphy.com/media/pcKpO81dLCPdLY1xYs/giphy.gif" alt="Algorithms are controlling your feed" />
             </div>
             <div className={`carousel-item justify-content-center ${activeSection === 'RECENT_TOP_TOGGLE' ? 'd-flex active' : 'inactive'}`}>
-              <img className="d-block" src="images/feed-menu.png" alt="Toggles between recent vs. top news" />
+              <img className="d-block less-transparent" src="images/feed-menu.png" alt="Toggles between recent vs. top news" />
             </div>
-            <div className={`carousel-item  justify-content-center ${activeSection === 'ALGORITHM_HEADLINES' ? 'd-flex active' : 'inactive'}`}>
-              <img className="d-block" src="images/algorithm-headlines.png" alt="Headlines of algorithm impact" />
+            <div className={`carousel-item justify-content-center ${activeSection === 'ALGORITHM_HEADLINES' ? 'd-flex active' : 'inactive'}`}>
+              <img className="d-block more-transparent w-100" src="images/algorithm-headlines.png" alt="Headlines of algorithm impact" />
             </div>
-            <div className={`carousel-item  justify-content-center ${activeSection === 'WHY_SEE' ? 'd-flex active' : 'inactive'}`}>
-              <img className="d-block" src="images/fb-why-am-i-seeing-this.gif" alt="Headlines of algorithm impact" />
+            <div className={`carousel-item justify-content-center ${activeSection === 'WHY_SEE' ? 'd-flex active' : 'inactive'}`}>
+              <img className="d-block less-transparent" src="images/fb-why-am-i-seeing-this.gif" alt="Headlines of algorithm impact" />
             </div>
-            <div className={`carousel-item  justify-content-center ${activeSection === 'FB_EXPLAINATIONS' ? 'd-flex active' : 'inactive'}`}>
-              <img className="d-block" src="images/fb-explainations.gif" alt="Headlines of algorithm impact" />
+            <div className={`carousel-item justify-content-center ${activeSection === 'FB_EXPLAINATIONS' ? 'd-flex active' : 'inactive'}`}>
+              <img className="d-block less-transparent" src="images/fb-explainations.gif" alt="Headlines of algorithm impact" />
             </div>
-            <div className={`carousel-item  justify-content-center ${activeSection === 'FB_EXPLAINATIONS_STATIC' ? 'd-flex active' : 'inactive'}`}>
-              <img className="d-block" src="images/fb-explainations-static.png" alt="Headlines of algorithm impact" />
+            <div className={`carousel-item justify-content-center ${activeSection === 'FB_EXPLAINATIONS_STATIC' ? 'd-flex active' : 'inactive'}`}>
+              <img width="600" height="590" className="d-block less-transparent" src="images/fb-explainations-static.png" alt="Headlines of algorithm impact" />
             </div>
           </div>
         </div>
@@ -128,7 +128,7 @@ class StaleFeed extends Component {
             <div className="col-lg-12 vh-100">
               <div className="d-flex justify-content-center">
                 <div className="card">
-                  <p className="card-text">Facebook first introduced the “News Feed” on September 5, 2006. It started as a long list of updates from your friends, where the most recent posts showed up first.</p>
+                  <p className="card-text">On September 5, 2006, Facebook first introduced the “News Feed.” It started as a long list of updates from your friends, where the most recent posts showed up first.</p>
                 </div>
               </div>
             </div>
@@ -145,8 +145,7 @@ class StaleFeed extends Component {
               <div className="d-flex justify-content-center">
                 <div className="card">
                   <p className="card-text">But by 2011, the News Feed was no longer about showing you the newest content.</p>
-                  <p className="card-text">By this point, your News Feed was being sorted by...</p>
-                  <p className="card-text"><strong><i>Algorithms</i></strong></p>
+                  <p className="card-text">At this point, your News Feed was showing you “Top Stories” with the help of <strong><i>algorithms</i></strong>.</p>
                 </div>
               </div>
             </div>
@@ -162,7 +161,7 @@ class StaleFeed extends Component {
             <div className="col-lg-12 vh-100">
               <div className="d-flex justify-content-center">
                 <div className="card">
-                  <p className="card-text">Now the default is that you see “Top Stories”, <strong>not</strong> your “Most Recent” stuff.</p>
+                  <p className="card-text">Now the default is that you see “Top Stories,” <strong>not</strong> your “Most Recent” stuff.</p>
                 </div>
               </div>
             </div>
@@ -202,7 +201,7 @@ class StaleFeed extends Component {
               <div id="scrolly-start" className="vh-100">
                 <div className="d-flex justify-content-center">
                   <div className="card">
-                    <p className="card-text">We decided to explore <strong>our</strong> Facebook feeds to see what the algorithms were up to.</p>
+                    <p className="card-text">We decided to investigate our Facebook feeds to see what the algorithms were up to.</p>
                   </div>
                 </div>
               </div>
@@ -224,7 +223,7 @@ class StaleFeed extends Component {
               <div id="scrolly-start" className="vh-100">
                 <div className="d-flex justify-content-center">
                   <div className="card">
-                    <p className="card-text">Here's one of our feeds. We’ve highlighted the stale posts in <span className="stale-text">orange</span> - these were posted more than a day ago. The more recent posts from today are in grey.</p>
+                    <p className="card-text">Here's one of our feeds. We’ve highlighted the <strong>stale</strong> posts in <span className="stale-text">orange</span> -  these are posts that were more than a day old. <strong>Fresh</strong> posts are grey - these posts were from the same day.</p>
                   </div>
                 </div>
               </div>
@@ -238,7 +237,7 @@ class StaleFeed extends Component {
               <div id="scrolly-blocks" className="vh-100">
                 <div className="d-flex justify-content-center">
                   <div className="card">
-                    <p className="card-text">As you can see, it’s quite a mix! All of the <span className="stale-text">orange</span> posts? Those are stale posts the algorithm has mixed in.</p>
+                    <p className="card-text">As you can see, it’s quite a mix! All of the <span className="stale-text">orange</span> posts? Those are <strong>stale</strong> posts the algorithm has mixed in.</p>
                   </div>
                 </div>
               </div>
@@ -252,7 +251,7 @@ class StaleFeed extends Component {
               <div className="vh-100">
                 <div className="d-flex justify-content-center">
                   <div className="card">
-                    <p className="card-text">Let's look at our last 100 posts to get a better sense of how much of the content is fresh, and how much is stale.</p>
+                    <p className="card-text">Now let's look at the last 100 posts to get a better sense of how much content is fresh vs. stale.</p>
                   </div>
                 </div>
               </div>
@@ -263,7 +262,13 @@ class StaleFeed extends Component {
               bottomOffset={bottomOffset}
               onEnter={d => this.onStepEnter('SORT_BY_TIME', d)}
             >
-              <div className="vh-100" />
+              <div className="vh-100">
+                <div className="d-flex justify-content-center">
+                  <div className="card">
+                    <p className="card-text">Stalemeter: <span className="stale-text">70%</span></p>
+                  </div>
+                </div>
+              </div>
             </Waypoint>
 
             <Waypoint
@@ -274,7 +279,7 @@ class StaleFeed extends Component {
               <div className="vh-100">
                 <div className="d-flex justify-content-center">
                   <div className="card">
-                    <p className="card-text">Turns out, 34% of our posts were stale! This is pretty different from the original idea of the social media feed, when we expected to see whatever was happening "right now."</p>
+                    <p className="card-text">Turns out <strong>70%</strong> of those posts were stale. This is pretty different from the original idea for the social media feed, when we expected to see whatever was happening "right now."</p>
                   </div>
                 </div>
               </div>
@@ -288,7 +293,7 @@ class StaleFeed extends Component {
               <div className="vh-100">
                 <div className="d-flex justify-content-center">
                   <div className="card">
-                    <p className="card-text">Our whole team did this experiment, and here's how the freshness for each of our feeds broke down. As you can see, the algorithm is interacting a little different for each of us.</p>
+                    <p className="card-text">Our whole team did this experiment, and here's how stale each of our feeds were. As you can see, Facebook’s algorithms work a little differently for each of us.</p>
                   </div>
                 </div>
               </div>
@@ -311,7 +316,7 @@ class StaleFeed extends Component {
                 <div className="d-flex justify-content-center">
                   <div className="card">
                     <p className="card-text">
-                      So why is Facebook trying to show us this stale content? For a long time they weren’t telling us.
+                      So why is Facebook trying to show us this stale content? For a long time they weren’t really telling us.
                     </p>
                   </div>
                 </div>
@@ -327,7 +332,7 @@ class StaleFeed extends Component {
                 <div className="d-flex justify-content-center">
                   <div className="card">
                     <p className="card-text">
-                      Over the years people have been arguing about the impacts of the algorithm changes.
+                      Over the years people have been arguing about the impacts of algorithms on social media.
                     </p>
                   </div>
                 </div>
@@ -343,7 +348,7 @@ class StaleFeed extends Component {
                 <div className="d-flex justify-content-center">
                   <div className="card">
                     <p className="card-text">
-                      So how is the algorithm deciding what we see and what we don’t?
+                      So how are the algorithms deciding what we see and what we don’t?
                     </p>
                   </div>
                 </div>
@@ -359,7 +364,7 @@ class StaleFeed extends Component {
                 <div className="d-flex justify-content-center">
                   <div className="card">
                     <p className="card-text">
-                      Facebook has recently tried to show us some of why, but it is hidden away. You can click the “why am I seeing this post” button to see some of the reasons.
+                      Facebook has recently tried to explain why, but it’s pretty hidden away. You can click “Why am I seeing this post” button to explore some reasons.
                     </p>
                   </div>
                 </div>
@@ -383,7 +388,7 @@ class StaleFeed extends Component {
                 <div className="d-flex justify-content-center">
                   <div className="card">
                     <p className="card-text">
-                      We didn’t realize just how much the algorithm is keeping track of what we do! And this is probably just a glimpse of everything their algorithm is up to.
+                      We can already start to see all of our information that Facebook’s algorithms are keeping track of. And this is just a small glimpse.
                     </p>
                   </div>
                 </div>
@@ -399,7 +404,10 @@ class StaleFeed extends Component {
                 <div className="d-flex justify-content-center">
                   <div className="card">
                     <p className="card-text">
-                      So we’re starting to see what’s going on, but we still can’t directly <strong>control</strong> what the algorithms are doing.
+                      And though we’re starting to see what’s going on, we still can’t directly <strong>control</strong> what the algorithms are doing to our feeds.
+                    </p>
+                    <p className="card-text">
+                      But what if we could?
                     </p>
                   </div>
                 </div>
@@ -479,7 +487,7 @@ class StaleFeed extends Component {
                 <div className="d-flex justify-content-center">
                   <div className="card">
                     <p className="card-text">
-                      Right now, you can’t make those choices because the social media algorithms do. We think it’s important to challenge that.
+                    Right now, we can’t make those choices because the social media algorithms do. <strong>And we think it’s important to challenge that.</strong>
                     </p>
                   </div>
                 </div>
@@ -499,21 +507,23 @@ class StaleFeed extends Component {
               <li><a target="_blank" rel="noopener noreferrer" href="https://techcrunch.com/2016/09/06/ultimate-guide-to-the-news-feed/">How Facebook News Feed Works</a> - Josh Costine (in Tech Crunch)</li>
             </ul>
 
+            <p>Want to explore a different way control your own feed? Sign up for our <a target="_blank" rel="noopener noreferrer" href="https://gobo.social/">gobo.social</a> online social media browser. You can connect your social media accounts and use our various rules to control what content get shown to you, and what gets hidden.</p>
             <div className="d-flex justify-content-center p-4">
-              <img className="landing-civic-logo" src="images/gobo-logo.png" />
+              <img className="landing-civic-logo" src="images/gobo-sticker.png" />
             </div>
-            <p>Want to explore a different way control your own feed? Signup for our Gobo.social online social media browser. You can connect your social media accounts and use our various rules to control what content get shown to you, and what gets hidden.</p>
 
-            <div className="d-flex justify-content-center p-4">
-              <img className="w-100 h-100" src="images/book-covers.png" />
-            </div>
             <p>Want to learn more about the impact of algorithms in other parts of society? Buy these great books, or check them out from your local library:</p>
             <ul>
               <li><a target="_blank" rel="noopener noreferrer" href="https://nyupress.org/9781479837243/algorithms-of-oppression/">Algorithms of Oppression</a> - Safiya Noble</li>
               <li><a target="_blank" rel="noopener noreferrer" href="https://weaponsofmathdestructionbook.com">Weapons of Math Destruction</a> - Cathy O'Neil</li>
               <li><a target="_blank" rel="noopener noreferrer" href="https://virginia-eubanks.com/books/">Automating Inequality</a> - Virginia Eubanks</li>
             </ul>
+            <div className="d-flex justify-content-center p-4">
+              <img className="w-100 h-100" src="images/book-covers.png" />
+            </div>
+          </div>
 
+          <div className="col-lg-12 m-4">
             <h2>Methodology</h2>
             <p>
               Each researcher logged into their Facebook account and collected the date a post was created
