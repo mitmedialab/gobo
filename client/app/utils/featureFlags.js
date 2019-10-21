@@ -2,7 +2,6 @@ import { getQueryParam } from './url';
 
 export const KEYWORD_FILTER = 'kwfilter';
 export const SORT_VIRALITY = 'sort';
-export const SCROLLY_TELLING = 'scrolly';
 
 
 /**

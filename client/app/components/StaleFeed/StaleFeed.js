@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Waypoint } from 'react-waypoint';
 
-import isEnabled, { SCROLLY_TELLING } from 'utils/featureFlags';
-
 import GridVis from 'components/StaleFeed/GridVis';
 
 
@@ -38,10 +36,6 @@ class StaleFeed extends Component {
     const { fixedPosition, fixedPositionPreamble, activeSection, backgroundColor } = this.state;
     const topOffset = '15%';
     const bottomOffset = '15%';
-
-    if (!isEnabled(SCROLLY_TELLING)) {
-      return (<div />);
-    }
 
     return (
       <div className={`fluid-container ${backgroundColor}`}>
