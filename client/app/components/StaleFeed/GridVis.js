@@ -27,14 +27,14 @@ class GridVis extends Component {
     this.state = {
       staleColor: '#f0a53c',
       freshColor: '#dddddd',
-      mainFeed: ETHAN_FEED,
-      feedB: RAHUL_FEED,
+      mainFeed: RAHUL_FEED,
+      feedB: ETHAN_FEED,
       feedC: ANNA_FEED,
       feedD: DENNIS_FEED,
       postWidth: 350,
       barWidth: 3,
       freshComponentFillColor: '#888888',
-      staleComponentFillColor: '#6a6a6a',
+      staleComponentFillColor: '#dddddd',
       day,
       cols,
       dim,
@@ -489,7 +489,7 @@ class GridVis extends Component {
       .enter()
       .append('text')
       .attr('class', 'histogramLabel')
-      .text(d => `${d}% Stale`)
+      .text(d => `${d}%`)
       .attr('x', 5)
       .attr('y', 20)
       .attr('fill', this.state.staleComponentFillColor);
@@ -508,12 +508,12 @@ class GridVis extends Component {
             <text x="105" y="15">Stale</text>
           </g>
           <g transform="translate(0,30)" className="sectionA">
-            <text className="barLabel" opacity="0" x="0" y="15">Ethan</text>
+            <text className="barLabel" opacity="0" x="0" y="15">Rahul</text>
             <g transform="translate(0,20)" className="grid" />
             <g transform="translate(0,20)" className="histogramLabels" />
           </g>
           <g transform="translate(0,90)" className="sectionB">
-            <text x="0" y="15">Rahul</text>
+            <text x="0" y="15">Ethan</text>
             <g transform="translate(0,20)" className="gridB" />
           </g>
           <g transform="translate(0,150)" className="sectionC">

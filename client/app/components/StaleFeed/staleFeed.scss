@@ -22,9 +22,10 @@ $stale-color: #f0a53c;
     text-align: center;
 
     &.stale-credits {
-      font-size: 20px;
+      font-style: italic;
+      font-size: 16px;
       @include media-breakpoint-up(md) {
-        font-size: 24px;
+        font-size: 20px;
       }
       margin-bottom: 0;
     }
@@ -54,6 +55,16 @@ $stale-color: #f0a53c;
     -moz-animation: fadeout 2s; /* Firefox */
     -webkit-animation: fadeout 2s; /* Safari and Chrome */
     -o-animation: fadeout 2s; /* Opera */
+  }
+}
+
+.carousel-item {
+  .more-transparent {
+    opacity: 0.2;
+  }
+
+  .less-transparent {
+    opacity: 0.5;
   }
 }
 
