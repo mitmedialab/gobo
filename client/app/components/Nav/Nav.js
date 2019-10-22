@@ -167,7 +167,7 @@ class NavBar extends Component {
   );
 
   render() {
-    if (window.location.pathname !== '/stale_feed') {
+    if (window.location.pathname !== '/fresh') {
       if (this.props.auth.isAuthenticated || window.location.pathname !== '/') {
         return this.renderNavBar();
       }
