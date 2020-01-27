@@ -550,7 +550,16 @@ class StaleFeed extends Component {
               sessions with at least 100 posts. The visualizations is limited to the first 100 posts in
               each feed.
             </p>
-            <div className="d-flex justify-content-center">
+          </div>
+
+          <div className="col-sm-6 col-xs-12 d-flex justify-content-center">
+            <div className="">
+              <a target="_blank" rel="noopener noreferrer" href="https://www.media.mit.edu/"><img className="landing-civic-logo m-3" alt="MIT Media Lab Logo" src="images/MIT_ML_Logo_K_RGB.png" /></a>
+            </div>
+          </div>
+
+          <div className="col-sm-6 col-xs-12 d-flex justify-content-center">
+            <div className="">
               <a target="_blank" rel="noopener noreferrer" href="https://www.media.mit.edu/groups/civic-media/overview/"><img className="landing-civic-logo m-3" alt="Civic Media Logo" src="images/civic-media-logo-black.png" /></a>
             </div>
           </div>
