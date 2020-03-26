@@ -184,7 +184,7 @@ Gobo is set up to deploy to containerized hosts like Heroku or Dokku.  Typically
 1. Create a new local branch called "deploy": `git checkout -b deploy`
 2. Create a new app on the Heroku website, or with the command line in Dokku
 3. Add the heroku/dokku remote to the GitHub repo
-4. In "deploy" branch, edit `.gitignore` to not ignore config.py (make sure to also save a copy of config.py somewhere else on your computer)
+4. In "deploy" branch, edit `.gitignore` to not ignore `config.py` (make sure to also save a copy of `config.py` somewhere else on your computer)
 5. On your host (Heroku/Dokku), add a database and a redis instance
 6. Update `config.py` in the deploy branch to match the database and redis url
 7. Push to that deploy remote: `git push deploy deploy:master`
