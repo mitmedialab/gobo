@@ -499,11 +499,13 @@ class Rule(db.Model):
         'polymorphic_on': type,
     }
 
-    def __init__(self, creator_user_id, creator_display_name, title, description, shareable, source, link, rule_type):
+    def __init__(self, creator_user_id, creator_display_name, title, description, long_description, shareable, source,
+                 link, rule_type):
         self.creator_user_id = creator_user_id
         self.creator_display_name = creator_display_name
         self.title = title
         self.description = description
+        self.long_description = long_description
         self.shareable = shareable
         self.source = source
         self.link = link
@@ -517,6 +519,7 @@ class Rule(db.Model):
             'creator_display_name': self.creator_display_name,
             'title': self.title,
             'description': self.description,
+            'long_description': self.long_description,
             'link': self.link,
             'type': self.type,
         }
@@ -532,16 +535,14 @@ class AdditiveRule(Rule):
 
     def __init__(self, creator_user_id, creator_display_name, title, description, long_description, shareable, source,
                  link, level_names):
-        super(AdditiveRule, self).__init__(creator_user_id, creator_display_name, title, description, shareable, source,
-                                           link, 'additive')
-        self.long_description = long_description
+        super(AdditiveRule, self).__init__(creator_user_id, creator_display_name, title, description, long_description,
+                                           shareable, source, link, 'additive')
         self.level_display_names = level_names
 
     def serialize(self):
         rule_dict = super(AdditiveRule, self).serialize()
         rule_dict.update({
             'level_display_names': self.level_display_names,
-            'long_description': self.long_description,
         })
 
         if self.additive_links:
@@ -560,10 +561,10 @@ class KeywordRule(Rule):
         'polymorphic_identity': 'keyword'
     }
 
-    def __init__(self, creator_user_id, creator_display_name, title, description, shareable, source, link,
-                 exclude_terms, control_display_name):
-        super(KeywordRule, self).__init__(creator_user_id, creator_display_name, title, description, shareable,
-                                          source, link, 'keyword')
+    def __init__(self, creator_user_id, creator_display_name, title, description, long_description, shareable, source,
+                 link, exclude_terms, control_display_name):
+        super(KeywordRule, self).__init__(creator_user_id, creator_display_name, title, description, long_description,
+                                          shareable, source, link, 'keyword')
         self.exclude_terms = exclude_terms
         self.control_display_name = control_display_name
 
