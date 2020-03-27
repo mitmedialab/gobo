@@ -548,7 +548,11 @@ class Settings extends Component {
 
     this.state.rules.forEach((rule) => {
       if (rule.type === 'keyword') {
-        settings.push(this.keywordRule(rule));
+        if (rule.title.toLowerCase() === 'coronavirus Updates') {
+          settings.splice(0, 0, this.keywordRule(rule));
+        } else {
+          settings.push(this.keywordRule(rule));
+        }
       } else if (rule.type === 'additive') {
         if (rule.title.toLowerCase() === 'politics') {
           settings.splice(1, 0, this.additiveRule(rule));
