@@ -26,7 +26,7 @@ gunicorn==19.7.1
 httplib2==0.10.3
 idna==2.5
 itsdangerous==0.24
-Jinja2==2.10.1
+Jinja2==2.11.3
 kombu==4.5.0
 Mako==1.0.6
 MarkupSafe==1.0
