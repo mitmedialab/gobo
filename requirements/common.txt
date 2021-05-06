@@ -15,7 +15,7 @@ enum-compat==0.0.2
 enum34==1.1.6
 Flask==1.0.1
 Flask-Bcrypt==0.7.1
-Flask-Cors==3.0.3
+Flask-Cors==3.0.9
 Flask-Login==0.4.0
 Flask-Mail==0.9.1
 Flask-Migrate==2.0.4
