@@ -34,7 +34,7 @@ pyenv install 3.7.3
 
 #### PyEnv-VirtualEnv
 
-For managing a virtual enviromnent with a specific version of python for our project, we use 
+For managing a virtual environment with a specific version of python for our project, we use 
 [pyenv-virtualenv](https://github.com/pyenv/pyenv-virtualenv). Install this with homebrew as well
 ```
 brew install pyenv-virtualenv
